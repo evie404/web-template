@@ -12,10 +12,22 @@ jobs:
             - web-template-bazel-v0-{{ checksum ".bazelversion" }}-{{ checksum "WORKSPACE" }}-{{ checksum "api/go.sum" }}
             - web-template-bazel-v0-{{ checksum ".bazelversion" }}-{{ checksum "WORKSPACE" }}
             - web-template-bazel-v0-{{ checksum ".bazelversion" }}
+      - restore_cache:
+          keys:
+            - web-template-bazel-repo-v0-{{ checksum ".bazelversion" }}-{{ checksum "WORKSPACE" }}-{{ checksum "api/go.sum" }}
+            - web-template-bazel-repo-v0-{{ checksum ".bazelversion" }}-{{ checksum "WORKSPACE" }}
+            - web-template-bazel-repo-v0-{{ checksum ".bazelversion" }}
       - run:
           command: mkdir -p ~/.bazel_cache
       - run:
-          command: bazel build //... --disk_cache=~/.bazel_cache --repository_cache=~/.bazel_cache
+          command: bazel fetch //... --repository_cache=~/.bazel_repo
+      - run:
+          command: bazel build //... --disk_cache=~/.bazel_cache --repository_cache=~/.bazel_repo
+      - save_cache:
+          key: web-template-bazel-repo-v0-{{ checksum ".bazelversion" }}-{{ checksum "WORKSPACE" }}-{{ checksum "api/go.sum" }}
+          paths:
+            - "~/.bazel_repo"
+          when: always
       - save_cache:
           key: web-template-bazel-v0-{{ checksum ".bazelversion" }}-{{ checksum "WORKSPACE" }}-{{ checksum "api/go.sum" }}
           paths:
