@@ -5,7 +5,7 @@ jobs:
   "Bazel build":
     docker:
       - image: gcr.io/cloud-builders/bazel@sha256:15219ed8ff15d72d3615d7c8443a19ce8272947ff75e58253a3d76ef38e48a4c
-    resource_class: large
+    resource_class: medium
     steps:
       - checkout
       - restore_cache:
@@ -23,7 +23,7 @@ jobs:
       - run:
           command: bazel fetch //... --repository_cache=~/.bazel_repo
       - run:
-          command: bazel build //... --disk_cache=~/.bazel_cache --repository_cache=~/.bazel_repo
+          command: bazel build //... --disk_cache=~/.bazel_cache --repository_cache=~/.bazel_repo --jobs=2
       - save_cache:
           key: web-template-bazel-repo-v0-{{ checksum ".bazelversion" }}-{{ checksum "WORKSPACE" }}-{{ checksum "api/go.sum" }}
           paths:
