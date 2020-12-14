@@ -5,6 +5,7 @@ jobs:
   "Bazel build":
     docker:
       - image: gcr.io/cloud-builders/bazel@sha256:15219ed8ff15d72d3615d7c8443a19ce8272947ff75e58253a3d76ef38e48a4c
+    resource_class: large
     steps:
       - checkout
       - restore_cache:
@@ -36,7 +37,7 @@ jobs:
   "Go build":
     docker:
       - image: circleci/golang:1.15
-
+    resource_class: small
     working_directory: /go/src/github.com/{{ORG_NAME}}/{{REPO_NAME}}
     steps:
       - run: pwd
@@ -50,6 +51,7 @@ jobs:
   "Envoy validate config":
     docker:
       - image: "envoyproxy/envoy-alpine:v1.15.3@sha256:429550bacdf49175a076bb063b1314b317ef2666e08424b2d39088432e229a6b"
+    resource_class: small
     steps:
       - checkout
       - run: envoy --config-path envoy/envoy.yaml --mode validate
