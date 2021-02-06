@@ -46,3 +46,9 @@ endif
 
 format:
 	(cd web && yarn run lint)
+
+db-create:
+	echo "SELECT 'CREATE DATABASE web_template_dev' WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'web_template_dev')\gexec" | psql
+
+db-drop:
+	echo "SELECT 'DROP DATABASE web_template_dev' WHERE EXISTS (SELECT FROM pg_database WHERE datname = 'web_template_dev')\gexec" | psql
