@@ -52,3 +52,7 @@ db-create:
 
 db-drop:
 	echo "SELECT 'DROP DATABASE web_template_dev' WHERE EXISTS (SELECT FROM pg_database WHERE datname = 'web_template_dev')\gexec" | psql
+
+db-reset:
+	echo "DROP DATABASE IF EXISTS web_template_dev\gexec" | psql
+	echo "CREATE DATABASE web_template_dev\gexec" | psql
