@@ -7,7 +7,7 @@ import (
 )
 
 type Querier interface {
-	GetByID(ctx context.Context, id int32) (App, error)
+	GetByID(ctx context.Context, id int64) (App, error)
 }
 
 var _ Querier = (*Queries)(nil)

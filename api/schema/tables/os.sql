@@ -25,7 +25,7 @@ SET default_table_access_method = heap;
 --
 
 CREATE TABLE public.os (
-    id integer NOT NULL,
+    id bigint NOT NULL,
     name character varying(300) NOT NULL,
     created_at time with time zone NOT NULL,
     modified_at time with time zone NOT NULL
@@ -39,7 +39,6 @@ ALTER TABLE public.os OWNER TO postgres;
 --
 
 CREATE SEQUENCE public.os_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE

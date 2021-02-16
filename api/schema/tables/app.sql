@@ -25,7 +25,7 @@ SET default_table_access_method = heap;
 --
 
 CREATE TABLE public.app (
-    id integer NOT NULL,
+    id bigint NOT NULL,
     name character varying(300) NOT NULL,
     os_id integer NOT NULL,
     created_at time with time zone NOT NULL,
@@ -40,7 +40,6 @@ ALTER TABLE public.app OWNER TO postgres;
 --
 
 CREATE SEQUENCE public.app_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE

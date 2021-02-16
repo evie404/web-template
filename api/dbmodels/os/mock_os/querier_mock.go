@@ -35,7 +35,7 @@ func (m *MockQuerier) EXPECT() *MockQuerierMockRecorder {
 }
 
 // GetByID mocks base method
-func (m *MockQuerier) GetByID(ctx context.Context, id int32) (os.O, error) {
+func (m *MockQuerier) GetByID(ctx context.Context, id int64) (os.O, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetByID", ctx, id)
 	ret0, _ := ret[0].(os.O)
