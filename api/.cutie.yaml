@@ -1,0 +1,5 @@
+tables:
+  - name: make
+  - name: phone
+  - name: app
+  - name: os
