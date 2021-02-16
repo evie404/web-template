@@ -63,6 +63,17 @@ endif
 format:
 	(cd web && yarn run lint)
 
+db-setup:
+	go get -tags 'postgres' -u github.com/golang-migrate/migrate/cmd/migrate
+
+db-migrate:
+	migrate -database "${DATABASE_URL_BASE}/web_template_dev" -path db/migrations up
+
+db-up: db-migrate
+
+db-down:
+	migrate -database "${DATABASE_URL_BASE}/web_template_dev" -path db/migrations down
+
 db-create:
 	echo "SELECT 'CREATE DATABASE web_template_dev' WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'web_template_dev')\gexec" | psql
 
