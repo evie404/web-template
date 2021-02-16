@@ -11,7 +11,7 @@ const getByID = `-- name: GetByID :one
 SELECT id, name, os_id, created_at, modified_at FROM app WHERE id = $1 LIMIT 1
 `
 
-func (q *Queries) GetByID(ctx context.Context, id int32) (App, error) {
+func (q *Queries) GetByID(ctx context.Context, id int64) (App, error) {
 	row := q.db.QueryRowContext(ctx, getByID, id)
 	var i App
 	err := row.Scan(

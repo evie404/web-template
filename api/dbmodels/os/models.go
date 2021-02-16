@@ -7,7 +7,7 @@ import (
 )
 
 type O struct {
-	ID         int32
+	ID         int64
 	Name       string
 	CreatedAt  time.Time
 	ModifiedAt time.Time

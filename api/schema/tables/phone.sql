@@ -25,7 +25,7 @@ SET default_table_access_method = heap;
 --
 
 CREATE TABLE public.phone (
-    id integer NOT NULL,
+    id bigint NOT NULL,
     name character varying(300) NOT NULL,
     make_id integer NOT NULL,
     os_id integer NOT NULL,
@@ -41,7 +41,6 @@ ALTER TABLE public.phone OWNER TO postgres;
 --
 
 CREATE SEQUENCE public.phone_id_seq
-    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE

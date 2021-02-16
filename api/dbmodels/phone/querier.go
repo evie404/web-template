@@ -7,7 +7,7 @@ import (
 )
 
 type Querier interface {
-	GetByID(ctx context.Context, id int32) (Phone, error)
+	GetByID(ctx context.Context, id int64) (Phone, error)
 	ListPhones(ctx context.Context) ([]Phone, error)
 }
 

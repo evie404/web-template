@@ -7,7 +7,7 @@ import (
 )
 
 type Phone struct {
-	ID         int32
+	ID         int64
 	Name       string
 	MakeID     int32
 	OsID       int32
