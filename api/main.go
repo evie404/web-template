@@ -1,10 +1,12 @@
 package main
 
 import (
+	"context"
 	"log"
 	"net"
 	"net/http"
 
+	"github.com/rickypai/web-template/api/config"
 	"github.com/rickypai/web-template/api/extauth"
 	"github.com/rickypai/web-template/api/protobuf/api"
 	"github.com/rickypai/web-template/api/server"
@@ -23,8 +25,15 @@ func main() {
 		log.Fatalf("failed to listen: %v", err)
 	}
 
+	ctx := context.Background()
+
+	db, err := config.DB(ctx)
+	if err != nil {
+		log.Fatalf("connecting to database: %v", err)
+	}
+
 	s := grpc.NewServer()
-	api.RegisterAPIServer(s, &server.Server{})
+	api.RegisterAPIServer(s, server.NewServer(db))
 
 	extAuth := extauth.NewExternalAuth()
 

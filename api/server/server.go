@@ -2,29 +2,49 @@ package server
 
 import (
 	"context"
+	"database/sql"
 	"fmt"
+	"log"
 
 	"github.com/golang/protobuf/ptypes"
 	"github.com/rickypai/web-template/api/protobuf/api"
 	"github.com/rickypai/web-template/api/protobuf/make"
 	"github.com/rickypai/web-template/api/protobuf/os"
 	"github.com/rickypai/web-template/api/protobuf/phone"
+	repo "github.com/rickypai/web-template/api/repo/phone"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
 
 type Server struct {
 	api.UnimplementedAPIServer
+
+	phoneGetter
+}
+
+func NewServer(db *sql.DB) *Server {
+	return &Server{
+		phoneGetter: repo.NewPhoneRepo(db),
+	}
+}
+
+type phoneGetter interface {
+	ListPhones(context.Context) ([]*phone.Phone, error)
 }
 
 func (s *Server) ListPhones(ctx context.Context, in *api.ListPhonesRequest) (*api.ListPhonesResponse, error) {
+	fmt.Printf("Called ListPhones with %+v\n", in)
+
+	phones, err := s.phoneGetter.ListPhones(ctx)
+	if err != nil {
+		log.Printf("%+v\n", err)
+		return nil, err
+	}
+
+	log.Printf("%+v\n", phones)
+
 	return &api.ListPhonesResponse{
-		Phones: []*phone.Phone{
-			getPhone(1),
-			getPhone(2),
-			getPhone(3),
-			getPhone(4),
-		},
+		Phones: phones,
 	}, nil
 }
 

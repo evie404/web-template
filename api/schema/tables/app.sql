@@ -28,8 +28,8 @@ CREATE TABLE public.app (
     id bigint NOT NULL,
     name character varying(300) NOT NULL,
     os_id integer NOT NULL,
-    created_at time with time zone NOT NULL,
-    modified_at time with time zone NOT NULL
+    created_at timestamp with time zone NOT NULL,
+    modified_at timestamp with time zone NOT NULL
 );
 
 
