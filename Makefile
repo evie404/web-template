@@ -21,7 +21,7 @@ proto:
 		--grpc_out=grpc_js:web/ protobuf/**/*.proto
 
 envoy:
-	envoy --config-path envoy/envoy.yaml
+	envoy --config-path envoy/envoy.yaml --bootstrap-version 2
 
 lint-envoy:
 	envoy --config-path envoy/envoy.yaml --mode validate
