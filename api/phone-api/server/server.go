@@ -2,6 +2,7 @@ package server
 
 import (
 	"context"
+	"database/sql"
 	"fmt"
 
 	"github.com/rickypai/web-template/api/phone-api/repo"
@@ -19,9 +20,9 @@ type modelTReader interface {
 	ListByCursor(context.Context, cursor.CursorRequest) ([]modelT, *cursor.CursorResult, error)
 }
 
-func NewServer() *Server {
+func NewServer(db *sql.DB) *Server {
 	return &Server{
-		repo: repo.NewRepo(),
+		repo: repo.NewRepo(db),
 	}
 }
 

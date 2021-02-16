@@ -27,8 +27,8 @@ SET default_table_access_method = heap;
 CREATE TABLE public.os (
     id bigint NOT NULL,
     name character varying(300) NOT NULL,
-    created_at time with time zone NOT NULL,
-    modified_at time with time zone NOT NULL
+    created_at timestamp with time zone NOT NULL,
+    modified_at timestamp with time zone NOT NULL
 );
 
 

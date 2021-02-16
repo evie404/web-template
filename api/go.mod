@@ -10,6 +10,7 @@ require (
 	github.com/gorilla/mux v1.8.0 // indirect
 	github.com/gorilla/pat v1.0.1
 	github.com/gorilla/sessions v1.2.1 // indirect
+	github.com/jackc/pgx/v4 v4.10.1
 	github.com/kr/text v0.2.0 // indirect
 	github.com/markbates/goth v1.66.1
 	github.com/mrjones/oauth v0.0.0-20190623134757-126b35219450 // indirect

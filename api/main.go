@@ -1,10 +1,12 @@
 package main
 
 import (
+	"context"
 	"log"
 	"net"
 	"net/http"
 
+	"github.com/rickypai/web-template/api/config"
 	"github.com/rickypai/web-template/api/extauth"
 	makeSrv "github.com/rickypai/web-template/api/make-api/server"
 	osSrv "github.com/rickypai/web-template/api/os-api/server"
@@ -27,8 +29,15 @@ func main() {
 		log.Fatalf("failed to listen: %v", err)
 	}
 
+	ctx := context.Background()
+
+	db, err := config.DB(ctx)
+	if err != nil {
+		log.Fatalf("connecting to database: %v", err)
+	}
+
 	s := grpc.NewServer()
-	phone.RegisterPhoneServiceServer(s, phoneSrv.NewServer())
+	phone.RegisterPhoneServiceServer(s, phoneSrv.NewServer(db))
 	make.RegisterMakeServiceServer(s, makeSrv.NewServer())
 	os.RegisterOSServiceServer(s, osSrv.NewServer())
 

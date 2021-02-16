@@ -1,19 +1,15 @@
 load("@io_bazel_rules_go//go:def.bzl", "go_library")
 
 go_library(
-    name = "repo",
-    srcs = ["repo.go"],
-    importpath = "github.com/rickypai/web-template/api/phone-api/repo",
+    name = "phone",
+    srcs = ["phone.go"],
+    importpath = "github.com/rickypai/web-template/api/repo/phone",
     visibility = ["//visibility:public"],
     deps = [
         "//api/dbmodels/phone",
-        "//api/server/cursor",
         "//protobuf/make",
         "//protobuf/os",
         "//protobuf/phone",
-        "@com_github_golang_protobuf//ptypes:go_default_library_gen",
-        "@org_golang_google_grpc//codes",
-        "@org_golang_google_grpc//status",
         "@org_golang_google_protobuf//types/known/timestamppb",
     ],
 )
