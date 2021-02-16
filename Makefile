@@ -24,7 +24,7 @@ proto:
 		--grpc_out=grpc_js:web/ protobuf/**/*.proto
 
 envoy:
-	envoy --config-path envoy/envoy.yaml
+	envoy --config-path envoy/envoy.yaml --bootstrap-version 2
 
 proto-setup:
 	mkdir -p ${HOME}/.local/bin
