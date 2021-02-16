@@ -1,0 +1,30 @@
+[
+  {
+    "regex": "^Update go module deps.$",
+    "command": "bazelisk",
+    "args": [
+      "run",
+      "//api:gazelle",
+      "--",
+      "update-repos",
+      "-from_file=api/go.mod",
+      "-to_macro=deps.bzl%go_dependencies"
+    ]
+  },
+  {
+    "regex": "^Check that imports in Go sources match importpath attributes in deps.$",
+    "command": "bazelisk",
+    "args": [
+      "run",
+      "//api:gazelle"
+    ]
+  },
+  {
+    "regex": "^buildozer '(.*)'\\s+(.*)$",
+    "command": "buildozer",
+    "args": [
+      "$1",
+      "$2"
+    ]
+  }
+]
