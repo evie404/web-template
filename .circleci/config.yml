@@ -54,7 +54,7 @@ jobs:
     resource_class: small
     steps:
       - checkout
-      - run: envoy --config-path envoy/envoy.yaml --bootstrap-version 2 --mode validate
+      - run: envoy --config-path envoy/envoy.yaml --mode validate
 workflows:
   bazel:
     jobs:
