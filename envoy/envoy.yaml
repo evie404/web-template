@@ -54,7 +54,7 @@ static_resources:
                       routes:
                         - match: { prefix: "/auth" }
                           route:
-                            cluster: auth
+                            cluster: auth-api
                         - match: { prefix: "/" }
                           route:
                             cluster: web
@@ -95,7 +95,7 @@ static_resources:
                     socket_address:
                       address: 0.0.0.0
                       port_value: 3001
-    - name: auth
+    - name: auth-api
       connect_timeout: 0.25s
       type: logical_dns
       lb_policy: round_robin
