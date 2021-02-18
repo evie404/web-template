@@ -54,7 +54,7 @@ jobs:
     resource_class: small
     steps:
       - checkout
-      - run: make lint-envoy
+      - run: envoy --config-path envoy/envoy.yaml --bootstrap-version 2 --mode validate
 workflows:
   bazel:
     jobs:
