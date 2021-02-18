@@ -24,7 +24,7 @@ envoy:
 	envoy --config-path envoy/envoy.yaml --bootstrap-version 2
 
 lint-envoy:
-	envoy --config-path envoy/envoy.yaml --mode validate
+	envoy --config-path envoy/envoy.yaml --bootstrap-version 2 --mode validate
 
 proto-setup:
 	mkdir -p ${HOME}/.local/bin
