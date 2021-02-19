@@ -13,6 +13,8 @@ web:
 	(cd web && yarn run dev)
 
 proto:
+	rm -rf api/protobuf/**/*.go
+	rm -rf web/protobuf/**/*
 	protoc --version
 	protoc -I=. protobuf/**/*.proto \
 		--js_out=import_style=commonjs:web/. \
@@ -22,6 +24,8 @@ proto:
 	grpc_tools_node_protoc \
 		--js_out=import_style=commonjs,binary:web/ \
 		--grpc_out=grpc_js:web/ protobuf/**/*.proto
+
+protos: proto
 
 envoy:
 	envoy --config-path envoy/envoy.yaml
