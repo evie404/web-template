@@ -58,7 +58,7 @@ endif
 	chmod +x ${HOME}/.local/bin/protoc-gen-grpc-web
 	chmod +x ${HOME}/.local/bin/protoc-gen-go
 	chmod +x ${HOME}/.local/bin/protoc-gen-go-grpc
-	yarn global add grpc-tools grpc_tools_node_protoc_ts
+	yarn global add grpc-tools@1.10.0 grpc_tools_node_protoc_ts@5.1.1
 
 format:
 	(cd web && yarn run lint)
