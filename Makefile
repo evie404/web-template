@@ -20,7 +20,7 @@ proto:
 		--js_out=import_style=commonjs:web/. \
 		--grpc-web_out=import_style=typescript,mode=grpcwebtext:web/. \
 		--go_out=api/ --go_opt=paths=source_relative \
-    --go-grpc_out=api/ --go-grpc_opt=paths=source_relative \
+		--go-grpc_out=api/ --go-grpc_opt=paths=source_relative \
 		--plugin=protoc-gen-ts=`which protoc-gen-ts` \
 		--ts_out=./web/
 	grpc_tools_node_protoc \
