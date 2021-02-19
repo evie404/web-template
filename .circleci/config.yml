@@ -12,6 +12,7 @@ jobs:
           name: Setup PATH
           command: |
             echo "export PATH=$HOME/.local/bin:$PATH" >> $BASH_ENV
+            export PATH="$(yarn global bin):$PATH"
       - run:
           command: make proto-setup
       - run:
