@@ -37,7 +37,7 @@ proto-setup:
 ifeq ($(UNAME_S),Linux)
 	curl -L https://github.com/grpc/grpc-web/releases/download/1.2.1/protoc-gen-grpc-web-1.2.1-linux-x86_64 > ${HOME}/.local/bin/protoc-gen-grpc-web
 	curl -LO ${PB_REL}/download/v3.14.0/protoc-3.14.0-linux-x86_64.zip
-	unzip protoc-3.14.0-linux-x86_64.zip -d ${HOME}/.local
+	unzip -o protoc-3.14.0-linux-x86_64.zip -d ${HOME}/.local
 	rm protoc-3.14.0-linux-x86_64.zip
 	curl -LO https://github.com/protocolbuffers/protobuf-go/releases/download/v1.25.0/protoc-gen-go.v1.25.0.linux.amd64.tar.gz
 	tar -xf protoc-gen-go.v1.25.0.linux.amd64.tar.gz -C ${HOME}/.local/bin
@@ -49,7 +49,7 @@ endif
 ifeq ($(UNAME_S),Darwin)
 	curl -L https://github.com/grpc/grpc-web/releases/download/1.2.1/protoc-gen-grpc-web-1.2.1-darwin-x86_64 > ${HOME}/.local/bin/protoc-gen-grpc-web
 	curl -LO ${PB_REL}/download/v3.14.0/protoc-3.14.0-osx-x86_64.zip
-	unzip protoc-3.14.0-osx-x86_64.zip -d ${HOME}/.local
+	unzip -o protoc-3.14.0-osx-x86_64.zip -d ${HOME}/.local
 	rm protoc-3.14.0-osx-x86_64.zip
 	curl -LO https://github.com/grpc/grpc-go/releases/download/cmd%2Fprotoc-gen-go-grpc%2Fv1.1.0/protoc-gen-go-grpc.v1.1.0.darwin.amd64.tar.gz
 	tar -xf protoc-gen-go-grpc.v1.1.0.darwin.amd64.tar.gz -C ${HOME}/.local/bin
