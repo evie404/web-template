@@ -29,5 +29,4 @@ func main() {
 
 	log.Printf("Starting gRPC Server at %s", address)
 	s.Serve(lis)
-
 }

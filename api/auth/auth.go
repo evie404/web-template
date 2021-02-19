@@ -42,6 +42,7 @@ func (a *authServer) Check(ctx context.Context, req *auth.CheckRequest) (*auth.C
 		return unauthenticatedResp(), nil
 	}
 
+	// TODO: implement actual check against data source
 	token := parts[1]
 	if token == "legit" {
 		return okResp(), nil
