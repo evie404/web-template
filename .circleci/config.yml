@@ -2,6 +2,16 @@ version: 2.1
 orbs:
   node: circleci/node@4.1.0
 jobs:
+  "Validate protobufs":
+    docker:
+      - image: cimg/base:2020.12
+    resource_class: small
+    steps:
+      - checkout
+      - run:
+          command: make proto-setup
+      - run:
+          command: make proto
   "Bazel build":
     docker:
       - image: gcr.io/cloud-builders/bazel@sha256:b18235d91bb725131b40c495c52af6ab7ebce7c9b13b17113a05aa5af752885e
@@ -58,6 +68,9 @@ jobs:
       - checkout
       - run: envoy --config-path envoy/envoy.yaml --mode validate
 workflows:
+  protobufs:
+    jobs:
+      - "Validate protobufs"
   bazel:
     jobs:
       - "Bazel build"
