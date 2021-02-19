@@ -4,7 +4,7 @@ orbs:
 jobs:
   "Validate protobufs":
     docker:
-      - image: cimg/base:2020.12
+      - image: circleci/golang:1.16.0
     resource_class: small
     steps:
       - checkout
@@ -48,7 +48,7 @@ jobs:
             - "~/.cache/bazelisk"
   "Go build":
     docker:
-      - image: circleci/golang:1.16rc1 # TODO: change to 1.16 when available
+      - image: circleci/golang:1.16.0
     resource_class: small
     working_directory: /go/src/github.com/{{ORG_NAME}}/{{REPO_NAME}}
     steps:
