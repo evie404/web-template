@@ -4,7 +4,7 @@ import { GetServerSidePropsContext, GetServerSidePropsResult } from "next";
 import Container from "../../components/container";
 import SEO from "../../components/seo";
 import Custom404 from "../404";
-import { GetPhoneRequest, GetPhoneResponse } from "../../protobuf/api/api_pb";
+import { GetPhoneRequest, GetPhoneResponse } from "../../protobuf/phone/phone_service_pb";
 import { Phone } from "../../protobuf/phone/phone_pb";
 import Client from "../../clients/node_client";
 import PhoneComponent from "../../components/phone";

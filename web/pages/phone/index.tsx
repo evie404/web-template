@@ -8,7 +8,7 @@ import { Phone } from "../../protobuf/phone/phone_pb";
 import {
   ListPhonesRequest,
   ListPhonesResponse,
-} from "../../protobuf/api/api_pb";
+} from "../../protobuf/phone/phone_service_pb";
 import { Make } from "../../protobuf/make/make_pb";
 import { OS } from "../../protobuf/os/os_pb";
 

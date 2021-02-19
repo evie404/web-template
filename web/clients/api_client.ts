@@ -1,5 +1,5 @@
-import { APIClient } from "../protobuf/api/ApiServiceClientPb";
+import { PhoneServiceClient } from "../protobuf/phone/Phone_serviceServiceClientPb";
 
-const Client = new APIClient("http://localhost:8080");
+const Client = new PhoneServiceClient("http://localhost:8080");
 
 export default Client;
