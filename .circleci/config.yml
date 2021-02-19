@@ -16,6 +16,8 @@ jobs:
           command: make proto-setup
       - run:
           command: make proto
+      - run:
+          command: ci/ensure_git_status_clean.sh
   "Bazel build":
     docker:
       - image: gcr.io/cloud-builders/bazel@sha256:b18235d91bb725131b40c495c52af6ab7ebce7c9b13b17113a05aa5af752885e
