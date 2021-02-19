@@ -33,6 +33,7 @@ envoy:
 	envoy --config-path envoy/envoy.yaml
 
 proto-setup:
+	# TODO: use fixed versions of tooling
 	mkdir -p ${HOME}/.local/bin
 ifeq ($(UNAME_S),Linux)
 	curl -L https://github.com/grpc/grpc-web/releases/download/1.2.1/protoc-gen-grpc-web-1.2.1-linux-x86_64 > ${HOME}/.local/bin/protoc-gen-grpc-web
