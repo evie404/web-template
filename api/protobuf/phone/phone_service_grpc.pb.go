@@ -19,7 +19,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type PhoneServiceClient interface {
 	GetOneByID(ctx context.Context, in *GetOneByIDRequest, opts ...grpc.CallOption) (*GetOneByIDResponse, error)
-	ListPhones(ctx context.Context, in *ListPhonesRequest, opts ...grpc.CallOption) (*ListPhonesResponse, error)
+	GetPageByCursor(ctx context.Context, in *GetPageByCursorRequest, opts ...grpc.CallOption) (*GetPageByCursorResponse, error)
 }
 
 type phoneServiceClient struct {
@@ -39,9 +39,9 @@ func (c *phoneServiceClient) GetOneByID(ctx context.Context, in *GetOneByIDReque
 	return out, nil
 }
 
-func (c *phoneServiceClient) ListPhones(ctx context.Context, in *ListPhonesRequest, opts ...grpc.CallOption) (*ListPhonesResponse, error) {
-	out := new(ListPhonesResponse)
-	err := c.cc.Invoke(ctx, "/phone.PhoneService/ListPhones", in, out, opts...)
+func (c *phoneServiceClient) GetPageByCursor(ctx context.Context, in *GetPageByCursorRequest, opts ...grpc.CallOption) (*GetPageByCursorResponse, error) {
+	out := new(GetPageByCursorResponse)
+	err := c.cc.Invoke(ctx, "/phone.PhoneService/GetPageByCursor", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -53,7 +53,7 @@ func (c *phoneServiceClient) ListPhones(ctx context.Context, in *ListPhonesReque
 // for forward compatibility
 type PhoneServiceServer interface {
 	GetOneByID(context.Context, *GetOneByIDRequest) (*GetOneByIDResponse, error)
-	ListPhones(context.Context, *ListPhonesRequest) (*ListPhonesResponse, error)
+	GetPageByCursor(context.Context, *GetPageByCursorRequest) (*GetPageByCursorResponse, error)
 	mustEmbedUnimplementedPhoneServiceServer()
 }
 
@@ -64,8 +64,8 @@ type UnimplementedPhoneServiceServer struct {
 func (UnimplementedPhoneServiceServer) GetOneByID(context.Context, *GetOneByIDRequest) (*GetOneByIDResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetOneByID not implemented")
 }
-func (UnimplementedPhoneServiceServer) ListPhones(context.Context, *ListPhonesRequest) (*ListPhonesResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ListPhones not implemented")
+func (UnimplementedPhoneServiceServer) GetPageByCursor(context.Context, *GetPageByCursorRequest) (*GetPageByCursorResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetPageByCursor not implemented")
 }
 func (UnimplementedPhoneServiceServer) mustEmbedUnimplementedPhoneServiceServer() {}
 
@@ -98,20 +98,20 @@ func _PhoneService_GetOneByID_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
-func _PhoneService_ListPhones_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ListPhonesRequest)
+func _PhoneService_GetPageByCursor_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetPageByCursorRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(PhoneServiceServer).ListPhones(ctx, in)
+		return srv.(PhoneServiceServer).GetPageByCursor(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/phone.PhoneService/ListPhones",
+		FullMethod: "/phone.PhoneService/GetPageByCursor",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PhoneServiceServer).ListPhones(ctx, req.(*ListPhonesRequest))
+		return srv.(PhoneServiceServer).GetPageByCursor(ctx, req.(*GetPageByCursorRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -128,8 +128,8 @@ var PhoneService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _PhoneService_GetOneByID_Handler,
 		},
 		{
-			MethodName: "ListPhones",
-			Handler:    _PhoneService_ListPhones_Handler,
+			MethodName: "GetPageByCursor",
+			Handler:    _PhoneService_GetPageByCursor_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -16,9 +16,9 @@ type Server struct {
 	phone.UnimplementedPhoneServiceServer
 }
 
-func (s *Server) ListPhones(ctx context.Context, in *phone.ListPhonesRequest) (*phone.ListPhonesResponse, error) {
-	return &phone.ListPhonesResponse{
-		Phones: []*phone.Phone{
+func (s *Server) GetPageByCursor(ctx context.Context, in *phone.GetPageByCursorRequest) (*phone.GetPageByCursorResponse, error) {
+	return &phone.GetPageByCursorResponse{
+		Results: []*phone.Phone{
 			getPhone(1),
 			getPhone(2),
 			getPhone(3),

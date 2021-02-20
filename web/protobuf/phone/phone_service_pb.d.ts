@@ -41,37 +41,53 @@ export namespace GetOneByIDResponse {
   }
 }
 
-export class ListPhonesRequest extends jspb.Message {
+export class GetPageByCursorRequest extends jspb.Message {
+  getCursor(): number;
+  setCursor(value: number): GetPageByCursorRequest;
+
+  getLimit(): number;
+  setLimit(value: number): GetPageByCursorRequest;
+
+  getCount(): number;
+  setCount(value: number): GetPageByCursorRequest;
+
   serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): ListPhonesRequest.AsObject;
-  static toObject(includeInstance: boolean, msg: ListPhonesRequest): ListPhonesRequest.AsObject;
-  static serializeBinaryToWriter(message: ListPhonesRequest, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): ListPhonesRequest;
-  static deserializeBinaryFromReader(message: ListPhonesRequest, reader: jspb.BinaryReader): ListPhonesRequest;
+  toObject(includeInstance?: boolean): GetPageByCursorRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: GetPageByCursorRequest): GetPageByCursorRequest.AsObject;
+  static serializeBinaryToWriter(message: GetPageByCursorRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): GetPageByCursorRequest;
+  static deserializeBinaryFromReader(message: GetPageByCursorRequest, reader: jspb.BinaryReader): GetPageByCursorRequest;
 }
 
-export namespace ListPhonesRequest {
+export namespace GetPageByCursorRequest {
   export type AsObject = {
+    cursor: number,
+    limit: number,
+    count: number,
   }
 }
 
-export class ListPhonesResponse extends jspb.Message {
-  getPhonesList(): Array<protobuf_phone_phone_pb.Phone>;
-  setPhonesList(value: Array<protobuf_phone_phone_pb.Phone>): ListPhonesResponse;
-  clearPhonesList(): ListPhonesResponse;
-  addPhones(value?: protobuf_phone_phone_pb.Phone, index?: number): protobuf_phone_phone_pb.Phone;
+export class GetPageByCursorResponse extends jspb.Message {
+  getResultsList(): Array<protobuf_phone_phone_pb.Phone>;
+  setResultsList(value: Array<protobuf_phone_phone_pb.Phone>): GetPageByCursorResponse;
+  clearResultsList(): GetPageByCursorResponse;
+  addResults(value?: protobuf_phone_phone_pb.Phone, index?: number): protobuf_phone_phone_pb.Phone;
+
+  getCursor(): number;
+  setCursor(value: number): GetPageByCursorResponse;
 
   serializeBinary(): Uint8Array;
-  toObject(includeInstance?: boolean): ListPhonesResponse.AsObject;
-  static toObject(includeInstance: boolean, msg: ListPhonesResponse): ListPhonesResponse.AsObject;
-  static serializeBinaryToWriter(message: ListPhonesResponse, writer: jspb.BinaryWriter): void;
-  static deserializeBinary(bytes: Uint8Array): ListPhonesResponse;
-  static deserializeBinaryFromReader(message: ListPhonesResponse, reader: jspb.BinaryReader): ListPhonesResponse;
+  toObject(includeInstance?: boolean): GetPageByCursorResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: GetPageByCursorResponse): GetPageByCursorResponse.AsObject;
+  static serializeBinaryToWriter(message: GetPageByCursorResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): GetPageByCursorResponse;
+  static deserializeBinaryFromReader(message: GetPageByCursorResponse, reader: jspb.BinaryReader): GetPageByCursorResponse;
 }
 
-export namespace ListPhonesResponse {
+export namespace GetPageByCursorResponse {
   export type AsObject = {
-    phonesList: Array<protobuf_phone_phone_pb.Phone.AsObject>,
+    resultsList: Array<protobuf_phone_phone_pb.Phone.AsObject>,
+    cursor: number,
   }
 }
 
