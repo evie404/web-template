@@ -2,6 +2,7 @@ import { GetServerSidePropsContext, GetServerSidePropsResult } from "next";
 import * as grpc from "@grpc/grpc-js";
 import * as jspb from 'google-protobuf'
 import { Error, StatusCode } from "grpc-web";
+import { ParsedUrlQuery } from 'querystring'
 
 interface Instance extends jspb.Message {
   getId: () => number;
@@ -26,6 +27,10 @@ interface pageProp<T extends Instance> {
   errorCode?: number;
 }
 
+interface QueryWithIDParam extends ParsedUrlQuery {
+  id: string | string[]
+}
+
 export type GetServerSideFunc<T extends Instance> = (context: GetServerSidePropsContext) => Promise<GetServerSidePropsResult<pageProp<T>>>;
 
 const httpStatusCode = (grpcCode: number): number => {
@@ -46,7 +51,7 @@ export const GetOneByID = <T extends Instance>(
   client: getByIDClient<T>,
   authorizationToken?: string,
 ): GetServerSideFunc<T> => {
-  return async (context: GetServerSidePropsContext): Promise<GetServerSidePropsResult<pageProp<T>>> => {
+  return async (context: GetServerSidePropsContext<QueryWithIDParam>): Promise<GetServerSidePropsResult<pageProp<T>>> => {
     let id: number;
 
     if (Array.isArray(context.params.id)) {
