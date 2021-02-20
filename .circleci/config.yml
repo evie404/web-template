@@ -1,6 +1,6 @@
 version: 2.1
 orbs:
-  node: circleci/node@4.1.0
+  go: circleci/go@1.5.0
 jobs:
   "Validate protobufs":
     docker:
@@ -61,11 +61,18 @@ jobs:
     steps:
       - run: pwd
       - checkout
+      - go/load-cache:
+          working_directory: ./api
+      - go/mod-download:
+          working_directory: ./api
+      - go/save-cache:
+          working_directory: ./api
       - run:
           command: go build -v ./...
           working_directory: ./api
-      - run:
-          command: go test -v ./...
+      - go/test:
+          covermode: atomic
+          race: true
           working_directory: ./api
   "Envoy validate config":
     docker:
@@ -93,6 +100,15 @@ jobs:
           key: yarn-packages-{{ checksum "web/yarn.lock" }}
           paths:
             - ~/.cache/yarn
+      - restore_cache:
+          keys:
+            - next-{{ .Branch }}-{{ checksum "web/yarn.lock" }}
+            - next-{{ .Branch }}
+            - next
+      - save_cache:
+          key: next-{{ .Branch }}-{{ checksum "web/yarn.lock" }}
+          paths:
+            - ./web/.next
       - run:
           command: yarn run build
           working_directory: ./web
