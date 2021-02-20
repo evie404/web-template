@@ -43,13 +43,6 @@ const PhonePage = (props: PhonePageProp): JSX.Element => {
 
   if (props.errorCode === StatusCode.DEADLINE_EXCEEDED) {
     return (
-      // <NotFoundPage
-      //   code={503}
-      //   title="Timeout"
-      //   message={
-      //     `Waited too long while fetching phone with id=${id}`
-      //   }
-      // />
       <Container defKey="1">
         <h1>503</h1>
       </Container>
@@ -57,11 +50,6 @@ const PhonePage = (props: PhonePageProp): JSX.Element => {
   }
 
   return (
-    // <NotFoundPage
-    //   code={500}
-    //   title="Internal server error"
-    //   message={`Error fetching phone with id=${id}`}
-    // />
     <Container defKey="1">
       <h1>500</h1>
     </Container>

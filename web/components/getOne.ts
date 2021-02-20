@@ -82,7 +82,6 @@ export const GetOneByID = <T extends Instance>(
       })
     );
 
-    // await (p);
     await p
       .then(
         (response: getByIDResponse<T>) => {
