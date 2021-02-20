@@ -7,6 +7,7 @@ import { ParsedUrlQuery } from 'querystring'
 interface pbMessageAsObject {
   id: number;
 }
+
 interface pbMessage<O extends pbMessageAsObject> extends jspb.Message {
   getId: () => number;
   toObject: () => O;
