@@ -17,7 +17,7 @@ type Server struct {
 	phone.UnimplementedPhoneServiceServer
 }
 
-func (s *Server) GetPageByCursor(ctx context.Context, in *phone.GetPageByCursorRequest) (*phone.GetPageByCursorResponse, error) {
+func (s *Server) ListByCursor(ctx context.Context, in *phone.ListByCursorRequest) (*phone.ListByCursorResponse, error) {
 	cursor, count := cursor.GetCursorOptions(in)
 	results := make([]*phone.Phone, 0, count)
 
@@ -27,7 +27,7 @@ func (s *Server) GetPageByCursor(ctx context.Context, in *phone.GetPageByCursorR
 
 	nextPageCursor := results[len(results)-1].GetId()
 
-	return &phone.GetPageByCursorResponse{
+	return &phone.ListByCursorResponse{
 		Results: results,
 		Cursor:  nextPageCursor,
 	}, nil

@@ -75,44 +75,44 @@ export class PhoneServiceClient {
     this.methodInfoGetOneByID);
   }
 
-  methodInfoGetPageByCursor = new grpcWeb.AbstractClientBase.MethodInfo(
-    protobuf_phone_phone_service_pb.GetPageByCursorResponse,
-    (request: protobuf_phone_phone_service_pb.GetPageByCursorRequest) => {
+  methodInfoListByCursor = new grpcWeb.AbstractClientBase.MethodInfo(
+    protobuf_phone_phone_service_pb.ListByCursorResponse,
+    (request: protobuf_phone_phone_service_pb.ListByCursorRequest) => {
       return request.serializeBinary();
     },
-    protobuf_phone_phone_service_pb.GetPageByCursorResponse.deserializeBinary
+    protobuf_phone_phone_service_pb.ListByCursorResponse.deserializeBinary
   );
 
-  getPageByCursor(
-    request: protobuf_phone_phone_service_pb.GetPageByCursorRequest,
-    metadata: grpcWeb.Metadata | null): Promise<protobuf_phone_phone_service_pb.GetPageByCursorResponse>;
+  listByCursor(
+    request: protobuf_phone_phone_service_pb.ListByCursorRequest,
+    metadata: grpcWeb.Metadata | null): Promise<protobuf_phone_phone_service_pb.ListByCursorResponse>;
 
-  getPageByCursor(
-    request: protobuf_phone_phone_service_pb.GetPageByCursorRequest,
+  listByCursor(
+    request: protobuf_phone_phone_service_pb.ListByCursorRequest,
     metadata: grpcWeb.Metadata | null,
     callback: (err: grpcWeb.Error,
-               response: protobuf_phone_phone_service_pb.GetPageByCursorResponse) => void): grpcWeb.ClientReadableStream<protobuf_phone_phone_service_pb.GetPageByCursorResponse>;
+               response: protobuf_phone_phone_service_pb.ListByCursorResponse) => void): grpcWeb.ClientReadableStream<protobuf_phone_phone_service_pb.ListByCursorResponse>;
 
-  getPageByCursor(
-    request: protobuf_phone_phone_service_pb.GetPageByCursorRequest,
+  listByCursor(
+    request: protobuf_phone_phone_service_pb.ListByCursorRequest,
     metadata: grpcWeb.Metadata | null,
     callback?: (err: grpcWeb.Error,
-               response: protobuf_phone_phone_service_pb.GetPageByCursorResponse) => void) {
+               response: protobuf_phone_phone_service_pb.ListByCursorResponse) => void) {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +
-          '/phone.PhoneService/GetPageByCursor',
+          '/phone.PhoneService/ListByCursor',
         request,
         metadata || {},
-        this.methodInfoGetPageByCursor,
+        this.methodInfoListByCursor,
         callback);
     }
     return this.client_.unaryCall(
     this.hostname_ +
-      '/phone.PhoneService/GetPageByCursor',
+      '/phone.PhoneService/ListByCursor',
     request,
     metadata || {},
-    this.methodInfoGetPageByCursor);
+    this.methodInfoListByCursor);
   }
 
 }

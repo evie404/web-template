@@ -27,26 +27,26 @@ function deserialize_phone_GetOneByIDResponse(buffer_arg) {
   return protobuf_phone_phone_service_pb.GetOneByIDResponse.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
-function serialize_phone_GetPageByCursorRequest(arg) {
-  if (!(arg instanceof protobuf_phone_phone_service_pb.GetPageByCursorRequest)) {
-    throw new Error('Expected argument of type phone.GetPageByCursorRequest');
+function serialize_phone_ListByCursorRequest(arg) {
+  if (!(arg instanceof protobuf_phone_phone_service_pb.ListByCursorRequest)) {
+    throw new Error('Expected argument of type phone.ListByCursorRequest');
   }
   return Buffer.from(arg.serializeBinary());
 }
 
-function deserialize_phone_GetPageByCursorRequest(buffer_arg) {
-  return protobuf_phone_phone_service_pb.GetPageByCursorRequest.deserializeBinary(new Uint8Array(buffer_arg));
+function deserialize_phone_ListByCursorRequest(buffer_arg) {
+  return protobuf_phone_phone_service_pb.ListByCursorRequest.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
-function serialize_phone_GetPageByCursorResponse(arg) {
-  if (!(arg instanceof protobuf_phone_phone_service_pb.GetPageByCursorResponse)) {
-    throw new Error('Expected argument of type phone.GetPageByCursorResponse');
+function serialize_phone_ListByCursorResponse(arg) {
+  if (!(arg instanceof protobuf_phone_phone_service_pb.ListByCursorResponse)) {
+    throw new Error('Expected argument of type phone.ListByCursorResponse');
   }
   return Buffer.from(arg.serializeBinary());
 }
 
-function deserialize_phone_GetPageByCursorResponse(buffer_arg) {
-  return protobuf_phone_phone_service_pb.GetPageByCursorResponse.deserializeBinary(new Uint8Array(buffer_arg));
+function deserialize_phone_ListByCursorResponse(buffer_arg) {
+  return protobuf_phone_phone_service_pb.ListByCursorResponse.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
 
@@ -62,16 +62,16 @@ var PhoneServiceService = exports.PhoneServiceService = {
     responseSerialize: serialize_phone_GetOneByIDResponse,
     responseDeserialize: deserialize_phone_GetOneByIDResponse,
   },
-  getPageByCursor: {
-    path: '/phone.PhoneService/GetPageByCursor',
+  listByCursor: {
+    path: '/phone.PhoneService/ListByCursor',
     requestStream: false,
     responseStream: false,
-    requestType: protobuf_phone_phone_service_pb.GetPageByCursorRequest,
-    responseType: protobuf_phone_phone_service_pb.GetPageByCursorResponse,
-    requestSerialize: serialize_phone_GetPageByCursorRequest,
-    requestDeserialize: deserialize_phone_GetPageByCursorRequest,
-    responseSerialize: serialize_phone_GetPageByCursorResponse,
-    responseDeserialize: deserialize_phone_GetPageByCursorResponse,
+    requestType: protobuf_phone_phone_service_pb.ListByCursorRequest,
+    responseType: protobuf_phone_phone_service_pb.ListByCursorResponse,
+    requestSerialize: serialize_phone_ListByCursorRequest,
+    requestDeserialize: deserialize_phone_ListByCursorRequest,
+    responseSerialize: serialize_phone_ListByCursorResponse,
+    responseDeserialize: deserialize_phone_ListByCursorResponse,
   },
 };
 

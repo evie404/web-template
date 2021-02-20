@@ -19,7 +19,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type PhoneServiceClient interface {
 	GetOneByID(ctx context.Context, in *GetOneByIDRequest, opts ...grpc.CallOption) (*GetOneByIDResponse, error)
-	GetPageByCursor(ctx context.Context, in *GetPageByCursorRequest, opts ...grpc.CallOption) (*GetPageByCursorResponse, error)
+	ListByCursor(ctx context.Context, in *ListByCursorRequest, opts ...grpc.CallOption) (*ListByCursorResponse, error)
 }
 
 type phoneServiceClient struct {
@@ -39,9 +39,9 @@ func (c *phoneServiceClient) GetOneByID(ctx context.Context, in *GetOneByIDReque
 	return out, nil
 }
 
-func (c *phoneServiceClient) GetPageByCursor(ctx context.Context, in *GetPageByCursorRequest, opts ...grpc.CallOption) (*GetPageByCursorResponse, error) {
-	out := new(GetPageByCursorResponse)
-	err := c.cc.Invoke(ctx, "/phone.PhoneService/GetPageByCursor", in, out, opts...)
+func (c *phoneServiceClient) ListByCursor(ctx context.Context, in *ListByCursorRequest, opts ...grpc.CallOption) (*ListByCursorResponse, error) {
+	out := new(ListByCursorResponse)
+	err := c.cc.Invoke(ctx, "/phone.PhoneService/ListByCursor", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -53,7 +53,7 @@ func (c *phoneServiceClient) GetPageByCursor(ctx context.Context, in *GetPageByC
 // for forward compatibility
 type PhoneServiceServer interface {
 	GetOneByID(context.Context, *GetOneByIDRequest) (*GetOneByIDResponse, error)
-	GetPageByCursor(context.Context, *GetPageByCursorRequest) (*GetPageByCursorResponse, error)
+	ListByCursor(context.Context, *ListByCursorRequest) (*ListByCursorResponse, error)
 	mustEmbedUnimplementedPhoneServiceServer()
 }
 
@@ -64,8 +64,8 @@ type UnimplementedPhoneServiceServer struct {
 func (UnimplementedPhoneServiceServer) GetOneByID(context.Context, *GetOneByIDRequest) (*GetOneByIDResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetOneByID not implemented")
 }
-func (UnimplementedPhoneServiceServer) GetPageByCursor(context.Context, *GetPageByCursorRequest) (*GetPageByCursorResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetPageByCursor not implemented")
+func (UnimplementedPhoneServiceServer) ListByCursor(context.Context, *ListByCursorRequest) (*ListByCursorResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListByCursor not implemented")
 }
 func (UnimplementedPhoneServiceServer) mustEmbedUnimplementedPhoneServiceServer() {}
 
@@ -98,20 +98,20 @@ func _PhoneService_GetOneByID_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
-func _PhoneService_GetPageByCursor_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetPageByCursorRequest)
+func _PhoneService_ListByCursor_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListByCursorRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(PhoneServiceServer).GetPageByCursor(ctx, in)
+		return srv.(PhoneServiceServer).ListByCursor(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/phone.PhoneService/GetPageByCursor",
+		FullMethod: "/phone.PhoneService/ListByCursor",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PhoneServiceServer).GetPageByCursor(ctx, req.(*GetPageByCursorRequest))
+		return srv.(PhoneServiceServer).ListByCursor(ctx, req.(*ListByCursorRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -128,8 +128,8 @@ var PhoneService_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _PhoneService_GetOneByID_Handler,
 		},
 		{
-			MethodName: "GetPageByCursor",
-			Handler:    _PhoneService_GetPageByCursor_Handler,
+			MethodName: "ListByCursor",
+			Handler:    _PhoneService_ListByCursor_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

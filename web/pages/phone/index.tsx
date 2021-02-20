@@ -6,8 +6,8 @@ import SEO from "../../components/seo";
 import PhoneServiceClient from "../../clients/grpc-web/phone_service_client";
 import { Phone } from "../../protobuf/phone/phone_pb";
 import {
-  GetPageByCursorRequest,
-  GetPageByCursorResponse,
+  ListByCursorRequest,
+  ListByCursorResponse,
 } from "../../protobuf/phone/phone_service_pb";
 import { Make } from "../../protobuf/make/make_pb";
 import { OS } from "../../protobuf/os/os_pb";
@@ -85,7 +85,7 @@ class PhoneIndexPage extends React.Component<PhoneIndexProps, PhoneIndexState> {
 
   fetch = (params = {}): void => {
     this.setState({ loading: true });
-    this.GetPageByCursor().then((response: GetPageByCursorResponse) => {
+    this.ListByCursor().then((response: ListByCursorResponse) => {
       const data = response.getResultsList().map((p: Phone) => p.toObject());
 
       this.setState({
@@ -101,10 +101,10 @@ class PhoneIndexPage extends React.Component<PhoneIndexProps, PhoneIndexState> {
     });
   };
 
-  GetPageByCursor = (): Promise<GetPageByCursorResponse> => {
-    const request = new GetPageByCursorRequest();
+  ListByCursor = (): Promise<ListByCursorResponse> => {
+    const request = new ListByCursorRequest();
 
-    return PhoneServiceClient.getPageByCursor(request, {
+    return PhoneServiceClient.listByCursor(request, {
       // TODO: implement actual session token
       Authorization: "Bearer legit",
     });
