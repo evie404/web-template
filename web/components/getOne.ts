@@ -26,7 +26,7 @@ interface pageProp<T extends Instance> {
   errorCode?: number;
 }
 
-type getServerSideFunc<T extends Instance> = (context: GetServerSidePropsContext) => Promise<GetServerSidePropsResult<pageProp<T>>>;
+export type GetServerSideFunc<T extends Instance> = (context: GetServerSidePropsContext) => Promise<GetServerSidePropsResult<pageProp<T>>>;
 
 const httpStatusCode = (grpcCode: number): number => {
   switch (grpcCode) {
@@ -41,61 +41,64 @@ const httpStatusCode = (grpcCode: number): number => {
   }
 };
 
-export const getOneByID = async<T extends Instance>(
-  context: GetServerSidePropsContext,
+export const GetOneByID = <T extends Instance>(
   request: getByIDRequest<T>,
   client: getByIDClient<T>,
   authorizationToken?: string,
-): Promise<GetServerSidePropsResult<pageProp<T>>> => {
-  let id: number;
+): GetServerSideFunc<T> => {
+  return async (context: GetServerSidePropsContext): Promise<GetServerSidePropsResult<pageProp<T>>> => {
+    let id: number;
 
-  if (Array.isArray(context.params.id)) {
-    id = parseInt(context.params.id[0], 10);
-  } else {
-    id = parseInt(context.params.id, 10);
+    if (Array.isArray(context.params.id)) {
+      id = parseInt(context.params.id[0], 10);
+    } else {
+      id = parseInt(context.params.id, 10);
+    }
+
+    const props: pageProp<T> = {
+      id,
+      result: null,
+      errorCode: null,
+    };
+
+    const metadata = new grpc.Metadata();
+
+    if (authorizationToken) {
+      metadata.set('Authorization', 'Bearer ' + authorizationToken);
+    }
+
+    request.setId(id);
+    const p = new Promise((resolve, reject) =>
+      client.getOneByID(request, metadata, (err: Error, response: getByIDResponse<T>) => {
+        if (err) {
+          return reject(err);
+        }
+        return resolve(response);
+      })
+    );
+
+    // await (p);
+    await p
+      .then(
+        (response: getByIDResponse<T>) => {
+          props.result = response.getResult().toObject();
+        },
+        (e: Error) => {
+          props.errorCode = e.code;
+        }
+      )
+      .catch(() => {
+        props.errorCode = StatusCode.UNKNOWN;
+      });
+
+    if (props.errorCode) {
+      context.res.statusCode = httpStatusCode(props.errorCode)
+    }
+
+    return {
+      props,
+    };
   }
-
-  const props: pageProp<T> = {
-    id,
-    result: null,
-    errorCode: null,
-  };
-
-  const metadata = new grpc.Metadata();
-
-  if (authorizationToken) {
-    metadata.set('Authorization', 'Bearer ' + authorizationToken);
-  }
-
-  request.setId(id);
-  const p = new Promise((resolve, reject) =>
-    client.getOneByID(request, metadata, (err: Error, response: getByIDResponse<T>) => {
-      if (err) {
-        return reject(err);
-      }
-      return resolve(response);
-    })
-  );
-
-  // await (p);
-  await p
-    .then(
-      (response: getByIDResponse<T>) => {
-        props.result = response.getResult().toObject();
-      },
-      (e: Error) => {
-        props.errorCode = e.code;
-      }
-    )
-    .catch(() => {
-      props.errorCode = StatusCode.UNKNOWN;
-    });
-
-  if (props.errorCode) {
-    context.res.statusCode = httpStatusCode(props.errorCode)
-  }
-
-  return {
-    props,
-  };
 };
+
+export default GetOneByID;
