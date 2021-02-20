@@ -74,7 +74,7 @@ jobs:
     steps:
       - checkout
       - run: envoy --config-path envoy/envoy.yaml --mode validate
-  "Node.js build":
+  "Node build":
     docker:
       - image: "circleci/node:15.4.0"
     resource_class: small
@@ -113,7 +113,7 @@ workflows:
       - "Bazel build"
   node:
     jobs:
-      - "Node.js build"
+      - "Node build"
   go:
     jobs:
       - "Go build"
