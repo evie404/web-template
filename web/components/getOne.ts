@@ -65,7 +65,7 @@ export const GetOneByIDServerSide = <O extends pbMessageAsObject, PB extends pbM
       id = parseInt(context.params.id, 10);
     }
 
-    const props: PageProp<T> = {
+    const props: PageProp<O> = {
       id,
       result: null,
       error: null,
