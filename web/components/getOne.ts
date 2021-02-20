@@ -23,7 +23,7 @@ interface getByIDClient<T extends Instance> {
 
 interface pageProp<T extends Instance> {
   id: number;
-  result?: T;
+  result?: T; // TODO: this is not the most semantically correct since this is actually the AsObject representation of the protobuf message
   errorCode?: number;
 }
 
