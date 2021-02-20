@@ -45,9 +45,6 @@ export class GetPageByCursorRequest extends jspb.Message {
   getCursor(): number;
   setCursor(value: number): GetPageByCursorRequest;
 
-  getLimit(): number;
-  setLimit(value: number): GetPageByCursorRequest;
-
   getCount(): number;
   setCount(value: number): GetPageByCursorRequest;
 
@@ -62,7 +59,6 @@ export class GetPageByCursorRequest extends jspb.Message {
 export namespace GetPageByCursorRequest {
   export type AsObject = {
     cursor: number,
-    limit: number,
     count: number,
   }
 }

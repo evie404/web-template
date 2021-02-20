@@ -418,8 +418,7 @@ proto.phone.GetPageByCursorRequest.prototype.toObject = function(opt_includeInst
 proto.phone.GetPageByCursorRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     cursor: jspb.Message.getFieldWithDefault(msg, 1, 0),
-    limit: jspb.Message.getFieldWithDefault(msg, 2, 0),
-    count: jspb.Message.getFieldWithDefault(msg, 3, 0)
+    count: jspb.Message.getFieldWithDefault(msg, 2, 0)
   };
 
   if (includeInstance) {
@@ -462,10 +461,6 @@ proto.phone.GetPageByCursorRequest.deserializeBinaryFromReader = function(msg, r
       break;
     case 2:
       var value = /** @type {number} */ (reader.readInt64());
-      msg.setLimit(value);
-      break;
-    case 3:
-      var value = /** @type {number} */ (reader.readInt64());
       msg.setCount(value);
       break;
     default:
@@ -504,17 +499,10 @@ proto.phone.GetPageByCursorRequest.serializeBinaryToWriter = function(message, w
       f
     );
   }
-  f = message.getLimit();
-  if (f !== 0) {
-    writer.writeInt64(
-      2,
-      f
-    );
-  }
   f = message.getCount();
   if (f !== 0) {
     writer.writeInt64(
-      3,
+      2,
       f
     );
   }
@@ -540,10 +528,10 @@ proto.phone.GetPageByCursorRequest.prototype.setCursor = function(value) {
 
 
 /**
- * optional int64 limit = 2;
+ * optional int64 count = 2;
  * @return {number}
  */
-proto.phone.GetPageByCursorRequest.prototype.getLimit = function() {
+proto.phone.GetPageByCursorRequest.prototype.getCount = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 2, 0));
 };
 
@@ -552,26 +540,8 @@ proto.phone.GetPageByCursorRequest.prototype.getLimit = function() {
  * @param {number} value
  * @return {!proto.phone.GetPageByCursorRequest} returns this
  */
-proto.phone.GetPageByCursorRequest.prototype.setLimit = function(value) {
-  return jspb.Message.setProto3IntField(this, 2, value);
-};
-
-
-/**
- * optional int64 count = 3;
- * @return {number}
- */
-proto.phone.GetPageByCursorRequest.prototype.getCount = function() {
-  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 3, 0));
-};
-
-
-/**
- * @param {number} value
- * @return {!proto.phone.GetPageByCursorRequest} returns this
- */
 proto.phone.GetPageByCursorRequest.prototype.setCount = function(value) {
-  return jspb.Message.setProto3IntField(this, 3, value);
+  return jspb.Message.setProto3IntField(this, 2, value);
 };
 
 
