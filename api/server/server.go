@@ -17,6 +17,20 @@ type Server struct {
 	phone.UnimplementedPhoneServiceServer
 }
 
+func (s *Server) ListByPage(ctx context.Context, req *phone.ListByPageRequest) (*phone.ListByPageResponse, error) {
+	cursor, count := cursor.GetPageOptions(req)
+	results := make([]*phone.Phone, 0, count)
+
+	for i := cursor + 1; i < cursor+1+int64(count); i++ {
+		results = append(results, getPhone(i))
+	}
+
+	return &phone.ListByPageResponse{
+		Results: results,
+		// TODO: deal with pages
+	}, nil
+}
+
 func (s *Server) ListByCursor(ctx context.Context, in *phone.ListByCursorRequest) (*phone.ListByCursorResponse, error) {
 	cursor, count := cursor.GetCursorOptions(in)
 	results := make([]*phone.Phone, 0, count)

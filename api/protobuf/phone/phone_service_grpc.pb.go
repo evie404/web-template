@@ -20,6 +20,7 @@ const _ = grpc.SupportPackageIsVersion7
 type PhoneServiceClient interface {
 	GetOneByID(ctx context.Context, in *GetOneByIDRequest, opts ...grpc.CallOption) (*GetOneByIDResponse, error)
 	ListByCursor(ctx context.Context, in *ListByCursorRequest, opts ...grpc.CallOption) (*ListByCursorResponse, error)
+	ListByPage(ctx context.Context, in *ListByPageRequest, opts ...grpc.CallOption) (*ListByPageResponse, error)
 }
 
 type phoneServiceClient struct {
@@ -48,12 +49,22 @@ func (c *phoneServiceClient) ListByCursor(ctx context.Context, in *ListByCursorR
 	return out, nil
 }
 
+func (c *phoneServiceClient) ListByPage(ctx context.Context, in *ListByPageRequest, opts ...grpc.CallOption) (*ListByPageResponse, error) {
+	out := new(ListByPageResponse)
+	err := c.cc.Invoke(ctx, "/phone.PhoneService/ListByPage", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // PhoneServiceServer is the server API for PhoneService service.
 // All implementations must embed UnimplementedPhoneServiceServer
 // for forward compatibility
 type PhoneServiceServer interface {
 	GetOneByID(context.Context, *GetOneByIDRequest) (*GetOneByIDResponse, error)
 	ListByCursor(context.Context, *ListByCursorRequest) (*ListByCursorResponse, error)
+	ListByPage(context.Context, *ListByPageRequest) (*ListByPageResponse, error)
 	mustEmbedUnimplementedPhoneServiceServer()
 }
 
@@ -66,6 +77,9 @@ func (UnimplementedPhoneServiceServer) GetOneByID(context.Context, *GetOneByIDRe
 }
 func (UnimplementedPhoneServiceServer) ListByCursor(context.Context, *ListByCursorRequest) (*ListByCursorResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListByCursor not implemented")
+}
+func (UnimplementedPhoneServiceServer) ListByPage(context.Context, *ListByPageRequest) (*ListByPageResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListByPage not implemented")
 }
 func (UnimplementedPhoneServiceServer) mustEmbedUnimplementedPhoneServiceServer() {}
 
@@ -116,6 +130,24 @@ func _PhoneService_ListByCursor_Handler(srv interface{}, ctx context.Context, de
 	return interceptor(ctx, in, info, handler)
 }
 
+func _PhoneService_ListByPage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListByPageRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(PhoneServiceServer).ListByPage(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/phone.PhoneService/ListByPage",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(PhoneServiceServer).ListByPage(ctx, req.(*ListByPageRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // PhoneService_ServiceDesc is the grpc.ServiceDesc for PhoneService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -130,6 +162,10 @@ var PhoneService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListByCursor",
 			Handler:    _PhoneService_ListByCursor_Handler,
+		},
+		{
+			MethodName: "ListByPage",
+			Handler:    _PhoneService_ListByPage_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

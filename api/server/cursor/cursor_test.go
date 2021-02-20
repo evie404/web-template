@@ -29,13 +29,16 @@ func (r *cursorRequest) GetCount() int64 {
 func TestGetCursorOptions(t *testing.T) {
 	tests := []struct {
 		name       string
-		arg        *cursorRequest
+		arg        CursorRequest
 		wantCursor int64
 		wantCount  int
 	}{
 		{
-			"returns zero cursor and default count for nil request",
-			nil,
+			"returns zero cursor and default count for zero request",
+			&cursorRequest{
+				cursor: 0,
+				count:  0,
+			},
 			0,
 			defaultCount,
 		},

@@ -87,3 +87,53 @@ export namespace ListByCursorResponse {
   }
 }
 
+export class ListByPageRequest extends jspb.Message {
+  getPage(): number;
+  setPage(value: number): ListByPageRequest;
+
+  getSize(): number;
+  setSize(value: number): ListByPageRequest;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): ListByPageRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: ListByPageRequest): ListByPageRequest.AsObject;
+  static serializeBinaryToWriter(message: ListByPageRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): ListByPageRequest;
+  static deserializeBinaryFromReader(message: ListByPageRequest, reader: jspb.BinaryReader): ListByPageRequest;
+}
+
+export namespace ListByPageRequest {
+  export type AsObject = {
+    page: number,
+    size: number,
+  }
+}
+
+export class ListByPageResponse extends jspb.Message {
+  getResultsList(): Array<protobuf_phone_phone_pb.Phone>;
+  setResultsList(value: Array<protobuf_phone_phone_pb.Phone>): ListByPageResponse;
+  clearResultsList(): ListByPageResponse;
+  addResults(value?: protobuf_phone_phone_pb.Phone, index?: number): protobuf_phone_phone_pb.Phone;
+
+  getNextPage(): number;
+  setNextPage(value: number): ListByPageResponse;
+
+  getHasNext(): boolean;
+  setHasNext(value: boolean): ListByPageResponse;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): ListByPageResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: ListByPageResponse): ListByPageResponse.AsObject;
+  static serializeBinaryToWriter(message: ListByPageResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): ListByPageResponse;
+  static deserializeBinaryFromReader(message: ListByPageResponse, reader: jspb.BinaryReader): ListByPageResponse;
+}
+
+export namespace ListByPageResponse {
+  export type AsObject = {
+    resultsList: Array<protobuf_phone_phone_pb.Phone.AsObject>,
+    nextPage: number,
+    hasNext: boolean,
+  }
+}
+

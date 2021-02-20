@@ -115,5 +115,45 @@ export class PhoneServiceClient {
     this.methodInfoListByCursor);
   }
 
+  methodInfoListByPage = new grpcWeb.AbstractClientBase.MethodInfo(
+    protobuf_phone_phone_service_pb.ListByPageResponse,
+    (request: protobuf_phone_phone_service_pb.ListByPageRequest) => {
+      return request.serializeBinary();
+    },
+    protobuf_phone_phone_service_pb.ListByPageResponse.deserializeBinary
+  );
+
+  listByPage(
+    request: protobuf_phone_phone_service_pb.ListByPageRequest,
+    metadata: grpcWeb.Metadata | null): Promise<protobuf_phone_phone_service_pb.ListByPageResponse>;
+
+  listByPage(
+    request: protobuf_phone_phone_service_pb.ListByPageRequest,
+    metadata: grpcWeb.Metadata | null,
+    callback: (err: grpcWeb.Error,
+               response: protobuf_phone_phone_service_pb.ListByPageResponse) => void): grpcWeb.ClientReadableStream<protobuf_phone_phone_service_pb.ListByPageResponse>;
+
+  listByPage(
+    request: protobuf_phone_phone_service_pb.ListByPageRequest,
+    metadata: grpcWeb.Metadata | null,
+    callback?: (err: grpcWeb.Error,
+               response: protobuf_phone_phone_service_pb.ListByPageResponse) => void) {
+    if (callback !== undefined) {
+      return this.client_.rpcCall(
+        this.hostname_ +
+          '/phone.PhoneService/ListByPage',
+        request,
+        metadata || {},
+        this.methodInfoListByPage,
+        callback);
+    }
+    return this.client_.unaryCall(
+    this.hostname_ +
+      '/phone.PhoneService/ListByPage',
+    request,
+    metadata || {},
+    this.methodInfoListByPage);
+  }
+
 }
 

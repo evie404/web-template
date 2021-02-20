@@ -8,6 +8,7 @@ option go_package = "github.com/rickypai/web-template/api/protobuf/phone";
 service PhoneService {
   rpc GetOneByID(GetOneByIDRequest) returns (GetOneByIDResponse) {}
   rpc ListByCursor(ListByCursorRequest) returns (ListByCursorResponse) {}
+  rpc ListByPage(ListByPageRequest) returns (ListByPageResponse) {}
 }
 
 message GetOneByIDRequest {
@@ -28,4 +29,18 @@ message ListByCursorResponse {
   repeated phone.Phone results = 1;
 
   int64 cursor = 2;
+}
+
+message ListByPageRequest {
+  int64 page = 1;
+
+  int64 size = 2; // defaults to 20
+}
+
+message ListByPageResponse {
+  repeated phone.Phone results = 1;
+
+  int64 next_page = 2;
+
+  bool has_next = 3;
 }
