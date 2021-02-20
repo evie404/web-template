@@ -106,13 +106,13 @@ jobs:
             - next-{{ .Branch }}-{{ checksum "web/yarn.lock" }}
             - next-{{ .Branch }}
             - next
+      - run:
+          command: yarn run build
+          working_directory: ./web
       - save_cache:
           key: next-{{ .Branch }}-{{ checksum "web/yarn.lock" }}
           paths:
             - ./web/.next
-      - run:
-          command: yarn run build
-          working_directory: ./web
       - run:
           command: yarn run test
           working_directory: ./web
