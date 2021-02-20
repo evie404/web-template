@@ -6,8 +6,8 @@ import SEO from "../../components/seo";
 import PhoneServiceClient from "../../clients/grpc-web/phone_service_client";
 import { Phone } from "../../protobuf/phone/phone_pb";
 import {
-  ListByCursorRequest,
-  ListByCursorResponse,
+  ListByPageRequest,
+  ListByPageResponse,
 } from "../../protobuf/phone/phone_service_pb";
 import { Make } from "../../protobuf/make/make_pb";
 import { OS } from "../../protobuf/os/os_pb";
@@ -48,7 +48,7 @@ const columns = [
 ];
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface PhoneIndexProps { }
+interface PhoneIndexProps {}
 interface PhoneIndexState {
   data: Array<Phone.AsObject>;
   pagination: TablePaginationConfig;
@@ -85,7 +85,7 @@ class PhoneIndexPage extends React.Component<PhoneIndexProps, PhoneIndexState> {
 
   fetch = (params = {}): void => {
     this.setState({ loading: true });
-    this.ListByCursor().then((response: ListByCursorResponse) => {
+    this.ListByPage().then((response: ListByPageResponse) => {
       const data = response.getResultsList().map((p: Phone) => p.toObject());
 
       this.setState({
@@ -101,10 +101,10 @@ class PhoneIndexPage extends React.Component<PhoneIndexProps, PhoneIndexState> {
     });
   };
 
-  ListByCursor = (): Promise<ListByCursorResponse> => {
-    const request = new ListByCursorRequest();
+  ListByPage = (): Promise<ListByPageResponse> => {
+    const request = new ListByPageRequest();
 
-    return PhoneServiceClient.listByCursor(request, {
+    return PhoneServiceClient.listByPage(request, {
       // TODO: implement actual session token
       Authorization: "Bearer legit",
     });
