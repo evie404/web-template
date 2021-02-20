@@ -1,5 +1,5 @@
 import React from "react";
-import { Error, StatusCode } from "grpc-web";
+import { StatusCode } from "grpc-web";
 import Container from "../../components/container";
 import SEO from "../../components/seo";
 import Custom404 from "../404";
@@ -35,17 +35,9 @@ const PhonePage = (props: PageProp<Phone.AsObject>): JSX.Element => {
     );
   }
 
-  if (props.error.code === StatusCode.DEADLINE_EXCEEDED) {
-    return (
-      <Container defKey="1">
-        <h1>503</h1>
-      </Container>
-    );
-  }
-
   return (
     <Container defKey="1">
-      <h1>500</h1>
+      <h1>{props.httpStatusCode}</h1>
     </Container>
   );
 };
