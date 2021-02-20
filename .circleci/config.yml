@@ -1,6 +1,4 @@
 version: 2.1
-orbs:
-  go: circleci/go@1.5.0
 jobs:
   "Validate protobufs":
     docker:
@@ -30,11 +28,13 @@ jobs:
             - web-template-bazel-v0-{{ checksum ".bazelversion" }}-{{ checksum "WORKSPACE" }}-{{ checksum "api/go.sum" }}
             - web-template-bazel-v0-{{ checksum ".bazelversion" }}-{{ checksum "WORKSPACE" }}
             - web-template-bazel-v0-{{ checksum ".bazelversion" }}
+            - web-template-bazel-v0
       - restore_cache:
           keys:
             - web-template-bazel-repo-v0-{{ checksum ".bazelversion" }}-{{ checksum "WORKSPACE" }}-{{ checksum "api/go.sum" }}
             - web-template-bazel-repo-v0-{{ checksum ".bazelversion" }}-{{ checksum "WORKSPACE" }}
             - web-template-bazel-repo-v0-{{ checksum ".bazelversion" }}
+            - web-template-bazel-repo-v0
       - run:
           command: mkdir -p ~/.bazel_cache
       - run:
@@ -61,18 +61,19 @@ jobs:
     steps:
       - run: pwd
       - checkout
-      - go/load-cache:
-          working_directory: ./api
-      - go/mod-download:
-          working_directory: ./api
-      - go/save-cache:
-          working_directory: ./api
+      - restore_cache: # restores saved cache if no changes are detected since last run
+          keys:
+            - go-mod-{{ checksum "api/go.sum" }}
+            - go-mod
       - run:
           command: go build -v ./...
           working_directory: ./api
-      - go/test:
-          covermode: atomic
-          race: true
+      - save_cache:
+          key: go-mod-{{ checksum "api/go.sum" }}
+          paths:
+            - "/go/pkg/mod"
+      - run:
+          command: go test -v ./...
           working_directory: ./api
   "Envoy validate config":
     docker:
