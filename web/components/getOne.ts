@@ -4,26 +4,29 @@ import * as jspb from 'google-protobuf'
 import { Error, StatusCode } from "grpc-web";
 import { ParsedUrlQuery } from 'querystring'
 
-interface Instance extends jspb.Message {
-  getId: () => number;
-  toObject: () => any;
-}
-
-interface getByIDRequest<T extends Instance> extends jspb.Message {
-  setId: (id: number) => getByIDRequest<T>;
-}
-
-interface getByIDResponse<T extends Instance> extends jspb.Message {
-  getResult: () => T;
-}
-
-interface getByIDClient<T extends Instance> {
-  getOneByID(request: getByIDRequest<T>, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: getByIDResponse<T>) => void): grpc.ClientUnaryCall;
-}
-
-interface pageProp<T extends Instance> {
+interface pbMessageAsObject {
   id: number;
-  result?: T; // TODO: this is not the most semantically correct since this is actually the AsObject representation of the protobuf message
+}
+interface pbMessage<O extends pbMessageAsObject> extends jspb.Message {
+  getId: () => number;
+  toObject: () => O;
+}
+
+interface getByIDRequest<O extends pbMessageAsObject, PB extends pbMessage<O>> extends jspb.Message {
+  setId: (id: number) => getByIDRequest<O, PB>;
+}
+
+interface getByIDResponse<O extends pbMessageAsObject, PB extends pbMessage<O>> extends jspb.Message {
+  getResult: () => PB;
+}
+
+interface getByIDClient<O extends pbMessageAsObject, PB extends pbMessage<O>> {
+  getOneByID(request: getByIDRequest<O, PB>, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: getByIDResponse<O, PB>) => void): grpc.ClientUnaryCall;
+}
+
+export interface PageProp<O extends pbMessageAsObject> {
+  id: number;
+  result?: O;
   error?: Error;
   httpStatusCode: number;
 }
@@ -32,7 +35,7 @@ interface QueryWithIDParam extends ParsedUrlQuery {
   id: string | string[]
 }
 
-export type GetServerSideFunc<T extends Instance> = (context: GetServerSidePropsContext) => Promise<GetServerSidePropsResult<pageProp<T>>>;
+export type GetServerSideFunc<O extends pbMessageAsObject> = (context: GetServerSidePropsContext) => Promise<GetServerSidePropsResult<PageProp<O>>>;
 
 const httpStatusCodeFromGRPCError = (err: Error): number => {
   switch (err.code) {
@@ -47,12 +50,12 @@ const httpStatusCodeFromGRPCError = (err: Error): number => {
   }
 };
 
-export const GetOneByID = <T extends Instance>(
-  request: getByIDRequest<T>,
-  client: getByIDClient<T>,
+export const GetOneByIDServerSide = <O extends pbMessageAsObject, PB extends pbMessage<O>>(
+  request: getByIDRequest<O, PB>,
+  client: getByIDClient<O, PB>,
   authorizationToken?: string,
-): GetServerSideFunc<T> => {
-  return async (context: GetServerSidePropsContext<QueryWithIDParam>): Promise<GetServerSidePropsResult<pageProp<T>>> => {
+): GetServerSideFunc<O> => {
+  return async (context: GetServerSidePropsContext<QueryWithIDParam>): Promise<GetServerSidePropsResult<PageProp<O>>> => {
     let id: number;
 
     if (Array.isArray(context.params.id)) {
@@ -76,7 +79,7 @@ export const GetOneByID = <T extends Instance>(
 
     request.setId(id);
     const p = new Promise((resolve, reject) =>
-      client.getOneByID(request, metadata, (err: Error, response: getByIDResponse<T>) => {
+      client.getOneByID(request, metadata, (err: Error, response: getByIDResponse<O, PB>) => {
         if (err) {
           return reject(err);
         }
@@ -86,7 +89,7 @@ export const GetOneByID = <T extends Instance>(
 
     await p
       .then(
-        (response: getByIDResponse<T>) => {
+        (response: getByIDResponse<O, PB>) => {
           // we have to do this because the raw object is not serializable to json
           props.result = response.getResult().toObject();
         },
@@ -117,4 +120,4 @@ export const GetOneByID = <T extends Instance>(
   }
 };
 
-export default GetOneByID;
+export default GetOneByIDServerSide;
