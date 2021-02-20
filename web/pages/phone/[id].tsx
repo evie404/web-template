@@ -1,5 +1,5 @@
 import React from "react";
-import { StatusCode } from "grpc-web";
+import { Error, StatusCode } from "grpc-web";
 import Container from "../../components/container";
 import SEO from "../../components/seo";
 import Custom404 from "../404";
@@ -18,7 +18,7 @@ export const getServerSideProps: GetServerSideFunc<Phone> = GetOneByID(
 interface PhonePageProp {
   id: number;
   result?: Phone.AsObject;
-  errorCode?: number;
+  error?: Error;
 }
 
 const PhonePage = (props: PhonePageProp): JSX.Element => {
@@ -31,7 +31,7 @@ const PhonePage = (props: PhonePageProp): JSX.Element => {
     );
   }
 
-  if (props.errorCode === StatusCode.NOT_FOUND) {
+  if (props.error.code === StatusCode.NOT_FOUND) {
     return (
       <Custom404
         defKey="1"
@@ -41,7 +41,7 @@ const PhonePage = (props: PhonePageProp): JSX.Element => {
     );
   }
 
-  if (props.errorCode === StatusCode.DEADLINE_EXCEEDED) {
+  if (props.error.code === StatusCode.DEADLINE_EXCEEDED) {
     return (
       <Container defKey="1">
         <h1>503</h1>

@@ -24,7 +24,8 @@ interface getByIDClient<T extends Instance> {
 interface pageProp<T extends Instance> {
   id: number;
   result?: T; // TODO: this is not the most semantically correct since this is actually the AsObject representation of the protobuf message
-  errorCode?: number;
+  error?: Error;
+  httpStatusCode: number;
 }
 
 interface QueryWithIDParam extends ParsedUrlQuery {
@@ -33,8 +34,8 @@ interface QueryWithIDParam extends ParsedUrlQuery {
 
 export type GetServerSideFunc<T extends Instance> = (context: GetServerSidePropsContext) => Promise<GetServerSidePropsResult<pageProp<T>>>;
 
-const httpStatusCode = (grpcCode: number): number => {
-  switch (grpcCode) {
+const httpStatusCodeFromGRPCError = (err: Error): number => {
+  switch (err.code) {
     case StatusCode.OK:
       return 200
     case StatusCode.NOT_FOUND:
@@ -63,7 +64,8 @@ export const GetOneByID = <T extends Instance>(
     const props: pageProp<T> = {
       id,
       result: null,
-      errorCode: null,
+      error: null,
+      httpStatusCode: 200,
     };
 
     const metadata = new grpc.Metadata();
@@ -85,18 +87,28 @@ export const GetOneByID = <T extends Instance>(
     await p
       .then(
         (response: getByIDResponse<T>) => {
+          // we have to do this because the raw object is not serializable to json
           props.result = response.getResult().toObject();
         },
         (e: Error) => {
-          props.errorCode = e.code;
+          props.error = {
+            code: e.code,
+            message: e.message,
+          };
         }
       )
       .catch(() => {
-        props.errorCode = StatusCode.UNKNOWN;
+        // we have to do this because the raw object is not serializable to json
+        props.error = {
+          code: StatusCode.UNKNOWN,
+          message: "Unknown error",
+        }
       });
 
-    if (props.errorCode) {
-      context.res.statusCode = httpStatusCode(props.errorCode)
+    if (props.error) {
+      const httpStatusCode = httpStatusCodeFromGRPCError(props.error)
+      context.res.statusCode = httpStatusCode
+      props.httpStatusCode = httpStatusCode
     }
 
     return {
