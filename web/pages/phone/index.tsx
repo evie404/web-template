@@ -1,6 +1,7 @@
 import React from "react";
 import { Table } from "antd";
 import { TablePaginationConfig } from "antd/lib/table";
+import { SorterResult, TableCurrentDataSource } from "antd/lib/table/interface";
 import Container from "../../components/container";
 import SEO from "../../components/seo";
 import PhoneServiceClient from "../../clients/grpc-web/phone_service_client";
@@ -49,6 +50,7 @@ const columns = [
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface PhoneIndexProps {}
+
 interface PhoneIndexState {
   data: Array<Phone.AsObject>;
   pagination: TablePaginationConfig;
@@ -71,38 +73,51 @@ class PhoneIndexPage extends React.Component<PhoneIndexProps, PhoneIndexState> {
 
   componentDidMount(): void {
     const { pagination } = this.state;
-    this.fetch({ pagination });
+    this.fetch(pagination);
   }
 
-  handleTableChange = (pagination, filters, sorter): void => {
-    this.fetch({
-      sortField: sorter.field,
-      sortOrder: sorter.order,
-      pagination,
-      ...filters,
-    });
+  handleTableChange = (
+    pagination: TablePaginationConfig,
+    filters: Record<string, (React.Key | boolean)[] | null>,
+    sorter: SorterResult<Phone.AsObject> | SorterResult<Phone.AsObject>[],
+    extra: TableCurrentDataSource<Phone.AsObject>
+  ): void => {
+    this.fetch(
+      pagination
+      // sortField: sorter.field,
+      // sortOrder: sorter.order,
+      // pagination,
+      // ...filters,
+    );
   };
 
-  fetch = (params = {}): void => {
+  fetch = (pagination: TablePaginationConfig): void => {
     this.setState({ loading: true });
-    this.ListByPage().then((response: ListByPageResponse) => {
+    this.ListByPage(pagination).then((response: ListByPageResponse) => {
       const data = response.getResultsList().map((p: Phone) => p.toObject());
 
       this.setState({
         loading: false,
         data,
-        // pagination: {
-        //   ...params.pagination,
-        //   total: 200,
-        //   // 200 is mock data, you should read it from server
-        //   // total: data.totalCount,
-        // },
+        pagination: {
+          total: response.getTotalPages(),
+        },
       });
     });
   };
 
-  ListByPage = (): Promise<ListByPageResponse> => {
+  ListByPage = (
+    pagination: TablePaginationConfig
+  ): Promise<ListByPageResponse> => {
     const request = new ListByPageRequest();
+    let page = 0;
+
+    if (pagination.current) {
+      page = pagination.current - 1;
+    }
+
+    request.setPage(page);
+    request.setSize(pagination.pageSize);
 
     return PhoneServiceClient.listByPage(request, {
       // TODO: implement actual session token
@@ -116,7 +131,7 @@ class PhoneIndexPage extends React.Component<PhoneIndexProps, PhoneIndexState> {
       <Container defKey="1">
         <SEO title="Phones" />
         <h1>Phones</h1>
-        <Table
+        <Table<Phone.AsObject>
           columns={columns}
           rowKey={(record) => record.id}
           dataSource={data}

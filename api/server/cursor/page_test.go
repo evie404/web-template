@@ -30,6 +30,7 @@ func TestGetPageOptions(t *testing.T) {
 	tests := []struct {
 		name       string
 		arg        PageRequest
+		wantPage   int64
 		wantCursor int64
 		wantCount  int
 	}{
@@ -40,6 +41,7 @@ func TestGetPageOptions(t *testing.T) {
 				size: 0,
 			},
 			0,
+			0,
 			defaultCount,
 		},
 		{
@@ -48,6 +50,7 @@ func TestGetPageOptions(t *testing.T) {
 				page: 1,
 				size: 0,
 			},
+			1,
 			defaultCount,
 			defaultCount,
 		},
@@ -57,6 +60,7 @@ func TestGetPageOptions(t *testing.T) {
 				page: 10,
 				size: 0,
 			},
+			10,
 			defaultCount * 10,
 			defaultCount,
 		},
@@ -66,17 +70,19 @@ func TestGetPageOptions(t *testing.T) {
 				page: 10,
 				size: -123,
 			},
+			10,
 			defaultCount * 10,
 			defaultCount,
 		},
 		{
-			"returns ten pages offset for cursor and default count for tenth page with page size larger than twice of default",
+			"returns ten pages offset for cursor and max count for tenth page with page size larger than max",
 			&pageRequest{
 				page: 10,
-				size: defaultCount*2 + 1,
+				size: maxCount + 1,
 			},
-			defaultCount * 10,
-			defaultCount,
+			10,
+			maxCount * 10,
+			maxCount,
 		},
 		{
 			"returns ten pages offset for cursor and default count for tenth page and custom size",
@@ -84,13 +90,15 @@ func TestGetPageOptions(t *testing.T) {
 				page: 10,
 				size: 15,
 			},
+			10,
 			15 * 10,
 			15,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			gotCursor, gotCount := GetPageOptions(tt.arg)
+			gotPage, gotCursor, gotCount := GetPageOptions(tt.arg)
+			assert.Equal(t, tt.wantPage, gotPage)
 			assert.Equal(t, tt.wantCursor, gotCursor)
 			assert.Equal(t, tt.wantCount, gotCount)
 		})

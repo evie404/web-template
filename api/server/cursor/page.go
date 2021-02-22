@@ -12,8 +12,10 @@ func GetPageOptions(r PageRequest) (page, cursor int64, count int) {
 	}
 
 	count = int(r.GetSize())
-	if count < 1 || count > defaultCount*2 {
+	if count < 1 {
 		count = defaultCount
+	} else if count > maxCount {
+		count = maxCount
 	}
 
 	cursor = page * int64(count)

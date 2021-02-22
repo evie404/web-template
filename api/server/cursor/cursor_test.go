@@ -70,13 +70,13 @@ func TestGetCursorOptions(t *testing.T) {
 			defaultCount,
 		},
 		{
-			"returns cursor defined by request and default count if count is larger than double of default count",
+			"returns cursor defined by request and max count if count is larger than max count",
 			&cursorRequest{
 				cursor: 123,
-				count:  2*defaultCount + 1,
+				count:  maxCount + 1,
 			},
 			123,
-			defaultCount,
+			maxCount,
 		},
 	}
 	for _, tt := range tests {

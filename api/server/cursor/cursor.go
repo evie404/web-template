@@ -5,13 +5,18 @@ type CursorRequest interface {
 	GetCount() int64
 }
 
-const defaultCount = 20
+const (
+	defaultCount = 20
+	maxCount     = 100
+)
 
 func GetCursorOptions(req CursorRequest) (cursor int64, count int) {
 	cursor = req.GetCursor()
 	count = int(req.GetCount())
-	if count < 1 || count > defaultCount*2 {
+	if count < 1 {
 		count = defaultCount
+	} else if count > maxCount {
+		count = maxCount
 	}
 
 	return cursor, count
