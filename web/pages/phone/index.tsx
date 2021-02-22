@@ -6,12 +6,10 @@ import Container from "../../components/container";
 import SEO from "../../components/seo";
 import PhoneServiceClient from "../../clients/grpc-web/phone_service_client";
 import { Phone } from "../../protobuf/phone/phone_pb";
-import {
-  ListByPageRequest,
-  ListByPageResponse,
-} from "../../protobuf/phone/phone_service_pb";
+import { ListByPageRequest } from "../../protobuf/phone/phone_service_pb";
 import { Make } from "../../protobuf/make/make_pb";
 import { OS } from "../../protobuf/os/os_pb";
+import { ListByPageClientSide, PageResult } from "../../components/listPage";
 
 const PhoneLink = (text: number, record: Phone.AsObject): JSX.Element => (
   <a href={`/phone/${record.id}/`}>{text}</a>
@@ -67,14 +65,31 @@ class PhoneIndexPage extends React.Component<PhoneIndexProps, PhoneIndexState> {
         current: 1,
         pageSize: 10,
       },
-      loading: false,
+      loading: true,
     };
   }
 
   componentDidMount(): void {
     const { pagination } = this.state;
-    this.fetch(pagination);
+    this.fetchData(pagination);
   }
+
+  fetchData = (pagination: TablePaginationConfig): void => {
+    this.setState({ loading: true });
+
+    ListByPageClientSide<Phone.AsObject, Phone>(
+      new ListByPageRequest(),
+      pagination,
+      PhoneServiceClient,
+      "legit"
+    ).then((response: PageResult<Phone.AsObject>) => {
+      this.setState({
+        loading: false,
+        data: response.results,
+        pagination: response.pagination,
+      });
+    });
+  };
 
   handleTableChange = (
     pagination: TablePaginationConfig,
@@ -82,47 +97,7 @@ class PhoneIndexPage extends React.Component<PhoneIndexProps, PhoneIndexState> {
     sorter: SorterResult<Phone.AsObject> | SorterResult<Phone.AsObject>[],
     extra: TableCurrentDataSource<Phone.AsObject>
   ): void => {
-    this.fetch(
-      pagination
-      // sortField: sorter.field,
-      // sortOrder: sorter.order,
-      // pagination,
-      // ...filters,
-    );
-  };
-
-  fetch = (pagination: TablePaginationConfig): void => {
-    this.setState({ loading: true });
-    this.ListByPage(pagination).then((response: ListByPageResponse) => {
-      const data = response.getResultsList().map((p: Phone) => p.toObject());
-
-      this.setState({
-        loading: false,
-        data,
-        pagination: {
-          total: response.getTotalPages(),
-        },
-      });
-    });
-  };
-
-  ListByPage = (
-    pagination: TablePaginationConfig
-  ): Promise<ListByPageResponse> => {
-    const request = new ListByPageRequest();
-    let page = 0;
-
-    if (pagination.current) {
-      page = pagination.current - 1;
-    }
-
-    request.setPage(page);
-    request.setSize(pagination.pageSize);
-
-    return PhoneServiceClient.listByPage(request, {
-      // TODO: implement actual session token
-      Authorization: "Bearer legit",
-    });
+    this.fetchData(pagination);
   };
 
   render(): JSX.Element {
