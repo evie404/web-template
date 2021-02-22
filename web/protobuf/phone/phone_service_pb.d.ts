@@ -118,6 +118,9 @@ export class ListByPageResponse extends jspb.Message {
   getNextPage(): number;
   setNextPage(value: number): ListByPageResponse;
 
+  getTotalPages(): number;
+  setTotalPages(value: number): ListByPageResponse;
+
   getHasNext(): boolean;
   setHasNext(value: boolean): ListByPageResponse;
 
@@ -133,6 +136,7 @@ export namespace ListByPageResponse {
   export type AsObject = {
     resultsList: Array<protobuf_phone_phone_pb.Phone.AsObject>,
     nextPage: number,
+    totalPages: number,
     hasNext: boolean,
   }
 }

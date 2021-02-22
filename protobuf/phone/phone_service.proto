@@ -42,5 +42,7 @@ message ListByPageResponse {
 
   int64 next_page = 2;
 
-  bool has_next = 3;
+  int64 total_pages = 3;
+
+  bool has_next = 4;
 }

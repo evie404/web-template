@@ -18,7 +18,7 @@ type Server struct {
 }
 
 func (s *Server) ListByPage(ctx context.Context, req *phone.ListByPageRequest) (*phone.ListByPageResponse, error) {
-	cursor, count := cursor.GetPageOptions(req)
+	page, cursor, count := cursor.GetPageOptions(req)
 	results := make([]*phone.Phone, 0, count)
 
 	for i := cursor + 1; i < cursor+1+int64(count); i++ {
@@ -26,8 +26,10 @@ func (s *Server) ListByPage(ctx context.Context, req *phone.ListByPageRequest) (
 	}
 
 	return &phone.ListByPageResponse{
-		Results: results,
-		// TODO: deal with pages
+		Results:    results,
+		NextPage:   page + 1,
+		HasNext:    true,
+		TotalPages: 100,
 	}, nil
 }
 

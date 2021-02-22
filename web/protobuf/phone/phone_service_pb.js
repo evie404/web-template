@@ -981,7 +981,8 @@ proto.phone.ListByPageResponse.toObject = function(includeInstance, msg) {
     resultsList: jspb.Message.toObjectList(msg.getResultsList(),
     protobuf_phone_phone_pb.Phone.toObject, includeInstance),
     nextPage: jspb.Message.getFieldWithDefault(msg, 2, 0),
-    hasNext: jspb.Message.getBooleanFieldWithDefault(msg, 3, false)
+    totalPages: jspb.Message.getFieldWithDefault(msg, 3, 0),
+    hasNext: jspb.Message.getBooleanFieldWithDefault(msg, 4, false)
   };
 
   if (includeInstance) {
@@ -1028,6 +1029,10 @@ proto.phone.ListByPageResponse.deserializeBinaryFromReader = function(msg, reade
       msg.setNextPage(value);
       break;
     case 3:
+      var value = /** @type {number} */ (reader.readInt64());
+      msg.setTotalPages(value);
+      break;
+    case 4:
       var value = /** @type {boolean} */ (reader.readBool());
       msg.setHasNext(value);
       break;
@@ -1075,10 +1080,17 @@ proto.phone.ListByPageResponse.serializeBinaryToWriter = function(message, write
       f
     );
   }
+  f = message.getTotalPages();
+  if (f !== 0) {
+    writer.writeInt64(
+      3,
+      f
+    );
+  }
   f = message.getHasNext();
   if (f) {
     writer.writeBool(
-      3,
+      4,
       f
     );
   }
@@ -1142,11 +1154,29 @@ proto.phone.ListByPageResponse.prototype.setNextPage = function(value) {
 
 
 /**
- * optional bool has_next = 3;
+ * optional int64 total_pages = 3;
+ * @return {number}
+ */
+proto.phone.ListByPageResponse.prototype.getTotalPages = function() {
+  return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 3, 0));
+};
+
+
+/**
+ * @param {number} value
+ * @return {!proto.phone.ListByPageResponse} returns this
+ */
+proto.phone.ListByPageResponse.prototype.setTotalPages = function(value) {
+  return jspb.Message.setProto3IntField(this, 3, value);
+};
+
+
+/**
+ * optional bool has_next = 4;
  * @return {boolean}
  */
 proto.phone.ListByPageResponse.prototype.getHasNext = function() {
-  return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 3, false));
+  return /** @type {boolean} */ (jspb.Message.getBooleanFieldWithDefault(this, 4, false));
 };
 
 
@@ -1155,7 +1185,7 @@ proto.phone.ListByPageResponse.prototype.getHasNext = function() {
  * @return {!proto.phone.ListByPageResponse} returns this
  */
 proto.phone.ListByPageResponse.prototype.setHasNext = function(value) {
-  return jspb.Message.setProto3BooleanField(this, 3, value);
+  return jspb.Message.setProto3BooleanField(this, 4, value);
 };
 
 

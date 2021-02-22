@@ -5,8 +5,8 @@ type PageRequest interface {
 	GetSize() int64
 }
 
-func GetPageOptions(r PageRequest) (cursor int64, count int) {
-	page := r.GetPage()
+func GetPageOptions(r PageRequest) (page, cursor int64, count int) {
+	page = r.GetPage()
 	if page < 0 {
 		page = 0
 	}
@@ -18,5 +18,5 @@ func GetPageOptions(r PageRequest) (cursor int64, count int) {
 
 	cursor = page * int64(count)
 
-	return cursor, count
+	return page, cursor, count
 }
