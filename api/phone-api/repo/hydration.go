@@ -41,10 +41,10 @@ func (h *Hydrator) HydrateOne(ctx context.Context, instance *modelT) error {
 	wg.Go(func() error {
 		var osErr error
 		osResult, osErr = h.osClient.GetOneByID(ctx, &osPb.GetOneByIDRequest{
-			Id: instance.GetMake().GetId(),
+			Id: instance.GetOs().GetId(),
 		})
 		if osErr != nil {
-			return fmt.Errorf("error fetching os ID#%v: %w", instance.GetMake().GetId(), osErr)
+			return fmt.Errorf("error fetching os ID#%v: %w", instance.GetOs().GetId(), osErr)
 		}
 
 		return nil
@@ -89,7 +89,7 @@ func (h *Hydrator) HydrateMany(ctx context.Context, instances []*modelT) error {
 	wg.Go(func() error {
 		osIds := make([]int64, len(instances))
 		for i, instance := range instances {
-			osIds[i] = instance.GetMake().GetId()
+			osIds[i] = instance.GetOs().GetId()
 		}
 
 		ossResponse, osErr := h.osClient.GetManyByIDs(ctx, &osPb.GetManyByIDsRequest{
