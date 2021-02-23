@@ -4,21 +4,15 @@ import { TablePaginationConfig } from "antd/lib/table";
 import { SorterResult, TableCurrentDataSource } from "antd/lib/table/interface";
 import Container from "../../components/container";
 import SEO from "../../components/seo";
-import PhoneServiceClient from "../../clients/grpc-web/phone_service_client";
-import { Phone } from "../../protobuf/phone/phone_pb";
-import { ListByPageRequest } from "../../protobuf/phone/phone_service_pb";
+import MakeServiceClient from "../../clients/grpc-web/make_service_client";
 import { Make } from "../../protobuf/make/make_pb";
+import { ListByPageRequest } from "../../protobuf/make/make_service_pb";
+
 import { OS } from "../../protobuf/os/os_pb";
 import { ListByPageClientSide, PageResult } from "../../components/listPage";
 
-const PhoneLink = (
-  text: string,
-  record: Phone.AsObject,
-  index: number
-): JSX.Element => <a href={`/phone/${record.id}/`}>{text}</a>;
-
-const MakeLink = (record: Make.AsObject): JSX.Element => (
-  <a href={`/make/${record.id}/`}>{record.name}</a>
+const MakeLink = (text: number, record: Make.AsObject): JSX.Element => (
+  <a href={`/make/${record.id}/`}>{text}</a>
 );
 
 const columns = [
@@ -26,43 +20,29 @@ const columns = [
     title: "ID",
     dataIndex: "id",
     sorter: true,
-    render: PhoneLink,
+    render: MakeLink,
     width: "20%",
   },
   {
     title: "Name",
     dataIndex: "name",
     sorter: true,
-    render: PhoneLink,
-    width: "20%",
-  },
-  {
-    title: "Make",
-    dataIndex: "make",
-    sorter: true,
     render: MakeLink,
-    width: "20%",
-  },
-  {
-    title: "OS",
-    dataIndex: "os",
-    sorter: true,
-    render: (os: OS.AsObject) => `${os.name}`,
     width: "20%",
   },
 ];
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface PhoneIndexProps {}
+interface MakeIndexProps {}
 
-interface PhoneIndexState {
-  data: Array<Phone.AsObject>;
+interface MakeIndexState {
+  data: Array<Make.AsObject>;
   pagination: TablePaginationConfig;
   loading: boolean;
 }
 
-class PhoneIndexPage extends React.Component<PhoneIndexProps, PhoneIndexState> {
-  constructor(props: PhoneIndexProps) {
+class MakeIndexPage extends React.Component<MakeIndexProps, MakeIndexState> {
+  constructor(props: MakeIndexProps) {
     super(props);
 
     this.state = {
@@ -83,12 +63,12 @@ class PhoneIndexPage extends React.Component<PhoneIndexProps, PhoneIndexState> {
   fetchData = (pagination: TablePaginationConfig): void => {
     this.setState({ loading: true });
 
-    ListByPageClientSide<Phone.AsObject, Phone>(
+    ListByPageClientSide<Make.AsObject, Make>(
       new ListByPageRequest(),
       pagination,
-      PhoneServiceClient,
+      MakeServiceClient,
       "legit"
-    ).then((response: PageResult<Phone.AsObject>) => {
+    ).then((response: PageResult<Make.AsObject>) => {
       this.setState({
         loading: false,
         data: response.results,
@@ -100,8 +80,8 @@ class PhoneIndexPage extends React.Component<PhoneIndexProps, PhoneIndexState> {
   handleTableChange = (
     pagination: TablePaginationConfig,
     filters: Record<string, (React.Key | boolean)[] | null>,
-    sorter: SorterResult<Phone.AsObject> | SorterResult<Phone.AsObject>[],
-    extra: TableCurrentDataSource<Phone.AsObject>
+    sorter: SorterResult<Make.AsObject> | SorterResult<Make.AsObject>[],
+    extra: TableCurrentDataSource<Make.AsObject>
   ): void => {
     this.fetchData(pagination);
   };
@@ -110,9 +90,9 @@ class PhoneIndexPage extends React.Component<PhoneIndexProps, PhoneIndexState> {
     const { data, pagination, loading } = this.state;
     return (
       <Container defKey="1">
-        <SEO title="Phones" />
-        <h1>Phones</h1>
-        <Table<Phone.AsObject>
+        <SEO title="Makes" />
+        <h1>Makes</h1>
+        <Table<Make.AsObject>
           columns={columns}
           rowKey={(record) => record.id}
           dataSource={data}
@@ -125,4 +105,4 @@ class PhoneIndexPage extends React.Component<PhoneIndexProps, PhoneIndexState> {
   }
 }
 
-export default PhoneIndexPage;
+export default MakeIndexPage;
