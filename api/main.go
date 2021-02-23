@@ -14,17 +14,17 @@ import (
 	"github.com/rickypai/web-template/api/protobuf/make"
 	"github.com/rickypai/web-template/api/protobuf/os"
 	"github.com/rickypai/web-template/api/protobuf/phone"
+	"github.com/rickypai/web-template/api/server/address"
 	"golang.org/x/sync/errgroup"
 	"google.golang.org/grpc"
 )
 
 const (
-	grpcPort = ":50051"
 	httpPort = ":50052"
 )
 
 func main() {
-	lis, err := net.Listen("tcp", grpcPort)
+	lis, err := net.Listen("tcp", address.GeneralAPIAddress)
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
@@ -45,7 +45,7 @@ func main() {
 
 	g, _ := errgroup.WithContext(ctx)
 	g.Go(func() error {
-		log.Printf("listening gRPC on %s", grpcPort)
+		log.Printf("listening gRPC on %s", address.GeneralAPIAddress)
 		return s.Serve(lis)
 	})
 

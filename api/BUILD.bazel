@@ -15,6 +15,7 @@ go_library(
         "//api/make-api/server",
         "//api/os-api/server",
         "//api/phone-api/server",
+        "//api/server/address",
         "//protobuf/make",
         "//protobuf/os",
         "//protobuf/phone",
