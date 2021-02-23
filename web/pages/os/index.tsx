@@ -34,7 +34,7 @@ const columns = [
 ];
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface OSIndexProps { }
+interface OSIndexProps {}
 
 interface OSIndexState {
   data: Array<OS.AsObject>;
