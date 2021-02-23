@@ -8,10 +8,14 @@ import (
 	"github.com/rickypai/web-template/api/phone-api/repo"
 	rpc "github.com/rickypai/web-template/api/protobuf/phone"
 	"github.com/rickypai/web-template/api/server/cursor"
+	"google.golang.org/grpc/codes"
+	"google.golang.org/grpc/status"
 )
 
 // this is as close as we can get without generics. Just modify this one line to change the model in question
 type modelT = *rpc.Phone
+
+const modelName = "phone"
 
 type modelTReader interface {
 	GetOneByID(context.Context, int64) (modelT, error)
@@ -62,6 +66,10 @@ func (s *Server) GetOneByID(ctx context.Context, req *rpc.GetOneByIDRequest) (*r
 	result, err := s.repo.GetOneByID(ctx, req.GetId())
 	if err != nil {
 		return nil, fmt.Errorf("error fetching phone: %w", err)
+	}
+
+	if result == nil {
+		return nil, status.Error(codes.NotFound, fmt.Sprintf("%s with ID#%v not found", modelName, req.GetId()))
 	}
 
 	return &rpc.GetOneByIDResponse{

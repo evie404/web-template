@@ -5,19 +5,13 @@ import (
 	"database/sql"
 	"fmt"
 
-	"github.com/golang/protobuf/ptypes"
 	dbModel "github.com/rickypai/web-template/api/dbmodels/phone"
-	makePb "github.com/rickypai/web-template/api/protobuf/make"
-	"github.com/rickypai/web-template/api/protobuf/os"
 	rpc "github.com/rickypai/web-template/api/protobuf/phone"
 	cursorPkg "github.com/rickypai/web-template/api/server/cursor"
-	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
-	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 // this is as close as we can get without generics. Just modify this one line to change the model in question
-type modelT = *rpc.Phone
+type modelT = rpc.Phone
 
 type Repo struct {
 	db dbModel.Querier
@@ -29,7 +23,7 @@ func NewRepo(db *sql.DB) *Repo {
 	}
 }
 
-func (s *Repo) ListByPage(ctx context.Context, req cursorPkg.PageRequest) ([]modelT, *cursorPkg.PageResult, error) {
+func (s *Repo) ListByPage(ctx context.Context, req cursorPkg.PageRequest) ([]*modelT, *cursorPkg.PageResult, error) {
 	page, cursor, count := cursorPkg.GetPageOptions(req)
 	dbModels, err := s.db.ListOffset(ctx, dbModel.ListOffsetParams{Limit: int32(count) + 1, Offset: int32(cursor)})
 	if err != nil {
@@ -38,7 +32,7 @@ func (s *Repo) ListByPage(ctx context.Context, req cursorPkg.PageRequest) ([]mod
 
 	hasNext := len(dbModels) > count
 
-	var results []modelT
+	var results []*modelT
 
 	if hasNext {
 		results = toRPCModels(dbModels[:len(dbModels)-1])
@@ -58,91 +52,35 @@ func (s *Repo) ListByPage(ctx context.Context, req cursorPkg.PageRequest) ([]mod
 	}, nil
 }
 
-func (s *Repo) ListByCursor(ctx context.Context, req cursorPkg.CursorRequest) ([]modelT, *cursorPkg.CursorResult, error) {
+func (s *Repo) ListByCursor(ctx context.Context, req cursorPkg.CursorRequest) ([]*modelT, *cursorPkg.CursorResult, error) {
 	cursor, count := cursorPkg.GetCursorOptions(req)
-	results := make([]modelT, 0, count)
-
-	for i := cursor + 1; i < cursor+1+int64(count); i++ {
-		results = append(results, getPhone(i))
+	dbModels, err := s.db.ListOffset(ctx, dbModel.ListOffsetParams{Limit: int32(count), Offset: int32(cursor)})
+	if err != nil {
+		return nil, nil, fmt.Errorf("error fetching from database: %w", err)
 	}
 
-	nextPageCursor := results[len(results)-1].GetId()
+	results := toRPCModels(dbModels)
+
+	var nextPageCursor int64
+
+	if len(results) > 1 {
+		nextPageCursor = results[len(results)-1].GetId()
+	}
 
 	return results, &cursorPkg.CursorResult{
 		Cursor: nextPageCursor,
 	}, nil
 }
 
-func (s *Repo) GetOneByID(ctx context.Context, id int64) (modelT, error) {
-	if id == 404 {
-		return nil, status.Error(codes.NotFound, "not found")
+func (s *Repo) GetOneByID(ctx context.Context, id int64) (*modelT, error) {
+	dbResult, err := s.db.GetByID(ctx, id)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return nil, nil
+		}
+
+		return nil, fmt.Errorf("error fetching from database: %w", err)
 	}
 
-	if id == 500 {
-		return nil, status.Error(codes.Unknown, "unknown")
-	}
-
-	return getPhone(id), nil
-}
-
-func getPhone(id int64) *rpc.Phone {
-	ts := ptypes.TimestampNow()
-
-	return &rpc.Phone{
-		Id:   id,
-		Name: fmt.Sprintf("Phone #%v", id),
-		Make: &makePb.Make{
-			Id:   id,
-			Name: fmt.Sprintf("Make #%v", id),
-
-			CreatedAt:  ts,
-			ModifiedAt: ts,
-		},
-		Os: &os.OS{
-			Id:   id,
-			Name: fmt.Sprintf("OS #%v", id),
-
-			CreatedAt:  ts,
-			ModifiedAt: ts,
-		},
-
-		CreatedAt:  ts,
-		ModifiedAt: ts,
-	}
-}
-
-func toRPCModel(model dbModel.Phone) *rpc.Phone {
-	id := model.ID
-	ts := ptypes.TimestampNow()
-
-	return &rpc.Phone{
-		Id:   model.ID,
-		Name: model.Name,
-		Make: &makePb.Make{
-			Id:   id,
-			Name: fmt.Sprintf("Make #%v", id),
-
-			CreatedAt:  ts,
-			ModifiedAt: ts,
-		},
-		Os: &os.OS{
-			Id:   id,
-			Name: fmt.Sprintf("OS #%v", id),
-
-			CreatedAt:  ts,
-			ModifiedAt: ts,
-		},
-		CreatedAt:  timestamppb.New(model.CreatedAt),
-		ModifiedAt: timestamppb.New(model.ModifiedAt),
-	}
-}
-
-func toRPCModels(models []dbModel.Phone) []*rpc.Phone {
-	rpcModels := make([]*rpc.Phone, len(models))
-
-	for i, model := range models {
-		rpcModels[i] = toRPCModel(model)
-	}
-
-	return rpcModels
+	return toRPCModel(dbResult), nil
 }
