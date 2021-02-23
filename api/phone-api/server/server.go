@@ -13,9 +13,15 @@ import (
 )
 
 // this is as close as we can get without generics. Just modify this one line to change the model in question
-type modelT = *rpc.Phone
+type (
+	modelT = *rpc.Phone
+	rpcT   = rpc.UnimplementedPhoneServiceServer
+)
 
-const modelName = "phone"
+const (
+	modelName  = "phone"
+	modelsName = "phones"
+)
 
 type modelTReader interface {
 	GetOneByID(context.Context, int64) (modelT, error)
@@ -31,7 +37,7 @@ func NewServer(db *sql.DB) *Server {
 }
 
 type Server struct {
-	rpc.UnimplementedPhoneServiceServer
+	rpcT
 
 	repo modelTReader
 }
@@ -39,7 +45,7 @@ type Server struct {
 func (s *Server) ListByPage(ctx context.Context, req *rpc.ListByPageRequest) (*rpc.ListByPageResponse, error) {
 	results, pageResult, err := s.repo.ListByPage(ctx, req)
 	if err != nil {
-		return nil, fmt.Errorf("error fetching phones: %w", err)
+		return nil, fmt.Errorf("error fetching %s: %w", modelsName, err)
 	}
 
 	return &rpc.ListByPageResponse{
@@ -53,7 +59,7 @@ func (s *Server) ListByPage(ctx context.Context, req *rpc.ListByPageRequest) (*r
 func (s *Server) ListByCursor(ctx context.Context, req *rpc.ListByCursorRequest) (*rpc.ListByCursorResponse, error) {
 	results, cursorResult, err := s.repo.ListByCursor(ctx, req)
 	if err != nil {
-		return nil, fmt.Errorf("error fetching phones: %w", err)
+		return nil, fmt.Errorf("error fetching %s: %w", modelsName, err)
 	}
 
 	return &rpc.ListByCursorResponse{
@@ -65,7 +71,7 @@ func (s *Server) ListByCursor(ctx context.Context, req *rpc.ListByCursorRequest)
 func (s *Server) GetOneByID(ctx context.Context, req *rpc.GetOneByIDRequest) (*rpc.GetOneByIDResponse, error) {
 	result, err := s.repo.GetOneByID(ctx, req.GetId())
 	if err != nil {
-		return nil, fmt.Errorf("error fetching phone: %w", err)
+		return nil, fmt.Errorf("error fetching %s: %w", modelName, err)
 	}
 
 	if result == nil {
