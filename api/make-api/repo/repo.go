@@ -27,14 +27,14 @@ func NewRepo(db *sql.DB) *Repo {
 	}
 }
 
-func (s *Repo) ListByPage(ctx context.Context, req cursorPkg.PageRequest) ([]*modelT, *cursorPkg.PageResult, error) {
+func (r *Repo) ListByPage(ctx context.Context, req cursorPkg.PageRequest) ([]*modelT, *cursorPkg.PageResult, error) {
 	page, cursor, count := cursorPkg.GetPageOptions(req)
 	wg, ctx := errgroup.WithContext(ctx)
 
 	var dbModels []dbModelT
 	wg.Go(func() error {
 		var listerr error
-		dbModels, listerr = s.db.ListOffset(ctx, dbModel.ListOffsetParams{Limit: int32(count) + 1, Offset: int32(cursor)})
+		dbModels, listerr = r.db.ListOffset(ctx, dbModel.ListOffsetParams{Limit: int32(count) + 1, Offset: int32(cursor)})
 		if listerr != nil {
 			return fmt.Errorf("error listing from database: %w", listerr)
 		}
@@ -45,7 +45,7 @@ func (s *Repo) ListByPage(ctx context.Context, req cursorPkg.PageRequest) ([]*mo
 	var total int64
 	wg.Go(func() error {
 		var counterr error
-		total, counterr = s.db.CountTotal(ctx)
+		total, counterr = r.db.CountTotal(ctx)
 		if counterr != nil {
 			return fmt.Errorf("error fetching total count from database: %w", counterr)
 		}
@@ -75,9 +75,9 @@ func (s *Repo) ListByPage(ctx context.Context, req cursorPkg.PageRequest) ([]*mo
 	}, nil
 }
 
-func (s *Repo) ListByCursor(ctx context.Context, req cursorPkg.CursorRequest) ([]*modelT, *cursorPkg.CursorResult, error) {
+func (r *Repo) ListByCursor(ctx context.Context, req cursorPkg.CursorRequest) ([]*modelT, *cursorPkg.CursorResult, error) {
 	cursor, count := cursorPkg.GetCursorOptions(req)
-	dbModels, err := s.db.ListOffset(ctx, dbModel.ListOffsetParams{Limit: int32(count), Offset: int32(cursor)})
+	dbModels, err := r.db.ListOffset(ctx, dbModel.ListOffsetParams{Limit: int32(count), Offset: int32(cursor)})
 	if err != nil {
 		return nil, nil, fmt.Errorf("error fetching from database: %w", err)
 	}
@@ -95,8 +95,8 @@ func (s *Repo) ListByCursor(ctx context.Context, req cursorPkg.CursorRequest) ([
 	}, nil
 }
 
-func (s *Repo) GetOneByID(ctx context.Context, id int64) (*modelT, error) {
-	dbResult, err := s.db.GetByID(ctx, id)
+func (r *Repo) GetOneByID(ctx context.Context, id int64) (*modelT, error) {
+	dbResult, err := r.db.GetByID(ctx, id)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return nil, nil
