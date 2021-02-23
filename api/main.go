@@ -38,8 +38,8 @@ func main() {
 		log.Fatalf("connecting to database: %v", err)
 	}
 
-	makeClient := makeCl.NewMakeAPILocalServer(db)
-	osClient := osCl.NewOSAPILocalServer(db)
+	makeClient := makeCl.NewMakeReaderLocalServer(db)
+	osClient := osCl.NewOSReaderLocalServer(db)
 
 	s := grpc.NewServer()
 	phone.RegisterPhoneReaderServer(s, phoneSrv.NewServer(db, makeClient, osClient))

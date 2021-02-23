@@ -9,7 +9,7 @@ import (
 	"google.golang.org/grpc"
 )
 
-func NewMakeAPILocalServer(db *sql.DB) rpc.MakeReaderClient {
+func NewMakeReaderLocalServer(db *sql.DB) rpc.MakeReaderClient {
 	return &MakeReaderLocalServer{
 		localServer: server.NewServer(db),
 	}

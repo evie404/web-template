@@ -9,7 +9,7 @@ import (
 	"google.golang.org/grpc"
 )
 
-func NewOSAPILocalServer(db *sql.DB) rpc.OSReaderClient {
+func NewOSReaderLocalServer(db *sql.DB) rpc.OSReaderClient {
 	return &OSReaderLocalServer{
 		localServer: server.NewServer(db),
 	}
