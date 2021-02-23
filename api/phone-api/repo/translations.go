@@ -4,13 +4,12 @@ import (
 	"fmt"
 
 	"github.com/golang/protobuf/ptypes"
-	dbModel "github.com/rickypai/web-template/api/dbmodels/phone"
 	makePb "github.com/rickypai/web-template/api/protobuf/make"
 	"github.com/rickypai/web-template/api/protobuf/os"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
-func toRPCModel(model dbModel.Phone) *modelT {
+func toRPCModel(model dbModelT) *modelT {
 	id := model.ID
 	ts := ptypes.TimestampNow()
 
@@ -39,7 +38,7 @@ func toRPCModel(model dbModel.Phone) *modelT {
 	}
 }
 
-func toRPCModels(models []dbModel.Phone) []*modelT {
+func toRPCModels(models []dbModelT) []*modelT {
 	rpcModels := make([]*modelT, len(models))
 
 	for i, model := range models {

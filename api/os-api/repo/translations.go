@@ -1,11 +1,10 @@
 package repo
 
 import (
-	dbModel "github.com/rickypai/web-template/api/dbmodels/os"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
-func toRPCModel(model dbModel.OS) *modelT {
+func toRPCModel(model dbModelT) *modelT {
 	return &modelT{
 		Id:   model.ID,
 		Name: model.Name,
@@ -15,7 +14,7 @@ func toRPCModel(model dbModel.OS) *modelT {
 	}
 }
 
-func toRPCModels(models []dbModel.OS) []*modelT {
+func toRPCModels(models []dbModelT) []*modelT {
 	rpcModels := make([]*modelT, len(models))
 
 	for i, model := range models {
