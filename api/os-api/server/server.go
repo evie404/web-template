@@ -19,8 +19,8 @@ type (
 )
 
 const (
-	modelName  = "os"
-	modelsName = "oss"
+	modelName  = "OS"
+	modelsName = "OSs"
 )
 
 type modelTReader interface {
