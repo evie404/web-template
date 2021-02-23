@@ -205,5 +205,5 @@ var OSReader_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "protobuf/os/os_service.proto",
+	Metadata: "protobuf/os/os_reader.proto",
 }

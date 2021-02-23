@@ -1,5 +1,5 @@
 import * as grpc from "@grpc/grpc-js";
-import { PhoneReaderClient as PhoneReaderClientGrpc } from "../../protobuf/phone/phone_service_grpc_pb";
+import { PhoneReaderClient as PhoneReaderClientGrpc } from "../../protobuf/phone/phone_reader_grpc_pb";
 
 // const grpc = require('@grpc/grpc-js');
 

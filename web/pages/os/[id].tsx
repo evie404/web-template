@@ -3,7 +3,7 @@ import { StatusCode } from "grpc-web";
 import Container from "../../components/container";
 import SEO from "../../components/seo";
 import Custom404 from "../404";
-import { GetOneByIDRequest } from "../../protobuf/os/os_service_pb";
+import { GetOneByIDRequest } from "../../protobuf/os/os_reader_pb";
 import { OS } from "../../protobuf/os/os_pb";
 import OSReaderClient from "../../clients/nodejs/os_service_client";
 import OSComponent from "../../components/os";

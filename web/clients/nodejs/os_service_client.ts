@@ -1,5 +1,5 @@
 import * as grpc from "@grpc/grpc-js";
-import { OSReaderClient as OSReaderClientGrpc } from "../../protobuf/os/os_service_grpc_pb";
+import { OSReaderClient as OSReaderClientGrpc } from "../../protobuf/os/os_reader_grpc_pb";
 
 // const grpc = require('@grpc/grpc-js');
 

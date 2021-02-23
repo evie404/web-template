@@ -3,7 +3,7 @@ import { StatusCode } from "grpc-web";
 import Container from "../../components/container";
 import SEO from "../../components/seo";
 import Custom404 from "../404";
-import { GetOneByIDRequest } from "../../protobuf/make/make_service_pb";
+import { GetOneByIDRequest } from "../../protobuf/make/make_reader_pb";
 import { Make } from "../../protobuf/make/make_pb";
 import MakeReaderClient from "../../clients/nodejs/make_service_client";
 import MakeComponent from "../../components/make";

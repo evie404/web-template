@@ -6,7 +6,7 @@ import Container from "../../components/container";
 import SEO from "../../components/seo";
 import PhoneReaderClient from "../../clients/grpc-web/phone_service_client";
 import { Phone } from "../../protobuf/phone/phone_pb";
-import { ListByPageRequest } from "../../protobuf/phone/phone_service_pb";
+import { ListByPageRequest } from "../../protobuf/phone/phone_reader_pb";
 import { Make } from "../../protobuf/make/make_pb";
 import { OS } from "../../protobuf/os/os_pb";
 import { ListByPageClientSide, PageResult } from "../../components/listPage";

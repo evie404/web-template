@@ -205,5 +205,5 @@ var MakeReader_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "protobuf/make/make_service.proto",
+	Metadata: "protobuf/make/make_reader.proto",
 }

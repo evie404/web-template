@@ -1,4 +1,4 @@
-import { OSReaderClient as OSReaderClientGrpc } from "../../protobuf/os/Os_serviceServiceClientPb";
+import { OSReaderClient as OSReaderClientGrpc } from "../../protobuf/os/Os_readerServiceClientPb";
 
 const OSReaderClient = new OSReaderClientGrpc("http://localhost:8080");
 

@@ -205,5 +205,5 @@ var PhoneReader_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "protobuf/phone/phone_service.proto",
+	Metadata: "protobuf/phone/phone_reader.proto",
 }

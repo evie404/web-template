@@ -1,5 +1,5 @@
 import * as grpc from "@grpc/grpc-js";
-import { MakeReaderClient as MakeReaderClientGrpc } from "../../protobuf/make/make_service_grpc_pb";
+import { MakeReaderClient as MakeReaderClientGrpc } from "../../protobuf/make/make_reader_grpc_pb";
 
 // const grpc = require('@grpc/grpc-js');
 

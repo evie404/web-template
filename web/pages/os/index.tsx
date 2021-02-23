@@ -6,7 +6,7 @@ import Container from "../../components/container";
 import SEO from "../../components/seo";
 import OSReaderClient from "../../clients/grpc-web/os_service_client";
 import { OS } from "../../protobuf/os/os_pb";
-import { ListByPageRequest } from "../../protobuf/os/os_service_pb";
+import { ListByPageRequest } from "../../protobuf/os/os_reader_pb";
 
 import { ListByPageClientSide, PageResult } from "../../components/listPage";
 
