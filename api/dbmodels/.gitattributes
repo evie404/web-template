@@ -1,0 +1,2 @@
+*.go linguist-generated
+BUILD.bazel linguist-generated
