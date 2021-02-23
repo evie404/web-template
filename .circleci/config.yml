@@ -62,7 +62,7 @@ jobs:
       - run: pwd
       - checkout
       - run:
-          command: golangci-lint run
+          command: golangci-lint run --timeout 2m
           working_directory: ./api
 
   "Go build":
