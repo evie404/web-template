@@ -17,6 +17,8 @@ func toRPCModel(model dbModel.Phone) *modelT {
 	return &modelT{
 		Id:   model.ID,
 		Name: model.Name,
+
+		// TODO: deal with hydration
 		Make: &makePb.Make{
 			Id:   id,
 			Name: fmt.Sprintf("Make #%v", id),
@@ -31,6 +33,7 @@ func toRPCModel(model dbModel.Phone) *modelT {
 			CreatedAt:  ts,
 			ModifiedAt: ts,
 		},
+
 		CreatedAt:  timestamppb.New(model.CreatedAt),
 		ModifiedAt: timestamppb.New(model.ModifiedAt),
 	}
