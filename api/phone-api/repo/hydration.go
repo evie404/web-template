@@ -64,7 +64,10 @@ func (h *Hydrator) HydrateOne(ctx context.Context, instance *modelT) error {
 func (h *Hydrator) HydrateMany(ctx context.Context, instances []*modelT) error {
 	// TODO: more efficient calls
 	for i := range instances {
-		h.HydrateOne(ctx, instances[i])
+		err := h.HydrateOne(ctx, instances[i])
+		if err != nil {
+			return err
+		}
 	}
 
 	return nil
