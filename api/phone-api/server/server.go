@@ -9,23 +9,26 @@ import (
 	"github.com/rickypai/web-template/api/server/cursor"
 )
 
-type phoneReader interface {
-	GetOneByID(context.Context, int64) (*rpc.Phone, error)
+// this is as close as we can get without generics. Just modify this one line to change the model in question
+type modelT = *rpc.Phone
 
-	ListByPage(context.Context, cursor.PageRequest) ([]*rpc.Phone, *cursor.PageResult, error)
-	ListByCursor(context.Context, cursor.CursorRequest) ([]*rpc.Phone, *cursor.CursorResult, error)
+type modelTReader interface {
+	GetOneByID(context.Context, int64) (modelT, error)
+
+	ListByPage(context.Context, cursor.PageRequest) ([]modelT, *cursor.PageResult, error)
+	ListByCursor(context.Context, cursor.CursorRequest) ([]modelT, *cursor.CursorResult, error)
 }
 
 func NewServer() *Server {
 	return &Server{
-		repo: repo.NewPhoneRepo(),
+		repo: repo.NewRepo(),
 	}
 }
 
 type Server struct {
 	rpc.UnimplementedPhoneServiceServer
 
-	repo phoneReader
+	repo modelTReader
 }
 
 func (s *Server) ListByPage(ctx context.Context, req *rpc.ListByPageRequest) (*rpc.ListByPageResponse, error) {

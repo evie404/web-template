@@ -13,16 +13,19 @@ import (
 	"google.golang.org/grpc/status"
 )
 
-func NewPhoneRepo() *PhoneRepo {
-	return &PhoneRepo{}
+// this is as close as we can get without generics. Just modify this one line to change the model in question
+type modelT = *rpc.Phone
+
+func NewRepo() *Repo {
+	return &Repo{}
 }
 
-type PhoneRepo struct {
+type Repo struct {
 }
 
-func (s *PhoneRepo) ListByPage(ctx context.Context, req cursorPkg.PageRequest) ([]*rpc.Phone, *cursorPkg.PageResult, error) {
+func (s *Repo) ListByPage(ctx context.Context, req cursorPkg.PageRequest) ([]modelT, *cursorPkg.PageResult, error) {
 	page, cursor, count := cursorPkg.GetPageOptions(req)
-	results := make([]*rpc.Phone, 0, count)
+	results := make([]modelT, 0, count)
 
 	for i := cursor + 1; i < cursor+1+int64(count); i++ {
 		results = append(results, getPhone(i))
@@ -35,9 +38,9 @@ func (s *PhoneRepo) ListByPage(ctx context.Context, req cursorPkg.PageRequest) (
 	}, nil
 }
 
-func (s *PhoneRepo) ListByCursor(ctx context.Context, req cursorPkg.CursorRequest) ([]*rpc.Phone, *cursorPkg.CursorResult, error) {
+func (s *Repo) ListByCursor(ctx context.Context, req cursorPkg.CursorRequest) ([]modelT, *cursorPkg.CursorResult, error) {
 	cursor, count := cursorPkg.GetCursorOptions(req)
-	results := make([]*rpc.Phone, 0, count)
+	results := make([]modelT, 0, count)
 
 	for i := cursor + 1; i < cursor+1+int64(count); i++ {
 		results = append(results, getPhone(i))
@@ -50,7 +53,7 @@ func (s *PhoneRepo) ListByCursor(ctx context.Context, req cursorPkg.CursorReques
 	}, nil
 }
 
-func (s *PhoneRepo) GetOneByID(ctx context.Context, id int64) (*rpc.Phone, error) {
+func (s *Repo) GetOneByID(ctx context.Context, id int64) (modelT, error) {
 	if id == 404 {
 		return nil, status.Error(codes.NotFound, "not found")
 	}
