@@ -6,7 +6,7 @@ import (
 	"time"
 )
 
-type O struct {
+type OS struct {
 	ID         int64
 	Name       string
 	CreatedAt  time.Time

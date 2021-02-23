@@ -5,7 +5,7 @@ import (
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
-func toRPCModel(model dbModel.O) *modelT {
+func toRPCModel(model dbModel.OS) *modelT {
 	return &modelT{
 		Id:   model.ID,
 		Name: model.Name,
@@ -15,7 +15,7 @@ func toRPCModel(model dbModel.O) *modelT {
 	}
 }
 
-func toRPCModels(models []dbModel.O) []*modelT {
+func toRPCModels(models []dbModel.OS) []*modelT {
 	rpcModels := make([]*modelT, len(models))
 
 	for i, model := range models {

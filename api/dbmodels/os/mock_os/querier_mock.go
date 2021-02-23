@@ -50,10 +50,10 @@ func (mr *MockQuerierMockRecorder) CountTotal(ctx interface{}) *gomock.Call {
 }
 
 // GetByID mocks base method
-func (m *MockQuerier) GetByID(ctx context.Context, id int64) (os.O, error) {
+func (m *MockQuerier) GetByID(ctx context.Context, id int64) (os.OS, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "GetByID", ctx, id)
-	ret0, _ := ret[0].(os.O)
+	ret0, _ := ret[0].(os.OS)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
@@ -65,10 +65,10 @@ func (mr *MockQuerierMockRecorder) GetByID(ctx, id interface{}) *gomock.Call {
 }
 
 // ListOffset mocks base method
-func (m *MockQuerier) ListOffset(ctx context.Context, arg os.ListOffsetParams) ([]os.O, error) {
+func (m *MockQuerier) ListOffset(ctx context.Context, arg os.ListOffsetParams) ([]os.OS, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "ListOffset", ctx, arg)
-	ret0, _ := ret[0].([]os.O)
+	ret0, _ := ret[0].([]os.OS)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }

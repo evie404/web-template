@@ -4,3 +4,4 @@ tables:
   - name: phone
   - name: app
   - name: os
+    model_class: OS

@@ -14,7 +14,7 @@ import (
 // this is as close as we can get without generics. Just modify this one line to change the model in question
 type (
 	modelT   = rpc.OS
-	dbModelT = dbModel.O
+	dbModelT = dbModel.OS
 )
 
 type Repo struct {

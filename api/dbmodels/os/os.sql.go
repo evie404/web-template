@@ -22,9 +22,9 @@ const getByID = `-- name: GetByID :one
 SELECT id, name, created_at, modified_at FROM os WHERE id = $1 LIMIT 1
 `
 
-func (q *Queries) GetByID(ctx context.Context, id int64) (O, error) {
+func (q *Queries) GetByID(ctx context.Context, id int64) (OS, error) {
 	row := q.db.QueryRowContext(ctx, getByID, id)
-	var i O
+	var i OS
 	err := row.Scan(
 		&i.ID,
 		&i.Name,
@@ -43,15 +43,15 @@ type ListOffsetParams struct {
 	Offset int32
 }
 
-func (q *Queries) ListOffset(ctx context.Context, arg ListOffsetParams) ([]O, error) {
+func (q *Queries) ListOffset(ctx context.Context, arg ListOffsetParams) ([]OS, error) {
 	rows, err := q.db.QueryContext(ctx, listOffset, arg.Limit, arg.Offset)
 	if err != nil {
 		return nil, err
 	}
 	defer rows.Close()
-	var items []O
+	var items []OS
 	for rows.Next() {
-		var i O
+		var i OS
 		if err := rows.Scan(
 			&i.ID,
 			&i.Name,
