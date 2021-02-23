@@ -6,6 +6,8 @@ import (
 	"net"
 	"net/http"
 
+	makeCl "github.com/rickypai/web-template/api/clients/make-api"
+	osCl "github.com/rickypai/web-template/api/clients/os-api"
 	"github.com/rickypai/web-template/api/config"
 	"github.com/rickypai/web-template/api/extauth"
 	makeSrv "github.com/rickypai/web-template/api/make-api/server"
@@ -36,8 +38,11 @@ func main() {
 		log.Fatalf("connecting to database: %v", err)
 	}
 
+	makeClient := makeCl.NewMakeAPILocalServer(db)
+	osClient := osCl.NewOSAPILocalServer(db)
+
 	s := grpc.NewServer()
-	phone.RegisterPhoneServiceServer(s, phoneSrv.NewServer(db))
+	phone.RegisterPhoneServiceServer(s, phoneSrv.NewServer(db, makeClient, osClient))
 	make.RegisterMakeServiceServer(s, makeSrv.NewServer(db))
 	os.RegisterOSServiceServer(s, osSrv.NewServer(db))
 
