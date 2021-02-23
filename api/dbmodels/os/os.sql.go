@@ -7,6 +7,17 @@ import (
 	"context"
 )
 
+const countTotal = `-- name: CountTotal :one
+SELECT COUNT(id) FROM os
+`
+
+func (q *Queries) CountTotal(ctx context.Context) (int64, error) {
+	row := q.db.QueryRowContext(ctx, countTotal)
+	var count int64
+	err := row.Scan(&count)
+	return count, err
+}
+
 const getByID = `-- name: GetByID :one
 SELECT id, name, created_at, modified_at FROM os WHERE id = $1 LIMIT 1
 `
@@ -21,4 +32,41 @@ func (q *Queries) GetByID(ctx context.Context, id int64) (O, error) {
 		&i.ModifiedAt,
 	)
 	return i, err
+}
+
+const listOffset = `-- name: ListOffset :many
+SELECT id, name, created_at, modified_at FROM os LIMIT $1 OFFSET $2
+`
+
+type ListOffsetParams struct {
+	Limit  int32
+	Offset int32
+}
+
+func (q *Queries) ListOffset(ctx context.Context, arg ListOffsetParams) ([]O, error) {
+	rows, err := q.db.QueryContext(ctx, listOffset, arg.Limit, arg.Offset)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []O
+	for rows.Next() {
+		var i O
+		if err := rows.Scan(
+			&i.ID,
+			&i.Name,
+			&i.CreatedAt,
+			&i.ModifiedAt,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
 }

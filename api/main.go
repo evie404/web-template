@@ -38,8 +38,8 @@ func main() {
 
 	s := grpc.NewServer()
 	phone.RegisterPhoneServiceServer(s, phoneSrv.NewServer(db))
-	make.RegisterMakeServiceServer(s, makeSrv.NewServer())
-	os.RegisterOSServiceServer(s, osSrv.NewServer())
+	make.RegisterMakeServiceServer(s, makeSrv.NewServer(db))
+	os.RegisterOSServiceServer(s, osSrv.NewServer(db))
 
 	extAuth := extauth.NewExternalAuth()
 
