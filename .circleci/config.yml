@@ -150,6 +150,7 @@ workflows:
     jobs:
       - "Go build"
       - "Go lint"
+      # TODO: validate dbmodels
   envoy:
     jobs:
       - "Envoy validate config"
