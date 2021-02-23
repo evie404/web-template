@@ -14,194 +14,194 @@ import (
 // Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
-// OSServiceClient is the client API for OSService service.
+// OSReaderClient is the client API for OSReader service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type OSServiceClient interface {
+type OSReaderClient interface {
 	GetOneByID(ctx context.Context, in *GetOneByIDRequest, opts ...grpc.CallOption) (*GetOneByIDResponse, error)
 	GetManyByIDs(ctx context.Context, in *GetManyByIDsRequest, opts ...grpc.CallOption) (*GetManyByIDsResponse, error)
 	ListByCursor(ctx context.Context, in *ListByCursorRequest, opts ...grpc.CallOption) (*ListByCursorResponse, error)
 	ListByPage(ctx context.Context, in *ListByPageRequest, opts ...grpc.CallOption) (*ListByPageResponse, error)
 }
 
-type oSServiceClient struct {
+type oSReaderClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewOSServiceClient(cc grpc.ClientConnInterface) OSServiceClient {
-	return &oSServiceClient{cc}
+func NewOSReaderClient(cc grpc.ClientConnInterface) OSReaderClient {
+	return &oSReaderClient{cc}
 }
 
-func (c *oSServiceClient) GetOneByID(ctx context.Context, in *GetOneByIDRequest, opts ...grpc.CallOption) (*GetOneByIDResponse, error) {
+func (c *oSReaderClient) GetOneByID(ctx context.Context, in *GetOneByIDRequest, opts ...grpc.CallOption) (*GetOneByIDResponse, error) {
 	out := new(GetOneByIDResponse)
-	err := c.cc.Invoke(ctx, "/os.OSService/GetOneByID", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/os.OSReader/GetOneByID", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *oSServiceClient) GetManyByIDs(ctx context.Context, in *GetManyByIDsRequest, opts ...grpc.CallOption) (*GetManyByIDsResponse, error) {
+func (c *oSReaderClient) GetManyByIDs(ctx context.Context, in *GetManyByIDsRequest, opts ...grpc.CallOption) (*GetManyByIDsResponse, error) {
 	out := new(GetManyByIDsResponse)
-	err := c.cc.Invoke(ctx, "/os.OSService/GetManyByIDs", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/os.OSReader/GetManyByIDs", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *oSServiceClient) ListByCursor(ctx context.Context, in *ListByCursorRequest, opts ...grpc.CallOption) (*ListByCursorResponse, error) {
+func (c *oSReaderClient) ListByCursor(ctx context.Context, in *ListByCursorRequest, opts ...grpc.CallOption) (*ListByCursorResponse, error) {
 	out := new(ListByCursorResponse)
-	err := c.cc.Invoke(ctx, "/os.OSService/ListByCursor", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/os.OSReader/ListByCursor", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *oSServiceClient) ListByPage(ctx context.Context, in *ListByPageRequest, opts ...grpc.CallOption) (*ListByPageResponse, error) {
+func (c *oSReaderClient) ListByPage(ctx context.Context, in *ListByPageRequest, opts ...grpc.CallOption) (*ListByPageResponse, error) {
 	out := new(ListByPageResponse)
-	err := c.cc.Invoke(ctx, "/os.OSService/ListByPage", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/os.OSReader/ListByPage", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// OSServiceServer is the server API for OSService service.
-// All implementations must embed UnimplementedOSServiceServer
+// OSReaderServer is the server API for OSReader service.
+// All implementations must embed UnimplementedOSReaderServer
 // for forward compatibility
-type OSServiceServer interface {
+type OSReaderServer interface {
 	GetOneByID(context.Context, *GetOneByIDRequest) (*GetOneByIDResponse, error)
 	GetManyByIDs(context.Context, *GetManyByIDsRequest) (*GetManyByIDsResponse, error)
 	ListByCursor(context.Context, *ListByCursorRequest) (*ListByCursorResponse, error)
 	ListByPage(context.Context, *ListByPageRequest) (*ListByPageResponse, error)
-	mustEmbedUnimplementedOSServiceServer()
+	mustEmbedUnimplementedOSReaderServer()
 }
 
-// UnimplementedOSServiceServer must be embedded to have forward compatible implementations.
-type UnimplementedOSServiceServer struct {
+// UnimplementedOSReaderServer must be embedded to have forward compatible implementations.
+type UnimplementedOSReaderServer struct {
 }
 
-func (UnimplementedOSServiceServer) GetOneByID(context.Context, *GetOneByIDRequest) (*GetOneByIDResponse, error) {
+func (UnimplementedOSReaderServer) GetOneByID(context.Context, *GetOneByIDRequest) (*GetOneByIDResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetOneByID not implemented")
 }
-func (UnimplementedOSServiceServer) GetManyByIDs(context.Context, *GetManyByIDsRequest) (*GetManyByIDsResponse, error) {
+func (UnimplementedOSReaderServer) GetManyByIDs(context.Context, *GetManyByIDsRequest) (*GetManyByIDsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetManyByIDs not implemented")
 }
-func (UnimplementedOSServiceServer) ListByCursor(context.Context, *ListByCursorRequest) (*ListByCursorResponse, error) {
+func (UnimplementedOSReaderServer) ListByCursor(context.Context, *ListByCursorRequest) (*ListByCursorResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListByCursor not implemented")
 }
-func (UnimplementedOSServiceServer) ListByPage(context.Context, *ListByPageRequest) (*ListByPageResponse, error) {
+func (UnimplementedOSReaderServer) ListByPage(context.Context, *ListByPageRequest) (*ListByPageResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListByPage not implemented")
 }
-func (UnimplementedOSServiceServer) mustEmbedUnimplementedOSServiceServer() {}
+func (UnimplementedOSReaderServer) mustEmbedUnimplementedOSReaderServer() {}
 
-// UnsafeOSServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to OSServiceServer will
+// UnsafeOSReaderServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to OSReaderServer will
 // result in compilation errors.
-type UnsafeOSServiceServer interface {
-	mustEmbedUnimplementedOSServiceServer()
+type UnsafeOSReaderServer interface {
+	mustEmbedUnimplementedOSReaderServer()
 }
 
-func RegisterOSServiceServer(s grpc.ServiceRegistrar, srv OSServiceServer) {
-	s.RegisterService(&OSService_ServiceDesc, srv)
+func RegisterOSReaderServer(s grpc.ServiceRegistrar, srv OSReaderServer) {
+	s.RegisterService(&OSReader_ServiceDesc, srv)
 }
 
-func _OSService_GetOneByID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _OSReader_GetOneByID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetOneByIDRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(OSServiceServer).GetOneByID(ctx, in)
+		return srv.(OSReaderServer).GetOneByID(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/os.OSService/GetOneByID",
+		FullMethod: "/os.OSReader/GetOneByID",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OSServiceServer).GetOneByID(ctx, req.(*GetOneByIDRequest))
+		return srv.(OSReaderServer).GetOneByID(ctx, req.(*GetOneByIDRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _OSService_GetManyByIDs_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _OSReader_GetManyByIDs_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetManyByIDsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(OSServiceServer).GetManyByIDs(ctx, in)
+		return srv.(OSReaderServer).GetManyByIDs(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/os.OSService/GetManyByIDs",
+		FullMethod: "/os.OSReader/GetManyByIDs",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OSServiceServer).GetManyByIDs(ctx, req.(*GetManyByIDsRequest))
+		return srv.(OSReaderServer).GetManyByIDs(ctx, req.(*GetManyByIDsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _OSService_ListByCursor_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _OSReader_ListByCursor_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ListByCursorRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(OSServiceServer).ListByCursor(ctx, in)
+		return srv.(OSReaderServer).ListByCursor(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/os.OSService/ListByCursor",
+		FullMethod: "/os.OSReader/ListByCursor",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OSServiceServer).ListByCursor(ctx, req.(*ListByCursorRequest))
+		return srv.(OSReaderServer).ListByCursor(ctx, req.(*ListByCursorRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _OSService_ListByPage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _OSReader_ListByPage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ListByPageRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(OSServiceServer).ListByPage(ctx, in)
+		return srv.(OSReaderServer).ListByPage(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/os.OSService/ListByPage",
+		FullMethod: "/os.OSReader/ListByPage",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(OSServiceServer).ListByPage(ctx, req.(*ListByPageRequest))
+		return srv.(OSReaderServer).ListByPage(ctx, req.(*ListByPageRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// OSService_ServiceDesc is the grpc.ServiceDesc for OSService service.
+// OSReader_ServiceDesc is the grpc.ServiceDesc for OSReader service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var OSService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "os.OSService",
-	HandlerType: (*OSServiceServer)(nil),
+var OSReader_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "os.OSReader",
+	HandlerType: (*OSReaderServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "GetOneByID",
-			Handler:    _OSService_GetOneByID_Handler,
+			Handler:    _OSReader_GetOneByID_Handler,
 		},
 		{
 			MethodName: "GetManyByIDs",
-			Handler:    _OSService_GetManyByIDs_Handler,
+			Handler:    _OSReader_GetManyByIDs_Handler,
 		},
 		{
 			MethodName: "ListByCursor",
-			Handler:    _OSService_ListByCursor_Handler,
+			Handler:    _OSReader_ListByCursor_Handler,
 		},
 		{
 			MethodName: "ListByPage",
-			Handler:    _OSService_ListByPage_Handler,
+			Handler:    _OSReader_ListByPage_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

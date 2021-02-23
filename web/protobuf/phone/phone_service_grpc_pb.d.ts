@@ -8,15 +8,15 @@ import * as grpc from "grpc";
 import * as protobuf_phone_phone_service_pb from "../../protobuf/phone/phone_service_pb";
 import * as protobuf_phone_phone_pb from "../../protobuf/phone/phone_pb";
 
-interface IPhoneServiceService extends grpc.ServiceDefinition<grpc.UntypedServiceImplementation> {
-    getOneByID: IPhoneServiceService_IGetOneByID;
-    getManyByIDs: IPhoneServiceService_IGetManyByIDs;
-    listByCursor: IPhoneServiceService_IListByCursor;
-    listByPage: IPhoneServiceService_IListByPage;
+interface IPhoneReaderService extends grpc.ServiceDefinition<grpc.UntypedServiceImplementation> {
+    getOneByID: IPhoneReaderService_IGetOneByID;
+    getManyByIDs: IPhoneReaderService_IGetManyByIDs;
+    listByCursor: IPhoneReaderService_IListByCursor;
+    listByPage: IPhoneReaderService_IListByPage;
 }
 
-interface IPhoneServiceService_IGetOneByID extends grpc.MethodDefinition<protobuf_phone_phone_service_pb.GetOneByIDRequest, protobuf_phone_phone_service_pb.GetOneByIDResponse> {
-    path: "/phone.PhoneService/GetOneByID";
+interface IPhoneReaderService_IGetOneByID extends grpc.MethodDefinition<protobuf_phone_phone_service_pb.GetOneByIDRequest, protobuf_phone_phone_service_pb.GetOneByIDResponse> {
+    path: "/phone.PhoneReader/GetOneByID";
     requestStream: false;
     responseStream: false;
     requestSerialize: grpc.serialize<protobuf_phone_phone_service_pb.GetOneByIDRequest>;
@@ -24,8 +24,8 @@ interface IPhoneServiceService_IGetOneByID extends grpc.MethodDefinition<protobu
     responseSerialize: grpc.serialize<protobuf_phone_phone_service_pb.GetOneByIDResponse>;
     responseDeserialize: grpc.deserialize<protobuf_phone_phone_service_pb.GetOneByIDResponse>;
 }
-interface IPhoneServiceService_IGetManyByIDs extends grpc.MethodDefinition<protobuf_phone_phone_service_pb.GetManyByIDsRequest, protobuf_phone_phone_service_pb.GetManyByIDsResponse> {
-    path: "/phone.PhoneService/GetManyByIDs";
+interface IPhoneReaderService_IGetManyByIDs extends grpc.MethodDefinition<protobuf_phone_phone_service_pb.GetManyByIDsRequest, protobuf_phone_phone_service_pb.GetManyByIDsResponse> {
+    path: "/phone.PhoneReader/GetManyByIDs";
     requestStream: false;
     responseStream: false;
     requestSerialize: grpc.serialize<protobuf_phone_phone_service_pb.GetManyByIDsRequest>;
@@ -33,8 +33,8 @@ interface IPhoneServiceService_IGetManyByIDs extends grpc.MethodDefinition<proto
     responseSerialize: grpc.serialize<protobuf_phone_phone_service_pb.GetManyByIDsResponse>;
     responseDeserialize: grpc.deserialize<protobuf_phone_phone_service_pb.GetManyByIDsResponse>;
 }
-interface IPhoneServiceService_IListByCursor extends grpc.MethodDefinition<protobuf_phone_phone_service_pb.ListByCursorRequest, protobuf_phone_phone_service_pb.ListByCursorResponse> {
-    path: "/phone.PhoneService/ListByCursor";
+interface IPhoneReaderService_IListByCursor extends grpc.MethodDefinition<protobuf_phone_phone_service_pb.ListByCursorRequest, protobuf_phone_phone_service_pb.ListByCursorResponse> {
+    path: "/phone.PhoneReader/ListByCursor";
     requestStream: false;
     responseStream: false;
     requestSerialize: grpc.serialize<protobuf_phone_phone_service_pb.ListByCursorRequest>;
@@ -42,8 +42,8 @@ interface IPhoneServiceService_IListByCursor extends grpc.MethodDefinition<proto
     responseSerialize: grpc.serialize<protobuf_phone_phone_service_pb.ListByCursorResponse>;
     responseDeserialize: grpc.deserialize<protobuf_phone_phone_service_pb.ListByCursorResponse>;
 }
-interface IPhoneServiceService_IListByPage extends grpc.MethodDefinition<protobuf_phone_phone_service_pb.ListByPageRequest, protobuf_phone_phone_service_pb.ListByPageResponse> {
-    path: "/phone.PhoneService/ListByPage";
+interface IPhoneReaderService_IListByPage extends grpc.MethodDefinition<protobuf_phone_phone_service_pb.ListByPageRequest, protobuf_phone_phone_service_pb.ListByPageResponse> {
+    path: "/phone.PhoneReader/ListByPage";
     requestStream: false;
     responseStream: false;
     requestSerialize: grpc.serialize<protobuf_phone_phone_service_pb.ListByPageRequest>;
@@ -52,16 +52,16 @@ interface IPhoneServiceService_IListByPage extends grpc.MethodDefinition<protobu
     responseDeserialize: grpc.deserialize<protobuf_phone_phone_service_pb.ListByPageResponse>;
 }
 
-export const PhoneServiceService: IPhoneServiceService;
+export const PhoneReaderService: IPhoneReaderService;
 
-export interface IPhoneServiceServer {
+export interface IPhoneReaderServer {
     getOneByID: grpc.handleUnaryCall<protobuf_phone_phone_service_pb.GetOneByIDRequest, protobuf_phone_phone_service_pb.GetOneByIDResponse>;
     getManyByIDs: grpc.handleUnaryCall<protobuf_phone_phone_service_pb.GetManyByIDsRequest, protobuf_phone_phone_service_pb.GetManyByIDsResponse>;
     listByCursor: grpc.handleUnaryCall<protobuf_phone_phone_service_pb.ListByCursorRequest, protobuf_phone_phone_service_pb.ListByCursorResponse>;
     listByPage: grpc.handleUnaryCall<protobuf_phone_phone_service_pb.ListByPageRequest, protobuf_phone_phone_service_pb.ListByPageResponse>;
 }
 
-export interface IPhoneServiceClient {
+export interface IPhoneReaderClient {
     getOneByID(request: protobuf_phone_phone_service_pb.GetOneByIDRequest, callback: (error: grpc.ServiceError | null, response: protobuf_phone_phone_service_pb.GetOneByIDResponse) => void): grpc.ClientUnaryCall;
     getOneByID(request: protobuf_phone_phone_service_pb.GetOneByIDRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: protobuf_phone_phone_service_pb.GetOneByIDResponse) => void): grpc.ClientUnaryCall;
     getOneByID(request: protobuf_phone_phone_service_pb.GetOneByIDRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: protobuf_phone_phone_service_pb.GetOneByIDResponse) => void): grpc.ClientUnaryCall;
@@ -76,7 +76,7 @@ export interface IPhoneServiceClient {
     listByPage(request: protobuf_phone_phone_service_pb.ListByPageRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: protobuf_phone_phone_service_pb.ListByPageResponse) => void): grpc.ClientUnaryCall;
 }
 
-export class PhoneServiceClient extends grpc.Client implements IPhoneServiceClient {
+export class PhoneReaderClient extends grpc.Client implements IPhoneReaderClient {
     constructor(address: string, credentials: grpc.ChannelCredentials, options?: object);
     public getOneByID(request: protobuf_phone_phone_service_pb.GetOneByIDRequest, callback: (error: grpc.ServiceError | null, response: protobuf_phone_phone_service_pb.GetOneByIDResponse) => void): grpc.ClientUnaryCall;
     public getOneByID(request: protobuf_phone_phone_service_pb.GetOneByIDRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: protobuf_phone_phone_service_pb.GetOneByIDResponse) => void): grpc.ClientUnaryCall;

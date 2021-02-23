@@ -8,7 +8,7 @@ import (
 	"google.golang.org/grpc"
 )
 
-func NewMakeAPIClient() (rpc.MakeServiceClient, error) {
+func NewMakeAPIClient() (rpc.MakeReaderClient, error) {
 	opts := []grpc.DialOption{
 		grpc.WithInsecure(),
 	}
@@ -19,5 +19,5 @@ func NewMakeAPIClient() (rpc.MakeServiceClient, error) {
 	}
 	defer conn.Close()
 
-	return rpc.NewMakeServiceClient(conn), nil
+	return rpc.NewMakeReaderClient(conn), nil
 }

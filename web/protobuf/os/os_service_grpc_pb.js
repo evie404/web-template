@@ -94,9 +94,9 @@ function deserialize_os_ListByPageResponse(buffer_arg) {
 }
 
 
-var OSServiceService = exports.OSServiceService = {
+var OSReaderService = exports.OSReaderService = {
   getOneByID: {
-    path: '/os.OSService/GetOneByID',
+    path: '/os.OSReader/GetOneByID',
     requestStream: false,
     responseStream: false,
     requestType: protobuf_os_os_service_pb.GetOneByIDRequest,
@@ -107,7 +107,7 @@ var OSServiceService = exports.OSServiceService = {
     responseDeserialize: deserialize_os_GetOneByIDResponse,
   },
   getManyByIDs: {
-    path: '/os.OSService/GetManyByIDs',
+    path: '/os.OSReader/GetManyByIDs',
     requestStream: false,
     responseStream: false,
     requestType: protobuf_os_os_service_pb.GetManyByIDsRequest,
@@ -118,7 +118,7 @@ var OSServiceService = exports.OSServiceService = {
     responseDeserialize: deserialize_os_GetManyByIDsResponse,
   },
   listByCursor: {
-    path: '/os.OSService/ListByCursor',
+    path: '/os.OSReader/ListByCursor',
     requestStream: false,
     responseStream: false,
     requestType: protobuf_os_os_service_pb.ListByCursorRequest,
@@ -129,7 +129,7 @@ var OSServiceService = exports.OSServiceService = {
     responseDeserialize: deserialize_os_ListByCursorResponse,
   },
   listByPage: {
-    path: '/os.OSService/ListByPage',
+    path: '/os.OSReader/ListByPage',
     requestStream: false,
     responseStream: false,
     requestType: protobuf_os_os_service_pb.ListByPageRequest,
@@ -141,4 +141,4 @@ var OSServiceService = exports.OSServiceService = {
   },
 };
 
-exports.OSServiceClient = grpc.makeGenericClientConstructor(OSServiceService);
+exports.OSReaderClient = grpc.makeGenericClientConstructor(OSReaderService);

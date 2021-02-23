@@ -94,9 +94,9 @@ function deserialize_make_ListByPageResponse(buffer_arg) {
 }
 
 
-var MakeServiceService = exports.MakeServiceService = {
+var MakeReaderService = exports.MakeReaderService = {
   getOneByID: {
-    path: '/make.MakeService/GetOneByID',
+    path: '/make.MakeReader/GetOneByID',
     requestStream: false,
     responseStream: false,
     requestType: protobuf_make_make_service_pb.GetOneByIDRequest,
@@ -107,7 +107,7 @@ var MakeServiceService = exports.MakeServiceService = {
     responseDeserialize: deserialize_make_GetOneByIDResponse,
   },
   getManyByIDs: {
-    path: '/make.MakeService/GetManyByIDs',
+    path: '/make.MakeReader/GetManyByIDs',
     requestStream: false,
     responseStream: false,
     requestType: protobuf_make_make_service_pb.GetManyByIDsRequest,
@@ -118,7 +118,7 @@ var MakeServiceService = exports.MakeServiceService = {
     responseDeserialize: deserialize_make_GetManyByIDsResponse,
   },
   listByCursor: {
-    path: '/make.MakeService/ListByCursor',
+    path: '/make.MakeReader/ListByCursor',
     requestStream: false,
     responseStream: false,
     requestType: protobuf_make_make_service_pb.ListByCursorRequest,
@@ -129,7 +129,7 @@ var MakeServiceService = exports.MakeServiceService = {
     responseDeserialize: deserialize_make_ListByCursorResponse,
   },
   listByPage: {
-    path: '/make.MakeService/ListByPage',
+    path: '/make.MakeReader/ListByPage',
     requestStream: false,
     responseStream: false,
     requestType: protobuf_make_make_service_pb.ListByPageRequest,
@@ -141,4 +141,4 @@ var MakeServiceService = exports.MakeServiceService = {
   },
 };
 
-exports.MakeServiceClient = grpc.makeGenericClientConstructor(MakeServiceService);
+exports.MakeReaderClient = grpc.makeGenericClientConstructor(MakeReaderService);

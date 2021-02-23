@@ -16,7 +16,7 @@ import * as grpcWeb from 'grpc-web';
 import * as protobuf_make_make_service_pb from '../../protobuf/make/make_service_pb';
 
 
-export class MakeServiceClient {
+export class MakeReaderClient {
   client_: grpcWeb.AbstractClientBase;
   hostname_: string;
   credentials_: null | { [index: string]: string; };
@@ -61,7 +61,7 @@ export class MakeServiceClient {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +
-          '/make.MakeService/GetOneByID',
+          '/make.MakeReader/GetOneByID',
         request,
         metadata || {},
         this.methodInfoGetOneByID,
@@ -69,7 +69,7 @@ export class MakeServiceClient {
     }
     return this.client_.unaryCall(
     this.hostname_ +
-      '/make.MakeService/GetOneByID',
+      '/make.MakeReader/GetOneByID',
     request,
     metadata || {},
     this.methodInfoGetOneByID);
@@ -101,7 +101,7 @@ export class MakeServiceClient {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +
-          '/make.MakeService/GetManyByIDs',
+          '/make.MakeReader/GetManyByIDs',
         request,
         metadata || {},
         this.methodInfoGetManyByIDs,
@@ -109,7 +109,7 @@ export class MakeServiceClient {
     }
     return this.client_.unaryCall(
     this.hostname_ +
-      '/make.MakeService/GetManyByIDs',
+      '/make.MakeReader/GetManyByIDs',
     request,
     metadata || {},
     this.methodInfoGetManyByIDs);
@@ -141,7 +141,7 @@ export class MakeServiceClient {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +
-          '/make.MakeService/ListByCursor',
+          '/make.MakeReader/ListByCursor',
         request,
         metadata || {},
         this.methodInfoListByCursor,
@@ -149,7 +149,7 @@ export class MakeServiceClient {
     }
     return this.client_.unaryCall(
     this.hostname_ +
-      '/make.MakeService/ListByCursor',
+      '/make.MakeReader/ListByCursor',
     request,
     metadata || {},
     this.methodInfoListByCursor);
@@ -181,7 +181,7 @@ export class MakeServiceClient {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +
-          '/make.MakeService/ListByPage',
+          '/make.MakeReader/ListByPage',
         request,
         metadata || {},
         this.methodInfoListByPage,
@@ -189,7 +189,7 @@ export class MakeServiceClient {
     }
     return this.client_.unaryCall(
     this.hostname_ +
-      '/make.MakeService/ListByPage',
+      '/make.MakeReader/ListByPage',
     request,
     metadata || {},
     this.methodInfoListByPage);

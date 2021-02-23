@@ -8,15 +8,15 @@ import * as grpc from "grpc";
 import * as protobuf_make_make_service_pb from "../../protobuf/make/make_service_pb";
 import * as protobuf_make_make_pb from "../../protobuf/make/make_pb";
 
-interface IMakeServiceService extends grpc.ServiceDefinition<grpc.UntypedServiceImplementation> {
-    getOneByID: IMakeServiceService_IGetOneByID;
-    getManyByIDs: IMakeServiceService_IGetManyByIDs;
-    listByCursor: IMakeServiceService_IListByCursor;
-    listByPage: IMakeServiceService_IListByPage;
+interface IMakeReaderService extends grpc.ServiceDefinition<grpc.UntypedServiceImplementation> {
+    getOneByID: IMakeReaderService_IGetOneByID;
+    getManyByIDs: IMakeReaderService_IGetManyByIDs;
+    listByCursor: IMakeReaderService_IListByCursor;
+    listByPage: IMakeReaderService_IListByPage;
 }
 
-interface IMakeServiceService_IGetOneByID extends grpc.MethodDefinition<protobuf_make_make_service_pb.GetOneByIDRequest, protobuf_make_make_service_pb.GetOneByIDResponse> {
-    path: "/make.MakeService/GetOneByID";
+interface IMakeReaderService_IGetOneByID extends grpc.MethodDefinition<protobuf_make_make_service_pb.GetOneByIDRequest, protobuf_make_make_service_pb.GetOneByIDResponse> {
+    path: "/make.MakeReader/GetOneByID";
     requestStream: false;
     responseStream: false;
     requestSerialize: grpc.serialize<protobuf_make_make_service_pb.GetOneByIDRequest>;
@@ -24,8 +24,8 @@ interface IMakeServiceService_IGetOneByID extends grpc.MethodDefinition<protobuf
     responseSerialize: grpc.serialize<protobuf_make_make_service_pb.GetOneByIDResponse>;
     responseDeserialize: grpc.deserialize<protobuf_make_make_service_pb.GetOneByIDResponse>;
 }
-interface IMakeServiceService_IGetManyByIDs extends grpc.MethodDefinition<protobuf_make_make_service_pb.GetManyByIDsRequest, protobuf_make_make_service_pb.GetManyByIDsResponse> {
-    path: "/make.MakeService/GetManyByIDs";
+interface IMakeReaderService_IGetManyByIDs extends grpc.MethodDefinition<protobuf_make_make_service_pb.GetManyByIDsRequest, protobuf_make_make_service_pb.GetManyByIDsResponse> {
+    path: "/make.MakeReader/GetManyByIDs";
     requestStream: false;
     responseStream: false;
     requestSerialize: grpc.serialize<protobuf_make_make_service_pb.GetManyByIDsRequest>;
@@ -33,8 +33,8 @@ interface IMakeServiceService_IGetManyByIDs extends grpc.MethodDefinition<protob
     responseSerialize: grpc.serialize<protobuf_make_make_service_pb.GetManyByIDsResponse>;
     responseDeserialize: grpc.deserialize<protobuf_make_make_service_pb.GetManyByIDsResponse>;
 }
-interface IMakeServiceService_IListByCursor extends grpc.MethodDefinition<protobuf_make_make_service_pb.ListByCursorRequest, protobuf_make_make_service_pb.ListByCursorResponse> {
-    path: "/make.MakeService/ListByCursor";
+interface IMakeReaderService_IListByCursor extends grpc.MethodDefinition<protobuf_make_make_service_pb.ListByCursorRequest, protobuf_make_make_service_pb.ListByCursorResponse> {
+    path: "/make.MakeReader/ListByCursor";
     requestStream: false;
     responseStream: false;
     requestSerialize: grpc.serialize<protobuf_make_make_service_pb.ListByCursorRequest>;
@@ -42,8 +42,8 @@ interface IMakeServiceService_IListByCursor extends grpc.MethodDefinition<protob
     responseSerialize: grpc.serialize<protobuf_make_make_service_pb.ListByCursorResponse>;
     responseDeserialize: grpc.deserialize<protobuf_make_make_service_pb.ListByCursorResponse>;
 }
-interface IMakeServiceService_IListByPage extends grpc.MethodDefinition<protobuf_make_make_service_pb.ListByPageRequest, protobuf_make_make_service_pb.ListByPageResponse> {
-    path: "/make.MakeService/ListByPage";
+interface IMakeReaderService_IListByPage extends grpc.MethodDefinition<protobuf_make_make_service_pb.ListByPageRequest, protobuf_make_make_service_pb.ListByPageResponse> {
+    path: "/make.MakeReader/ListByPage";
     requestStream: false;
     responseStream: false;
     requestSerialize: grpc.serialize<protobuf_make_make_service_pb.ListByPageRequest>;
@@ -52,16 +52,16 @@ interface IMakeServiceService_IListByPage extends grpc.MethodDefinition<protobuf
     responseDeserialize: grpc.deserialize<protobuf_make_make_service_pb.ListByPageResponse>;
 }
 
-export const MakeServiceService: IMakeServiceService;
+export const MakeReaderService: IMakeReaderService;
 
-export interface IMakeServiceServer {
+export interface IMakeReaderServer {
     getOneByID: grpc.handleUnaryCall<protobuf_make_make_service_pb.GetOneByIDRequest, protobuf_make_make_service_pb.GetOneByIDResponse>;
     getManyByIDs: grpc.handleUnaryCall<protobuf_make_make_service_pb.GetManyByIDsRequest, protobuf_make_make_service_pb.GetManyByIDsResponse>;
     listByCursor: grpc.handleUnaryCall<protobuf_make_make_service_pb.ListByCursorRequest, protobuf_make_make_service_pb.ListByCursorResponse>;
     listByPage: grpc.handleUnaryCall<protobuf_make_make_service_pb.ListByPageRequest, protobuf_make_make_service_pb.ListByPageResponse>;
 }
 
-export interface IMakeServiceClient {
+export interface IMakeReaderClient {
     getOneByID(request: protobuf_make_make_service_pb.GetOneByIDRequest, callback: (error: grpc.ServiceError | null, response: protobuf_make_make_service_pb.GetOneByIDResponse) => void): grpc.ClientUnaryCall;
     getOneByID(request: protobuf_make_make_service_pb.GetOneByIDRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: protobuf_make_make_service_pb.GetOneByIDResponse) => void): grpc.ClientUnaryCall;
     getOneByID(request: protobuf_make_make_service_pb.GetOneByIDRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: protobuf_make_make_service_pb.GetOneByIDResponse) => void): grpc.ClientUnaryCall;
@@ -76,7 +76,7 @@ export interface IMakeServiceClient {
     listByPage(request: protobuf_make_make_service_pb.ListByPageRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: protobuf_make_make_service_pb.ListByPageResponse) => void): grpc.ClientUnaryCall;
 }
 
-export class MakeServiceClient extends grpc.Client implements IMakeServiceClient {
+export class MakeReaderClient extends grpc.Client implements IMakeReaderClient {
     constructor(address: string, credentials: grpc.ChannelCredentials, options?: object);
     public getOneByID(request: protobuf_make_make_service_pb.GetOneByIDRequest, callback: (error: grpc.ServiceError | null, response: protobuf_make_make_service_pb.GetOneByIDResponse) => void): grpc.ClientUnaryCall;
     public getOneByID(request: protobuf_make_make_service_pb.GetOneByIDRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: protobuf_make_make_service_pb.GetOneByIDResponse) => void): grpc.ClientUnaryCall;

@@ -16,7 +16,7 @@ import * as grpcWeb from 'grpc-web';
 import * as protobuf_phone_phone_service_pb from '../../protobuf/phone/phone_service_pb';
 
 
-export class PhoneServiceClient {
+export class PhoneReaderClient {
   client_: grpcWeb.AbstractClientBase;
   hostname_: string;
   credentials_: null | { [index: string]: string; };
@@ -61,7 +61,7 @@ export class PhoneServiceClient {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +
-          '/phone.PhoneService/GetOneByID',
+          '/phone.PhoneReader/GetOneByID',
         request,
         metadata || {},
         this.methodInfoGetOneByID,
@@ -69,7 +69,7 @@ export class PhoneServiceClient {
     }
     return this.client_.unaryCall(
     this.hostname_ +
-      '/phone.PhoneService/GetOneByID',
+      '/phone.PhoneReader/GetOneByID',
     request,
     metadata || {},
     this.methodInfoGetOneByID);
@@ -101,7 +101,7 @@ export class PhoneServiceClient {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +
-          '/phone.PhoneService/GetManyByIDs',
+          '/phone.PhoneReader/GetManyByIDs',
         request,
         metadata || {},
         this.methodInfoGetManyByIDs,
@@ -109,7 +109,7 @@ export class PhoneServiceClient {
     }
     return this.client_.unaryCall(
     this.hostname_ +
-      '/phone.PhoneService/GetManyByIDs',
+      '/phone.PhoneReader/GetManyByIDs',
     request,
     metadata || {},
     this.methodInfoGetManyByIDs);
@@ -141,7 +141,7 @@ export class PhoneServiceClient {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +
-          '/phone.PhoneService/ListByCursor',
+          '/phone.PhoneReader/ListByCursor',
         request,
         metadata || {},
         this.methodInfoListByCursor,
@@ -149,7 +149,7 @@ export class PhoneServiceClient {
     }
     return this.client_.unaryCall(
     this.hostname_ +
-      '/phone.PhoneService/ListByCursor',
+      '/phone.PhoneReader/ListByCursor',
     request,
     metadata || {},
     this.methodInfoListByCursor);
@@ -181,7 +181,7 @@ export class PhoneServiceClient {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +
-          '/phone.PhoneService/ListByPage',
+          '/phone.PhoneReader/ListByPage',
         request,
         metadata || {},
         this.methodInfoListByPage,
@@ -189,7 +189,7 @@ export class PhoneServiceClient {
     }
     return this.client_.unaryCall(
     this.hostname_ +
-      '/phone.PhoneService/ListByPage',
+      '/phone.PhoneReader/ListByPage',
     request,
     metadata || {},
     this.methodInfoListByPage);

@@ -14,194 +14,194 @@ import (
 // Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
-// PhoneServiceClient is the client API for PhoneService service.
+// PhoneReaderClient is the client API for PhoneReader service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type PhoneServiceClient interface {
+type PhoneReaderClient interface {
 	GetOneByID(ctx context.Context, in *GetOneByIDRequest, opts ...grpc.CallOption) (*GetOneByIDResponse, error)
 	GetManyByIDs(ctx context.Context, in *GetManyByIDsRequest, opts ...grpc.CallOption) (*GetManyByIDsResponse, error)
 	ListByCursor(ctx context.Context, in *ListByCursorRequest, opts ...grpc.CallOption) (*ListByCursorResponse, error)
 	ListByPage(ctx context.Context, in *ListByPageRequest, opts ...grpc.CallOption) (*ListByPageResponse, error)
 }
 
-type phoneServiceClient struct {
+type phoneReaderClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewPhoneServiceClient(cc grpc.ClientConnInterface) PhoneServiceClient {
-	return &phoneServiceClient{cc}
+func NewPhoneReaderClient(cc grpc.ClientConnInterface) PhoneReaderClient {
+	return &phoneReaderClient{cc}
 }
 
-func (c *phoneServiceClient) GetOneByID(ctx context.Context, in *GetOneByIDRequest, opts ...grpc.CallOption) (*GetOneByIDResponse, error) {
+func (c *phoneReaderClient) GetOneByID(ctx context.Context, in *GetOneByIDRequest, opts ...grpc.CallOption) (*GetOneByIDResponse, error) {
 	out := new(GetOneByIDResponse)
-	err := c.cc.Invoke(ctx, "/phone.PhoneService/GetOneByID", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/phone.PhoneReader/GetOneByID", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *phoneServiceClient) GetManyByIDs(ctx context.Context, in *GetManyByIDsRequest, opts ...grpc.CallOption) (*GetManyByIDsResponse, error) {
+func (c *phoneReaderClient) GetManyByIDs(ctx context.Context, in *GetManyByIDsRequest, opts ...grpc.CallOption) (*GetManyByIDsResponse, error) {
 	out := new(GetManyByIDsResponse)
-	err := c.cc.Invoke(ctx, "/phone.PhoneService/GetManyByIDs", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/phone.PhoneReader/GetManyByIDs", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *phoneServiceClient) ListByCursor(ctx context.Context, in *ListByCursorRequest, opts ...grpc.CallOption) (*ListByCursorResponse, error) {
+func (c *phoneReaderClient) ListByCursor(ctx context.Context, in *ListByCursorRequest, opts ...grpc.CallOption) (*ListByCursorResponse, error) {
 	out := new(ListByCursorResponse)
-	err := c.cc.Invoke(ctx, "/phone.PhoneService/ListByCursor", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/phone.PhoneReader/ListByCursor", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *phoneServiceClient) ListByPage(ctx context.Context, in *ListByPageRequest, opts ...grpc.CallOption) (*ListByPageResponse, error) {
+func (c *phoneReaderClient) ListByPage(ctx context.Context, in *ListByPageRequest, opts ...grpc.CallOption) (*ListByPageResponse, error) {
 	out := new(ListByPageResponse)
-	err := c.cc.Invoke(ctx, "/phone.PhoneService/ListByPage", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/phone.PhoneReader/ListByPage", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// PhoneServiceServer is the server API for PhoneService service.
-// All implementations must embed UnimplementedPhoneServiceServer
+// PhoneReaderServer is the server API for PhoneReader service.
+// All implementations must embed UnimplementedPhoneReaderServer
 // for forward compatibility
-type PhoneServiceServer interface {
+type PhoneReaderServer interface {
 	GetOneByID(context.Context, *GetOneByIDRequest) (*GetOneByIDResponse, error)
 	GetManyByIDs(context.Context, *GetManyByIDsRequest) (*GetManyByIDsResponse, error)
 	ListByCursor(context.Context, *ListByCursorRequest) (*ListByCursorResponse, error)
 	ListByPage(context.Context, *ListByPageRequest) (*ListByPageResponse, error)
-	mustEmbedUnimplementedPhoneServiceServer()
+	mustEmbedUnimplementedPhoneReaderServer()
 }
 
-// UnimplementedPhoneServiceServer must be embedded to have forward compatible implementations.
-type UnimplementedPhoneServiceServer struct {
+// UnimplementedPhoneReaderServer must be embedded to have forward compatible implementations.
+type UnimplementedPhoneReaderServer struct {
 }
 
-func (UnimplementedPhoneServiceServer) GetOneByID(context.Context, *GetOneByIDRequest) (*GetOneByIDResponse, error) {
+func (UnimplementedPhoneReaderServer) GetOneByID(context.Context, *GetOneByIDRequest) (*GetOneByIDResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetOneByID not implemented")
 }
-func (UnimplementedPhoneServiceServer) GetManyByIDs(context.Context, *GetManyByIDsRequest) (*GetManyByIDsResponse, error) {
+func (UnimplementedPhoneReaderServer) GetManyByIDs(context.Context, *GetManyByIDsRequest) (*GetManyByIDsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetManyByIDs not implemented")
 }
-func (UnimplementedPhoneServiceServer) ListByCursor(context.Context, *ListByCursorRequest) (*ListByCursorResponse, error) {
+func (UnimplementedPhoneReaderServer) ListByCursor(context.Context, *ListByCursorRequest) (*ListByCursorResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListByCursor not implemented")
 }
-func (UnimplementedPhoneServiceServer) ListByPage(context.Context, *ListByPageRequest) (*ListByPageResponse, error) {
+func (UnimplementedPhoneReaderServer) ListByPage(context.Context, *ListByPageRequest) (*ListByPageResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListByPage not implemented")
 }
-func (UnimplementedPhoneServiceServer) mustEmbedUnimplementedPhoneServiceServer() {}
+func (UnimplementedPhoneReaderServer) mustEmbedUnimplementedPhoneReaderServer() {}
 
-// UnsafePhoneServiceServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to PhoneServiceServer will
+// UnsafePhoneReaderServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to PhoneReaderServer will
 // result in compilation errors.
-type UnsafePhoneServiceServer interface {
-	mustEmbedUnimplementedPhoneServiceServer()
+type UnsafePhoneReaderServer interface {
+	mustEmbedUnimplementedPhoneReaderServer()
 }
 
-func RegisterPhoneServiceServer(s grpc.ServiceRegistrar, srv PhoneServiceServer) {
-	s.RegisterService(&PhoneService_ServiceDesc, srv)
+func RegisterPhoneReaderServer(s grpc.ServiceRegistrar, srv PhoneReaderServer) {
+	s.RegisterService(&PhoneReader_ServiceDesc, srv)
 }
 
-func _PhoneService_GetOneByID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _PhoneReader_GetOneByID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetOneByIDRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(PhoneServiceServer).GetOneByID(ctx, in)
+		return srv.(PhoneReaderServer).GetOneByID(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/phone.PhoneService/GetOneByID",
+		FullMethod: "/phone.PhoneReader/GetOneByID",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PhoneServiceServer).GetOneByID(ctx, req.(*GetOneByIDRequest))
+		return srv.(PhoneReaderServer).GetOneByID(ctx, req.(*GetOneByIDRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _PhoneService_GetManyByIDs_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _PhoneReader_GetManyByIDs_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetManyByIDsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(PhoneServiceServer).GetManyByIDs(ctx, in)
+		return srv.(PhoneReaderServer).GetManyByIDs(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/phone.PhoneService/GetManyByIDs",
+		FullMethod: "/phone.PhoneReader/GetManyByIDs",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PhoneServiceServer).GetManyByIDs(ctx, req.(*GetManyByIDsRequest))
+		return srv.(PhoneReaderServer).GetManyByIDs(ctx, req.(*GetManyByIDsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _PhoneService_ListByCursor_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _PhoneReader_ListByCursor_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ListByCursorRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(PhoneServiceServer).ListByCursor(ctx, in)
+		return srv.(PhoneReaderServer).ListByCursor(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/phone.PhoneService/ListByCursor",
+		FullMethod: "/phone.PhoneReader/ListByCursor",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PhoneServiceServer).ListByCursor(ctx, req.(*ListByCursorRequest))
+		return srv.(PhoneReaderServer).ListByCursor(ctx, req.(*ListByCursorRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _PhoneService_ListByPage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _PhoneReader_ListByPage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ListByPageRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(PhoneServiceServer).ListByPage(ctx, in)
+		return srv.(PhoneReaderServer).ListByPage(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/phone.PhoneService/ListByPage",
+		FullMethod: "/phone.PhoneReader/ListByPage",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PhoneServiceServer).ListByPage(ctx, req.(*ListByPageRequest))
+		return srv.(PhoneReaderServer).ListByPage(ctx, req.(*ListByPageRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// PhoneService_ServiceDesc is the grpc.ServiceDesc for PhoneService service.
+// PhoneReader_ServiceDesc is the grpc.ServiceDesc for PhoneReader service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var PhoneService_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "phone.PhoneService",
-	HandlerType: (*PhoneServiceServer)(nil),
+var PhoneReader_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "phone.PhoneReader",
+	HandlerType: (*PhoneReaderServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "GetOneByID",
-			Handler:    _PhoneService_GetOneByID_Handler,
+			Handler:    _PhoneReader_GetOneByID_Handler,
 		},
 		{
 			MethodName: "GetManyByIDs",
-			Handler:    _PhoneService_GetManyByIDs_Handler,
+			Handler:    _PhoneReader_GetManyByIDs_Handler,
 		},
 		{
 			MethodName: "ListByCursor",
-			Handler:    _PhoneService_ListByCursor_Handler,
+			Handler:    _PhoneReader_ListByCursor_Handler,
 		},
 		{
 			MethodName: "ListByPage",
-			Handler:    _PhoneService_ListByPage_Handler,
+			Handler:    _PhoneReader_ListByPage_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

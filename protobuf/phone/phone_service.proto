@@ -5,7 +5,7 @@ import "protobuf/phone/phone.proto";
 
 option go_package = "github.com/rickypai/web-template/api/protobuf/phone";
 
-service PhoneService {
+service PhoneReader {
   rpc GetOneByID(GetOneByIDRequest) returns (GetOneByIDResponse) {}
   rpc GetManyByIDs(GetManyByIDsRequest) returns (GetManyByIDsResponse) {}
   rpc ListByCursor(ListByCursorRequest) returns (ListByCursorResponse) {}

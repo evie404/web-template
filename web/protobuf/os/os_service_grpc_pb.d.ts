@@ -8,15 +8,15 @@ import * as grpc from "grpc";
 import * as protobuf_os_os_service_pb from "../../protobuf/os/os_service_pb";
 import * as protobuf_os_os_pb from "../../protobuf/os/os_pb";
 
-interface IOSServiceService extends grpc.ServiceDefinition<grpc.UntypedServiceImplementation> {
-    getOneByID: IOSServiceService_IGetOneByID;
-    getManyByIDs: IOSServiceService_IGetManyByIDs;
-    listByCursor: IOSServiceService_IListByCursor;
-    listByPage: IOSServiceService_IListByPage;
+interface IOSReaderService extends grpc.ServiceDefinition<grpc.UntypedServiceImplementation> {
+    getOneByID: IOSReaderService_IGetOneByID;
+    getManyByIDs: IOSReaderService_IGetManyByIDs;
+    listByCursor: IOSReaderService_IListByCursor;
+    listByPage: IOSReaderService_IListByPage;
 }
 
-interface IOSServiceService_IGetOneByID extends grpc.MethodDefinition<protobuf_os_os_service_pb.GetOneByIDRequest, protobuf_os_os_service_pb.GetOneByIDResponse> {
-    path: "/os.OSService/GetOneByID";
+interface IOSReaderService_IGetOneByID extends grpc.MethodDefinition<protobuf_os_os_service_pb.GetOneByIDRequest, protobuf_os_os_service_pb.GetOneByIDResponse> {
+    path: "/os.OSReader/GetOneByID";
     requestStream: false;
     responseStream: false;
     requestSerialize: grpc.serialize<protobuf_os_os_service_pb.GetOneByIDRequest>;
@@ -24,8 +24,8 @@ interface IOSServiceService_IGetOneByID extends grpc.MethodDefinition<protobuf_o
     responseSerialize: grpc.serialize<protobuf_os_os_service_pb.GetOneByIDResponse>;
     responseDeserialize: grpc.deserialize<protobuf_os_os_service_pb.GetOneByIDResponse>;
 }
-interface IOSServiceService_IGetManyByIDs extends grpc.MethodDefinition<protobuf_os_os_service_pb.GetManyByIDsRequest, protobuf_os_os_service_pb.GetManyByIDsResponse> {
-    path: "/os.OSService/GetManyByIDs";
+interface IOSReaderService_IGetManyByIDs extends grpc.MethodDefinition<protobuf_os_os_service_pb.GetManyByIDsRequest, protobuf_os_os_service_pb.GetManyByIDsResponse> {
+    path: "/os.OSReader/GetManyByIDs";
     requestStream: false;
     responseStream: false;
     requestSerialize: grpc.serialize<protobuf_os_os_service_pb.GetManyByIDsRequest>;
@@ -33,8 +33,8 @@ interface IOSServiceService_IGetManyByIDs extends grpc.MethodDefinition<protobuf
     responseSerialize: grpc.serialize<protobuf_os_os_service_pb.GetManyByIDsResponse>;
     responseDeserialize: grpc.deserialize<protobuf_os_os_service_pb.GetManyByIDsResponse>;
 }
-interface IOSServiceService_IListByCursor extends grpc.MethodDefinition<protobuf_os_os_service_pb.ListByCursorRequest, protobuf_os_os_service_pb.ListByCursorResponse> {
-    path: "/os.OSService/ListByCursor";
+interface IOSReaderService_IListByCursor extends grpc.MethodDefinition<protobuf_os_os_service_pb.ListByCursorRequest, protobuf_os_os_service_pb.ListByCursorResponse> {
+    path: "/os.OSReader/ListByCursor";
     requestStream: false;
     responseStream: false;
     requestSerialize: grpc.serialize<protobuf_os_os_service_pb.ListByCursorRequest>;
@@ -42,8 +42,8 @@ interface IOSServiceService_IListByCursor extends grpc.MethodDefinition<protobuf
     responseSerialize: grpc.serialize<protobuf_os_os_service_pb.ListByCursorResponse>;
     responseDeserialize: grpc.deserialize<protobuf_os_os_service_pb.ListByCursorResponse>;
 }
-interface IOSServiceService_IListByPage extends grpc.MethodDefinition<protobuf_os_os_service_pb.ListByPageRequest, protobuf_os_os_service_pb.ListByPageResponse> {
-    path: "/os.OSService/ListByPage";
+interface IOSReaderService_IListByPage extends grpc.MethodDefinition<protobuf_os_os_service_pb.ListByPageRequest, protobuf_os_os_service_pb.ListByPageResponse> {
+    path: "/os.OSReader/ListByPage";
     requestStream: false;
     responseStream: false;
     requestSerialize: grpc.serialize<protobuf_os_os_service_pb.ListByPageRequest>;
@@ -52,16 +52,16 @@ interface IOSServiceService_IListByPage extends grpc.MethodDefinition<protobuf_o
     responseDeserialize: grpc.deserialize<protobuf_os_os_service_pb.ListByPageResponse>;
 }
 
-export const OSServiceService: IOSServiceService;
+export const OSReaderService: IOSReaderService;
 
-export interface IOSServiceServer {
+export interface IOSReaderServer {
     getOneByID: grpc.handleUnaryCall<protobuf_os_os_service_pb.GetOneByIDRequest, protobuf_os_os_service_pb.GetOneByIDResponse>;
     getManyByIDs: grpc.handleUnaryCall<protobuf_os_os_service_pb.GetManyByIDsRequest, protobuf_os_os_service_pb.GetManyByIDsResponse>;
     listByCursor: grpc.handleUnaryCall<protobuf_os_os_service_pb.ListByCursorRequest, protobuf_os_os_service_pb.ListByCursorResponse>;
     listByPage: grpc.handleUnaryCall<protobuf_os_os_service_pb.ListByPageRequest, protobuf_os_os_service_pb.ListByPageResponse>;
 }
 
-export interface IOSServiceClient {
+export interface IOSReaderClient {
     getOneByID(request: protobuf_os_os_service_pb.GetOneByIDRequest, callback: (error: grpc.ServiceError | null, response: protobuf_os_os_service_pb.GetOneByIDResponse) => void): grpc.ClientUnaryCall;
     getOneByID(request: protobuf_os_os_service_pb.GetOneByIDRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: protobuf_os_os_service_pb.GetOneByIDResponse) => void): grpc.ClientUnaryCall;
     getOneByID(request: protobuf_os_os_service_pb.GetOneByIDRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: protobuf_os_os_service_pb.GetOneByIDResponse) => void): grpc.ClientUnaryCall;
@@ -76,7 +76,7 @@ export interface IOSServiceClient {
     listByPage(request: protobuf_os_os_service_pb.ListByPageRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: protobuf_os_os_service_pb.ListByPageResponse) => void): grpc.ClientUnaryCall;
 }
 
-export class OSServiceClient extends grpc.Client implements IOSServiceClient {
+export class OSReaderClient extends grpc.Client implements IOSReaderClient {
     constructor(address: string, credentials: grpc.ChannelCredentials, options?: object);
     public getOneByID(request: protobuf_os_os_service_pb.GetOneByIDRequest, callback: (error: grpc.ServiceError | null, response: protobuf_os_os_service_pb.GetOneByIDResponse) => void): grpc.ClientUnaryCall;
     public getOneByID(request: protobuf_os_os_service_pb.GetOneByIDRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: protobuf_os_os_service_pb.GetOneByIDResponse) => void): grpc.ClientUnaryCall;

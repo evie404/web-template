@@ -8,7 +8,7 @@ import (
 	"google.golang.org/grpc"
 )
 
-func NewOsAPIClient() (rpc.OSServiceClient, error) {
+func NewOsAPIClient() (rpc.OSReaderClient, error) {
 	opts := []grpc.DialOption{
 		grpc.WithInsecure(),
 	}
@@ -19,5 +19,5 @@ func NewOsAPIClient() (rpc.OSServiceClient, error) {
 	}
 	defer conn.Close()
 
-	return rpc.NewOSServiceClient(conn), nil
+	return rpc.NewOSReaderClient(conn), nil
 }

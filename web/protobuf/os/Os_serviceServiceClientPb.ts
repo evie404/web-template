@@ -16,7 +16,7 @@ import * as grpcWeb from 'grpc-web';
 import * as protobuf_os_os_service_pb from '../../protobuf/os/os_service_pb';
 
 
-export class OSServiceClient {
+export class OSReaderClient {
   client_: grpcWeb.AbstractClientBase;
   hostname_: string;
   credentials_: null | { [index: string]: string; };
@@ -61,7 +61,7 @@ export class OSServiceClient {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +
-          '/os.OSService/GetOneByID',
+          '/os.OSReader/GetOneByID',
         request,
         metadata || {},
         this.methodInfoGetOneByID,
@@ -69,7 +69,7 @@ export class OSServiceClient {
     }
     return this.client_.unaryCall(
     this.hostname_ +
-      '/os.OSService/GetOneByID',
+      '/os.OSReader/GetOneByID',
     request,
     metadata || {},
     this.methodInfoGetOneByID);
@@ -101,7 +101,7 @@ export class OSServiceClient {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +
-          '/os.OSService/GetManyByIDs',
+          '/os.OSReader/GetManyByIDs',
         request,
         metadata || {},
         this.methodInfoGetManyByIDs,
@@ -109,7 +109,7 @@ export class OSServiceClient {
     }
     return this.client_.unaryCall(
     this.hostname_ +
-      '/os.OSService/GetManyByIDs',
+      '/os.OSReader/GetManyByIDs',
     request,
     metadata || {},
     this.methodInfoGetManyByIDs);
@@ -141,7 +141,7 @@ export class OSServiceClient {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +
-          '/os.OSService/ListByCursor',
+          '/os.OSReader/ListByCursor',
         request,
         metadata || {},
         this.methodInfoListByCursor,
@@ -149,7 +149,7 @@ export class OSServiceClient {
     }
     return this.client_.unaryCall(
     this.hostname_ +
-      '/os.OSService/ListByCursor',
+      '/os.OSReader/ListByCursor',
     request,
     metadata || {},
     this.methodInfoListByCursor);
@@ -181,7 +181,7 @@ export class OSServiceClient {
     if (callback !== undefined) {
       return this.client_.rpcCall(
         this.hostname_ +
-          '/os.OSService/ListByPage',
+          '/os.OSReader/ListByPage',
         request,
         metadata || {},
         this.methodInfoListByPage,
@@ -189,7 +189,7 @@ export class OSServiceClient {
     }
     return this.client_.unaryCall(
     this.hostname_ +
-      '/os.OSService/ListByPage',
+      '/os.OSReader/ListByPage',
     request,
     metadata || {},
     this.methodInfoListByPage);

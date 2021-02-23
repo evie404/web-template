@@ -94,9 +94,9 @@ function deserialize_phone_ListByPageResponse(buffer_arg) {
 }
 
 
-var PhoneServiceService = exports.PhoneServiceService = {
+var PhoneReaderService = exports.PhoneReaderService = {
   getOneByID: {
-    path: '/phone.PhoneService/GetOneByID',
+    path: '/phone.PhoneReader/GetOneByID',
     requestStream: false,
     responseStream: false,
     requestType: protobuf_phone_phone_service_pb.GetOneByIDRequest,
@@ -107,7 +107,7 @@ var PhoneServiceService = exports.PhoneServiceService = {
     responseDeserialize: deserialize_phone_GetOneByIDResponse,
   },
   getManyByIDs: {
-    path: '/phone.PhoneService/GetManyByIDs',
+    path: '/phone.PhoneReader/GetManyByIDs',
     requestStream: false,
     responseStream: false,
     requestType: protobuf_phone_phone_service_pb.GetManyByIDsRequest,
@@ -118,7 +118,7 @@ var PhoneServiceService = exports.PhoneServiceService = {
     responseDeserialize: deserialize_phone_GetManyByIDsResponse,
   },
   listByCursor: {
-    path: '/phone.PhoneService/ListByCursor',
+    path: '/phone.PhoneReader/ListByCursor',
     requestStream: false,
     responseStream: false,
     requestType: protobuf_phone_phone_service_pb.ListByCursorRequest,
@@ -129,7 +129,7 @@ var PhoneServiceService = exports.PhoneServiceService = {
     responseDeserialize: deserialize_phone_ListByCursorResponse,
   },
   listByPage: {
-    path: '/phone.PhoneService/ListByPage',
+    path: '/phone.PhoneReader/ListByPage',
     requestStream: false,
     responseStream: false,
     requestType: protobuf_phone_phone_service_pb.ListByPageRequest,
@@ -141,4 +141,4 @@ var PhoneServiceService = exports.PhoneServiceService = {
   },
 };
 
-exports.PhoneServiceClient = grpc.makeGenericClientConstructor(PhoneServiceService);
+exports.PhoneReaderClient = grpc.makeGenericClientConstructor(PhoneReaderService);
