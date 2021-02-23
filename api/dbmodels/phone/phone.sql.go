@@ -39,7 +39,7 @@ func (q *Queries) GetByID(ctx context.Context, id int64) (Phone, error) {
 }
 
 const getManyByIDs = `-- name: GetManyByIDs :many
-SELECT id, name, make_id, os_id, created_at, modified_at FROM phone WHERE id IN ($1::bigint[])
+SELECT id, name, make_id, os_id, created_at, modified_at FROM phone WHERE id = ANY($1::bigint[])
 `
 
 func (q *Queries) GetManyByIDs(ctx context.Context, dollar_1 []int64) ([]Phone, error) {
