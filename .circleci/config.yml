@@ -149,7 +149,7 @@ workflows:
   go:
     jobs:
       - "Go build"
-
+      - "Go lint"
   envoy:
     jobs:
       - "Envoy validate config"
