@@ -64,7 +64,20 @@ format:
 	(cd web && yarn run lint)
 
 db-setup:
-	go get -tags 'postgres' -u github.com/golang-migrate/migrate/cmd/migrate
+	mkdir -p ${HOME}/.local/bin
+ifeq ($(UNAME_S),Linux)
+	curl -LO https://github.com/golang-migrate/migrate/releases/download/v4.14.1/migrate.linux-amd64.tar.gz
+	tar -xf migrate.linux-amd64.tar.gz -C ${HOME}/.local/bin
+	rm migrate.linux-amd64.tar.gz
+	mv ${HOME}/.local/bin/migrate.linux-amd64 ${HOME}/.local/bin/migrate
+endif
+ifeq ($(UNAME_S),Darwin)
+	curl -LO https://github.com/golang-migrate/migrate/releases/download/v4.14.1/migrate.darwin-amd64.tar.gz
+	tar -xf migrate.darwin-amd64.tar.gz -C ${HOME}/.local/bin
+	rm migrate.darwin-amd64.tar.gz
+	mv ${HOME}/.local/bin/migrate.darwin-amd64 ${HOME}/.local/bin/migrate
+endif
+	chmod +x ${HOME}/.local/bin/migrate
 
 db-migrate:
 	migrate -database "${DATABASE_URL_BASE}/web_template_dev" -path db/migrations up
