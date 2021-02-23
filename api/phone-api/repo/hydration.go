@@ -6,6 +6,7 @@ import (
 
 	makePb "github.com/rickypai/web-template/api/protobuf/make"
 	osPb "github.com/rickypai/web-template/api/protobuf/os"
+	"golang.org/x/sync/errgroup"
 )
 
 type Hydrator struct {
@@ -21,18 +22,37 @@ func NewHydrator(makeClient makePb.MakeServiceClient, osClient osPb.OSServiceCli
 }
 
 func (h *Hydrator) HydrateOne(ctx context.Context, instance *modelT) error {
-	makeResult, err := h.makeClient.GetOneByID(ctx, &makePb.GetOneByIDRequest{
-		Id: instance.GetMake().GetId(),
-	})
-	if err != nil {
-		return fmt.Errorf("error fetching make ID#%v: %w", instance.GetMake().GetId(), err)
-	}
+	wg, ctx := errgroup.WithContext(ctx)
 
-	osResult, err := h.osClient.GetOneByID(ctx, &osPb.GetOneByIDRequest{
-		Id: instance.GetOs().GetId(),
+	var makeResult *makePb.GetOneByIDResponse
+	wg.Go(func() error {
+		var makeErr error
+		makeResult, makeErr = h.makeClient.GetOneByID(ctx, &makePb.GetOneByIDRequest{
+			Id: instance.GetMake().GetId(),
+		})
+		if makeErr != nil {
+			return fmt.Errorf("error fetching make ID#%v: %w", instance.GetMake().GetId(), makeErr)
+		}
+
+		return nil
 	})
+
+	var osResult *osPb.GetOneByIDResponse
+	wg.Go(func() error {
+		var osErr error
+		osResult, osErr = h.osClient.GetOneByID(ctx, &osPb.GetOneByIDRequest{
+			Id: instance.GetMake().GetId(),
+		})
+		if osErr != nil {
+			return fmt.Errorf("error fetching os ID#%v: %w", instance.GetMake().GetId(), osErr)
+		}
+
+		return nil
+	})
+
+	err := wg.Wait()
 	if err != nil {
-		return fmt.Errorf("error fetching os ID#%v: %w", instance.GetOs().GetId(), err)
+		return err
 	}
 
 	instance.Make = makeResult.GetResult()
