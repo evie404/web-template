@@ -6,8 +6,8 @@ import (
 	"net/http"
 
 	"github.com/rickypai/web-template/api/extauth"
+	"github.com/rickypai/web-template/api/phone-api/server"
 	"github.com/rickypai/web-template/api/protobuf/phone"
-	"github.com/rickypai/web-template/api/server"
 	"golang.org/x/sync/errgroup"
 	"google.golang.org/grpc"
 )
