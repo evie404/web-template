@@ -64,39 +64,43 @@ func (h *Hydrator) HydrateOne(ctx context.Context, instance *modelT) error {
 func (h *Hydrator) HydrateMany(ctx context.Context, instances []*modelT) error {
 	wg, ctx := errgroup.WithContext(ctx)
 
-	var makeResults *makePb.GetManyByIDsResponse
+	makeResults := make(map[int64]*makePb.Make, len(instances))
 	wg.Go(func() error {
-		var makeErr error
-
 		makeIds := make([]int64, len(instances))
 		for i, instance := range instances {
 			makeIds[i] = instance.GetMake().GetId()
 		}
 
-		makeResults, makeErr = h.makeClient.GetManyByIDs(ctx, &makePb.GetManyByIDsRequest{
+		makesResponse, makeErr := h.makeClient.GetManyByIDs(ctx, &makePb.GetManyByIDsRequest{
 			Ids: makeIds,
 		})
 		if makeErr != nil {
 			return fmt.Errorf("error fetching make IDs#%+v: %w", makeIds, makeErr)
 		}
 
+		for _, result := range makesResponse.GetResults() {
+			makeResults[result.GetId()] = result
+		}
+
 		return nil
 	})
 
-	var osResults *osPb.GetManyByIDsResponse
+	osResults := make(map[int64]*osPb.OS, len(instances))
 	wg.Go(func() error {
-		var osErr error
-
 		osIds := make([]int64, len(instances))
 		for i, instance := range instances {
 			osIds[i] = instance.GetMake().GetId()
 		}
 
-		osResults, osErr = h.osClient.GetManyByIDs(ctx, &osPb.GetManyByIDsRequest{
+		ossResponse, osErr := h.osClient.GetManyByIDs(ctx, &osPb.GetManyByIDsRequest{
 			Ids: osIds,
 		})
 		if osErr != nil {
 			return fmt.Errorf("error fetching os IDs#%+v: %w", osIds, osErr)
+		}
+
+		for _, result := range ossResponse.GetResults() {
+			osResults[result.GetId()] = result
 		}
 
 		return nil
@@ -107,9 +111,9 @@ func (h *Hydrator) HydrateMany(ctx context.Context, instances []*modelT) error {
 		return err
 	}
 
-	for i, instance := range instances {
-		instance.Make = makeResults.GetResults()[i]
-		instance.Os = osResults.GetResults()[i]
+	for _, instance := range instances {
+		instance.Make = makeResults[instance.GetMake().GetId()]
+		instance.Os = osResults[instance.GetOs().GetId()]
 	}
 
 	return nil
