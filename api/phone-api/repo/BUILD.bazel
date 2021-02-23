@@ -16,5 +16,6 @@ go_library(
         "//protobuf/phone",
         "@com_github_golang_protobuf//ptypes:go_default_library_gen",
         "@org_golang_google_protobuf//types/known/timestamppb",
+        "@org_golang_x_sync//errgroup",
     ],
 )

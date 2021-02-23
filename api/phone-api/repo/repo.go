@@ -8,10 +8,12 @@ import (
 	dbModel "github.com/rickypai/web-template/api/dbmodels/phone"
 	rpc "github.com/rickypai/web-template/api/protobuf/phone"
 	cursorPkg "github.com/rickypai/web-template/api/server/cursor"
+	"golang.org/x/sync/errgroup"
 )
 
 // this is as close as we can get without generics. Just modify this one line to change the model in question
 type modelT = rpc.Phone
+type dbModelT = dbModel.Phone
 
 type Repo struct {
 	db dbModel.Querier
@@ -25,9 +27,33 @@ func NewRepo(db *sql.DB) *Repo {
 
 func (s *Repo) ListByPage(ctx context.Context, req cursorPkg.PageRequest) ([]*modelT, *cursorPkg.PageResult, error) {
 	page, cursor, count := cursorPkg.GetPageOptions(req)
-	dbModels, err := s.db.ListOffset(ctx, dbModel.ListOffsetParams{Limit: int32(count) + 1, Offset: int32(cursor)})
+	wg, ctx := errgroup.WithContext(ctx)
+
+	var dbModels []dbModelT
+	wg.Go(func() error {
+		var listerr error
+		dbModels, listerr = s.db.ListOffset(ctx, dbModel.ListOffsetParams{Limit: int32(count) + 1, Offset: int32(cursor)})
+		if listerr != nil {
+			return fmt.Errorf("error listing from database: %w", listerr)
+		}
+
+		return nil
+	})
+
+	var total int64
+	wg.Go(func() error {
+		var counterr error
+		total, counterr = s.db.CountTotal(ctx)
+		if counterr != nil {
+			return fmt.Errorf("error fetching total count from database: %w", counterr)
+		}
+
+		return nil
+	})
+
+	err := wg.Wait()
 	if err != nil {
-		return nil, nil, fmt.Errorf("error fetching from database: %w", err)
+		return nil, nil, fmt.Errorf("error from database: %w", err)
 	}
 
 	hasNext := len(dbModels) > count
@@ -38,11 +64,6 @@ func (s *Repo) ListByPage(ctx context.Context, req cursorPkg.PageRequest) ([]*mo
 		results = toRPCModels(dbModels[:len(dbModels)-1])
 	} else {
 		results = toRPCModels(dbModels)
-	}
-
-	total, err := s.db.CountTotal(ctx)
-	if err != nil {
-		return nil, nil, fmt.Errorf("error fetching total count from database: %w", err)
 	}
 
 	return results, &cursorPkg.PageResult{
