@@ -12,7 +12,7 @@ import (
 )
 
 func DB(ctx context.Context) (*sql.DB, error) {
-	return databaseConnection(ctx, os.Getenv("DATABASE_URL"))
+	return databaseConnection(ctx, os.Getenv("POSTGRES_HOST")+"/web_template_dev")
 }
 
 func databaseConnection(ctx context.Context, url string) (*sql.DB, error) {

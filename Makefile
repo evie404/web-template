@@ -80,12 +80,12 @@ endif
 	chmod +x ${HOME}/.local/bin/migrate
 
 db-migrate:
-	migrate -database "${DATABASE_URL_BASE}/web_template_dev" -path db/migrations up
+	migrate -database "${POSTGRES_HOST}/web_template_dev?sslmode=disable" -path db/migrations up
 
 db-up: db-migrate
 
 db-down:
-	migrate -database "${DATABASE_URL_BASE}/web_template_dev" -path db/migrations down
+	migrate -database "${POSTGRES_HOST}/web_template_dev?sslmode=disable" -path db/migrations down
 
 db-create:
 	echo "SELECT 'CREATE DATABASE web_template_dev' WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'web_template_dev')\gexec" | psql
