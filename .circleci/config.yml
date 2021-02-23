@@ -66,6 +66,9 @@ jobs:
             - go-mod-{{ checksum "api/go.sum" }}
             - go-mod
       - run:
+          command: golangci-lint run
+          working_directory: ./api
+      - run:
           command: go build -v ./...
           working_directory: ./api
       - save_cache:
