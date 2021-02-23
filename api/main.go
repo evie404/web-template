@@ -43,7 +43,7 @@ func main() {
 
 	extAuth := extauth.NewExternalAuth()
 
-	g := &errgroup.Group{}
+	g, _ := errgroup.WithContext(ctx)
 	g.Go(func() error {
 		log.Printf("listening gRPC on %s", grpcPort)
 		return s.Serve(lis)
