@@ -88,7 +88,7 @@ class OSIndexPage extends React.Component<OSIndexProps, OSIndexState> {
   render(): JSX.Element {
     const { data, pagination, loading } = this.state;
     return (
-      <Container defKey="1">
+      <Container defKey="3">
         <SEO title="OSs" />
         <h1>OSs</h1>
         <Table<OS.AsObject>
