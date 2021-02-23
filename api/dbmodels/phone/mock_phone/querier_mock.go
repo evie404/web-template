@@ -34,6 +34,21 @@ func (m *MockQuerier) EXPECT() *MockQuerierMockRecorder {
 	return m.recorder
 }
 
+// CountTotal mocks base method
+func (m *MockQuerier) CountTotal(ctx context.Context) (int64, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CountTotal", ctx)
+	ret0, _ := ret[0].(int64)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CountTotal indicates an expected call of CountTotal
+func (mr *MockQuerierMockRecorder) CountTotal(ctx interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CountTotal", reflect.TypeOf((*MockQuerier)(nil).CountTotal), ctx)
+}
+
 // GetByID mocks base method
 func (m *MockQuerier) GetByID(ctx context.Context, id int64) (phone.Phone, error) {
 	m.ctrl.T.Helper()
@@ -49,17 +64,17 @@ func (mr *MockQuerierMockRecorder) GetByID(ctx, id interface{}) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetByID", reflect.TypeOf((*MockQuerier)(nil).GetByID), ctx, id)
 }
 
-// ListPhones mocks base method
-func (m *MockQuerier) ListPhones(ctx context.Context) ([]phone.Phone, error) {
+// ListOffset mocks base method
+func (m *MockQuerier) ListOffset(ctx context.Context, arg phone.ListOffsetParams) ([]phone.Phone, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "ListPhones", ctx)
+	ret := m.ctrl.Call(m, "ListOffset", ctx, arg)
 	ret0, _ := ret[0].([]phone.Phone)
 	ret1, _ := ret[1].(error)
 	return ret0, ret1
 }
 
-// ListPhones indicates an expected call of ListPhones
-func (mr *MockQuerierMockRecorder) ListPhones(ctx interface{}) *gomock.Call {
+// ListOffset indicates an expected call of ListOffset
+func (mr *MockQuerierMockRecorder) ListOffset(ctx, arg interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListPhones", reflect.TypeOf((*MockQuerier)(nil).ListPhones), ctx)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListOffset", reflect.TypeOf((*MockQuerier)(nil).ListOffset), ctx, arg)
 }

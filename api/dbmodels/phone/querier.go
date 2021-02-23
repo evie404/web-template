@@ -7,8 +7,9 @@ import (
 )
 
 type Querier interface {
+	CountTotal(ctx context.Context) (int64, error)
 	GetByID(ctx context.Context, id int64) (Phone, error)
-	ListPhones(ctx context.Context) ([]Phone, error)
+	ListOffset(ctx context.Context, arg ListOffsetParams) ([]Phone, error)
 }
 
 var _ Querier = (*Queries)(nil)

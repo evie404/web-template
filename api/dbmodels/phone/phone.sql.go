@@ -7,6 +7,17 @@ import (
 	"context"
 )
 
+const countTotal = `-- name: CountTotal :one
+SELECT COUNT(id) FROM phone
+`
+
+func (q *Queries) CountTotal(ctx context.Context) (int64, error) {
+	row := q.db.QueryRowContext(ctx, countTotal)
+	var count int64
+	err := row.Scan(&count)
+	return count, err
+}
+
 const getByID = `-- name: GetByID :one
 SELECT id, name, make_id, os_id, created_at, modified_at FROM phone WHERE id = $1 LIMIT 1
 `
@@ -25,12 +36,17 @@ func (q *Queries) GetByID(ctx context.Context, id int64) (Phone, error) {
 	return i, err
 }
 
-const listPhones = `-- name: ListPhones :many
-SELECT id, name, make_id, os_id, created_at, modified_at FROM phone
+const listOffset = `-- name: ListOffset :many
+SELECT id, name, make_id, os_id, created_at, modified_at FROM phone LIMIT $1 OFFSET $2
 `
 
-func (q *Queries) ListPhones(ctx context.Context) ([]Phone, error) {
-	rows, err := q.db.QueryContext(ctx, listPhones)
+type ListOffsetParams struct {
+	Limit  int32
+	Offset int32
+}
+
+func (q *Queries) ListOffset(ctx context.Context, arg ListOffsetParams) ([]Phone, error) {
+	rows, err := q.db.QueryContext(ctx, listOffset, arg.Limit, arg.Offset)
 	if err != nil {
 		return nil, err
 	}

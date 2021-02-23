@@ -8,7 +8,6 @@ import (
 	"github.com/golang/protobuf/ptypes"
 	dbModel "github.com/rickypai/web-template/api/dbmodels/phone"
 	makePb "github.com/rickypai/web-template/api/protobuf/make"
-	makeRPC "github.com/rickypai/web-template/api/protobuf/make"
 	"github.com/rickypai/web-template/api/protobuf/os"
 	rpc "github.com/rickypai/web-template/api/protobuf/phone"
 	cursorPkg "github.com/rickypai/web-template/api/server/cursor"
@@ -30,26 +29,32 @@ func NewRepo(db *sql.DB) *Repo {
 	}
 }
 
-func (r *Repo) listPhones(ctx context.Context) ([]modelT, error) {
-	dbModels, err := r.db.ListPhones(ctx)
-	if err != nil {
-		return nil, err
-	}
-
-	return toRPCModels(dbModels), nil
-}
-
 func (s *Repo) ListByPage(ctx context.Context, req cursorPkg.PageRequest) ([]modelT, *cursorPkg.PageResult, error) {
-	page, _, _ := cursorPkg.GetPageOptions(req)
-	results, err := s.listPhones(ctx)
+	page, cursor, count := cursorPkg.GetPageOptions(req)
+	dbModels, err := s.db.ListOffset(ctx, dbModel.ListOffsetParams{Limit: int32(count) + 1, Offset: int32(cursor)})
 	if err != nil {
 		return nil, nil, fmt.Errorf("error fetching from database: %w", err)
 	}
 
+	hasNext := len(dbModels) > count
+
+	var results []modelT
+
+	if hasNext {
+		results = toRPCModels(dbModels[:len(dbModels)-1])
+	} else {
+		results = toRPCModels(dbModels)
+	}
+
+	total, err := s.db.CountTotal(ctx)
+	if err != nil {
+		return nil, nil, fmt.Errorf("error fetching total count from database: %w", err)
+	}
+
 	return results, &cursorPkg.PageResult{
 		NextPage:   page + 1,
-		HasNext:    true,
-		TotalPages: 100,
+		HasNext:    hasNext,
+		TotalPages: total,
 	}, nil
 }
 
@@ -107,11 +112,26 @@ func getPhone(id int64) *rpc.Phone {
 }
 
 func toRPCModel(model dbModel.Phone) *rpc.Phone {
+	id := model.ID
+	ts := ptypes.TimestampNow()
+
 	return &rpc.Phone{
-		Id:         model.ID,
-		Name:       model.Name,
-		Make:       &makeRPC.Make{},
-		Os:         &os.OS{},
+		Id:   model.ID,
+		Name: model.Name,
+		Make: &makePb.Make{
+			Id:   id,
+			Name: fmt.Sprintf("Make #%v", id),
+
+			CreatedAt:  ts,
+			ModifiedAt: ts,
+		},
+		Os: &os.OS{
+			Id:   id,
+			Name: fmt.Sprintf("OS #%v", id),
+
+			CreatedAt:  ts,
+			ModifiedAt: ts,
+		},
 		CreatedAt:  timestamppb.New(model.CreatedAt),
 		ModifiedAt: timestamppb.New(model.ModifiedAt),
 	}
