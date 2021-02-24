@@ -5,10 +5,8 @@ import (
 	"database/sql"
 	"fmt"
 
-	"github.com/rickypai/web-template/api/phone-api/repo"
-	makePb "github.com/rickypai/web-template/api/protobuf/make"
-	osPb "github.com/rickypai/web-template/api/protobuf/os"
-	rpc "github.com/rickypai/web-template/api/protobuf/phone"
+	"github.com/rickypai/web-template/api/make-api/repo"
+	rpc "github.com/rickypai/web-template/api/protobuf/make"
 	"github.com/rickypai/web-template/api/server/cursor"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -22,19 +20,19 @@ type modelTReader interface {
 	ListByCursor(context.Context, cursor.CursorRequest) ([]modelT, *cursor.CursorResult, error)
 }
 
-func NewReaderServer(db *sql.DB, makeClient makePb.MakeReaderClient, osClient osPb.OSReaderClient) *ReaderServer {
-	return &ReaderServer{
-		repo: repo.NewHydratedReader(db, makeClient, osClient),
+func NewReadServer(db *sql.DB) *ReadServer {
+	return &ReadServer{
+		repo: repo.NewReader(db),
 	}
 }
 
-type ReaderServer struct {
+type ReadServer struct {
 	rpcT
 
 	repo modelTReader
 }
 
-func (s *ReaderServer) ListByPage(ctx context.Context, req *rpc.ListByPageRequest) (*rpc.ListByPageResponse, error) {
+func (s *ReadServer) ListByPage(ctx context.Context, req *rpc.ListByPageRequest) (*rpc.ListByPageResponse, error) {
 	results, pageResult, err := s.repo.ListByPage(ctx, req)
 	if err != nil {
 		return nil, fmt.Errorf("error fetching %s: %w", modelsName, err)
@@ -48,7 +46,7 @@ func (s *ReaderServer) ListByPage(ctx context.Context, req *rpc.ListByPageReques
 	}, nil
 }
 
-func (s *ReaderServer) ListByCursor(ctx context.Context, req *rpc.ListByCursorRequest) (*rpc.ListByCursorResponse, error) {
+func (s *ReadServer) ListByCursor(ctx context.Context, req *rpc.ListByCursorRequest) (*rpc.ListByCursorResponse, error) {
 	results, cursorResult, err := s.repo.ListByCursor(ctx, req)
 	if err != nil {
 		return nil, fmt.Errorf("error fetching %s: %w", modelsName, err)
@@ -60,7 +58,7 @@ func (s *ReaderServer) ListByCursor(ctx context.Context, req *rpc.ListByCursorRe
 	}, nil
 }
 
-func (s *ReaderServer) GetOneByID(ctx context.Context, req *rpc.GetOneByIDRequest) (*rpc.GetOneByIDResponse, error) {
+func (s *ReadServer) GetOneByID(ctx context.Context, req *rpc.GetOneByIDRequest) (*rpc.GetOneByIDResponse, error) {
 	result, err := s.repo.GetOneByID(ctx, req.GetId())
 	if err != nil {
 		return nil, fmt.Errorf("error fetching %s: %w", modelName, err)
@@ -75,7 +73,7 @@ func (s *ReaderServer) GetOneByID(ctx context.Context, req *rpc.GetOneByIDReques
 	}, nil
 }
 
-func (s *ReaderServer) GetManyByIDs(ctx context.Context, req *rpc.GetManyByIDsRequest) (*rpc.GetManyByIDsResponse, error) {
+func (s *ReadServer) GetManyByIDs(ctx context.Context, req *rpc.GetManyByIDsRequest) (*rpc.GetManyByIDsResponse, error) {
 	results, err := s.repo.GetManyByIDs(ctx, req.GetIds())
 	if err != nil {
 		return nil, fmt.Errorf("error fetching %s: %w", modelName, err)
