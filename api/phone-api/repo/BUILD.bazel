@@ -3,9 +3,9 @@ load("@io_bazel_rules_go//go:def.bzl", "go_library")
 go_library(
     name = "repo",
     srcs = [
-        "hydrated_repo.go",
+        "hydrated_reader.go",
         "hydration.go",
-        "repo.go",
+        "reader.go",
         "translations.go",
     ],
     importpath = "github.com/rickypai/web-template/api/phone-api/repo",

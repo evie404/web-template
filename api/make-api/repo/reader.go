@@ -17,17 +17,17 @@ type (
 	dbModelT = dbModel.Make
 )
 
-type Repo struct {
+type Reader struct {
 	db dbModel.Querier
 }
 
-func NewRepo(db *sql.DB) *Repo {
-	return &Repo{
+func NewReader(db *sql.DB) *Reader {
+	return &Reader{
 		db: dbModel.New(db),
 	}
 }
 
-func (r *Repo) ListByPage(ctx context.Context, req cursorPkg.PageRequest) ([]*modelT, *cursorPkg.PageResult, error) {
+func (r *Reader) ListByPage(ctx context.Context, req cursorPkg.PageRequest) ([]*modelT, *cursorPkg.PageResult, error) {
 	page, cursor, count := cursorPkg.GetPageOptions(req)
 	wg, ctx := errgroup.WithContext(ctx)
 
@@ -75,7 +75,7 @@ func (r *Repo) ListByPage(ctx context.Context, req cursorPkg.PageRequest) ([]*mo
 	}, nil
 }
 
-func (r *Repo) ListByCursor(ctx context.Context, req cursorPkg.CursorRequest) ([]*modelT, *cursorPkg.CursorResult, error) {
+func (r *Reader) ListByCursor(ctx context.Context, req cursorPkg.CursorRequest) ([]*modelT, *cursorPkg.CursorResult, error) {
 	cursor, count := cursorPkg.GetCursorOptions(req)
 	dbModels, err := r.db.ListOffset(ctx, dbModel.ListOffsetParams{Limit: int32(count), Offset: int32(cursor)})
 	if err != nil {
@@ -95,7 +95,7 @@ func (r *Repo) ListByCursor(ctx context.Context, req cursorPkg.CursorRequest) ([
 	}, nil
 }
 
-func (r *Repo) GetOneByID(ctx context.Context, id int64) (*modelT, error) {
+func (r *Reader) GetOneByID(ctx context.Context, id int64) (*modelT, error) {
 	dbResult, err := r.db.GetByID(ctx, id)
 	if err != nil {
 		if err == sql.ErrNoRows {
@@ -108,7 +108,7 @@ func (r *Repo) GetOneByID(ctx context.Context, id int64) (*modelT, error) {
 	return toRPCModel(dbResult), nil
 }
 
-func (r *Repo) GetManyByIDs(ctx context.Context, ids []int64) ([]*modelT, error) {
+func (r *Reader) GetManyByIDs(ctx context.Context, ids []int64) ([]*modelT, error) {
 	if len(ids) == 0 {
 		return nil, nil
 	}

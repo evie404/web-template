@@ -33,7 +33,7 @@ type modelTReader interface {
 
 func NewServer(db *sql.DB) *Server {
 	return &Server{
-		repo: repo.NewRepo(db),
+		repo: repo.NewReader(db),
 	}
 }
 
