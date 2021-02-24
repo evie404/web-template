@@ -42,9 +42,9 @@ func main() {
 	osClient := osCl.NewOSReaderLocalServer(db)
 
 	s := grpc.NewServer()
-	phone.RegisterPhoneReaderServer(s, phoneSrv.NewServer(db, makeClient, osClient))
-	make.RegisterMakeReaderServer(s, makeSrv.NewServer(db))
-	os.RegisterOSReaderServer(s, osSrv.NewServer(db))
+	phone.RegisterPhoneReaderServer(s, phoneSrv.NewReaderServer(db, makeClient, osClient))
+	make.RegisterMakeReaderServer(s, makeSrv.NewReaderServer(db))
+	os.RegisterOSReaderServer(s, osSrv.NewReaderServer(db))
 
 	extAuth := extauth.NewExternalAuth()
 

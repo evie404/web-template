@@ -11,7 +11,7 @@ import (
 
 func NewMakeReaderLocalServer(db *sql.DB) rpc.MakeReaderClient {
 	return &MakeReaderLocalServer{
-		localServer: server.NewServer(db),
+		localServer: server.NewReaderServer(db),
 	}
 }
 
