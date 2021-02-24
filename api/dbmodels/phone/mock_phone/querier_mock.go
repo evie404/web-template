@@ -49,6 +49,21 @@ func (mr *MockQuerierMockRecorder) CountTotal(ctx interface{}) *gomock.Call {
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CountTotal", reflect.TypeOf((*MockQuerier)(nil).CountTotal), ctx)
 }
 
+// CreateOne mocks base method
+func (m *MockQuerier) CreateOne(ctx context.Context, arg phone.CreateOneParams) (phone.Phone, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "CreateOne", ctx, arg)
+	ret0, _ := ret[0].(phone.Phone)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// CreateOne indicates an expected call of CreateOne
+func (mr *MockQuerierMockRecorder) CreateOne(ctx, arg interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "CreateOne", reflect.TypeOf((*MockQuerier)(nil).CreateOne), ctx, arg)
+}
+
 // GetByID mocks base method
 func (m *MockQuerier) GetByID(ctx context.Context, id int64) (phone.Phone, error) {
 	m.ctrl.T.Helper()
