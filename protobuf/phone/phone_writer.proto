@@ -1,0 +1,18 @@
+syntax = "proto3";
+package phone;
+
+import "protobuf/phone/phone.proto";
+
+option go_package = "github.com/rickypai/web-template/api/protobuf/phone";
+
+service PhoneWriter {
+  rpc CreateOne(CreateOneRequest) returns (CreateOneResponse) {}
+}
+
+message CreateOneRequest {
+  phone.Phone request = 1;
+}
+
+message CreateOneResponse {
+  phone.Phone result = 1;
+}
