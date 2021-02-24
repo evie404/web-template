@@ -23,3 +23,27 @@ func toRPCModels(models []dbModelT) []*modelT {
 
 	return rpcModels
 }
+
+func toDBModel(rpcModel *modelT) *dbModelT {
+	if rpcModel == nil {
+		return nil
+	}
+
+	return &dbModelT{
+		ID:   rpcModel.GetId(),
+		Name: rpcModel.GetName(),
+
+		CreatedAt:  rpcModel.GetCreatedAt().AsTime(),
+		ModifiedAt: rpcModel.GetModifiedAt().AsTime(),
+	}
+}
+
+func toDBModels(rpcModels []*modelT) []*dbModelT {
+	dbModels := make([]*dbModelT, len(rpcModels))
+
+	for i, rpcModel := range rpcModels {
+		dbModels[i] = toDBModel(rpcModel)
+	}
+
+	return dbModels
+}

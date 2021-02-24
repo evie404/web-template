@@ -32,3 +32,30 @@ func toRPCModels(models []dbModelT) []*modelT {
 
 	return rpcModels
 }
+
+func toDBModel(rpcModel *modelT) *dbModelT {
+	if rpcModel == nil {
+		return nil
+	}
+
+	return &dbModelT{
+		ID:   rpcModel.GetId(),
+		Name: rpcModel.GetName(),
+
+		MakeID: int32(rpcModel.GetMake().GetId()), // TODO: this should be int64
+		OsID:   int32(rpcModel.GetOs().GetId()),
+
+		CreatedAt:  rpcModel.GetCreatedAt().AsTime(),
+		ModifiedAt: rpcModel.GetModifiedAt().AsTime(),
+	}
+}
+
+func toDBModels(rpcModels []*modelT) []*dbModelT {
+	dbModels := make([]*dbModelT, len(rpcModels))
+
+	for i, rpcModel := range rpcModels {
+		dbModels[i] = toDBModel(rpcModel)
+	}
+
+	return dbModels
+}
