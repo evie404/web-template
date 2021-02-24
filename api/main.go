@@ -46,6 +46,10 @@ func main() {
 	make.RegisterMakeReaderServer(s, makeSrv.NewReadServer(db))
 	os.RegisterOSReaderServer(s, osSrv.NewReadServer(db))
 
+	phone.RegisterPhoneWriterServer(s, phoneSrv.NewWriteServer(db))
+	make.RegisterMakeWriterServer(s, makeSrv.NewWriteServer(db))
+	os.RegisterOSWriterServer(s, osSrv.NewWriteServer(db))
+
 	extAuth := extauth.NewExternalAuth()
 
 	g, _ := errgroup.WithContext(ctx)
