@@ -6,15 +6,8 @@ import (
 	"fmt"
 
 	dbModel "github.com/rickypai/web-template/api/dbmodels/phone"
-	rpc "github.com/rickypai/web-template/api/protobuf/phone"
 	cursorPkg "github.com/rickypai/web-template/api/server/cursor"
 	"golang.org/x/sync/errgroup"
-)
-
-// this is as close as we can get without generics. Just modify this one line to change the model in question
-type (
-	modelT   = rpc.Phone
-	dbModelT = dbModel.Phone
 )
 
 type Reader struct {
