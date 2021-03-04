@@ -12,6 +12,7 @@ enabled = true
 
   [analyzers.meta]
   import_paths = ["github.com/rickypai/web-template/api"]
+  import_root = "github.com/rickypai/web-template"
 
 [[analyzers]]
 name = "javascript"
