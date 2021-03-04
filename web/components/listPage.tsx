@@ -66,13 +66,13 @@ export const ListByPageClientSide = async <
   request.setPage(page);
   request.setSize(pagination.pageSize);
 
-  let metadata: grpcWeb.Metadata = {};
+  const metadata: grpcWeb.Metadata = {};
 
   if (authorizationToken) {
     metadata.Authorization = `Bearer ${authorizationToken}`;
   }
 
-  let result: PageResult<O> = {};
+  const result: PageResult<O> = {};
 
   await client
     .listByPage(request, metadata)
