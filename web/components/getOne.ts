@@ -67,11 +67,7 @@ export const GetOneByIDServerSide = <
 ): Promise<GetServerSidePropsResult<GetOnePageProp<O>>> => {
   let id: number;
 
-  if (Array.isArray(context.params.id)) {
-    id = parseInt(context.params.id[0], 10);
-  } else {
-    id = parseInt(context.params.id, 10);
-  }
+  id = Array.isArray(context.params.id) ? parseInt(context.params.id[0], 10) : parseInt(context.params.id, 10);
 
   const props: GetOnePageProp<O> = {
     id,
