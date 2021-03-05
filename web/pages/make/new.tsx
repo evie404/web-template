@@ -25,7 +25,7 @@ const onFinish = (values: Make.AsObject) => {
 };
 
 const MakeNewPage = (): JSX.Element => (
-  <Container defKey="3">
+  <Container menuKey="make">
     <h1>New Make</h1>
     <div>
       <Form<Make.AsObject> onFinish={onFinish}>

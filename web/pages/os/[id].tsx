@@ -21,7 +21,7 @@ export const getServerSideProps: GetServerSideFunc<OS.AsObject> = GetOneByIDServ
 const OSPage = (props: GetOnePageProp<OS.AsObject>): JSX.Element => {
   if (props.result) {
     return (
-      <Container defKey="3">
+      <Container menuKey="os">
         <SEO title={props.result.name} />
         <OSComponent os={props.result} />
       </Container>
@@ -31,7 +31,7 @@ const OSPage = (props: GetOnePageProp<OS.AsObject>): JSX.Element => {
   if (props.error.code === StatusCode.NOT_FOUND) {
     return (
       <Custom404
-        defKey="3"
+        menuKey="os"
         title="OS not found"
         message={`OS with id ${props.id} not found.`}
       />
@@ -39,7 +39,7 @@ const OSPage = (props: GetOnePageProp<OS.AsObject>): JSX.Element => {
   }
 
   return (
-    <Container defKey="3">
+    <Container menuKey="os">
       <h1>{props.httpStatusCode}</h1>
       <p>{props.error.message}</p>
     </Container>

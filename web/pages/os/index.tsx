@@ -99,7 +99,7 @@ class OSIndexPage extends React.Component<OSIndexProps, OSIndexState> {
   render(): JSX.Element {
     const { data, pagination, loading } = this.state;
     return (
-      <Container defKey="1">
+      <Container menuKey="os">
         <SEO title="OSs" />
         {this.state.error ? (
           <Alert message={this.state.error.message} type="error" />
