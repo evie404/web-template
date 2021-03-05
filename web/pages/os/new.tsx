@@ -25,7 +25,7 @@ const onFinish = (values: OS.AsObject) => {
 };
 
 const OSNewPage = (): JSX.Element => (
-  <Container defKey="3">
+  <Container defKey="os">
     <h1>New OS</h1>
     <div>
       <Form<OS.AsObject> onFinish={onFinish}>

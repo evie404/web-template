@@ -33,16 +33,16 @@ const Container = ({ defKey, children }: ContainerProp): JSX.Element => {
             mode="horizontal"
             defaultSelectedKeys={Array.isArray(defKey) ? defKey : [defKey]}
           >
-            <Menu.Item key="0">
+            <Menu.Item key="home">
               <Link href="/">Home</Link>
             </Menu.Item>
-            <Menu.Item key="1">
+            <Menu.Item key="phone">
               <Link href="/phone/">Phone</Link>
             </Menu.Item>
-            <Menu.Item key="2">
+            <Menu.Item key="make">
               <Link href="/make/">Make</Link>
             </Menu.Item>
-            <Menu.Item key="3">
+            <Menu.Item key="os">
               <Link href="/os/">OS</Link>
             </Menu.Item>
           </Menu>

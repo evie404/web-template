@@ -99,7 +99,7 @@ class MakeIndexPage extends React.Component<MakeIndexProps, MakeIndexState> {
   render(): JSX.Element {
     const { data, pagination, loading } = this.state;
     return (
-      <Container defKey="1">
+      <Container defKey="make">
         <SEO title="Makes" />
         {this.state.error ? (
           <Alert message={this.state.error.message} type="error" />

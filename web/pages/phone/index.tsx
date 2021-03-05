@@ -122,7 +122,7 @@ class PhoneIndexPage extends React.Component<PhoneIndexProps, PhoneIndexState> {
   render(): JSX.Element {
     const { data, pagination, loading } = this.state;
     return (
-      <Container defKey="1">
+      <Container defKey="phone">
         <SEO title="Phones" />
         {this.state.error ? (
           <Alert message={this.state.error.message} type="error" />
