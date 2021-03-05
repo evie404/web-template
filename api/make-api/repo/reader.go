@@ -113,3 +113,15 @@ func (r *Reader) GetManyByIDs(ctx context.Context, ids []int64) ([]*modelT, erro
 
 	return toRPCModels(dbResults), nil
 }
+
+func (r *Reader) ListByPrefix(ctx context.Context, prefix string, limit int64) ([]*modelT, error) {
+	dbResults, err := r.db.ListByPattern(ctx, dbModel.ListByPatternParams{
+		Name:  "%" + prefix,
+		Limit: int32(limit),
+	})
+	if err != nil {
+		return nil, fmt.Errorf("error fetching from database: %w", err)
+	}
+
+	return toRPCModels(dbResults), nil
+}
