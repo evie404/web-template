@@ -49,13 +49,3 @@ func toDBModel(rpcModel *modelT) *dbModelT {
 		ModifiedAt: rpcModel.GetModifiedAt().AsTime(),
 	}
 }
-
-func toDBModels(rpcModels []*modelT) []*dbModelT {
-	dbModels := make([]*dbModelT, len(rpcModels))
-
-	for i, rpcModel := range rpcModels {
-		dbModels[i] = toDBModel(rpcModel)
-	}
-
-	return dbModels
-}
