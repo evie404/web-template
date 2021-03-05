@@ -106,7 +106,7 @@ func (q *Queries) GetManyByIDs(ctx context.Context, dollar_1 []int64) ([]Phone, 
 }
 
 const listByPattern = `-- name: ListByPattern :many
-SELECT id, name, make_id, os_id, created_at, modified_at FROM phone WHERE name LIKE $1 LIMIT $2
+SELECT id, name, make_id, os_id, created_at, modified_at FROM phone WHERE name LIKE $1 ORDER BY name ASC LIMIT $2
 `
 
 type ListByPatternParams struct {

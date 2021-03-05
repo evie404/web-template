@@ -14,4 +14,4 @@ SELECT COUNT(id) FROM os;
 INSERT INTO os(name, created_at, modified_at) VALUES($1, $2, $3) RETURNING *;
 
 -- name: ListByPattern :many
-SELECT * FROM os WHERE name LIKE $1 LIMIT $2;
+SELECT * FROM os WHERE name LIKE $1 ORDER BY name ASC LIMIT $2;

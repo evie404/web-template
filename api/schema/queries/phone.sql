@@ -14,4 +14,4 @@ SELECT COUNT(id) FROM phone;
 INSERT INTO phone(name, make_id, os_id, created_at, modified_at) VALUES($1, $2, $3, $4, $5) RETURNING *;
 
 -- name: ListByPattern :many
-SELECT * FROM phone WHERE name LIKE $1 LIMIT $2;
+SELECT * FROM phone WHERE name LIKE $1 ORDER BY name ASC LIMIT $2;
