@@ -1,16 +1,20 @@
 import { OS } from "../protobuf/os/os_pb";
 import { toOSProto } from "./os";
 
-test("converts os object to os proto message", () => {
-  const name = "lol";
-  const id = 0;
+describe("toOSProto", () => {
+  it("converts os object to os proto message", () => {
+    expect.assertions(1);
 
-  const expected = new OS();
-  const obj: OS.AsObject = { id, name };
+    const name = "lol";
+    const id = 0;
 
-  expected.setName(name);
+    const expected = new OS();
+    const obj: OS.AsObject = { id, name };
 
-  const got = toOSProto(obj);
+    expected.setName(name);
 
-  expect(got).toMatchObject(expected);
+    const got = toOSProto(obj);
+
+    expect(got).toMatchObject(expected);
+  });
 });
