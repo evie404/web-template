@@ -7,6 +7,7 @@ proto_library(
     srcs = [
         "phone.proto",
         "phone_reader.proto",
+        "phone_writer.proto",
     ],
     visibility = ["//visibility:public"],
     deps = [

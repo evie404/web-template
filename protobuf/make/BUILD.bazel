@@ -7,6 +7,7 @@ proto_library(
     srcs = [
         "make.proto",
         "make_reader.proto",
+        "make_writer.proto",
     ],
     visibility = ["//visibility:public"],
     deps = ["@com_google_protobuf//:timestamp_proto"],

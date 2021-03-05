@@ -5,6 +5,7 @@ package phone
 
 import (
 	"context"
+	"time"
 
 	"github.com/lib/pq"
 )
@@ -18,6 +19,38 @@ func (q *Queries) CountTotal(ctx context.Context) (int64, error) {
 	var count int64
 	err := row.Scan(&count)
 	return count, err
+}
+
+const createOne = `-- name: CreateOne :one
+INSERT INTO phone(name, make_id, os_id, created_at, modified_at) VALUES($1, $2, $3, $4, $5) RETURNING id, name, make_id, os_id, created_at, modified_at
+`
+
+type CreateOneParams struct {
+	Name       string
+	MakeID     int32
+	OsID       int32
+	CreatedAt  time.Time
+	ModifiedAt time.Time
+}
+
+func (q *Queries) CreateOne(ctx context.Context, arg CreateOneParams) (Phone, error) {
+	row := q.db.QueryRowContext(ctx, createOne,
+		arg.Name,
+		arg.MakeID,
+		arg.OsID,
+		arg.CreatedAt,
+		arg.ModifiedAt,
+	)
+	var i Phone
+	err := row.Scan(
+		&i.ID,
+		&i.Name,
+		&i.MakeID,
+		&i.OsID,
+		&i.CreatedAt,
+		&i.ModifiedAt,
+	)
+	return i, err
 }
 
 const getByID = `-- name: GetByID :one

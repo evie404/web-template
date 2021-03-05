@@ -8,6 +8,7 @@ import (
 
 type Querier interface {
 	CountTotal(ctx context.Context) (int64, error)
+	CreateOne(ctx context.Context, arg CreateOneParams) (Make, error)
 	GetByID(ctx context.Context, id int64) (Make, error)
 	GetManyByIDs(ctx context.Context, dollar_1 []int64) ([]Make, error)
 	ListOffset(ctx context.Context, arg ListOffsetParams) ([]Make, error)
