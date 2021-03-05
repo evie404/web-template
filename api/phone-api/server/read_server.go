@@ -25,8 +25,9 @@ type modelTReader interface {
 }
 
 func NewReadServer(db *sql.DB, makeClient makePb.MakeReaderClient, osClient osPb.OSReaderClient) *ReadServer {
+	reader := repo.NewReader(db)
 	return &ReadServer{
-		repo: repo.NewHydratedReader(db, makeClient, osClient),
+		repo: repo.NewHydratedReader(reader, makeClient, osClient),
 	}
 }
 

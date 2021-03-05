@@ -2,7 +2,6 @@ package repo
 
 import (
 	"context"
-	"database/sql"
 	"fmt"
 
 	makePb "github.com/rickypai/web-template/api/protobuf/make"
@@ -15,9 +14,9 @@ type HydratedReader struct {
 	hydrator *Hydrator
 }
 
-func NewHydratedReader(db *sql.DB, makeClient makePb.MakeReaderClient, osClient osPb.OSReaderClient) *HydratedReader {
+func NewHydratedReader(repo *Reader, makeClient makePb.MakeReaderClient, osClient osPb.OSReaderClient) *HydratedReader {
 	return &HydratedReader{
-		repo:     NewReader(db),
+		repo:     repo,
 		hydrator: NewHydrator(makeClient, osClient),
 	}
 }

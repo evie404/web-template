@@ -14,7 +14,7 @@ type Reader struct {
 	db dbModel.Querier
 }
 
-func NewReader(db *sql.DB) *Reader {
+func NewReader(db dbModel.DBTX) *Reader {
 	return &Reader{
 		db: dbModel.New(db),
 	}
