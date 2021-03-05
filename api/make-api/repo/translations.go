@@ -23,3 +23,17 @@ func toRPCModels(models []dbModelT) []*modelT {
 
 	return rpcModels
 }
+
+func toDBModel(rpcModel *modelT) *dbModelT {
+	if rpcModel == nil {
+		return nil
+	}
+
+	return &dbModelT{
+		ID:   rpcModel.GetId(),
+		Name: rpcModel.GetName(),
+
+		CreatedAt:  rpcModel.GetCreatedAt().AsTime(),
+		ModifiedAt: rpcModel.GetModifiedAt().AsTime(),
+	}
+}

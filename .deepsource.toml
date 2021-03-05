@@ -11,7 +11,8 @@ name = "go"
 enabled = true
 
   [analyzers.meta]
-  import_paths = ["github.com/rickypai/web-template"]
+  import_paths = ["github.com/rickypai/web-template/api"]
+  import_root = "github.com/rickypai/web-template"
 
 [[analyzers]]
 name = "javascript"
@@ -20,4 +21,4 @@ enabled = true
     [analyzers.meta]
     environment = ["nodejs"]
     style_guide = "airbnb"
-    dialect = "typescript" 
+    dialect = "typescript"

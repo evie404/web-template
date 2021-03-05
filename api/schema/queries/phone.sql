@@ -9,3 +9,6 @@ SELECT * FROM phone LIMIT $1 OFFSET $2;
 
 -- name: CountTotal :one
 SELECT COUNT(id) FROM phone;
+
+-- name: CreateOne :one
+INSERT INTO phone(name, make_id, os_id, created_at, modified_at) VALUES($1, $2, $3, $4, $5) RETURNING *;

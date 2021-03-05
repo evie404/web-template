@@ -1,6 +1,7 @@
 import { TablePaginationConfig } from "antd/lib/table";
 import * as jspb from "google-protobuf";
 import * as grpcWeb from "grpc-web";
+import { Error, StatusCode } from "grpc-web";
 
 // pbMessageAsObject is the object representation of the protobuf message with AsObject
 interface pbMessageAsObject {
@@ -66,24 +67,38 @@ export const ListByPageClientSide = async <
   request.setPage(page);
   request.setSize(pagination.pageSize);
 
-  let metadata: grpcWeb.Metadata = {};
+  const metadata: grpcWeb.Metadata = {};
 
   if (authorizationToken) {
     metadata.Authorization = `Bearer ${authorizationToken}`;
   }
 
-  let result: PageResult<O> = {};
+  const result: PageResult<O> = {};
 
   await client
     .listByPage(request, metadata)
-    .then((response: listByPageResponse<O, PB>) => {
-      result.results = response.getResultsList().map((p: PB) => p.toObject());
-      result.pagination = {
-        total: response.getTotalPages(),
+    .then(
+      (response: listByPageResponse<O, PB>) => {
+        result.results = response.getResultsList().map((p: PB) => p.toObject());
+        result.pagination = {
+          total: response.getTotalPages(),
+        };
+      },
+      (e: Error) => {
+        // we have to reconstruct the object because the raw Error object is not serializable to json
+        result.error = {
+          code: e.code,
+          message: e.message,
+        };
+      }
+    )
+    .catch(() => {
+      // we have to reconstruct the object because the raw Error object is not serializable to json
+      result.error = {
+        code: StatusCode.UNKNOWN,
+        message: "Unknown error",
       };
     });
-
-  // TODO: handle errors
 
   return result;
 };

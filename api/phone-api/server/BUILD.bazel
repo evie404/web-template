@@ -5,6 +5,7 @@ go_library(
     srcs = [
         "read_server.go",
         "types.go",
+        "write_server.go",
     ],
     importpath = "github.com/rickypai/web-template/api/phone-api/server",
     visibility = ["//visibility:public"],

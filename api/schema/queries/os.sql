@@ -9,3 +9,6 @@ SELECT * FROM os LIMIT $1 OFFSET $2;
 
 -- name: CountTotal :one
 SELECT COUNT(id) FROM os;
+
+-- name: CreateOne :one
+INSERT INTO os(name, created_at, modified_at) VALUES($1, $2, $3) RETURNING *;

@@ -67,11 +67,9 @@ export const GetOneByIDServerSide = <
 ): Promise<GetServerSidePropsResult<GetOnePageProp<O>>> => {
   let id: number;
 
-  if (Array.isArray(context.params.id)) {
-    id = parseInt(context.params.id[0], 10);
-  } else {
-    id = parseInt(context.params.id, 10);
-  }
+  id = Array.isArray(context.params.id)
+    ? parseInt(context.params.id[0], 10)
+    : parseInt(context.params.id, 10);
 
   const props: GetOnePageProp<O> = {
     id,
@@ -110,6 +108,7 @@ export const GetOneByIDServerSide = <
         props.result = response.getResult().toObject();
       },
       (e: Error) => {
+        // we have to reconstruct the object because the raw Error object is not serializable to json
         props.error = {
           code: e.code,
           message: e.message,
@@ -117,7 +116,7 @@ export const GetOneByIDServerSide = <
       }
     )
     .catch(() => {
-      // we have to do this because the raw object is not serializable to json
+      // we have to reconstruct the object because the raw Error object is not serializable to json
       props.error = {
         code: StatusCode.UNKNOWN,
         message: "Unknown error",

@@ -6,6 +6,7 @@ go_library(
         "reader.go",
         "translations.go",
         "types.go",
+        "writer.go",
     ],
     importpath = "github.com/rickypai/web-template/api/make-api/repo",
     visibility = ["//visibility:public"],

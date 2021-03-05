@@ -27,7 +27,7 @@ func NewReadServer(db *sql.DB) *ReadServer {
 }
 
 type ReadServer struct {
-	rpcT
+	rpcReaderT
 
 	repo modelTReader
 }
