@@ -96,3 +96,21 @@ db-drop:
 db-reset:
 	echo "DROP DATABASE IF EXISTS web_template_dev\gexec" | psql
 	echo "CREATE DATABASE web_template_dev\gexec" | psql
+
+test-db-migrate:
+	migrate -database "${POSTGRES_HOST}/web_template_test?sslmode=disable" -path db/migrations up
+
+test-db-up: test-db-migrate
+
+test-db-down:
+	migrate -database "${POSTGRES_HOST}/web_template_test?sslmode=disable" -path db/migrations down
+
+test-db-create:
+	echo "SELECT 'CREATE DATABASE web_template_test' WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'web_template_test')\gexec" | psql
+
+test-db-drop:
+	echo "SELECT 'DROP DATABASE web_template_test' WHERE EXISTS (SELECT FROM pg_database WHERE datname = 'web_template_test')\gexec" | psql
+
+test-db-reset:
+	echo "DROP DATABASE IF EXISTS web_template_test\gexec" | psql
+	echo "CREATE DATABASE web_template_test\gexec" | psql
