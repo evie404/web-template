@@ -108,6 +108,7 @@ export const GetOneByIDServerSide = <
         props.result = response.getResult().toObject();
       },
       (e: Error) => {
+        // we have to reconstruct the object because the raw Error object is not serializable to json
         props.error = {
           code: e.code,
           message: e.message,
@@ -115,7 +116,7 @@ export const GetOneByIDServerSide = <
       }
     )
     .catch(() => {
-      // we have to do this because the raw object is not serializable to json
+      // we have to reconstruct the object because the raw Error object is not serializable to json
       props.error = {
         code: StatusCode.UNKNOWN,
         message: "Unknown error",
