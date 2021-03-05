@@ -7,13 +7,11 @@ import {
 } from "../../protobuf/os/os_writer_pb";
 import { OS } from "../../protobuf/os/os_pb";
 import OSWriterClient from "../../clients/grpc-web/os_writer_client";
+import { toOSProto } from "../../conversions/os";
 
 const onFinish = (values: OS.AsObject) => {
   let request = new CreateOneRequest();
-  let instance = new OS();
-  // TODO: auto populate fields
-  instance.setName(values.name);
-  request.setRequest(instance);
+  request.setRequest(toOSProto(values));
 
   OSWriterClient.createOne(request, {})
     .then((response: CreateOneResponse) => {

@@ -7,13 +7,11 @@ import {
 } from "../../protobuf/make/make_writer_pb";
 import { Make } from "../../protobuf/make/make_pb";
 import MakeWriterClient from "../../clients/grpc-web/make_writer_client";
+import { toMakeProto } from "../../conversions/make";
 
 const onFinish = (values: Make.AsObject) => {
   let request = new CreateOneRequest();
-  let instance = new Make();
-  // TODO: auto populate fields
-  instance.setName(values.name);
-  request.setRequest(instance);
+  request.setRequest(toMakeProto(values));
 
   MakeWriterClient.createOne(request, {})
     .then((response: CreateOneResponse) => {
