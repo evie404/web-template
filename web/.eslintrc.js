@@ -3,6 +3,7 @@ module.exports = {
     browser: true,
     node: true,
     es2020: true,
+    "jest/globals": true,
   },
   parser: "@typescript-eslint/parser",
   parserOptions: {
@@ -12,7 +13,7 @@ module.exports = {
       jsx: true,
     },
   },
-  plugins: ["@typescript-eslint", "react", "prettier"],
+  plugins: ["@typescript-eslint", "react", "prettier", "jest"],
   extends: [
     "airbnb",
     "airbnb/hooks",
@@ -24,6 +25,7 @@ module.exports = {
     "prettier",
     "prettier/@typescript-eslint",
     "prettier/react",
+    "plugin:jest/all",
   ],
   rules: {
     "react/jsx-filename-extension": [1, { extensions: [".ts", ".tsx"] }],
