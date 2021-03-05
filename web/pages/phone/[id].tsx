@@ -21,7 +21,7 @@ export const getServerSideProps: GetServerSideFunc<Phone.AsObject> = GetOneByIDS
 const PhonePage = (props: GetOnePageProp<Phone.AsObject>): JSX.Element => {
   if (props.result) {
     return (
-      <Container defKey="phone">
+      <Container menuKey="phone">
         <SEO title={props.result.name} />
         <PhoneComponent phone={props.result} />
       </Container>
@@ -31,7 +31,7 @@ const PhonePage = (props: GetOnePageProp<Phone.AsObject>): JSX.Element => {
   if (props.error.code === StatusCode.NOT_FOUND) {
     return (
       <Custom404
-        defKey="phone"
+        menuKey="phone"
         title="Phone not found"
         message={`Phone with id ${props.id} not found.`}
       />
@@ -39,7 +39,7 @@ const PhonePage = (props: GetOnePageProp<Phone.AsObject>): JSX.Element => {
   }
 
   return (
-    <Container defKey="phone">
+    <Container menuKey="phone">
       <h1>{props.httpStatusCode}</h1>
       <p>{props.error.message}</p>
     </Container>

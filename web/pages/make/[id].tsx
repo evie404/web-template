@@ -21,7 +21,7 @@ export const getServerSideProps: GetServerSideFunc<Make.AsObject> = GetOneByIDSe
 const MakePage = (props: GetOnePageProp<Make.AsObject>): JSX.Element => {
   if (props.result) {
     return (
-      <Container defKey="make">
+      <Container menuKey="make">
         <SEO title={props.result.name} />
         <MakeComponent make={props.result} />
       </Container>
@@ -31,7 +31,7 @@ const MakePage = (props: GetOnePageProp<Make.AsObject>): JSX.Element => {
   if (props.error.code === StatusCode.NOT_FOUND) {
     return (
       <Custom404
-        defKey="make"
+        menuKey="make"
         title="Make not found"
         message={`Make with id ${props.id} not found.`}
       />
@@ -39,7 +39,7 @@ const MakePage = (props: GetOnePageProp<Make.AsObject>): JSX.Element => {
   }
 
   return (
-    <Container defKey="make">
+    <Container menuKey="make">
       <h1>{props.httpStatusCode}</h1>
       <p>{props.error.message}</p>
     </Container>
