@@ -94,6 +94,21 @@ func (mr *MockQuerierMockRecorder) GetManyByIDs(ctx, dollar_1 interface{}) *gomo
 	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "GetManyByIDs", reflect.TypeOf((*MockQuerier)(nil).GetManyByIDs), ctx, dollar_1)
 }
 
+// ListByPattern mocks base method
+func (m *MockQuerier) ListByPattern(ctx context.Context, arg make.ListByPatternParams) ([]make.Make, error) {
+	m.ctrl.T.Helper()
+	ret := m.ctrl.Call(m, "ListByPattern", ctx, arg)
+	ret0, _ := ret[0].([]make.Make)
+	ret1, _ := ret[1].(error)
+	return ret0, ret1
+}
+
+// ListByPattern indicates an expected call of ListByPattern
+func (mr *MockQuerierMockRecorder) ListByPattern(ctx, arg interface{}) *gomock.Call {
+	mr.mock.ctrl.T.Helper()
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "ListByPattern", reflect.TypeOf((*MockQuerier)(nil).ListByPattern), ctx, arg)
+}
+
 // ListOffset mocks base method
 func (m *MockQuerier) ListOffset(ctx context.Context, arg make.ListOffsetParams) ([]make.Make, error) {
 	m.ctrl.T.Helper()

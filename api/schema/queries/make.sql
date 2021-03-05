@@ -12,3 +12,6 @@ SELECT COUNT(id) FROM make;
 
 -- name: CreateOne :one
 INSERT INTO make(name, created_at, modified_at) VALUES($1, $2, $3) RETURNING *;
+
+-- name: ListByPattern :many
+SELECT * FROM make WHERE name LIKE $1 LIMIT $2;

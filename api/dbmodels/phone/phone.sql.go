@@ -105,6 +105,45 @@ func (q *Queries) GetManyByIDs(ctx context.Context, dollar_1 []int64) ([]Phone, 
 	return items, nil
 }
 
+const listByPattern = `-- name: ListByPattern :many
+SELECT id, name, make_id, os_id, created_at, modified_at FROM phone WHERE name LIKE $1 LIMIT $2
+`
+
+type ListByPatternParams struct {
+	Name  string
+	Limit int32
+}
+
+func (q *Queries) ListByPattern(ctx context.Context, arg ListByPatternParams) ([]Phone, error) {
+	rows, err := q.db.QueryContext(ctx, listByPattern, arg.Name, arg.Limit)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	var items []Phone
+	for rows.Next() {
+		var i Phone
+		if err := rows.Scan(
+			&i.ID,
+			&i.Name,
+			&i.MakeID,
+			&i.OsID,
+			&i.CreatedAt,
+			&i.ModifiedAt,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const listOffset = `-- name: ListOffset :many
 SELECT id, name, make_id, os_id, created_at, modified_at FROM phone LIMIT $1 OFFSET $2
 `
