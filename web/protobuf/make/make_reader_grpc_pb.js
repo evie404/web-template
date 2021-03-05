@@ -93,6 +93,28 @@ function deserialize_make_ListByPageResponse(buffer_arg) {
   return protobuf_make_make_reader_pb.ListByPageResponse.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_make_ListByPrefixRequest(arg) {
+  if (!(arg instanceof protobuf_make_make_reader_pb.ListByPrefixRequest)) {
+    throw new Error('Expected argument of type make.ListByPrefixRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_make_ListByPrefixRequest(buffer_arg) {
+  return protobuf_make_make_reader_pb.ListByPrefixRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_make_ListByPrefixResponse(arg) {
+  if (!(arg instanceof protobuf_make_make_reader_pb.ListByPrefixResponse)) {
+    throw new Error('Expected argument of type make.ListByPrefixResponse');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_make_ListByPrefixResponse(buffer_arg) {
+  return protobuf_make_make_reader_pb.ListByPrefixResponse.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 
 var MakeReaderService = exports.MakeReaderService = {
   getOneByID: {
@@ -138,6 +160,17 @@ var MakeReaderService = exports.MakeReaderService = {
     requestDeserialize: deserialize_make_ListByPageRequest,
     responseSerialize: serialize_make_ListByPageResponse,
     responseDeserialize: deserialize_make_ListByPageResponse,
+  },
+  listByPrefix: {
+    path: '/make.MakeReader/ListByPrefix',
+    requestStream: false,
+    responseStream: false,
+    requestType: protobuf_make_make_reader_pb.ListByPrefixRequest,
+    responseType: protobuf_make_make_reader_pb.ListByPrefixResponse,
+    requestSerialize: serialize_make_ListByPrefixRequest,
+    requestDeserialize: deserialize_make_ListByPrefixRequest,
+    responseSerialize: serialize_make_ListByPrefixResponse,
+    responseDeserialize: deserialize_make_ListByPrefixResponse,
   },
 };
 

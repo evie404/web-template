@@ -13,6 +13,7 @@ interface IOSReaderService extends grpc.ServiceDefinition<grpc.UntypedServiceImp
     getManyByIDs: IOSReaderService_IGetManyByIDs;
     listByCursor: IOSReaderService_IListByCursor;
     listByPage: IOSReaderService_IListByPage;
+    listByPrefix: IOSReaderService_IListByPrefix;
 }
 
 interface IOSReaderService_IGetOneByID extends grpc.MethodDefinition<protobuf_os_os_reader_pb.GetOneByIDRequest, protobuf_os_os_reader_pb.GetOneByIDResponse> {
@@ -51,6 +52,15 @@ interface IOSReaderService_IListByPage extends grpc.MethodDefinition<protobuf_os
     responseSerialize: grpc.serialize<protobuf_os_os_reader_pb.ListByPageResponse>;
     responseDeserialize: grpc.deserialize<protobuf_os_os_reader_pb.ListByPageResponse>;
 }
+interface IOSReaderService_IListByPrefix extends grpc.MethodDefinition<protobuf_os_os_reader_pb.ListByPrefixRequest, protobuf_os_os_reader_pb.ListByPrefixResponse> {
+    path: "/os.OSReader/ListByPrefix";
+    requestStream: false;
+    responseStream: false;
+    requestSerialize: grpc.serialize<protobuf_os_os_reader_pb.ListByPrefixRequest>;
+    requestDeserialize: grpc.deserialize<protobuf_os_os_reader_pb.ListByPrefixRequest>;
+    responseSerialize: grpc.serialize<protobuf_os_os_reader_pb.ListByPrefixResponse>;
+    responseDeserialize: grpc.deserialize<protobuf_os_os_reader_pb.ListByPrefixResponse>;
+}
 
 export const OSReaderService: IOSReaderService;
 
@@ -59,6 +69,7 @@ export interface IOSReaderServer {
     getManyByIDs: grpc.handleUnaryCall<protobuf_os_os_reader_pb.GetManyByIDsRequest, protobuf_os_os_reader_pb.GetManyByIDsResponse>;
     listByCursor: grpc.handleUnaryCall<protobuf_os_os_reader_pb.ListByCursorRequest, protobuf_os_os_reader_pb.ListByCursorResponse>;
     listByPage: grpc.handleUnaryCall<protobuf_os_os_reader_pb.ListByPageRequest, protobuf_os_os_reader_pb.ListByPageResponse>;
+    listByPrefix: grpc.handleUnaryCall<protobuf_os_os_reader_pb.ListByPrefixRequest, protobuf_os_os_reader_pb.ListByPrefixResponse>;
 }
 
 export interface IOSReaderClient {
@@ -74,6 +85,9 @@ export interface IOSReaderClient {
     listByPage(request: protobuf_os_os_reader_pb.ListByPageRequest, callback: (error: grpc.ServiceError | null, response: protobuf_os_os_reader_pb.ListByPageResponse) => void): grpc.ClientUnaryCall;
     listByPage(request: protobuf_os_os_reader_pb.ListByPageRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: protobuf_os_os_reader_pb.ListByPageResponse) => void): grpc.ClientUnaryCall;
     listByPage(request: protobuf_os_os_reader_pb.ListByPageRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: protobuf_os_os_reader_pb.ListByPageResponse) => void): grpc.ClientUnaryCall;
+    listByPrefix(request: protobuf_os_os_reader_pb.ListByPrefixRequest, callback: (error: grpc.ServiceError | null, response: protobuf_os_os_reader_pb.ListByPrefixResponse) => void): grpc.ClientUnaryCall;
+    listByPrefix(request: protobuf_os_os_reader_pb.ListByPrefixRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: protobuf_os_os_reader_pb.ListByPrefixResponse) => void): grpc.ClientUnaryCall;
+    listByPrefix(request: protobuf_os_os_reader_pb.ListByPrefixRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: protobuf_os_os_reader_pb.ListByPrefixResponse) => void): grpc.ClientUnaryCall;
 }
 
 export class OSReaderClient extends grpc.Client implements IOSReaderClient {
@@ -90,4 +104,7 @@ export class OSReaderClient extends grpc.Client implements IOSReaderClient {
     public listByPage(request: protobuf_os_os_reader_pb.ListByPageRequest, callback: (error: grpc.ServiceError | null, response: protobuf_os_os_reader_pb.ListByPageResponse) => void): grpc.ClientUnaryCall;
     public listByPage(request: protobuf_os_os_reader_pb.ListByPageRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: protobuf_os_os_reader_pb.ListByPageResponse) => void): grpc.ClientUnaryCall;
     public listByPage(request: protobuf_os_os_reader_pb.ListByPageRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: protobuf_os_os_reader_pb.ListByPageResponse) => void): grpc.ClientUnaryCall;
+    public listByPrefix(request: protobuf_os_os_reader_pb.ListByPrefixRequest, callback: (error: grpc.ServiceError | null, response: protobuf_os_os_reader_pb.ListByPrefixResponse) => void): grpc.ClientUnaryCall;
+    public listByPrefix(request: protobuf_os_os_reader_pb.ListByPrefixRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: protobuf_os_os_reader_pb.ListByPrefixResponse) => void): grpc.ClientUnaryCall;
+    public listByPrefix(request: protobuf_os_os_reader_pb.ListByPrefixRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: protobuf_os_os_reader_pb.ListByPrefixResponse) => void): grpc.ClientUnaryCall;
 }

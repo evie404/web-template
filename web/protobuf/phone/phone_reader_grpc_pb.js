@@ -93,6 +93,28 @@ function deserialize_phone_ListByPageResponse(buffer_arg) {
   return protobuf_phone_phone_reader_pb.ListByPageResponse.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_phone_ListByPrefixRequest(arg) {
+  if (!(arg instanceof protobuf_phone_phone_reader_pb.ListByPrefixRequest)) {
+    throw new Error('Expected argument of type phone.ListByPrefixRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_phone_ListByPrefixRequest(buffer_arg) {
+  return protobuf_phone_phone_reader_pb.ListByPrefixRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_phone_ListByPrefixResponse(arg) {
+  if (!(arg instanceof protobuf_phone_phone_reader_pb.ListByPrefixResponse)) {
+    throw new Error('Expected argument of type phone.ListByPrefixResponse');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_phone_ListByPrefixResponse(buffer_arg) {
+  return protobuf_phone_phone_reader_pb.ListByPrefixResponse.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 
 var PhoneReaderService = exports.PhoneReaderService = {
   getOneByID: {
@@ -138,6 +160,17 @@ var PhoneReaderService = exports.PhoneReaderService = {
     requestDeserialize: deserialize_phone_ListByPageRequest,
     responseSerialize: serialize_phone_ListByPageResponse,
     responseDeserialize: deserialize_phone_ListByPageResponse,
+  },
+  listByPrefix: {
+    path: '/phone.PhoneReader/ListByPrefix',
+    requestStream: false,
+    responseStream: false,
+    requestType: protobuf_phone_phone_reader_pb.ListByPrefixRequest,
+    responseType: protobuf_phone_phone_reader_pb.ListByPrefixResponse,
+    requestSerialize: serialize_phone_ListByPrefixRequest,
+    requestDeserialize: deserialize_phone_ListByPrefixRequest,
+    responseSerialize: serialize_phone_ListByPrefixResponse,
+    responseDeserialize: deserialize_phone_ListByPrefixResponse,
   },
 };
 

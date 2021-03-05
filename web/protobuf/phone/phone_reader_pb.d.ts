@@ -181,3 +181,45 @@ export namespace ListByPageResponse {
   }
 }
 
+export class ListByPrefixRequest extends jspb.Message {
+  getPrefix(): string;
+  setPrefix(value: string): ListByPrefixRequest;
+
+  getCount(): number;
+  setCount(value: number): ListByPrefixRequest;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): ListByPrefixRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: ListByPrefixRequest): ListByPrefixRequest.AsObject;
+  static serializeBinaryToWriter(message: ListByPrefixRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): ListByPrefixRequest;
+  static deserializeBinaryFromReader(message: ListByPrefixRequest, reader: jspb.BinaryReader): ListByPrefixRequest;
+}
+
+export namespace ListByPrefixRequest {
+  export type AsObject = {
+    prefix: string,
+    count: number,
+  }
+}
+
+export class ListByPrefixResponse extends jspb.Message {
+  getResultsList(): Array<protobuf_phone_phone_pb.Phone>;
+  setResultsList(value: Array<protobuf_phone_phone_pb.Phone>): ListByPrefixResponse;
+  clearResultsList(): ListByPrefixResponse;
+  addResults(value?: protobuf_phone_phone_pb.Phone, index?: number): protobuf_phone_phone_pb.Phone;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): ListByPrefixResponse.AsObject;
+  static toObject(includeInstance: boolean, msg: ListByPrefixResponse): ListByPrefixResponse.AsObject;
+  static serializeBinaryToWriter(message: ListByPrefixResponse, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): ListByPrefixResponse;
+  static deserializeBinaryFromReader(message: ListByPrefixResponse, reader: jspb.BinaryReader): ListByPrefixResponse;
+}
+
+export namespace ListByPrefixResponse {
+  export type AsObject = {
+    resultsList: Array<protobuf_phone_phone_pb.Phone.AsObject>,
+  }
+}
+

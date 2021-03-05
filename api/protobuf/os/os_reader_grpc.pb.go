@@ -22,6 +22,7 @@ type OSReaderClient interface {
 	GetManyByIDs(ctx context.Context, in *GetManyByIDsRequest, opts ...grpc.CallOption) (*GetManyByIDsResponse, error)
 	ListByCursor(ctx context.Context, in *ListByCursorRequest, opts ...grpc.CallOption) (*ListByCursorResponse, error)
 	ListByPage(ctx context.Context, in *ListByPageRequest, opts ...grpc.CallOption) (*ListByPageResponse, error)
+	ListByPrefix(ctx context.Context, in *ListByPrefixRequest, opts ...grpc.CallOption) (*ListByPrefixResponse, error)
 }
 
 type oSReaderClient struct {
@@ -68,6 +69,15 @@ func (c *oSReaderClient) ListByPage(ctx context.Context, in *ListByPageRequest, 
 	return out, nil
 }
 
+func (c *oSReaderClient) ListByPrefix(ctx context.Context, in *ListByPrefixRequest, opts ...grpc.CallOption) (*ListByPrefixResponse, error) {
+	out := new(ListByPrefixResponse)
+	err := c.cc.Invoke(ctx, "/os.OSReader/ListByPrefix", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // OSReaderServer is the server API for OSReader service.
 // All implementations must embed UnimplementedOSReaderServer
 // for forward compatibility
@@ -76,6 +86,7 @@ type OSReaderServer interface {
 	GetManyByIDs(context.Context, *GetManyByIDsRequest) (*GetManyByIDsResponse, error)
 	ListByCursor(context.Context, *ListByCursorRequest) (*ListByCursorResponse, error)
 	ListByPage(context.Context, *ListByPageRequest) (*ListByPageResponse, error)
+	ListByPrefix(context.Context, *ListByPrefixRequest) (*ListByPrefixResponse, error)
 	mustEmbedUnimplementedOSReaderServer()
 }
 
@@ -94,6 +105,9 @@ func (UnimplementedOSReaderServer) ListByCursor(context.Context, *ListByCursorRe
 }
 func (UnimplementedOSReaderServer) ListByPage(context.Context, *ListByPageRequest) (*ListByPageResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ListByPage not implemented")
+}
+func (UnimplementedOSReaderServer) ListByPrefix(context.Context, *ListByPrefixRequest) (*ListByPrefixResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ListByPrefix not implemented")
 }
 func (UnimplementedOSReaderServer) mustEmbedUnimplementedOSReaderServer() {}
 
@@ -180,6 +194,24 @@ func _OSReader_ListByPage_Handler(srv interface{}, ctx context.Context, dec func
 	return interceptor(ctx, in, info, handler)
 }
 
+func _OSReader_ListByPrefix_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ListByPrefixRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(OSReaderServer).ListByPrefix(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/os.OSReader/ListByPrefix",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(OSReaderServer).ListByPrefix(ctx, req.(*ListByPrefixRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // OSReader_ServiceDesc is the grpc.ServiceDesc for OSReader service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -202,6 +234,10 @@ var OSReader_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ListByPage",
 			Handler:    _OSReader_ListByPage_Handler,
+		},
+		{
+			MethodName: "ListByPrefix",
+			Handler:    _OSReader_ListByPrefix_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

@@ -10,6 +10,7 @@ service PhoneReader {
   rpc GetManyByIDs(GetManyByIDsRequest) returns (GetManyByIDsResponse) {}
   rpc ListByCursor(ListByCursorRequest) returns (ListByCursorResponse) {}
   rpc ListByPage(ListByPageRequest) returns (ListByPageResponse) {}
+  rpc ListByPrefix(ListByPrefixRequest) returns (ListByPrefixResponse) {}
 }
 
 message GetOneByIDRequest {
@@ -54,4 +55,14 @@ message ListByPageResponse {
   int64 total_pages = 3;
 
   bool has_next = 4;
+}
+
+message ListByPrefixRequest {
+  string prefix = 1;
+
+  int64 count = 2; // defaults to 20
+}
+
+message ListByPrefixResponse {
+  repeated phone.Phone results = 1;
 }

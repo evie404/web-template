@@ -195,5 +195,45 @@ export class MakeReaderClient {
     this.methodInfoListByPage);
   }
 
+  methodInfoListByPrefix = new grpcWeb.AbstractClientBase.MethodInfo(
+    protobuf_make_make_reader_pb.ListByPrefixResponse,
+    (request: protobuf_make_make_reader_pb.ListByPrefixRequest) => {
+      return request.serializeBinary();
+    },
+    protobuf_make_make_reader_pb.ListByPrefixResponse.deserializeBinary
+  );
+
+  listByPrefix(
+    request: protobuf_make_make_reader_pb.ListByPrefixRequest,
+    metadata: grpcWeb.Metadata | null): Promise<protobuf_make_make_reader_pb.ListByPrefixResponse>;
+
+  listByPrefix(
+    request: protobuf_make_make_reader_pb.ListByPrefixRequest,
+    metadata: grpcWeb.Metadata | null,
+    callback: (err: grpcWeb.Error,
+               response: protobuf_make_make_reader_pb.ListByPrefixResponse) => void): grpcWeb.ClientReadableStream<protobuf_make_make_reader_pb.ListByPrefixResponse>;
+
+  listByPrefix(
+    request: protobuf_make_make_reader_pb.ListByPrefixRequest,
+    metadata: grpcWeb.Metadata | null,
+    callback?: (err: grpcWeb.Error,
+               response: protobuf_make_make_reader_pb.ListByPrefixResponse) => void) {
+    if (callback !== undefined) {
+      return this.client_.rpcCall(
+        this.hostname_ +
+          '/make.MakeReader/ListByPrefix',
+        request,
+        metadata || {},
+        this.methodInfoListByPrefix,
+        callback);
+    }
+    return this.client_.unaryCall(
+    this.hostname_ +
+      '/make.MakeReader/ListByPrefix',
+    request,
+    metadata || {},
+    this.methodInfoListByPrefix);
+  }
+
 }
 

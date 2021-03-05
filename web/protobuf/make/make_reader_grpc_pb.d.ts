@@ -13,6 +13,7 @@ interface IMakeReaderService extends grpc.ServiceDefinition<grpc.UntypedServiceI
     getManyByIDs: IMakeReaderService_IGetManyByIDs;
     listByCursor: IMakeReaderService_IListByCursor;
     listByPage: IMakeReaderService_IListByPage;
+    listByPrefix: IMakeReaderService_IListByPrefix;
 }
 
 interface IMakeReaderService_IGetOneByID extends grpc.MethodDefinition<protobuf_make_make_reader_pb.GetOneByIDRequest, protobuf_make_make_reader_pb.GetOneByIDResponse> {
@@ -51,6 +52,15 @@ interface IMakeReaderService_IListByPage extends grpc.MethodDefinition<protobuf_
     responseSerialize: grpc.serialize<protobuf_make_make_reader_pb.ListByPageResponse>;
     responseDeserialize: grpc.deserialize<protobuf_make_make_reader_pb.ListByPageResponse>;
 }
+interface IMakeReaderService_IListByPrefix extends grpc.MethodDefinition<protobuf_make_make_reader_pb.ListByPrefixRequest, protobuf_make_make_reader_pb.ListByPrefixResponse> {
+    path: "/make.MakeReader/ListByPrefix";
+    requestStream: false;
+    responseStream: false;
+    requestSerialize: grpc.serialize<protobuf_make_make_reader_pb.ListByPrefixRequest>;
+    requestDeserialize: grpc.deserialize<protobuf_make_make_reader_pb.ListByPrefixRequest>;
+    responseSerialize: grpc.serialize<protobuf_make_make_reader_pb.ListByPrefixResponse>;
+    responseDeserialize: grpc.deserialize<protobuf_make_make_reader_pb.ListByPrefixResponse>;
+}
 
 export const MakeReaderService: IMakeReaderService;
 
@@ -59,6 +69,7 @@ export interface IMakeReaderServer {
     getManyByIDs: grpc.handleUnaryCall<protobuf_make_make_reader_pb.GetManyByIDsRequest, protobuf_make_make_reader_pb.GetManyByIDsResponse>;
     listByCursor: grpc.handleUnaryCall<protobuf_make_make_reader_pb.ListByCursorRequest, protobuf_make_make_reader_pb.ListByCursorResponse>;
     listByPage: grpc.handleUnaryCall<protobuf_make_make_reader_pb.ListByPageRequest, protobuf_make_make_reader_pb.ListByPageResponse>;
+    listByPrefix: grpc.handleUnaryCall<protobuf_make_make_reader_pb.ListByPrefixRequest, protobuf_make_make_reader_pb.ListByPrefixResponse>;
 }
 
 export interface IMakeReaderClient {
@@ -74,6 +85,9 @@ export interface IMakeReaderClient {
     listByPage(request: protobuf_make_make_reader_pb.ListByPageRequest, callback: (error: grpc.ServiceError | null, response: protobuf_make_make_reader_pb.ListByPageResponse) => void): grpc.ClientUnaryCall;
     listByPage(request: protobuf_make_make_reader_pb.ListByPageRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: protobuf_make_make_reader_pb.ListByPageResponse) => void): grpc.ClientUnaryCall;
     listByPage(request: protobuf_make_make_reader_pb.ListByPageRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: protobuf_make_make_reader_pb.ListByPageResponse) => void): grpc.ClientUnaryCall;
+    listByPrefix(request: protobuf_make_make_reader_pb.ListByPrefixRequest, callback: (error: grpc.ServiceError | null, response: protobuf_make_make_reader_pb.ListByPrefixResponse) => void): grpc.ClientUnaryCall;
+    listByPrefix(request: protobuf_make_make_reader_pb.ListByPrefixRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: protobuf_make_make_reader_pb.ListByPrefixResponse) => void): grpc.ClientUnaryCall;
+    listByPrefix(request: protobuf_make_make_reader_pb.ListByPrefixRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: protobuf_make_make_reader_pb.ListByPrefixResponse) => void): grpc.ClientUnaryCall;
 }
 
 export class MakeReaderClient extends grpc.Client implements IMakeReaderClient {
@@ -90,4 +104,7 @@ export class MakeReaderClient extends grpc.Client implements IMakeReaderClient {
     public listByPage(request: protobuf_make_make_reader_pb.ListByPageRequest, callback: (error: grpc.ServiceError | null, response: protobuf_make_make_reader_pb.ListByPageResponse) => void): grpc.ClientUnaryCall;
     public listByPage(request: protobuf_make_make_reader_pb.ListByPageRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: protobuf_make_make_reader_pb.ListByPageResponse) => void): grpc.ClientUnaryCall;
     public listByPage(request: protobuf_make_make_reader_pb.ListByPageRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: protobuf_make_make_reader_pb.ListByPageResponse) => void): grpc.ClientUnaryCall;
+    public listByPrefix(request: protobuf_make_make_reader_pb.ListByPrefixRequest, callback: (error: grpc.ServiceError | null, response: protobuf_make_make_reader_pb.ListByPrefixResponse) => void): grpc.ClientUnaryCall;
+    public listByPrefix(request: protobuf_make_make_reader_pb.ListByPrefixRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: protobuf_make_make_reader_pb.ListByPrefixResponse) => void): grpc.ClientUnaryCall;
+    public listByPrefix(request: protobuf_make_make_reader_pb.ListByPrefixRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: protobuf_make_make_reader_pb.ListByPrefixResponse) => void): grpc.ClientUnaryCall;
 }
