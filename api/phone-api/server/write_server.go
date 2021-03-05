@@ -20,7 +20,7 @@ func NewWriteServer(db *sql.DB) *WriteServer {
 }
 
 type WriteServer struct {
-	rpcWriteT
+	rpcWriterT
 
 	repo modelTWriter
 }
