@@ -33,10 +33,12 @@ type Phone struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Id         int64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
-	Name       string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
-	Make       *make1.Make            `protobuf:"bytes,3,opt,name=make,proto3" json:"make,omitempty"`
-	Os         *os.OS                 `protobuf:"bytes,4,opt,name=os,proto3" json:"os,omitempty"`
+	Id   int64       `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name string      `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	Make *make1.Make `protobuf:"bytes,3,opt,name=make,proto3" json:"make,omitempty"`
+	Os   *os.OS      `protobuf:"bytes,4,opt,name=os,proto3" json:"os,omitempty"`
+	// TODO: automatically handle timestamps
+	// TODO: CLI should print warning asking to make auto-handling behavior explicit
 	CreatedAt  *timestamppb.Timestamp `protobuf:"bytes,9000,opt,name=created_at,json=createdAt,proto3" json:"created_at,omitempty"`
 	ModifiedAt *timestamppb.Timestamp `protobuf:"bytes,9001,opt,name=modified_at,json=modifiedAt,proto3" json:"modified_at,omitempty"`
 }

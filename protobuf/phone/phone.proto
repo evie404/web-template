@@ -16,6 +16,8 @@ message Phone {
 
   os.OS os = 4;
 
+  // TODO: automatically handle timestamps
+  // TODO: CLI should print warning asking to make auto-handling behavior explicit
   google.protobuf.Timestamp created_at = 9000;
 
   google.protobuf.Timestamp modified_at = 9001;
