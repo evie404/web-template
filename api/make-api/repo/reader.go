@@ -115,6 +115,10 @@ func (r *Reader) GetManyByIDs(ctx context.Context, ids []int64) ([]*modelT, erro
 }
 
 func (r *Reader) ListByPrefix(ctx context.Context, prefix string, limit int64) ([]*modelT, error) {
+	if limit < 1 {
+		return nil, nil
+	}
+
 	dbResults, err := r.db.ListByPattern(ctx, dbModel.ListByPatternParams{
 		Name:  prefix + "%",
 		Limit: int32(limit),
