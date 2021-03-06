@@ -137,7 +137,7 @@ func TestReader_ListByPrefix(t *testing.T) {
 
 			tx, err := db.Begin()
 			require.NoError(t, err)
-			defer tx.Rollback()
+			defer tx.Rollback() //nolint:errcheck
 
 			w := NewWriter(tx)
 			for _, existing := range tt.fields.existing {
