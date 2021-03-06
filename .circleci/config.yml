@@ -43,6 +43,12 @@ jobs:
       - run:
           command: bazel build //... --disk_cache=~/.bazel_cache --repository_cache=~/.bazel_repo --jobs=2
       - run:
+          command: make db-setup
+      - run:
+          command: make test-db-create
+      - run:
+          command: make test-db-migrate
+      - run:
           command: bazel test //... --disk_cache=~/.bazel_cache --repository_cache=~/.bazel_repo --jobs=2
       - run:
           command: bazel fetch //... --repository_cache=~/.bazel_repo
@@ -90,6 +96,12 @@ jobs:
           key: go-mod-{{ checksum "api/go.sum" }}
           paths:
             - "/go/pkg/mod"
+      - run:
+          command: make db-setup
+      - run:
+          command: make test-db-create
+      - run:
+          command: make test-db-migrate
       - run:
           command: go test -v ./...
           working_directory: ./api
