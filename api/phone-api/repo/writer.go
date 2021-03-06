@@ -22,9 +22,11 @@ func (r *Writer) CreateOne(ctx context.Context, rpcInstance *createReqT) (*model
 	now := time.Now()
 
 	dbResult, err := r.db.CreateOne(ctx, dbModel.CreateOneParams{
-		Name:       rpcInstance.GetName(),
-		CreatedAt:  now,
-		ModifiedAt: now,
+		Name:              rpcInstance.GetName(),
+		ManufacturerID:    int32(rpcInstance.GetManufacturerId()),
+		OperatingSystemID: int32(rpcInstance.GetOperatingSystemId()),
+		CreatedAt:         now,
+		ModifiedAt:        now,
 	})
 	if err != nil {
 		return nil, fmt.Errorf("error inserting into database: %w", err)
