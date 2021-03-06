@@ -20,6 +20,9 @@ jobs:
   "Bazel build":
     docker:
       - image: gcr.io/cloud-builders/bazel@sha256:b18235d91bb725131b40c495c52af6ab7ebce7c9b13b17113a05aa5af752885e
+      - image: circleci/postgres:13.2-ram
+        environment:
+          POSTGRES_DB: web_template_test
     resource_class: medium
     steps:
       - checkout
@@ -68,6 +71,9 @@ jobs:
   "Go build":
     docker:
       - image: circleci/golang:1.16.2
+      - image: circleci/postgres:13.2-ram
+        environment:
+          POSTGRES_DB: web_template_test
     resource_class: small
     working_directory: /go/src/github.com/{{ORG_NAME}}/{{REPO_NAME}}
     steps:
