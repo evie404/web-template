@@ -1,9 +1,5 @@
 package cursor
 
-type CountRequest interface {
-	Getcount() int64
-}
-
 type PageRequest interface {
 	GetPage() int64
 	GetSize() int64
