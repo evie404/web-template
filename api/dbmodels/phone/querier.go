@@ -11,6 +11,7 @@ type Querier interface {
 	CreateOne(ctx context.Context, arg CreateOneParams) (Phone, error)
 	GetByID(ctx context.Context, id int64) (Phone, error)
 	GetManyByIDs(ctx context.Context, dollar_1 []int64) ([]Phone, error)
+	ListByPattern(ctx context.Context, arg ListByPatternParams) ([]Phone, error)
 	ListOffset(ctx context.Context, arg ListOffsetParams) ([]Phone, error)
 }
 

@@ -24,6 +24,10 @@ func toRPCModel(model dbModelT) *modelT {
 }
 
 func toRPCModels(models []dbModelT) []*modelT {
+	if len(models) == 0 {
+		return nil
+	}
+
 	rpcModels := make([]*modelT, len(models))
 
 	for i, model := range models {

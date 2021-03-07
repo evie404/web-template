@@ -87,3 +87,44 @@ func TestGetCursorOptions(t *testing.T) {
 		})
 	}
 }
+
+func TestGetCount(t *testing.T) {
+
+	tests := []struct {
+		name  string
+		count int64
+		want  int64
+	}{
+		{
+			"returns default if count is 0",
+			0,
+			defaultCount,
+		},
+		{
+			"returns default if count is negative",
+			-123,
+			defaultCount,
+		},
+		{
+			"returns max if count is greater than max",
+			maxCount + 1,
+			maxCount,
+		},
+		{
+			"returns max if count is max",
+			maxCount,
+			maxCount,
+		},
+		{
+			"returns count if count is greater than 0 and smaller than max",
+			10,
+			10,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got := GetCount(tt.count)
+			assert.Equal(t, tt.want, got)
+		})
+	}
+}

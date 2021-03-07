@@ -2,7 +2,6 @@ package repo
 
 import (
 	"context"
-	"database/sql"
 	"errors"
 	"fmt"
 	"time"
@@ -14,7 +13,7 @@ type Writer struct {
 	db dbModel.Querier
 }
 
-func NewWriter(db *sql.DB) *Writer {
+func NewWriter(db dbModel.DBTX) *Writer {
 	return &Writer{
 		db: dbModel.New(db),
 	}

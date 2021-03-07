@@ -93,6 +93,28 @@ function deserialize_os_ListByPageResponse(buffer_arg) {
   return protobuf_os_os_reader_pb.ListByPageResponse.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_os_ListByPrefixRequest(arg) {
+  if (!(arg instanceof protobuf_os_os_reader_pb.ListByPrefixRequest)) {
+    throw new Error('Expected argument of type os.ListByPrefixRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_os_ListByPrefixRequest(buffer_arg) {
+  return protobuf_os_os_reader_pb.ListByPrefixRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_os_ListByPrefixResponse(arg) {
+  if (!(arg instanceof protobuf_os_os_reader_pb.ListByPrefixResponse)) {
+    throw new Error('Expected argument of type os.ListByPrefixResponse');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_os_ListByPrefixResponse(buffer_arg) {
+  return protobuf_os_os_reader_pb.ListByPrefixResponse.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 
 var OSReaderService = exports.OSReaderService = {
   getOneByID: {
@@ -138,6 +160,17 @@ var OSReaderService = exports.OSReaderService = {
     requestDeserialize: deserialize_os_ListByPageRequest,
     responseSerialize: serialize_os_ListByPageResponse,
     responseDeserialize: deserialize_os_ListByPageResponse,
+  },
+  listByPrefix: {
+    path: '/os.OSReader/ListByPrefix',
+    requestStream: false,
+    responseStream: false,
+    requestType: protobuf_os_os_reader_pb.ListByPrefixRequest,
+    responseType: protobuf_os_os_reader_pb.ListByPrefixResponse,
+    requestSerialize: serialize_os_ListByPrefixRequest,
+    requestDeserialize: deserialize_os_ListByPrefixRequest,
+    responseSerialize: serialize_os_ListByPrefixResponse,
+    responseDeserialize: deserialize_os_ListByPrefixResponse,
   },
 };
 

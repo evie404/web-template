@@ -2,7 +2,6 @@ package repo
 
 import (
 	"context"
-	"database/sql"
 	"fmt"
 
 	makePb "github.com/rickypai/web-template/api/protobuf/make"
@@ -15,9 +14,9 @@ type HydratedReader struct {
 	hydrator *Hydrator
 }
 
-func NewHydratedReader(db *sql.DB, makeClient makePb.MakeReaderClient, osClient osPb.OSReaderClient) *HydratedReader {
+func NewHydratedReader(repo *Reader, makeClient makePb.MakeReaderClient, osClient osPb.OSReaderClient) *HydratedReader {
 	return &HydratedReader{
-		repo:     NewReader(db),
+		repo:     repo,
 		hydrator: NewHydrator(makeClient, osClient),
 	}
 }
@@ -70,6 +69,20 @@ func (r *HydratedReader) GetManyByIDs(ctx context.Context, ids []int64) ([]*mode
 	}
 
 	results, err := r.repo.GetManyByIDs(ctx, ids)
+	if err != nil {
+		return nil, err
+	}
+
+	err = r.hydrator.HydrateMany(ctx, results)
+	if err != nil {
+		return nil, fmt.Errorf("hydrating: %w", err)
+	}
+
+	return results, nil
+}
+
+func (r *HydratedReader) ListByPrefix(ctx context.Context, prefix string, limit int64) ([]*modelT, error) {
+	results, err := r.repo.ListByPrefix(ctx, prefix, limit)
 	if err != nil {
 		return nil, err
 	}

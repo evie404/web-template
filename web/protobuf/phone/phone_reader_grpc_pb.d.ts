@@ -13,6 +13,7 @@ interface IPhoneReaderService extends grpc.ServiceDefinition<grpc.UntypedService
     getManyByIDs: IPhoneReaderService_IGetManyByIDs;
     listByCursor: IPhoneReaderService_IListByCursor;
     listByPage: IPhoneReaderService_IListByPage;
+    listByPrefix: IPhoneReaderService_IListByPrefix;
 }
 
 interface IPhoneReaderService_IGetOneByID extends grpc.MethodDefinition<protobuf_phone_phone_reader_pb.GetOneByIDRequest, protobuf_phone_phone_reader_pb.GetOneByIDResponse> {
@@ -51,6 +52,15 @@ interface IPhoneReaderService_IListByPage extends grpc.MethodDefinition<protobuf
     responseSerialize: grpc.serialize<protobuf_phone_phone_reader_pb.ListByPageResponse>;
     responseDeserialize: grpc.deserialize<protobuf_phone_phone_reader_pb.ListByPageResponse>;
 }
+interface IPhoneReaderService_IListByPrefix extends grpc.MethodDefinition<protobuf_phone_phone_reader_pb.ListByPrefixRequest, protobuf_phone_phone_reader_pb.ListByPrefixResponse> {
+    path: "/phone.PhoneReader/ListByPrefix";
+    requestStream: false;
+    responseStream: false;
+    requestSerialize: grpc.serialize<protobuf_phone_phone_reader_pb.ListByPrefixRequest>;
+    requestDeserialize: grpc.deserialize<protobuf_phone_phone_reader_pb.ListByPrefixRequest>;
+    responseSerialize: grpc.serialize<protobuf_phone_phone_reader_pb.ListByPrefixResponse>;
+    responseDeserialize: grpc.deserialize<protobuf_phone_phone_reader_pb.ListByPrefixResponse>;
+}
 
 export const PhoneReaderService: IPhoneReaderService;
 
@@ -59,6 +69,7 @@ export interface IPhoneReaderServer {
     getManyByIDs: grpc.handleUnaryCall<protobuf_phone_phone_reader_pb.GetManyByIDsRequest, protobuf_phone_phone_reader_pb.GetManyByIDsResponse>;
     listByCursor: grpc.handleUnaryCall<protobuf_phone_phone_reader_pb.ListByCursorRequest, protobuf_phone_phone_reader_pb.ListByCursorResponse>;
     listByPage: grpc.handleUnaryCall<protobuf_phone_phone_reader_pb.ListByPageRequest, protobuf_phone_phone_reader_pb.ListByPageResponse>;
+    listByPrefix: grpc.handleUnaryCall<protobuf_phone_phone_reader_pb.ListByPrefixRequest, protobuf_phone_phone_reader_pb.ListByPrefixResponse>;
 }
 
 export interface IPhoneReaderClient {
@@ -74,6 +85,9 @@ export interface IPhoneReaderClient {
     listByPage(request: protobuf_phone_phone_reader_pb.ListByPageRequest, callback: (error: grpc.ServiceError | null, response: protobuf_phone_phone_reader_pb.ListByPageResponse) => void): grpc.ClientUnaryCall;
     listByPage(request: protobuf_phone_phone_reader_pb.ListByPageRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: protobuf_phone_phone_reader_pb.ListByPageResponse) => void): grpc.ClientUnaryCall;
     listByPage(request: protobuf_phone_phone_reader_pb.ListByPageRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: protobuf_phone_phone_reader_pb.ListByPageResponse) => void): grpc.ClientUnaryCall;
+    listByPrefix(request: protobuf_phone_phone_reader_pb.ListByPrefixRequest, callback: (error: grpc.ServiceError | null, response: protobuf_phone_phone_reader_pb.ListByPrefixResponse) => void): grpc.ClientUnaryCall;
+    listByPrefix(request: protobuf_phone_phone_reader_pb.ListByPrefixRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: protobuf_phone_phone_reader_pb.ListByPrefixResponse) => void): grpc.ClientUnaryCall;
+    listByPrefix(request: protobuf_phone_phone_reader_pb.ListByPrefixRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: protobuf_phone_phone_reader_pb.ListByPrefixResponse) => void): grpc.ClientUnaryCall;
 }
 
 export class PhoneReaderClient extends grpc.Client implements IPhoneReaderClient {
@@ -90,4 +104,7 @@ export class PhoneReaderClient extends grpc.Client implements IPhoneReaderClient
     public listByPage(request: protobuf_phone_phone_reader_pb.ListByPageRequest, callback: (error: grpc.ServiceError | null, response: protobuf_phone_phone_reader_pb.ListByPageResponse) => void): grpc.ClientUnaryCall;
     public listByPage(request: protobuf_phone_phone_reader_pb.ListByPageRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: protobuf_phone_phone_reader_pb.ListByPageResponse) => void): grpc.ClientUnaryCall;
     public listByPage(request: protobuf_phone_phone_reader_pb.ListByPageRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: protobuf_phone_phone_reader_pb.ListByPageResponse) => void): grpc.ClientUnaryCall;
+    public listByPrefix(request: protobuf_phone_phone_reader_pb.ListByPrefixRequest, callback: (error: grpc.ServiceError | null, response: protobuf_phone_phone_reader_pb.ListByPrefixResponse) => void): grpc.ClientUnaryCall;
+    public listByPrefix(request: protobuf_phone_phone_reader_pb.ListByPrefixRequest, metadata: grpc.Metadata, callback: (error: grpc.ServiceError | null, response: protobuf_phone_phone_reader_pb.ListByPrefixResponse) => void): grpc.ClientUnaryCall;
+    public listByPrefix(request: protobuf_phone_phone_reader_pb.ListByPrefixRequest, metadata: grpc.Metadata, options: Partial<grpc.CallOptions>, callback: (error: grpc.ServiceError | null, response: protobuf_phone_phone_reader_pb.ListByPrefixResponse) => void): grpc.ClientUnaryCall;
 }

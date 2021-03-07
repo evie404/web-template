@@ -20,11 +20,14 @@ type modelTReader interface {
 
 	ListByPage(context.Context, cursor.PageRequest) ([]modelT, *cursor.PageResult, error)
 	ListByCursor(context.Context, cursor.CursorRequest) ([]modelT, *cursor.CursorResult, error)
+
+	ListByPrefix(context.Context, string, int64) ([]modelT, error)
 }
 
 func NewReadServer(db *sql.DB, makeClient makePb.MakeReaderClient, osClient osPb.OSReaderClient) *ReadServer {
+	reader := repo.NewReader(db)
 	return &ReadServer{
-		repo: repo.NewHydratedReader(db, makeClient, osClient),
+		repo: repo.NewHydratedReader(reader, makeClient, osClient),
 	}
 }
 
@@ -82,6 +85,17 @@ func (s *ReadServer) GetManyByIDs(ctx context.Context, req *rpc.GetManyByIDsRequ
 	}
 
 	return &rpc.GetManyByIDsResponse{
+		Results: results,
+	}, nil
+}
+
+func (s *ReadServer) ListByPrefix(ctx context.Context, req *rpc.ListByPrefixRequest) (*rpc.ListByPrefixResponse, error) {
+	results, err := s.repo.ListByPrefix(ctx, req.GetPrefix(), cursor.GetCount(req.GetCount()))
+	if err != nil {
+		return nil, fmt.Errorf("error fetching %s: %w", modelName, err)
+	}
+
+	return &rpc.ListByPrefixResponse{
 		Results: results,
 	}, nil
 }

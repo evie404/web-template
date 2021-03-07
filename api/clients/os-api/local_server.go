@@ -34,3 +34,7 @@ func (s *LocalReadServer) ListByCursor(ctx context.Context, req *rpc.ListByCurso
 func (s *LocalReadServer) ListByPage(ctx context.Context, req *rpc.ListByPageRequest, opts ...grpc.CallOption) (*rpc.ListByPageResponse, error) {
 	return s.localServer.ListByPage(ctx, req)
 }
+
+func (s *LocalReadServer) ListByPrefix(ctx context.Context, req *rpc.ListByPrefixRequest, opts ...grpc.CallOption) (*rpc.ListByPrefixResponse, error) {
+	return s.localServer.ListByPrefix(ctx, req)
+}
