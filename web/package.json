@@ -10,6 +10,10 @@
     "test": "jest"
   },
   "dependencies": {
+    "@bazel/bazelisk": "latest",
+    "@bazel/ibazel": "latest",
+    "@bazel/buildifier": "latest",
+    "@bazel/typescript": "latest",
     "@grpc/grpc-js": "^1.2.2",
     "@zeit/next-css": "^1.0.1",
     "@zeit/next-less": "^1.0.1",

@@ -1,0 +1,44 @@
+load("@web_npm//@bazel/typescript:index.bzl", "ts_project")
+
+# Allow any ts_library rules in this workspace to reference the config
+# Note: if you move the tsconfig.json file to a subdirectory, you can add an alias() here instead
+#   so that ts_library rules still use it by default.
+#   See https://www.npmjs.com/package/@bazel/typescript#installation
+exports_files(
+    ["tsconfig.json"],
+    visibility = ["//:__subpackages__"],
+)
+
+# ts_config(
+#     name = "tsconfig",
+#     src = "tsconfig.json",
+#     visibility = ["//:__subpackages__"],
+# )
+
+ts_project(
+    name = "tsconfig",
+    srcs = glob(
+        [
+            "**/*.tsx",
+            "**/*.ts",
+            "**/*.js",
+            "next-env.d.ts",
+        ],
+    ),
+    allow_js = True,
+    validate = False,
+    deps = [
+        # "@web_npm//@types/jasmine",
+        "@web_npm//antd",
+        "@web_npm//next",
+        "@web_npm//grpc-web",
+        "@web_npm//react",
+        "@web_npm//@grpc/grpc-js",
+        # "@web_npm//jsx",
+    ],
+    # just a test for the pass-through args attribute
+    # args = ["--emitBOM"],
+    # composite = True,
+    # extends = ["//packages/typescript/test/ts_project:tsconfig-base.json"],
+    # deps = ["//packages/typescript/test/ts_project/a:tsconfig"],
+)
