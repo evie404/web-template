@@ -10,7 +10,7 @@ service MakeWriter {
 }
 
 message CreateOneRequest {
-  make.Make request = 1;
+  make.MakeRecord request = 1;
 }
 
 message CreateOneResponse {

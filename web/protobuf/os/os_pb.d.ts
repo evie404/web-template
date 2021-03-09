@@ -37,3 +37,37 @@ export namespace OS {
   }
 }
 
+export class OSRecord extends jspb.Message {
+  getId(): number;
+  setId(value: number): OSRecord;
+
+  getName(): string;
+  setName(value: string): OSRecord;
+
+  getCreatedAt(): google_protobuf_timestamp_pb.Timestamp | undefined;
+  setCreatedAt(value?: google_protobuf_timestamp_pb.Timestamp): OSRecord;
+  hasCreatedAt(): boolean;
+  clearCreatedAt(): OSRecord;
+
+  getModifiedAt(): google_protobuf_timestamp_pb.Timestamp | undefined;
+  setModifiedAt(value?: google_protobuf_timestamp_pb.Timestamp): OSRecord;
+  hasModifiedAt(): boolean;
+  clearModifiedAt(): OSRecord;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): OSRecord.AsObject;
+  static toObject(includeInstance: boolean, msg: OSRecord): OSRecord.AsObject;
+  static serializeBinaryToWriter(message: OSRecord, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): OSRecord;
+  static deserializeBinaryFromReader(message: OSRecord, reader: jspb.BinaryReader): OSRecord;
+}
+
+export namespace OSRecord {
+  export type AsObject = {
+    id: number,
+    name: string,
+    createdAt?: google_protobuf_timestamp_pb.Timestamp.AsObject,
+    modifiedAt?: google_protobuf_timestamp_pb.Timestamp.AsObject,
+  }
+}
+

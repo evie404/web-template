@@ -28,7 +28,7 @@ func toRPCModels(models []dbModelT) []*modelT {
 	return rpcModels
 }
 
-func toDBModel(rpcModel *modelT) *dbModelT {
+func toDBModel(rpcModel *recordT) *dbModelT {
 	if rpcModel == nil {
 		return nil
 	}

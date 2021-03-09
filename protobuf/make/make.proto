@@ -14,3 +14,13 @@ message Make {
 
   google.protobuf.Timestamp modified_at = 9001;
 }
+
+message MakeRecord {
+  int64 id = 1;
+
+  string name = 2;
+
+  google.protobuf.Timestamp created_at = 9000;
+
+  google.protobuf.Timestamp modified_at = 9001;
+}
