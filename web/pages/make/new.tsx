@@ -5,13 +5,13 @@ import {
   CreateOneRequest,
   CreateOneResponse,
 } from "../../protobuf/make/make_writer_pb";
-import { Make } from "../../protobuf/make/make_pb";
+import { MakeCreateRequest } from "../../protobuf/make/make_pb";
 import MakeWriterClient from "../../clients/grpc-web/make_writer_client";
-import { toMakeProto } from "../../conversions/make";
+import { toMakeCreateRequest } from "../../conversions/make";
 
-const onFinish = (values: Make.AsObject) => {
+const onFinish = (values: MakeCreateRequest.AsObject) => {
   let request = new CreateOneRequest();
-  request.setRequest(toMakeProto(values));
+  request.setRequest(toMakeCreateRequest(values));
 
   MakeWriterClient.createOne(request, {})
     .then((response: CreateOneResponse) => {
@@ -28,7 +28,7 @@ const MakeNewPage = (): JSX.Element => (
   <Container menuKey="make">
     <h1>New Make</h1>
     <div>
-      <Form<Make.AsObject> onFinish={onFinish}>
+      <Form<MakeCreateRequest.AsObject> onFinish={onFinish}>
         <Form.Item name="name" label="Name" rules={[{ required: true }]}>
           <Input />
         </Form.Item>

@@ -5,13 +5,13 @@ import {
   CreateOneRequest,
   CreateOneResponse,
 } from "../../protobuf/os/os_writer_pb";
-import { OS } from "../../protobuf/os/os_pb";
+import { OSCreateRequest } from "../../protobuf/os/os_pb";
 import OSWriterClient from "../../clients/grpc-web/os_writer_client";
-import { toOSProto } from "../../conversions/os";
+import { toOSCreateRequest } from "../../conversions/os";
 
-const onFinish = (values: OS.AsObject) => {
+const onFinish = (values: OSCreateRequest.AsObject) => {
   let request = new CreateOneRequest();
-  request.setRequest(toOSProto(values));
+  request.setRequest(toOSCreateRequest(values));
 
   OSWriterClient.createOne(request, {})
     .then((response: CreateOneResponse) => {
@@ -28,7 +28,7 @@ const OSNewPage = (): JSX.Element => (
   <Container menuKey="os">
     <h1>New OS</h1>
     <div>
-      <Form<OS.AsObject> onFinish={onFinish}>
+      <Form<OSCreateRequest.AsObject> onFinish={onFinish}>
         <Form.Item name="name" label="Name" rules={[{ required: true }]}>
           <Input />
         </Form.Item>

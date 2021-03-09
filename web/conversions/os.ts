@@ -1,15 +1,13 @@
-import { OS } from "../protobuf/os/os_pb";
+import { OSCreateRequest } from "../protobuf/os/os_pb";
 
-export const toOSProto = (obj?: OS.AsObject): OS | null => {
-  if (obj == null) {
-    return null;
-  }
-
+export const toOSCreateRequest = (
+  obj: OSCreateRequest.AsObject
+): OSCreateRequest => {
   // TODO: auto-populate fields
-  const instance = new OS();
+  const instance = new OSCreateRequest();
   instance.setName(obj.name);
 
   return instance;
 };
 
-export default toOSProto;
+export default toOSCreateRequest;

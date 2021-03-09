@@ -1,15 +1,13 @@
-import { Make } from "../protobuf/make/make_pb";
+import { MakeCreateRequest } from "../protobuf/make/make_pb";
 
-export const toMakeProto = (obj?: Make.AsObject): Make | null => {
-  if (obj == null) {
-    return null;
-  }
-
+export const toMakeCreateRequest = (
+  obj: MakeCreateRequest.AsObject
+): MakeCreateRequest => {
   // TODO: auto-populate fields
-  const instance = new Make();
+  const instance = new MakeCreateRequest();
   instance.setName(obj.name);
 
   return instance;
 };
 
-export default toMakeProto;
+export default toMakeCreateRequest;
