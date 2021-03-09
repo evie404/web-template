@@ -1,19 +1,18 @@
-import { OS } from "../protobuf/os/os_pb";
-import { toOSProto } from "./os";
+import { OSCreateRequest } from "../protobuf/os/os_pb";
+import { toOSCreateRequest } from "./os";
 
-describe("toOSProto", () => {
+describe("toOSCreateRequest", () => {
   it("converts os object to os proto message", () => {
     expect.assertions(1);
 
     const name = "lol";
-    const id = 0;
 
-    const expected = new OS();
-    const obj: OS.AsObject = { id, name };
+    const expected = new OSCreateRequest();
+    const obj: OSCreateRequest.AsObject = { name };
 
     expected.setName(name);
 
-    const got = toOSProto(obj);
+    const got = toOSCreateRequest(obj);
 
     expect(got).toMatchObject(expected);
   });

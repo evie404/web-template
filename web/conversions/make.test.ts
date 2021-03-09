@@ -1,19 +1,18 @@
-import { Make } from "../protobuf/make/make_pb";
-import { toMakeProto } from "./make";
+import { MakeCreateRequest } from "../protobuf/make/make_pb";
+import { toMakeCreateRequest } from "./make";
 
-describe("toMakeProto", () => {
+describe("toMakeCreateRequest", () => {
   it("converts make object to make proto message", () => {
     expect.assertions(1);
 
     const name = "lol";
-    const id = 0;
 
-    const expected = new Make();
-    const obj: Make.AsObject = { id, name };
+    const expected = new MakeCreateRequest();
+    const obj: MakeCreateRequest.AsObject = { name };
 
     expected.setName(name);
 
-    const got = toMakeProto(obj);
+    const got = toMakeCreateRequest(obj);
 
     expect(got).toMatchObject(expected);
   });

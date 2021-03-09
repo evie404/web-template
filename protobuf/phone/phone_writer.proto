@@ -10,7 +10,7 @@ service PhoneWriter {
 }
 
 message CreateOneRequest {
-  phone.PhoneRecord request = 1;
+  phone.PhoneCreateRequest request = 1;
 }
 
 message CreateOneResponse {

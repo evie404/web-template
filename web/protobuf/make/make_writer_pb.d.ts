@@ -4,8 +4,8 @@ import * as protobuf_make_make_pb from '../../protobuf/make/make_pb';
 
 
 export class CreateOneRequest extends jspb.Message {
-  getRequest(): protobuf_make_make_pb.MakeRecord | undefined;
-  setRequest(value?: protobuf_make_make_pb.MakeRecord): CreateOneRequest;
+  getRequest(): protobuf_make_make_pb.MakeCreateRequest | undefined;
+  setRequest(value?: protobuf_make_make_pb.MakeCreateRequest): CreateOneRequest;
   hasRequest(): boolean;
   clearRequest(): CreateOneRequest;
 
@@ -19,7 +19,7 @@ export class CreateOneRequest extends jspb.Message {
 
 export namespace CreateOneRequest {
   export type AsObject = {
-    request?: protobuf_make_make_pb.MakeRecord.AsObject,
+    request?: protobuf_make_make_pb.MakeCreateRequest.AsObject,
   }
 }
 

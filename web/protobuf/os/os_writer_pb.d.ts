@@ -4,8 +4,8 @@ import * as protobuf_os_os_pb from '../../protobuf/os/os_pb';
 
 
 export class CreateOneRequest extends jspb.Message {
-  getRequest(): protobuf_os_os_pb.OSRecord | undefined;
-  setRequest(value?: protobuf_os_os_pb.OSRecord): CreateOneRequest;
+  getRequest(): protobuf_os_os_pb.OSCreateRequest | undefined;
+  setRequest(value?: protobuf_os_os_pb.OSCreateRequest): CreateOneRequest;
   hasRequest(): boolean;
   clearRequest(): CreateOneRequest;
 
@@ -19,7 +19,7 @@ export class CreateOneRequest extends jspb.Message {
 
 export namespace CreateOneRequest {
   export type AsObject = {
-    request?: protobuf_os_os_pb.OSRecord.AsObject,
+    request?: protobuf_os_os_pb.OSCreateRequest.AsObject,
   }
 }
 

@@ -93,3 +93,29 @@ export namespace PhoneRecord {
   }
 }
 
+export class PhoneCreateRequest extends jspb.Message {
+  getName(): string;
+  setName(value: string): PhoneCreateRequest;
+
+  getMakeId(): number;
+  setMakeId(value: number): PhoneCreateRequest;
+
+  getOsId(): number;
+  setOsId(value: number): PhoneCreateRequest;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): PhoneCreateRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: PhoneCreateRequest): PhoneCreateRequest.AsObject;
+  static serializeBinaryToWriter(message: PhoneCreateRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): PhoneCreateRequest;
+  static deserializeBinaryFromReader(message: PhoneCreateRequest, reader: jspb.BinaryReader): PhoneCreateRequest;
+}
+
+export namespace PhoneCreateRequest {
+  export type AsObject = {
+    name: string,
+    makeId: number,
+    osId: number,
+  }
+}
+

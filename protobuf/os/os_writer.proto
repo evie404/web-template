@@ -10,7 +10,7 @@ service OSWriter {
 }
 
 message CreateOneRequest {
-  os.OSRecord request = 1;
+  os.OSCreateRequest request = 1;
 }
 
 message CreateOneResponse {

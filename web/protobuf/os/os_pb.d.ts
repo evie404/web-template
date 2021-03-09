@@ -71,3 +71,21 @@ export namespace OSRecord {
   }
 }
 
+export class OSCreateRequest extends jspb.Message {
+  getName(): string;
+  setName(value: string): OSCreateRequest;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): OSCreateRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: OSCreateRequest): OSCreateRequest.AsObject;
+  static serializeBinaryToWriter(message: OSCreateRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): OSCreateRequest;
+  static deserializeBinaryFromReader(message: OSCreateRequest, reader: jspb.BinaryReader): OSCreateRequest;
+}
+
+export namespace OSCreateRequest {
+  export type AsObject = {
+    name: string,
+  }
+}
+

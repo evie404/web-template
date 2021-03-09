@@ -204,6 +204,70 @@ func (x *PhoneRecord) GetModifiedAt() *timestamppb.Timestamp {
 	return nil
 }
 
+type PhoneCreateRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// same field number to ensure wire-compatbility
+	Name   string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	MakeId int64  `protobuf:"varint,3,opt,name=make_id,json=makeId,proto3" json:"make_id,omitempty"`
+	OsId   int64  `protobuf:"varint,4,opt,name=os_id,json=osId,proto3" json:"os_id,omitempty"`
+}
+
+func (x *PhoneCreateRequest) Reset() {
+	*x = PhoneCreateRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_protobuf_phone_phone_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *PhoneCreateRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*PhoneCreateRequest) ProtoMessage() {}
+
+func (x *PhoneCreateRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_protobuf_phone_phone_proto_msgTypes[2]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use PhoneCreateRequest.ProtoReflect.Descriptor instead.
+func (*PhoneCreateRequest) Descriptor() ([]byte, []int) {
+	return file_protobuf_phone_phone_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *PhoneCreateRequest) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *PhoneCreateRequest) GetMakeId() int64 {
+	if x != nil {
+		return x.MakeId
+	}
+	return 0
+}
+
+func (x *PhoneCreateRequest) GetOsId() int64 {
+	if x != nil {
+		return x.OsId
+	}
+	return 0
+}
+
 var File_protobuf_phone_phone_proto protoreflect.FileDescriptor
 
 var file_protobuf_phone_phone_proto_rawDesc = []byte{
@@ -242,10 +306,16 @@ var file_protobuf_phone_phone_proto_rawDesc = []byte{
 	0x74, 0x18, 0xa9, 0x46, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c,
 	0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73,
 	0x74, 0x61, 0x6d, 0x70, 0x52, 0x0a, 0x6d, 0x6f, 0x64, 0x69, 0x66, 0x69, 0x65, 0x64, 0x41, 0x74,
-	0x42, 0x35, 0x5a, 0x33, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x72,
-	0x69, 0x63, 0x6b, 0x79, 0x70, 0x61, 0x69, 0x2f, 0x77, 0x65, 0x62, 0x2d, 0x74, 0x65, 0x6d, 0x70,
-	0x6c, 0x61, 0x74, 0x65, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75,
-	0x66, 0x2f, 0x70, 0x68, 0x6f, 0x6e, 0x65, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x22, 0x56, 0x0a, 0x12, 0x50, 0x68, 0x6f, 0x6e, 0x65, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x52,
+	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x02,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x12, 0x17, 0x0a, 0x07, 0x6d, 0x61,
+	0x6b, 0x65, 0x5f, 0x69, 0x64, 0x18, 0x03, 0x20, 0x01, 0x28, 0x03, 0x52, 0x06, 0x6d, 0x61, 0x6b,
+	0x65, 0x49, 0x64, 0x12, 0x13, 0x0a, 0x05, 0x6f, 0x73, 0x5f, 0x69, 0x64, 0x18, 0x04, 0x20, 0x01,
+	0x28, 0x03, 0x52, 0x04, 0x6f, 0x73, 0x49, 0x64, 0x42, 0x35, 0x5a, 0x33, 0x67, 0x69, 0x74, 0x68,
+	0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x72, 0x69, 0x63, 0x6b, 0x79, 0x70, 0x61, 0x69, 0x2f,
+	0x77, 0x65, 0x62, 0x2d, 0x74, 0x65, 0x6d, 0x70, 0x6c, 0x61, 0x74, 0x65, 0x2f, 0x61, 0x70, 0x69,
+	0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2f, 0x70, 0x68, 0x6f, 0x6e, 0x65, 0x62,
+	0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -260,21 +330,22 @@ func file_protobuf_phone_phone_proto_rawDescGZIP() []byte {
 	return file_protobuf_phone_phone_proto_rawDescData
 }
 
-var file_protobuf_phone_phone_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_protobuf_phone_phone_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_protobuf_phone_phone_proto_goTypes = []interface{}{
 	(*Phone)(nil),                 // 0: phone.Phone
 	(*PhoneRecord)(nil),           // 1: phone.PhoneRecord
-	(*make1.Make)(nil),            // 2: make.Make
-	(*os.OS)(nil),                 // 3: os.OS
-	(*timestamppb.Timestamp)(nil), // 4: google.protobuf.Timestamp
+	(*PhoneCreateRequest)(nil),    // 2: phone.PhoneCreateRequest
+	(*make1.Make)(nil),            // 3: make.Make
+	(*os.OS)(nil),                 // 4: os.OS
+	(*timestamppb.Timestamp)(nil), // 5: google.protobuf.Timestamp
 }
 var file_protobuf_phone_phone_proto_depIdxs = []int32{
-	2, // 0: phone.Phone.make:type_name -> make.Make
-	3, // 1: phone.Phone.os:type_name -> os.OS
-	4, // 2: phone.Phone.created_at:type_name -> google.protobuf.Timestamp
-	4, // 3: phone.Phone.modified_at:type_name -> google.protobuf.Timestamp
-	4, // 4: phone.PhoneRecord.created_at:type_name -> google.protobuf.Timestamp
-	4, // 5: phone.PhoneRecord.modified_at:type_name -> google.protobuf.Timestamp
+	3, // 0: phone.Phone.make:type_name -> make.Make
+	4, // 1: phone.Phone.os:type_name -> os.OS
+	5, // 2: phone.Phone.created_at:type_name -> google.protobuf.Timestamp
+	5, // 3: phone.Phone.modified_at:type_name -> google.protobuf.Timestamp
+	5, // 4: phone.PhoneRecord.created_at:type_name -> google.protobuf.Timestamp
+	5, // 5: phone.PhoneRecord.modified_at:type_name -> google.protobuf.Timestamp
 	6, // [6:6] is the sub-list for method output_type
 	6, // [6:6] is the sub-list for method input_type
 	6, // [6:6] is the sub-list for extension type_name
@@ -312,6 +383,18 @@ func file_protobuf_phone_phone_proto_init() {
 				return nil
 			}
 		}
+		file_protobuf_phone_phone_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*PhoneCreateRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -319,7 +402,7 @@ func file_protobuf_phone_phone_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_protobuf_phone_phone_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

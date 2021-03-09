@@ -10,7 +10,7 @@ import (
 )
 
 type modelTWriter interface {
-	CreateOne(ctx context.Context, rpcInstance *recordT) (*modelT, error)
+	CreateOne(ctx context.Context, rpcInstance *createReqT) (*modelT, error)
 }
 
 func NewWriteServer(db *sql.DB) *WriteServer {

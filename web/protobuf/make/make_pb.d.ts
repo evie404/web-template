@@ -71,3 +71,21 @@ export namespace MakeRecord {
   }
 }
 
+export class MakeCreateRequest extends jspb.Message {
+  getName(): string;
+  setName(value: string): MakeCreateRequest;
+
+  serializeBinary(): Uint8Array;
+  toObject(includeInstance?: boolean): MakeCreateRequest.AsObject;
+  static toObject(includeInstance: boolean, msg: MakeCreateRequest): MakeCreateRequest.AsObject;
+  static serializeBinaryToWriter(message: MakeCreateRequest, writer: jspb.BinaryWriter): void;
+  static deserializeBinary(bytes: Uint8Array): MakeCreateRequest;
+  static deserializeBinaryFromReader(message: MakeCreateRequest, reader: jspb.BinaryReader): MakeCreateRequest;
+}
+
+export namespace MakeCreateRequest {
+  export type AsObject = {
+    name: string,
+  }
+}
+
