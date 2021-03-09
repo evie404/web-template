@@ -15,13 +15,13 @@ import (
 )
 
 type modelTReader interface {
-	GetOneByID(context.Context, int64) (modelT, error)
-	GetManyByIDs(context.Context, []int64) ([]modelT, error)
+	GetOneByID(context.Context, int64) (*modelT, error)
+	GetManyByIDs(context.Context, []int64) ([]*modelT, error)
 
-	ListByPage(context.Context, cursor.PageRequest) ([]modelT, *cursor.PageResult, error)
-	ListByCursor(context.Context, cursor.CursorRequest) ([]modelT, *cursor.CursorResult, error)
+	ListByPage(context.Context, cursor.PageRequest) ([]*modelT, *cursor.PageResult, error)
+	ListByCursor(context.Context, cursor.CursorRequest) ([]*modelT, *cursor.CursorResult, error)
 
-	ListByPrefix(context.Context, string, int64) ([]modelT, error)
+	ListByPrefix(context.Context, string, int64) ([]*modelT, error)
 }
 
 func NewReadServer(db *sql.DB, makeClient makePb.MakeReaderClient, osClient osPb.OSReaderClient) *ReadServer {
