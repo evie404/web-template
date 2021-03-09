@@ -92,7 +92,7 @@ proto.make.CreateOneRequest.prototype.toObject = function(opt_includeInstance) {
  */
 proto.make.CreateOneRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-    request: (f = msg.getRequest()) && protobuf_make_make_pb.MakeRecord.toObject(includeInstance, f)
+    request: (f = msg.getRequest()) && protobuf_make_make_pb.MakeCreateRequest.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -130,8 +130,8 @@ proto.make.CreateOneRequest.deserializeBinaryFromReader = function(msg, reader) 
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new protobuf_make_make_pb.MakeRecord;
-      reader.readMessage(value,protobuf_make_make_pb.MakeRecord.deserializeBinaryFromReader);
+      var value = new protobuf_make_make_pb.MakeCreateRequest;
+      reader.readMessage(value,protobuf_make_make_pb.MakeCreateRequest.deserializeBinaryFromReader);
       msg.setRequest(value);
       break;
     default:
@@ -168,24 +168,24 @@ proto.make.CreateOneRequest.serializeBinaryToWriter = function(message, writer) 
     writer.writeMessage(
       1,
       f,
-      protobuf_make_make_pb.MakeRecord.serializeBinaryToWriter
+      protobuf_make_make_pb.MakeCreateRequest.serializeBinaryToWriter
     );
   }
 };
 
 
 /**
- * optional MakeRecord request = 1;
- * @return {?proto.make.MakeRecord}
+ * optional MakeCreateRequest request = 1;
+ * @return {?proto.make.MakeCreateRequest}
  */
 proto.make.CreateOneRequest.prototype.getRequest = function() {
-  return /** @type{?proto.make.MakeRecord} */ (
-    jspb.Message.getWrapperField(this, protobuf_make_make_pb.MakeRecord, 1));
+  return /** @type{?proto.make.MakeCreateRequest} */ (
+    jspb.Message.getWrapperField(this, protobuf_make_make_pb.MakeCreateRequest, 1));
 };
 
 
 /**
- * @param {?proto.make.MakeRecord|undefined} value
+ * @param {?proto.make.MakeCreateRequest|undefined} value
  * @return {!proto.make.CreateOneRequest} returns this
 */
 proto.make.CreateOneRequest.prototype.setRequest = function(value) {

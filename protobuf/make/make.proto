@@ -24,3 +24,8 @@ message MakeRecord {
 
   google.protobuf.Timestamp modified_at = 9001;
 }
+
+message MakeCreateRequest {
+  // same field number to ensure wire-compatbility
+  string name = 2;
+}

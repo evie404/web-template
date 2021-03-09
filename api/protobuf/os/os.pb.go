@@ -168,6 +168,54 @@ func (x *OSRecord) GetModifiedAt() *timestamppb.Timestamp {
 	return nil
 }
 
+type OSCreateRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	// same field number to ensure wire-compatbility
+	Name string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+}
+
+func (x *OSCreateRequest) Reset() {
+	*x = OSCreateRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_protobuf_os_os_proto_msgTypes[2]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *OSCreateRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*OSCreateRequest) ProtoMessage() {}
+
+func (x *OSCreateRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_protobuf_os_os_proto_msgTypes[2]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use OSCreateRequest.ProtoReflect.Descriptor instead.
+func (*OSCreateRequest) Descriptor() ([]byte, []int) {
+	return file_protobuf_os_os_proto_rawDescGZIP(), []int{2}
+}
+
+func (x *OSCreateRequest) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
 var File_protobuf_os_os_proto protoreflect.FileDescriptor
 
 var file_protobuf_os_os_proto_rawDesc = []byte{
@@ -195,11 +243,13 @@ var file_protobuf_os_os_proto_rawDesc = []byte{
 	0x0b, 0x6d, 0x6f, 0x64, 0x69, 0x66, 0x69, 0x65, 0x64, 0x5f, 0x61, 0x74, 0x18, 0xa9, 0x46, 0x20,
 	0x01, 0x28, 0x0b, 0x32, 0x1a, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f,
 	0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x52,
-	0x0a, 0x6d, 0x6f, 0x64, 0x69, 0x66, 0x69, 0x65, 0x64, 0x41, 0x74, 0x42, 0x32, 0x5a, 0x30, 0x67,
-	0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x72, 0x69, 0x63, 0x6b, 0x79, 0x70,
-	0x61, 0x69, 0x2f, 0x77, 0x65, 0x62, 0x2d, 0x74, 0x65, 0x6d, 0x70, 0x6c, 0x61, 0x74, 0x65, 0x2f,
-	0x61, 0x70, 0x69, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2f, 0x6f, 0x73, 0x62,
-	0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x0a, 0x6d, 0x6f, 0x64, 0x69, 0x66, 0x69, 0x65, 0x64, 0x41, 0x74, 0x22, 0x25, 0x0a, 0x0f, 0x4f,
+	0x53, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x12,
+	0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61,
+	0x6d, 0x65, 0x42, 0x32, 0x5a, 0x30, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d,
+	0x2f, 0x72, 0x69, 0x63, 0x6b, 0x79, 0x70, 0x61, 0x69, 0x2f, 0x77, 0x65, 0x62, 0x2d, 0x74, 0x65,
+	0x6d, 0x70, 0x6c, 0x61, 0x74, 0x65, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f,
+	0x62, 0x75, 0x66, 0x2f, 0x6f, 0x73, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -214,17 +264,18 @@ func file_protobuf_os_os_proto_rawDescGZIP() []byte {
 	return file_protobuf_os_os_proto_rawDescData
 }
 
-var file_protobuf_os_os_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_protobuf_os_os_proto_msgTypes = make([]protoimpl.MessageInfo, 3)
 var file_protobuf_os_os_proto_goTypes = []interface{}{
 	(*OS)(nil),                    // 0: os.OS
 	(*OSRecord)(nil),              // 1: os.OSRecord
-	(*timestamppb.Timestamp)(nil), // 2: google.protobuf.Timestamp
+	(*OSCreateRequest)(nil),       // 2: os.OSCreateRequest
+	(*timestamppb.Timestamp)(nil), // 3: google.protobuf.Timestamp
 }
 var file_protobuf_os_os_proto_depIdxs = []int32{
-	2, // 0: os.OS.created_at:type_name -> google.protobuf.Timestamp
-	2, // 1: os.OS.modified_at:type_name -> google.protobuf.Timestamp
-	2, // 2: os.OSRecord.created_at:type_name -> google.protobuf.Timestamp
-	2, // 3: os.OSRecord.modified_at:type_name -> google.protobuf.Timestamp
+	3, // 0: os.OS.created_at:type_name -> google.protobuf.Timestamp
+	3, // 1: os.OS.modified_at:type_name -> google.protobuf.Timestamp
+	3, // 2: os.OSRecord.created_at:type_name -> google.protobuf.Timestamp
+	3, // 3: os.OSRecord.modified_at:type_name -> google.protobuf.Timestamp
 	4, // [4:4] is the sub-list for method output_type
 	4, // [4:4] is the sub-list for method input_type
 	4, // [4:4] is the sub-list for extension type_name
@@ -262,6 +313,18 @@ func file_protobuf_os_os_proto_init() {
 				return nil
 			}
 		}
+		file_protobuf_os_os_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*OSCreateRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -269,7 +332,7 @@ func file_protobuf_os_os_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_protobuf_os_os_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   3,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

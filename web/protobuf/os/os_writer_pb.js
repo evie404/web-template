@@ -92,7 +92,7 @@ proto.os.CreateOneRequest.prototype.toObject = function(opt_includeInstance) {
  */
 proto.os.CreateOneRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-    request: (f = msg.getRequest()) && protobuf_os_os_pb.OSRecord.toObject(includeInstance, f)
+    request: (f = msg.getRequest()) && protobuf_os_os_pb.OSCreateRequest.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -130,8 +130,8 @@ proto.os.CreateOneRequest.deserializeBinaryFromReader = function(msg, reader) {
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new protobuf_os_os_pb.OSRecord;
-      reader.readMessage(value,protobuf_os_os_pb.OSRecord.deserializeBinaryFromReader);
+      var value = new protobuf_os_os_pb.OSCreateRequest;
+      reader.readMessage(value,protobuf_os_os_pb.OSCreateRequest.deserializeBinaryFromReader);
       msg.setRequest(value);
       break;
     default:
@@ -168,24 +168,24 @@ proto.os.CreateOneRequest.serializeBinaryToWriter = function(message, writer) {
     writer.writeMessage(
       1,
       f,
-      protobuf_os_os_pb.OSRecord.serializeBinaryToWriter
+      protobuf_os_os_pb.OSCreateRequest.serializeBinaryToWriter
     );
   }
 };
 
 
 /**
- * optional OSRecord request = 1;
- * @return {?proto.os.OSRecord}
+ * optional OSCreateRequest request = 1;
+ * @return {?proto.os.OSCreateRequest}
  */
 proto.os.CreateOneRequest.prototype.getRequest = function() {
-  return /** @type{?proto.os.OSRecord} */ (
-    jspb.Message.getWrapperField(this, protobuf_os_os_pb.OSRecord, 1));
+  return /** @type{?proto.os.OSCreateRequest} */ (
+    jspb.Message.getWrapperField(this, protobuf_os_os_pb.OSCreateRequest, 1));
 };
 
 
 /**
- * @param {?proto.os.OSRecord|undefined} value
+ * @param {?proto.os.OSCreateRequest|undefined} value
  * @return {!proto.os.CreateOneRequest} returns this
 */
 proto.os.CreateOneRequest.prototype.setRequest = function(value) {
