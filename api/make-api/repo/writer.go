@@ -2,7 +2,6 @@ package repo
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"time"
 
@@ -19,16 +18,11 @@ func NewWriter(db dbModel.DBTX) *Writer {
 	}
 }
 
-func (r *Writer) CreateOne(ctx context.Context, rpcInstance *recordT) (*modelT, error) {
-	dbInstance := toDBModel(rpcInstance)
-	if dbInstance == nil {
-		return nil, errors.New("cannot create empty instance")
-	}
-
+func (r *Writer) CreateOne(ctx context.Context, rpcInstance *createReqT) (*modelT, error) {
 	now := time.Now()
 
 	dbResult, err := r.db.CreateOne(ctx, dbModel.CreateOneParams{
-		Name:       dbInstance.Name,
+		Name:       rpcInstance.GetName(),
 		CreatedAt:  now,
 		ModifiedAt: now,
 	})

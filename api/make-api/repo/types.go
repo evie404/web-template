@@ -7,7 +7,9 @@ import (
 
 // this is as close as we can get without generics. Just modify this one line to change the model in question
 type (
-	modelT   = rpc.Make
-	recordT  = rpc.MakeRecord
+	modelT     = rpc.Make
+	recordT    = rpc.MakeRecord
+	createReqT = rpc.MakeCreateRequest
+
 	dbModelT = dbModel.Make
 )

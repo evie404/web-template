@@ -8,6 +8,8 @@ import (
 type (
 	modelT     = rpc.Phone
 	recordT    = rpc.PhoneRecord
+	createReqT = rpc.PhoneCreateRequest
+
 	rpcReaderT = rpc.UnimplementedPhoneReaderServer
 	rpcWriterT = rpc.UnimplementedPhoneWriterServer
 )

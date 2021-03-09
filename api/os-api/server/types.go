@@ -8,6 +8,8 @@ import (
 type (
 	modelT     = rpc.OS
 	recordT    = rpc.OSRecord
+	createReqT = rpc.OSCreateRequest
+
 	rpcReaderT = rpc.UnimplementedOSReaderServer
 	rpcWriterT = rpc.UnimplementedOSWriterServer
 )

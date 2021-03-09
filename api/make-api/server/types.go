@@ -8,6 +8,8 @@ import (
 type (
 	modelT     = rpc.Make
 	recordT    = rpc.MakeRecord
+	createReqT = rpc.MakeCreateRequest
+
 	rpcReaderT = rpc.UnimplementedMakeReaderServer
 	rpcWriterT = rpc.UnimplementedMakeWriterServer
 )
