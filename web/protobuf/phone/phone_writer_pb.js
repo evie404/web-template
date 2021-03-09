@@ -92,7 +92,7 @@ proto.phone.CreateOneRequest.prototype.toObject = function(opt_includeInstance) 
  */
 proto.phone.CreateOneRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-    request: (f = msg.getRequest()) && protobuf_phone_phone_pb.Phone.toObject(includeInstance, f)
+    request: (f = msg.getRequest()) && protobuf_phone_phone_pb.PhoneRecord.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -130,8 +130,8 @@ proto.phone.CreateOneRequest.deserializeBinaryFromReader = function(msg, reader)
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new protobuf_phone_phone_pb.Phone;
-      reader.readMessage(value,protobuf_phone_phone_pb.Phone.deserializeBinaryFromReader);
+      var value = new protobuf_phone_phone_pb.PhoneRecord;
+      reader.readMessage(value,protobuf_phone_phone_pb.PhoneRecord.deserializeBinaryFromReader);
       msg.setRequest(value);
       break;
     default:
@@ -168,24 +168,24 @@ proto.phone.CreateOneRequest.serializeBinaryToWriter = function(message, writer)
     writer.writeMessage(
       1,
       f,
-      protobuf_phone_phone_pb.Phone.serializeBinaryToWriter
+      protobuf_phone_phone_pb.PhoneRecord.serializeBinaryToWriter
     );
   }
 };
 
 
 /**
- * optional Phone request = 1;
- * @return {?proto.phone.Phone}
+ * optional PhoneRecord request = 1;
+ * @return {?proto.phone.PhoneRecord}
  */
 proto.phone.CreateOneRequest.prototype.getRequest = function() {
-  return /** @type{?proto.phone.Phone} */ (
-    jspb.Message.getWrapperField(this, protobuf_phone_phone_pb.Phone, 1));
+  return /** @type{?proto.phone.PhoneRecord} */ (
+    jspb.Message.getWrapperField(this, protobuf_phone_phone_pb.PhoneRecord, 1));
 };
 
 
 /**
- * @param {?proto.phone.Phone|undefined} value
+ * @param {?proto.phone.PhoneRecord|undefined} value
  * @return {!proto.phone.CreateOneRequest} returns this
 */
 proto.phone.CreateOneRequest.prototype.setRequest = function(value) {

@@ -19,7 +19,7 @@ func NewWriter(db dbModel.DBTX) *Writer {
 	}
 }
 
-func (r *Writer) CreateOne(ctx context.Context, rpcInstance *modelT) (*modelT, error) {
+func (r *Writer) CreateOne(ctx context.Context, rpcInstance *recordT) (*modelT, error) {
 	dbInstance := toDBModel(rpcInstance)
 	if dbInstance == nil {
 		return nil, errors.New("cannot create empty instance")
@@ -35,6 +35,8 @@ func (r *Writer) CreateOne(ctx context.Context, rpcInstance *modelT) (*modelT, e
 	if err != nil {
 		return nil, fmt.Errorf("error inserting into database: %w", err)
 	}
+
+	// TODO: either return record or hydrate
 
 	return toRPCModel(dbResult), nil
 }

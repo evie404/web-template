@@ -92,7 +92,7 @@ proto.make.CreateOneRequest.prototype.toObject = function(opt_includeInstance) {
  */
 proto.make.CreateOneRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
-    request: (f = msg.getRequest()) && protobuf_make_make_pb.Make.toObject(includeInstance, f)
+    request: (f = msg.getRequest()) && protobuf_make_make_pb.MakeRecord.toObject(includeInstance, f)
   };
 
   if (includeInstance) {
@@ -130,8 +130,8 @@ proto.make.CreateOneRequest.deserializeBinaryFromReader = function(msg, reader) 
     var field = reader.getFieldNumber();
     switch (field) {
     case 1:
-      var value = new protobuf_make_make_pb.Make;
-      reader.readMessage(value,protobuf_make_make_pb.Make.deserializeBinaryFromReader);
+      var value = new protobuf_make_make_pb.MakeRecord;
+      reader.readMessage(value,protobuf_make_make_pb.MakeRecord.deserializeBinaryFromReader);
       msg.setRequest(value);
       break;
     default:
@@ -168,24 +168,24 @@ proto.make.CreateOneRequest.serializeBinaryToWriter = function(message, writer) 
     writer.writeMessage(
       1,
       f,
-      protobuf_make_make_pb.Make.serializeBinaryToWriter
+      protobuf_make_make_pb.MakeRecord.serializeBinaryToWriter
     );
   }
 };
 
 
 /**
- * optional Make request = 1;
- * @return {?proto.make.Make}
+ * optional MakeRecord request = 1;
+ * @return {?proto.make.MakeRecord}
  */
 proto.make.CreateOneRequest.prototype.getRequest = function() {
-  return /** @type{?proto.make.Make} */ (
-    jspb.Message.getWrapperField(this, protobuf_make_make_pb.Make, 1));
+  return /** @type{?proto.make.MakeRecord} */ (
+    jspb.Message.getWrapperField(this, protobuf_make_make_pb.MakeRecord, 1));
 };
 
 
 /**
- * @param {?proto.make.Make|undefined} value
+ * @param {?proto.make.MakeRecord|undefined} value
  * @return {!proto.make.CreateOneRequest} returns this
 */
 proto.make.CreateOneRequest.prototype.setRequest = function(value) {

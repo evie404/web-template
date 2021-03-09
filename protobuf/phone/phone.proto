@@ -22,3 +22,17 @@ message Phone {
 
   google.protobuf.Timestamp modified_at = 9001;
 }
+
+message PhoneRecord {
+  int64 id = 1;
+
+  string name = 2;
+
+  int64 make_id = 3;
+
+  int64 os_id = 4;
+
+  google.protobuf.Timestamp created_at = 9000;
+
+  google.protobuf.Timestamp modified_at = 9001;
+}

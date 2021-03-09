@@ -37,7 +37,7 @@ func toRPCModels(models []dbModelT) []*modelT {
 	return rpcModels
 }
 
-func toDBModel(rpcModel *modelT) *dbModelT {
+func toDBModel(rpcModel *recordT) *dbModelT {
 	if rpcModel == nil {
 		return nil
 	}
@@ -46,8 +46,8 @@ func toDBModel(rpcModel *modelT) *dbModelT {
 		ID:   rpcModel.GetId(),
 		Name: rpcModel.GetName(),
 
-		MakeID: int32(rpcModel.GetMake().GetId()), // TODO: this should be int64
-		OsID:   int32(rpcModel.GetOs().GetId()),
+		MakeID: int32(rpcModel.GetMakeId()), // TODO: this should be int64
+		OsID:   int32(rpcModel.GetOsId()),
 
 		CreatedAt:  rpcModel.GetCreatedAt().AsTime(),
 		ModifiedAt: rpcModel.GetModifiedAt().AsTime(),

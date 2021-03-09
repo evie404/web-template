@@ -4,8 +4,8 @@ import * as protobuf_phone_phone_pb from '../../protobuf/phone/phone_pb';
 
 
 export class CreateOneRequest extends jspb.Message {
-  getRequest(): protobuf_phone_phone_pb.Phone | undefined;
-  setRequest(value?: protobuf_phone_phone_pb.Phone): CreateOneRequest;
+  getRequest(): protobuf_phone_phone_pb.PhoneRecord | undefined;
+  setRequest(value?: protobuf_phone_phone_pb.PhoneRecord): CreateOneRequest;
   hasRequest(): boolean;
   clearRequest(): CreateOneRequest;
 
@@ -19,7 +19,7 @@ export class CreateOneRequest extends jspb.Message {
 
 export namespace CreateOneRequest {
   export type AsObject = {
-    request?: protobuf_phone_phone_pb.Phone.AsObject,
+    request?: protobuf_phone_phone_pb.PhoneRecord.AsObject,
   }
 }
 
