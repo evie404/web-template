@@ -36,5 +36,7 @@ func (r *Writer) CreateOne(ctx context.Context, rpcInstance *recordT) (*modelT, 
 		return nil, fmt.Errorf("error inserting into database: %w", err)
 	}
 
+	// TODO: either return record or hydrate
+
 	return toRPCModel(dbResult), nil
 }
