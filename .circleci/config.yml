@@ -2,7 +2,7 @@ version: 2.1
 jobs:
   "Validate protobufs":
     docker:
-      - image: circleci/golang:1.16.0-node
+      - image: circleci/golang:1.16.2-node
     resource_class: small
     steps:
       - checkout
@@ -67,7 +67,7 @@ jobs:
 
   "Go build":
     docker:
-      - image: circleci/golang:1.16.0
+      - image: circleci/golang:1.16.2
     resource_class: small
     working_directory: /go/src/github.com/{{ORG_NAME}}/{{REPO_NAME}}
     steps:
