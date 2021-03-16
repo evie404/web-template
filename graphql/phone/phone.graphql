@@ -1,0 +1,10 @@
+type Phone {
+    id: ID!
+    name: String!
+
+    os: OS!
+    make: Make!
+
+    createdAt: Time!
+    modifiedAt: Time!
+}

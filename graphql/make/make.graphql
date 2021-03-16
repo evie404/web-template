@@ -1,0 +1,7 @@
+type Make {
+    id: ID!
+    name: String!
+
+    createdAt: Time!
+    modifiedAt: Time!
+}

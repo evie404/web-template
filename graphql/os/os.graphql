@@ -1,0 +1,7 @@
+type OS {
+    id: ID!
+    name: String!
+
+    createdAt: Time!
+    modifiedAt: Time!
+}
