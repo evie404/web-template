@@ -18,8 +18,8 @@ var google_protobuf_timestamp_pb = require('google-protobuf/google/protobuf/time
 goog.object.extend(proto, google_protobuf_timestamp_pb);
 var protobuf_manufacturer_manufacturer_pb = require('../../protobuf/manufacturer/manufacturer_pb.js');
 goog.object.extend(proto, protobuf_manufacturer_manufacturer_pb);
-var protobuf_os_os_pb = require('../../protobuf/os/os_pb.js');
-goog.object.extend(proto, protobuf_os_os_pb);
+var protobuf_operating_system_operating_system_pb = require('../../protobuf/operating_system/operating_system_pb.js');
+goog.object.extend(proto, protobuf_operating_system_operating_system_pb);
 goog.exportSymbol('proto.phone.Phone', null, global);
 goog.exportSymbol('proto.phone.PhoneCreateRequest', null, global);
 goog.exportSymbol('proto.phone.PhoneRecord', null, global);
@@ -121,7 +121,7 @@ proto.phone.Phone.toObject = function(includeInstance, msg) {
     id: jspb.Message.getFieldWithDefault(msg, 1, 0),
     name: jspb.Message.getFieldWithDefault(msg, 2, ""),
     manufacturer: (f = msg.getManufacturer()) && protobuf_manufacturer_manufacturer_pb.Manufacturer.toObject(includeInstance, f),
-    os: (f = msg.getOs()) && protobuf_os_os_pb.OS.toObject(includeInstance, f),
+    operatingSystem: (f = msg.getOperatingSystem()) && protobuf_operating_system_operating_system_pb.OperatingSystem.toObject(includeInstance, f),
     createdAt: (f = msg.getCreatedAt()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
     modifiedAt: (f = msg.getModifiedAt()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f)
   };
@@ -174,9 +174,9 @@ proto.phone.Phone.deserializeBinaryFromReader = function(msg, reader) {
       msg.setManufacturer(value);
       break;
     case 4:
-      var value = new protobuf_os_os_pb.OS;
-      reader.readMessage(value,protobuf_os_os_pb.OS.deserializeBinaryFromReader);
-      msg.setOs(value);
+      var value = new protobuf_operating_system_operating_system_pb.OperatingSystem;
+      reader.readMessage(value,protobuf_operating_system_operating_system_pb.OperatingSystem.deserializeBinaryFromReader);
+      msg.setOperatingSystem(value);
       break;
     case 9000:
       var value = new google_protobuf_timestamp_pb.Timestamp;
@@ -239,12 +239,12 @@ proto.phone.Phone.serializeBinaryToWriter = function(message, writer) {
       protobuf_manufacturer_manufacturer_pb.Manufacturer.serializeBinaryToWriter
     );
   }
-  f = message.getOs();
+  f = message.getOperatingSystem();
   if (f != null) {
     writer.writeMessage(
       4,
       f,
-      protobuf_os_os_pb.OS.serializeBinaryToWriter
+      protobuf_operating_system_operating_system_pb.OperatingSystem.serializeBinaryToWriter
     );
   }
   f = message.getCreatedAt();
@@ -340,20 +340,20 @@ proto.phone.Phone.prototype.hasManufacturer = function() {
 
 
 /**
- * optional os.OS os = 4;
- * @return {?proto.os.OS}
+ * optional operating_system.OperatingSystem operating_system = 4;
+ * @return {?proto.operating_system.OperatingSystem}
  */
-proto.phone.Phone.prototype.getOs = function() {
-  return /** @type{?proto.os.OS} */ (
-    jspb.Message.getWrapperField(this, protobuf_os_os_pb.OS, 4));
+proto.phone.Phone.prototype.getOperatingSystem = function() {
+  return /** @type{?proto.operating_system.OperatingSystem} */ (
+    jspb.Message.getWrapperField(this, protobuf_operating_system_operating_system_pb.OperatingSystem, 4));
 };
 
 
 /**
- * @param {?proto.os.OS|undefined} value
+ * @param {?proto.operating_system.OperatingSystem|undefined} value
  * @return {!proto.phone.Phone} returns this
 */
-proto.phone.Phone.prototype.setOs = function(value) {
+proto.phone.Phone.prototype.setOperatingSystem = function(value) {
   return jspb.Message.setWrapperField(this, 4, value);
 };
 
@@ -362,8 +362,8 @@ proto.phone.Phone.prototype.setOs = function(value) {
  * Clears the message field making it undefined.
  * @return {!proto.phone.Phone} returns this
  */
-proto.phone.Phone.prototype.clearOs = function() {
-  return this.setOs(undefined);
+proto.phone.Phone.prototype.clearOperatingSystem = function() {
+  return this.setOperatingSystem(undefined);
 };
 
 
@@ -371,7 +371,7 @@ proto.phone.Phone.prototype.clearOs = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.phone.Phone.prototype.hasOs = function() {
+proto.phone.Phone.prototype.hasOperatingSystem = function() {
   return jspb.Message.getField(this, 4) != null;
 };
 
@@ -485,7 +485,7 @@ proto.phone.PhoneRecord.toObject = function(includeInstance, msg) {
     id: jspb.Message.getFieldWithDefault(msg, 1, 0),
     name: jspb.Message.getFieldWithDefault(msg, 2, ""),
     manufacturerId: jspb.Message.getFieldWithDefault(msg, 3, 0),
-    osId: jspb.Message.getFieldWithDefault(msg, 4, 0),
+    operatingSystemId: jspb.Message.getFieldWithDefault(msg, 4, 0),
     createdAt: (f = msg.getCreatedAt()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
     modifiedAt: (f = msg.getModifiedAt()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f)
   };
@@ -538,7 +538,7 @@ proto.phone.PhoneRecord.deserializeBinaryFromReader = function(msg, reader) {
       break;
     case 4:
       var value = /** @type {number} */ (reader.readInt64());
-      msg.setOsId(value);
+      msg.setOperatingSystemId(value);
       break;
     case 9000:
       var value = new google_protobuf_timestamp_pb.Timestamp;
@@ -600,7 +600,7 @@ proto.phone.PhoneRecord.serializeBinaryToWriter = function(message, writer) {
       f
     );
   }
-  f = message.getOsId();
+  f = message.getOperatingSystemId();
   if (f !== 0) {
     writer.writeInt64(
       4,
@@ -681,10 +681,10 @@ proto.phone.PhoneRecord.prototype.setManufacturerId = function(value) {
 
 
 /**
- * optional int64 os_id = 4;
+ * optional int64 operating_system_id = 4;
  * @return {number}
  */
-proto.phone.PhoneRecord.prototype.getOsId = function() {
+proto.phone.PhoneRecord.prototype.getOperatingSystemId = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 4, 0));
 };
 
@@ -693,7 +693,7 @@ proto.phone.PhoneRecord.prototype.getOsId = function() {
  * @param {number} value
  * @return {!proto.phone.PhoneRecord} returns this
  */
-proto.phone.PhoneRecord.prototype.setOsId = function(value) {
+proto.phone.PhoneRecord.prototype.setOperatingSystemId = function(value) {
   return jspb.Message.setProto3IntField(this, 4, value);
 };
 
@@ -806,7 +806,7 @@ proto.phone.PhoneCreateRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     name: jspb.Message.getFieldWithDefault(msg, 2, ""),
     manufacturerId: jspb.Message.getFieldWithDefault(msg, 3, 0),
-    osId: jspb.Message.getFieldWithDefault(msg, 4, 0)
+    operatingSystemId: jspb.Message.getFieldWithDefault(msg, 4, 0)
   };
 
   if (includeInstance) {
@@ -853,7 +853,7 @@ proto.phone.PhoneCreateRequest.deserializeBinaryFromReader = function(msg, reade
       break;
     case 4:
       var value = /** @type {number} */ (reader.readInt64());
-      msg.setOsId(value);
+      msg.setOperatingSystemId(value);
       break;
     default:
       reader.skipField();
@@ -898,7 +898,7 @@ proto.phone.PhoneCreateRequest.serializeBinaryToWriter = function(message, write
       f
     );
   }
-  f = message.getOsId();
+  f = message.getOperatingSystemId();
   if (f !== 0) {
     writer.writeInt64(
       4,
@@ -945,10 +945,10 @@ proto.phone.PhoneCreateRequest.prototype.setManufacturerId = function(value) {
 
 
 /**
- * optional int64 os_id = 4;
+ * optional int64 operating_system_id = 4;
  * @return {number}
  */
-proto.phone.PhoneCreateRequest.prototype.getOsId = function() {
+proto.phone.PhoneCreateRequest.prototype.getOperatingSystemId = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 4, 0));
 };
 
@@ -957,7 +957,7 @@ proto.phone.PhoneCreateRequest.prototype.getOsId = function() {
  * @param {number} value
  * @return {!proto.phone.PhoneCreateRequest} returns this
  */
-proto.phone.PhoneCreateRequest.prototype.setOsId = function(value) {
+proto.phone.PhoneCreateRequest.prototype.setOperatingSystemId = function(value) {
   return jspb.Message.setProto3IntField(this, 4, value);
 };
 

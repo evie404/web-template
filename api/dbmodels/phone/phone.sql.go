@@ -22,22 +22,22 @@ func (q *Queries) CountTotal(ctx context.Context) (int64, error) {
 }
 
 const createOne = `-- name: CreateOne :one
-INSERT INTO phone(name, manufacturer_id, os_id, created_at, modified_at) VALUES($1, $2, $3, $4, $5) RETURNING id, name, manufacturer_id, os_id, created_at, modified_at
+INSERT INTO phone(name, manufacturer_id, operating_system_id, created_at, modified_at) VALUES($1, $2, $3, $4, $5) RETURNING id, name, manufacturer_id, operating_system_id, created_at, modified_at
 `
 
 type CreateOneParams struct {
-	Name           string
-	ManufacturerID int32
-	OsID           int32
-	CreatedAt      time.Time
-	ModifiedAt     time.Time
+	Name              string
+	ManufacturerID    int32
+	OperatingSystemID int32
+	CreatedAt         time.Time
+	ModifiedAt        time.Time
 }
 
 func (q *Queries) CreateOne(ctx context.Context, arg CreateOneParams) (Phone, error) {
 	row := q.db.QueryRowContext(ctx, createOne,
 		arg.Name,
 		arg.ManufacturerID,
-		arg.OsID,
+		arg.OperatingSystemID,
 		arg.CreatedAt,
 		arg.ModifiedAt,
 	)
@@ -46,7 +46,7 @@ func (q *Queries) CreateOne(ctx context.Context, arg CreateOneParams) (Phone, er
 		&i.ID,
 		&i.Name,
 		&i.ManufacturerID,
-		&i.OsID,
+		&i.OperatingSystemID,
 		&i.CreatedAt,
 		&i.ModifiedAt,
 	)
@@ -54,7 +54,7 @@ func (q *Queries) CreateOne(ctx context.Context, arg CreateOneParams) (Phone, er
 }
 
 const getByID = `-- name: GetByID :one
-SELECT id, name, manufacturer_id, os_id, created_at, modified_at FROM phone WHERE id = $1 LIMIT 1
+SELECT id, name, manufacturer_id, operating_system_id, created_at, modified_at FROM phone WHERE id = $1 LIMIT 1
 `
 
 func (q *Queries) GetByID(ctx context.Context, id int64) (Phone, error) {
@@ -64,7 +64,7 @@ func (q *Queries) GetByID(ctx context.Context, id int64) (Phone, error) {
 		&i.ID,
 		&i.Name,
 		&i.ManufacturerID,
-		&i.OsID,
+		&i.OperatingSystemID,
 		&i.CreatedAt,
 		&i.ModifiedAt,
 	)
@@ -72,7 +72,7 @@ func (q *Queries) GetByID(ctx context.Context, id int64) (Phone, error) {
 }
 
 const getManyByIDs = `-- name: GetManyByIDs :many
-SELECT id, name, manufacturer_id, os_id, created_at, modified_at FROM phone WHERE id = ANY($1::bigint[])
+SELECT id, name, manufacturer_id, operating_system_id, created_at, modified_at FROM phone WHERE id = ANY($1::bigint[])
 `
 
 func (q *Queries) GetManyByIDs(ctx context.Context, dollar_1 []int64) ([]Phone, error) {
@@ -88,7 +88,7 @@ func (q *Queries) GetManyByIDs(ctx context.Context, dollar_1 []int64) ([]Phone, 
 			&i.ID,
 			&i.Name,
 			&i.ManufacturerID,
-			&i.OsID,
+			&i.OperatingSystemID,
 			&i.CreatedAt,
 			&i.ModifiedAt,
 		); err != nil {
@@ -106,7 +106,7 @@ func (q *Queries) GetManyByIDs(ctx context.Context, dollar_1 []int64) ([]Phone, 
 }
 
 const listByPattern = `-- name: ListByPattern :many
-SELECT id, name, manufacturer_id, os_id, created_at, modified_at FROM phone WHERE name LIKE $1 ORDER BY name ASC LIMIT $2
+SELECT id, name, manufacturer_id, operating_system_id, created_at, modified_at FROM phone WHERE name LIKE $1 ORDER BY name ASC LIMIT $2
 `
 
 type ListByPatternParams struct {
@@ -127,7 +127,7 @@ func (q *Queries) ListByPattern(ctx context.Context, arg ListByPatternParams) ([
 			&i.ID,
 			&i.Name,
 			&i.ManufacturerID,
-			&i.OsID,
+			&i.OperatingSystemID,
 			&i.CreatedAt,
 			&i.ModifiedAt,
 		); err != nil {
@@ -145,7 +145,7 @@ func (q *Queries) ListByPattern(ctx context.Context, arg ListByPatternParams) ([
 }
 
 const listOffset = `-- name: ListOffset :many
-SELECT id, name, manufacturer_id, os_id, created_at, modified_at FROM phone LIMIT $1 OFFSET $2
+SELECT id, name, manufacturer_id, operating_system_id, created_at, modified_at FROM phone LIMIT $1 OFFSET $2
 `
 
 type ListOffsetParams struct {
@@ -166,7 +166,7 @@ func (q *Queries) ListOffset(ctx context.Context, arg ListOffsetParams) ([]Phone
 			&i.ID,
 			&i.Name,
 			&i.ManufacturerID,
-			&i.OsID,
+			&i.OperatingSystemID,
 			&i.CreatedAt,
 			&i.ModifiedAt,
 		); err != nil {

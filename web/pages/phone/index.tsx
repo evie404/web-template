@@ -8,7 +8,7 @@ import PhoneReaderClient from "../../clients/grpc-web/phone_reader_client";
 import { Phone } from "../../protobuf/phone/phone_pb";
 import { ListByPageRequest } from "../../protobuf/phone/phone_reader_pb";
 import { Manufacturer } from "../../protobuf/manufacturer/manufacturer_pb";
-import { OS } from "../../protobuf/os/os_pb";
+import { OperatingSystem } from "../../protobuf/operating_system/operating_system_pb";
 import { ListByPageClientSide, PageResult } from "../../components/listPage";
 
 const PhoneLink = (
@@ -21,8 +21,8 @@ const ManufacturerLink = (record: Manufacturer.AsObject): JSX.Element => (
   <a href={`/manufacturer/${record.id}/`}>{record.name}</a>
 );
 
-const OSLink = (record: OS.AsObject): JSX.Element => (
-  <a href={`/os/${record.id}/`}>{record.name}</a>
+const OperatingSystemLink = (record: OperatingSystem.AsObject): JSX.Element => (
+  <a href={`/operating_system/${record.id}/`}>{record.name}</a>
 );
 
 const columns = [
@@ -48,10 +48,10 @@ const columns = [
     width: "20%",
   },
   {
-    title: "OS",
-    dataIndex: "os",
+    title: "OperatingSystem",
+    dataIndex: "operating_system",
     sorter: true,
-    render: OSLink,
+    render: OperatingSystemLink,
     width: "20%",
   },
 ];

@@ -1,0 +1,20 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "repo",
+    srcs = [
+        "reader.go",
+        "translations.go",
+        "types.go",
+        "writer.go",
+    ],
+    importpath = "github.com/rickypai/web-template/api/operating-system-api/repo",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//api/dbmodels/operating_system",
+        "//api/server/cursor",
+        "//protobuf/operating_system",
+        "@org_golang_google_protobuf//types/known/timestamppb",
+        "@org_golang_x_sync//errgroup",
+    ],
+)

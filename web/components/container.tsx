@@ -43,7 +43,7 @@ const Container = ({ menuKey, children }: ContainerProp): JSX.Element => {
               <Link href="/manufacturer/">Manufacturer</Link>
             </Menu.Item>
             <Menu.Item key="os">
-              <Link href="/os/">OS</Link>
+              <Link href="/operating_system/">OperatingSystem</Link>
             </Menu.Item>
           </Menu>
         </div>

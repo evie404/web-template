@@ -1,0 +1,14 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "operating_system",
+    srcs = [
+        "db.go",
+        "models.go",
+        "operating_system.sql.go",
+        "querier.go",
+    ],
+    importpath = "github.com/rickypai/web-template/api/dbmodels/operating_system",
+    visibility = ["//visibility:public"],
+    deps = ["@com_github_lib_pq//:pq"],
+)

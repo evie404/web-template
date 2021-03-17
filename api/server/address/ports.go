@@ -1,7 +1,7 @@
 package address
 
 const (
-	GeneralAPIFQDN    = "localhost"
+	GeneralAPIFQDN    = "localhoperatingSystemt"
 	GeneralAPIPort    = 50051
 	GeneralAPIPortStr = "50051"
 	GeneralAPIAddress = GeneralAPIFQDN + ":" + GeneralAPIPortStr
@@ -12,10 +12,10 @@ const (
 	ManufacturerReaderPortStr = GeneralAPIPortStr
 	ManufacturerReaderAddress = GeneralAPIAddress
 
-	OSReaderFQDN    = GeneralAPIFQDN
-	OSReaderPort    = GeneralAPIPort
-	OSReaderPortStr = GeneralAPIPortStr
-	OSReaderAddress = GeneralAPIAddress
+	OperatingSystemReaderFQDN    = GeneralAPIFQDN
+	OperatingSystemReaderPort    = GeneralAPIPort
+	OperatingSystemReaderPortStr = GeneralAPIPortStr
+	OperatingSystemReaderAddress = GeneralAPIAddress
 
 	PhoneReaderFQDN    = GeneralAPIFQDN
 	PhoneReaderPort    = GeneralAPIPort

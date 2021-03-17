@@ -2,7 +2,7 @@ syntax = "proto3";
 package app;
 
 import "google/protobuf/timestamp.proto";
-import "protobuf/os/os.proto";
+import "protobuf/operating_system/operating_system.proto";
 
 option go_package = "github.com/rickypai/web-template/api/protobuf/app";
 
@@ -11,7 +11,7 @@ message App {
 
   string name = 2;
 
-  os.OS os = 3;
+  operating_system.OperatingSystem operating_system = 3;
 
   google.protobuf.Timestamp created_at = 9000;
 

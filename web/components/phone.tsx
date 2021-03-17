@@ -25,8 +25,10 @@ const PhoneComponent = ({ phone }: PhoneComponentProp): JSX.Element => (
           {phone.manufacturer.name}
         </a>
       </Descriptions.Item>
-      <Descriptions.Item label="OS">
-        <a href={`/os/${phone.os.id}`}>{phone.os.name}</a>
+      <Descriptions.Item label="OperatingSystem">
+        <a href={`/operating_system/${phone.operatingSystem.id}`}>
+          {phone.operatingSystem.name}
+        </a>
       </Descriptions.Item>
     </Descriptions>
   </div>

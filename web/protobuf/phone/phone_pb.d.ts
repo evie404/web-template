@@ -2,7 +2,7 @@ import * as jspb from 'google-protobuf'
 
 import * as google_protobuf_timestamp_pb from 'google-protobuf/google/protobuf/timestamp_pb';
 import * as protobuf_manufacturer_manufacturer_pb from '../../protobuf/manufacturer/manufacturer_pb';
-import * as protobuf_os_os_pb from '../../protobuf/os/os_pb';
+import * as protobuf_operating_system_operating_system_pb from '../../protobuf/operating_system/operating_system_pb';
 
 
 export class Phone extends jspb.Message {
@@ -17,10 +17,10 @@ export class Phone extends jspb.Message {
   hasManufacturer(): boolean;
   clearManufacturer(): Phone;
 
-  getOs(): protobuf_os_os_pb.OS | undefined;
-  setOs(value?: protobuf_os_os_pb.OS): Phone;
-  hasOs(): boolean;
-  clearOs(): Phone;
+  getOperatingSystem(): protobuf_operating_system_operating_system_pb.OperatingSystem | undefined;
+  setOperatingSystem(value?: protobuf_operating_system_operating_system_pb.OperatingSystem): Phone;
+  hasOperatingSystem(): boolean;
+  clearOperatingSystem(): Phone;
 
   getCreatedAt(): google_protobuf_timestamp_pb.Timestamp | undefined;
   setCreatedAt(value?: google_protobuf_timestamp_pb.Timestamp): Phone;
@@ -45,7 +45,7 @@ export namespace Phone {
     id: number,
     name: string,
     manufacturer?: protobuf_manufacturer_manufacturer_pb.Manufacturer.AsObject,
-    os?: protobuf_os_os_pb.OS.AsObject,
+    operatingSystem?: protobuf_operating_system_operating_system_pb.OperatingSystem.AsObject,
     createdAt?: google_protobuf_timestamp_pb.Timestamp.AsObject,
     modifiedAt?: google_protobuf_timestamp_pb.Timestamp.AsObject,
   }
@@ -61,8 +61,8 @@ export class PhoneRecord extends jspb.Message {
   getManufacturerId(): number;
   setManufacturerId(value: number): PhoneRecord;
 
-  getOsId(): number;
-  setOsId(value: number): PhoneRecord;
+  getOperatingSystemId(): number;
+  setOperatingSystemId(value: number): PhoneRecord;
 
   getCreatedAt(): google_protobuf_timestamp_pb.Timestamp | undefined;
   setCreatedAt(value?: google_protobuf_timestamp_pb.Timestamp): PhoneRecord;
@@ -87,7 +87,7 @@ export namespace PhoneRecord {
     id: number,
     name: string,
     manufacturerId: number,
-    osId: number,
+    operatingSystemId: number,
     createdAt?: google_protobuf_timestamp_pb.Timestamp.AsObject,
     modifiedAt?: google_protobuf_timestamp_pb.Timestamp.AsObject,
   }
@@ -100,8 +100,8 @@ export class PhoneCreateRequest extends jspb.Message {
   getManufacturerId(): number;
   setManufacturerId(value: number): PhoneCreateRequest;
 
-  getOsId(): number;
-  setOsId(value: number): PhoneCreateRequest;
+  getOperatingSystemId(): number;
+  setOperatingSystemId(value: number): PhoneCreateRequest;
 
   serializeBinary(): Uint8Array;
   toObject(includeInstance?: boolean): PhoneCreateRequest.AsObject;
@@ -115,7 +115,7 @@ export namespace PhoneCreateRequest {
   export type AsObject = {
     name: string,
     manufacturerId: number,
-    osId: number,
+    operatingSystemId: number,
   }
 }
 

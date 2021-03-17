@@ -7,14 +7,14 @@ import (
 	"net/http"
 
 	manufacturerCl "github.com/rickypai/web-template/api/clients/manufacturer-api"
-	osCl "github.com/rickypai/web-template/api/clients/os-api"
+	operatingSystemCl "github.com/rickypai/web-template/api/clients/operating-system-api"
 	"github.com/rickypai/web-template/api/config"
 	"github.com/rickypai/web-template/api/extauth"
 	manufacturerSrv "github.com/rickypai/web-template/api/manufacturer-api/server"
-	osSrv "github.com/rickypai/web-template/api/os-api/server"
+	operatingSystemSrv "github.com/rickypai/web-template/api/operating-system-api/server"
 	phoneSrv "github.com/rickypai/web-template/api/phone-api/server"
 	"github.com/rickypai/web-template/api/protobuf/manufacturer"
-	"github.com/rickypai/web-template/api/protobuf/os"
+	"github.com/rickypai/web-template/api/protobuf/operating_system"
 	"github.com/rickypai/web-template/api/protobuf/phone"
 	"github.com/rickypai/web-template/api/server/address"
 	"golang.org/x/sync/errgroup"
@@ -39,16 +39,16 @@ func main() {
 	}
 
 	manufacturerClient := manufacturerCl.NewLocalReadServer(db)
-	osClient := osCl.NewLocalReadServer(db)
+	operatingSystemClient := operatingSystemCl.NewLocalReadServer(db)
 
 	s := grpc.NewServer()
-	phone.RegisterPhoneReaderServer(s, phoneSrv.NewReadServer(db, manufacturerClient, osClient))
+	phone.RegisterPhoneReaderServer(s, phoneSrv.NewReadServer(db, manufacturerClient, operatingSystemClient))
 	manufacturer.RegisterManufacturerReaderServer(s, manufacturerSrv.NewReadServer(db))
-	os.RegisterOSReaderServer(s, osSrv.NewReadServer(db))
+	operating_system.RegisterOperatingSystemReaderServer(s, operatingSystemSrv.NewReadServer(db))
 
 	phone.RegisterPhoneWriterServer(s, phoneSrv.NewWriteServer(db))
 	manufacturer.RegisterManufacturerWriterServer(s, manufacturerSrv.NewWriteServer(db))
-	os.RegisterOSWriterServer(s, osSrv.NewWriteServer(db))
+	operating_system.RegisterOperatingSystemWriterServer(s, operatingSystemSrv.NewWriteServer(db))
 
 	extAuth := extauth.NewExternalAuth()
 

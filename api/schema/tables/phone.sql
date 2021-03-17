@@ -28,7 +28,7 @@ CREATE TABLE public.phone (
     id bigint NOT NULL,
     name character varying(300) NOT NULL,
     manufacturer_id integer NOT NULL,
-    os_id integer NOT NULL,
+    operating_system_id integer NOT NULL,
     created_at timestamp with time zone NOT NULL,
     modified_at timestamp with time zone NOT NULL
 );
@@ -89,11 +89,11 @@ ALTER TABLE ONLY public.phone
 
 
 --
--- Name: phone phone_os_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: phone phone_operating_system_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.phone
-    ADD CONSTRAINT phone_os_id_fkey FOREIGN KEY (os_id) REFERENCES public.os(id);
+    ADD CONSTRAINT phone_operating_system_id_fkey FOREIGN KEY (operating_system_id) REFERENCES public.operating_system(id);
 
 
 --

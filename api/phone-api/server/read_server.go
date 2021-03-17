@@ -7,7 +7,7 @@ import (
 
 	"github.com/rickypai/web-template/api/phone-api/repo"
 	manufacturerPb "github.com/rickypai/web-template/api/protobuf/manufacturer"
-	osPb "github.com/rickypai/web-template/api/protobuf/os"
+	operatingSystemPb "github.com/rickypai/web-template/api/protobuf/operating_system"
 	rpc "github.com/rickypai/web-template/api/protobuf/phone"
 	"github.com/rickypai/web-template/api/server/cursor"
 	"google.golang.org/grpc/codes"
@@ -24,10 +24,10 @@ type modelTReader interface {
 	ListByPrefix(context.Context, string, int64) ([]*modelT, error)
 }
 
-func NewReadServer(db *sql.DB, manufacturerClient manufacturerPb.ManufacturerReaderClient, osClient osPb.OSReaderClient) *ReadServer {
+func NewReadServer(db *sql.DB, manufacturerClient manufacturerPb.ManufacturerReaderClient, operatingSystemClient operatingSystemPb.OperatingSystemReaderClient) *ReadServer {
 	reader := repo.NewReader(db)
 	return &ReadServer{
-		repo: repo.NewHydratedReader(reader, manufacturerClient, osClient),
+		repo: repo.NewHydratedReader(reader, manufacturerClient, operatingSystemClient),
 	}
 }
 

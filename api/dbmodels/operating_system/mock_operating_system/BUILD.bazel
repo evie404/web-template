@@ -1,0 +1,12 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "mock_operating_system",
+    srcs = ["querier_mock.go"],
+    importpath = "github.com/rickypai/web-template/api/dbmodels/operating_system/mock_operating_system",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//api/dbmodels/operating_system",
+        "@com_github_golang_mock//gomock",
+    ],
+)

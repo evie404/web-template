@@ -26,11 +26,11 @@
       "emit_interface": true
     },
     {
-      "name": "os",
+      "name": "operating_system",
       "engine": "postgresql",
-      "path": "dbmodels/os",
-      "schema": "schema/tables/os.sql",
-      "queries": "schema/queries/os.sql",
+      "path": "dbmodels/operating_system",
+      "schema": "schema/tables/operating_system.sql",
+      "queries": "schema/queries/operating_system.sql",
       "emit_interface": true
     }
   ]

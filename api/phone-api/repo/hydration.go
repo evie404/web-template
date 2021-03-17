@@ -5,19 +5,19 @@ import (
 	"fmt"
 
 	manufacturerPb "github.com/rickypai/web-template/api/protobuf/manufacturer"
-	osPb "github.com/rickypai/web-template/api/protobuf/os"
+	operatingSystemPb "github.com/rickypai/web-template/api/protobuf/operating_system"
 	"golang.org/x/sync/errgroup"
 )
 
 type Hydrator struct {
-	manufacturerClient manufacturerPb.ManufacturerReaderClient
-	osClient   osPb.OSReaderClient
+	manufacturerClient    manufacturerPb.ManufacturerReaderClient
+	operatingSystemClient operatingSystemPb.OperatingSystemReaderClient
 }
 
-func NewHydrator(manufacturerClient manufacturerPb.ManufacturerReaderClient, osClient osPb.OSReaderClient) *Hydrator {
+func NewHydrator(manufacturerClient manufacturerPb.ManufacturerReaderClient, operatingSystemClient operatingSystemPb.OperatingSystemReaderClient) *Hydrator {
 	return &Hydrator{
-		manufacturerClient: manufacturerClient,
-		osClient:   osClient,
+		manufacturerClient:    manufacturerClient,
+		operatingSystemClient: operatingSystemClient,
 	}
 }
 
@@ -37,14 +37,14 @@ func (h *Hydrator) HydrateOne(ctx context.Context, instance *modelT) error {
 		return nil
 	})
 
-	var osResult *osPb.GetOneByIDResponse
+	var operatingSystemResult *operatingSystemPb.GetOneByIDResponse
 	wg.Go(func() error {
-		var osErr error
-		osResult, osErr = h.osClient.GetOneByID(ctx, &osPb.GetOneByIDRequest{
-			Id: instance.GetOs().GetId(),
+		var operatingSystemErr error
+		operatingSystemResult, operatingSystemErr = h.operatingSystemClient.GetOneByID(ctx, &operatingSystemPb.GetOneByIDRequest{
+			Id: instance.GetOperatingSystem().GetId(),
 		})
-		if osErr != nil {
-			return fmt.Errorf("error fetching os ID#%v: %w", instance.GetOs().GetId(), osErr)
+		if operatingSystemErr != nil {
+			return fmt.Errorf("error fetching operatingSystem ID#%v: %w", instance.GetOperatingSystem().GetId(), operatingSystemErr)
 		}
 
 		return nil
@@ -56,7 +56,7 @@ func (h *Hydrator) HydrateOne(ctx context.Context, instance *modelT) error {
 	}
 
 	instance.Manufacturer = manufacturerResult.GetResult()
-	instance.Os = osResult.GetResult()
+	instance.OperatingSystem = operatingSystemResult.GetResult()
 
 	return nil
 }
@@ -85,22 +85,22 @@ func (h *Hydrator) HydrateMany(ctx context.Context, instances []*modelT) error {
 		return nil
 	})
 
-	osResults := make(map[int64]*osPb.OS, len(instances))
+	operatingSystemResults := make(map[int64]*operatingSystemPb.OperatingSystem, len(instances))
 	wg.Go(func() error {
-		osIds := make([]int64, len(instances))
+		operatingSystemIds := make([]int64, len(instances))
 		for i, instance := range instances {
-			osIds[i] = instance.GetOs().GetId()
+			operatingSystemIds[i] = instance.GetOperatingSystem().GetId()
 		}
 
-		ossResponse, osErr := h.osClient.GetManyByIDs(ctx, &osPb.GetManyByIDsRequest{
-			Ids: osIds,
+		operatingSystemsResponse, operatingSystemErr := h.operatingSystemClient.GetManyByIDs(ctx, &operatingSystemPb.GetManyByIDsRequest{
+			Ids: operatingSystemIds,
 		})
-		if osErr != nil {
-			return fmt.Errorf("error fetching os IDs#%+v: %w", osIds, osErr)
+		if operatingSystemErr != nil {
+			return fmt.Errorf("error fetching operatingSystem IDs#%+v: %w", operatingSystemIds, operatingSystemErr)
 		}
 
-		for _, result := range ossResponse.GetResults() {
-			osResults[result.GetId()] = result
+		for _, result := range operatingSystemsResponse.GetResults() {
+			operatingSystemResults[result.GetId()] = result
 		}
 
 		return nil
@@ -113,7 +113,7 @@ func (h *Hydrator) HydrateMany(ctx context.Context, instances []*modelT) error {
 
 	for _, instance := range instances {
 		instance.Manufacturer = manufacturerResults[instance.GetManufacturer().GetId()]
-		instance.Os = osResults[instance.GetOs().GetId()]
+		instance.OperatingSystem = operatingSystemResults[instance.GetOperatingSystem().GetId()]
 	}
 
 	return nil

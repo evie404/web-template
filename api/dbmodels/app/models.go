@@ -7,9 +7,9 @@ import (
 )
 
 type App struct {
-	ID         int64
-	Name       string
-	OsID       int32
-	CreatedAt  time.Time
-	ModifiedAt time.Time
+	ID                int64
+	Name              string
+	OperatingSystemID int32
+	CreatedAt         time.Time
+	ModifiedAt        time.Time
 }

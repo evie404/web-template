@@ -3,5 +3,4 @@ tables:
   - name: manufacturer
   - name: phone
   - name: app
-  - name: os
-    model_class: OS
+  - name: operating_system
