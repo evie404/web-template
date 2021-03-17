@@ -3,7 +3,7 @@ type Phone {
     name: String!
 
     os: OS!
-    make: Make!
+    manufacturer: Manufacturer!
 
     createdAt: Time!
     modifiedAt: Time!

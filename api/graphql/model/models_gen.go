@@ -10,7 +10,7 @@ type Node interface {
 	IsNode()
 }
 
-type Make struct {
+type Manufacturer struct {
 	ID         int       `json:"id"`
 	Name       string    `json:"name"`
 	CreatedAt  time.Time `json:"createdAt"`
@@ -32,10 +32,10 @@ type PageInfo struct {
 }
 
 type Phone struct {
-	ID         int       `json:"id"`
-	Name       string    `json:"name"`
-	Os         *Os       `json:"os"`
-	Make       *Make     `json:"make"`
-	CreatedAt  time.Time `json:"createdAt"`
-	ModifiedAt time.Time `json:"modifiedAt"`
+	ID           int           `json:"id"`
+	Name         string        `json:"name"`
+	Os           *Os           `json:"os"`
+	Manufacturer *Manufacturer `json:"manufacturer"`
+	CreatedAt    time.Time     `json:"createdAt"`
+	ModifiedAt   time.Time     `json:"modifiedAt"`
 }

@@ -29,8 +29,8 @@ resolver:
 
 # autobind tells gqlgen to search for any type names in the GraphQL schema in the
 # provided Go package. If they match it will use them, otherwise it will generate new ones.
-# autobind:
-#   - todo/ent
+autobind:
+  - github.com/rickypai/web-template/api/ent
 
 # This section declares type mapping between the GraphQL and Go type systems.
 models:

@@ -42,7 +42,7 @@ type DirectiveRoot struct {
 }
 
 type ComplexityRoot struct {
-	Make struct {
+	Manufacturer struct {
 		CreatedAt  func(childComplexity int) int
 		ID         func(childComplexity int) int
 		ModifiedAt func(childComplexity int) int
@@ -64,12 +64,12 @@ type ComplexityRoot struct {
 	}
 
 	Phone struct {
-		CreatedAt  func(childComplexity int) int
-		ID         func(childComplexity int) int
-		Make       func(childComplexity int) int
-		ModifiedAt func(childComplexity int) int
-		Name       func(childComplexity int) int
-		Os         func(childComplexity int) int
+		CreatedAt    func(childComplexity int) int
+		ID           func(childComplexity int) int
+		Manufacturer func(childComplexity int) int
+		ModifiedAt   func(childComplexity int) int
+		Name         func(childComplexity int) int
+		Os           func(childComplexity int) int
 	}
 
 	Query struct {
@@ -91,33 +91,33 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 	_ = ec
 	switch typeName + "." + field {
 
-	case "Make.createdAt":
-		if e.complexity.Make.CreatedAt == nil {
+	case "Manufacturer.createdAt":
+		if e.complexity.Manufacturer.CreatedAt == nil {
 			break
 		}
 
-		return e.complexity.Make.CreatedAt(childComplexity), true
+		return e.complexity.Manufacturer.CreatedAt(childComplexity), true
 
-	case "Make.id":
-		if e.complexity.Make.ID == nil {
+	case "Manufacturer.id":
+		if e.complexity.Manufacturer.ID == nil {
 			break
 		}
 
-		return e.complexity.Make.ID(childComplexity), true
+		return e.complexity.Manufacturer.ID(childComplexity), true
 
-	case "Make.modifiedAt":
-		if e.complexity.Make.ModifiedAt == nil {
+	case "Manufacturer.modifiedAt":
+		if e.complexity.Manufacturer.ModifiedAt == nil {
 			break
 		}
 
-		return e.complexity.Make.ModifiedAt(childComplexity), true
+		return e.complexity.Manufacturer.ModifiedAt(childComplexity), true
 
-	case "Make.name":
-		if e.complexity.Make.Name == nil {
+	case "Manufacturer.name":
+		if e.complexity.Manufacturer.Name == nil {
 			break
 		}
 
-		return e.complexity.Make.Name(childComplexity), true
+		return e.complexity.Manufacturer.Name(childComplexity), true
 
 	case "OS.createdAt":
 		if e.complexity.Os.CreatedAt == nil {
@@ -189,12 +189,12 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Phone.ID(childComplexity), true
 
-	case "Phone.make":
-		if e.complexity.Phone.Make == nil {
+	case "Phone.manufacturer":
+		if e.complexity.Phone.Manufacturer == nil {
 			break
 		}
 
-		return e.complexity.Phone.Make(childComplexity), true
+		return e.complexity.Phone.Manufacturer(childComplexity), true
 
 	case "Phone.modifiedAt":
 		if e.complexity.Phone.ModifiedAt == nil {
@@ -285,7 +285,7 @@ type PageInfo {
     endCursor: Cursor
 }
 `, BuiltIn: false},
-	{Name: "../graphql/make/make.graphql", Input: `type Make {
+	{Name: "../graphql/manufacturer/manufacturer.graphql", Input: `type Manufacturer {
     id: ID!
     name: String!
 
@@ -306,7 +306,7 @@ type PageInfo {
     name: String!
 
     os: OS!
-    make: Make!
+    manufacturer: Manufacturer!
 
     createdAt: Time!
     modifiedAt: Time!
@@ -382,7 +382,7 @@ func (ec *executionContext) field___Type_fields_args(ctx context.Context, rawArg
 
 // region    **************************** field.gotpl *****************************
 
-func (ec *executionContext) _Make_id(ctx context.Context, field graphql.CollectedField, obj *model.Make) (ret graphql.Marshaler) {
+func (ec *executionContext) _Manufacturer_id(ctx context.Context, field graphql.CollectedField, obj *model.Manufacturer) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -390,7 +390,7 @@ func (ec *executionContext) _Make_id(ctx context.Context, field graphql.Collecte
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:     "Make",
+		Object:     "Manufacturer",
 		Field:      field,
 		Args:       nil,
 		IsMethod:   false,
@@ -417,7 +417,7 @@ func (ec *executionContext) _Make_id(ctx context.Context, field graphql.Collecte
 	return ec.marshalNID2int(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _Make_name(ctx context.Context, field graphql.CollectedField, obj *model.Make) (ret graphql.Marshaler) {
+func (ec *executionContext) _Manufacturer_name(ctx context.Context, field graphql.CollectedField, obj *model.Manufacturer) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -425,7 +425,7 @@ func (ec *executionContext) _Make_name(ctx context.Context, field graphql.Collec
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:     "Make",
+		Object:     "Manufacturer",
 		Field:      field,
 		Args:       nil,
 		IsMethod:   false,
@@ -452,7 +452,7 @@ func (ec *executionContext) _Make_name(ctx context.Context, field graphql.Collec
 	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _Make_createdAt(ctx context.Context, field graphql.CollectedField, obj *model.Make) (ret graphql.Marshaler) {
+func (ec *executionContext) _Manufacturer_createdAt(ctx context.Context, field graphql.CollectedField, obj *model.Manufacturer) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -460,7 +460,7 @@ func (ec *executionContext) _Make_createdAt(ctx context.Context, field graphql.C
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:     "Make",
+		Object:     "Manufacturer",
 		Field:      field,
 		Args:       nil,
 		IsMethod:   false,
@@ -487,7 +487,7 @@ func (ec *executionContext) _Make_createdAt(ctx context.Context, field graphql.C
 	return ec.marshalNTime2timeᚐTime(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _Make_modifiedAt(ctx context.Context, field graphql.CollectedField, obj *model.Make) (ret graphql.Marshaler) {
+func (ec *executionContext) _Manufacturer_modifiedAt(ctx context.Context, field graphql.CollectedField, obj *model.Manufacturer) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -495,7 +495,7 @@ func (ec *executionContext) _Make_modifiedAt(ctx context.Context, field graphql.
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:     "Make",
+		Object:     "Manufacturer",
 		Field:      field,
 		Args:       nil,
 		IsMethod:   false,
@@ -901,7 +901,7 @@ func (ec *executionContext) _Phone_os(ctx context.Context, field graphql.Collect
 	return ec.marshalNOS2ᚖgithubᚗcomᚋrickypaiᚋwebᚑtemplateᚋapiᚋgraphqlᚋmodelᚐOs(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _Phone_make(ctx context.Context, field graphql.CollectedField, obj *model.Phone) (ret graphql.Marshaler) {
+func (ec *executionContext) _Phone_manufacturer(ctx context.Context, field graphql.CollectedField, obj *model.Phone) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -919,7 +919,7 @@ func (ec *executionContext) _Phone_make(ctx context.Context, field graphql.Colle
 	ctx = graphql.WithFieldContext(ctx, fc)
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.Make, nil
+		return obj.Manufacturer, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -931,9 +931,9 @@ func (ec *executionContext) _Phone_make(ctx context.Context, field graphql.Colle
 		}
 		return graphql.Null
 	}
-	res := resTmp.(*model.Make)
+	res := resTmp.(*model.Manufacturer)
 	fc.Result = res
-	return ec.marshalNMake2ᚖgithubᚗcomᚋrickypaiᚋwebᚑtemplateᚋapiᚋgraphqlᚋmodelᚐMake(ctx, field.Selections, res)
+	return ec.marshalNManufacturer2ᚖgithubᚗcomᚋrickypaiᚋwebᚑtemplateᚋapiᚋgraphqlᚋmodelᚐManufacturer(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Phone_createdAt(ctx context.Context, field graphql.CollectedField, obj *model.Phone) (ret graphql.Marshaler) {
@@ -2181,34 +2181,34 @@ func (ec *executionContext) _Node(ctx context.Context, sel ast.SelectionSet, obj
 
 // region    **************************** object.gotpl ****************************
 
-var makeImplementors = []string{"Make"}
+var manufacturerImplementors = []string{"Manufacturer"}
 
-func (ec *executionContext) _Make(ctx context.Context, sel ast.SelectionSet, obj *model.Make) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, makeImplementors)
+func (ec *executionContext) _Manufacturer(ctx context.Context, sel ast.SelectionSet, obj *model.Manufacturer) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, manufacturerImplementors)
 
 	out := graphql.NewFieldSet(fields)
 	var invalids uint32
 	for i, field := range fields {
 		switch field.Name {
 		case "__typename":
-			out.Values[i] = graphql.MarshalString("Make")
+			out.Values[i] = graphql.MarshalString("Manufacturer")
 		case "id":
-			out.Values[i] = ec._Make_id(ctx, field, obj)
+			out.Values[i] = ec._Manufacturer_id(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
 		case "name":
-			out.Values[i] = ec._Make_name(ctx, field, obj)
+			out.Values[i] = ec._Manufacturer_name(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
 		case "createdAt":
-			out.Values[i] = ec._Make_createdAt(ctx, field, obj)
+			out.Values[i] = ec._Manufacturer_createdAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
 		case "modifiedAt":
-			out.Values[i] = ec._Make_modifiedAt(ctx, field, obj)
+			out.Values[i] = ec._Manufacturer_modifiedAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
@@ -2327,8 +2327,8 @@ func (ec *executionContext) _Phone(ctx context.Context, sel ast.SelectionSet, ob
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
-		case "make":
-			out.Values[i] = ec._Phone_make(ctx, field, obj)
+		case "manufacturer":
+			out.Values[i] = ec._Phone_manufacturer(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
@@ -2658,14 +2658,14 @@ func (ec *executionContext) marshalNID2int(ctx context.Context, sel ast.Selectio
 	return res
 }
 
-func (ec *executionContext) marshalNMake2ᚖgithubᚗcomᚋrickypaiᚋwebᚑtemplateᚋapiᚋgraphqlᚋmodelᚐMake(ctx context.Context, sel ast.SelectionSet, v *model.Make) graphql.Marshaler {
+func (ec *executionContext) marshalNManufacturer2ᚖgithubᚗcomᚋrickypaiᚋwebᚑtemplateᚋapiᚋgraphqlᚋmodelᚐManufacturer(ctx context.Context, sel ast.SelectionSet, v *model.Manufacturer) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "must not be null")
 		}
 		return graphql.Null
 	}
-	return ec._Make(ctx, sel, v)
+	return ec._Manufacturer(ctx, sel, v)
 }
 
 func (ec *executionContext) marshalNOS2ᚖgithubᚗcomᚋrickypaiᚋwebᚑtemplateᚋapiᚋgraphqlᚋmodelᚐOs(ctx context.Context, sel ast.SelectionSet, v *model.Os) graphql.Marshaler {
