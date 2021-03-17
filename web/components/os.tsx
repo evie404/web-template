@@ -5,7 +5,9 @@ interface ManufacturerComponentProp {
   os: OS.AsObject;
 }
 
-const ManufacturerComponent = ({ os }: ManufacturerComponentProp): JSX.Element => (
+const ManufacturerComponent = ({
+  os,
+}: ManufacturerComponentProp): JSX.Element => (
   <div>
     <h1>{os.name}</h1>
     <Descriptions

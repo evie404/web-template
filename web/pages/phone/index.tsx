@@ -57,7 +57,7 @@ const columns = [
 ];
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface PhoneIndexProps { }
+interface PhoneIndexProps {}
 
 interface PhoneIndexState {
   data: Array<Phone.AsObject>;

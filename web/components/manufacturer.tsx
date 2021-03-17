@@ -5,7 +5,9 @@ interface ManufacturerComponentProp {
   manufacturer: Manufacturer.AsObject;
 }
 
-const ManufacturerComponent = ({ manufacturer }: ManufacturerComponentProp): JSX.Element => (
+const ManufacturerComponent = ({
+  manufacturer,
+}: ManufacturerComponentProp): JSX.Element => (
   <div>
     <h1>{manufacturer.name}</h1>
     <Descriptions

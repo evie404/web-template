@@ -34,7 +34,7 @@ const columns = [
 ];
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface ManufacturerIndexProps { }
+interface ManufacturerIndexProps {}
 
 interface ManufacturerIndexState {
   data: Array<Manufacturer.AsObject>;
@@ -43,7 +43,10 @@ interface ManufacturerIndexState {
   error?: Error;
 }
 
-class ManufacturerIndexPage extends React.Component<ManufacturerIndexProps, ManufacturerIndexState> {
+class ManufacturerIndexPage extends React.Component<
+  ManufacturerIndexProps,
+  ManufacturerIndexState
+> {
   constructor(props: ManufacturerIndexProps) {
     super(props);
 
@@ -90,7 +93,9 @@ class ManufacturerIndexPage extends React.Component<ManufacturerIndexProps, Manu
   handleTableChange = (
     pagination: TablePaginationConfig,
     filters: Record<string, (React.Key | boolean)[] | null>,
-    sorter: SorterResult<Manufacturer.AsObject> | SorterResult<Manufacturer.AsObject>[],
+    sorter:
+      | SorterResult<Manufacturer.AsObject>
+      | SorterResult<Manufacturer.AsObject>[],
     extra: TableCurrentDataSource<Manufacturer.AsObject>
   ): void => {
     this.fetchData(pagination);

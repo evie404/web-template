@@ -65,73 +65,73 @@ export const GetOneByIDServerSide = <
 ): GetServerSideFunc<O> => async (
   context: GetServerSidePropsContext<queryWithIDParam>
 ): Promise<GetServerSidePropsResult<GetOnePageProp<O>>> => {
-    let id: number;
+  let id: number;
 
-    id = Array.isArray(context.params.id)
-      ? parseInt(context.params.id[0], 10)
-      : parseInt(context.params.id, 10);
+  id = Array.isArray(context.params.id)
+    ? parseInt(context.params.id[0], 10)
+    : parseInt(context.params.id, 10);
 
-    const props: GetOnePageProp<O> = {
-      id,
-      result: null,
-      error: null,
-      httpStatusCode: 200,
-    };
+  const props: GetOnePageProp<O> = {
+    id,
+    result: null,
+    error: null,
+    httpStatusCode: 200,
+  };
 
-    const metadata = new grpc.Metadata();
+  const metadata = new grpc.Metadata();
 
-    if (authorizationToken) {
-      metadata.set("Authorization", `Bearer ${authorizationToken}`);
-    }
+  if (authorizationToken) {
+    metadata.set("Authorization", `Bearer ${authorizationToken}`);
+  }
 
-    request.setId(id);
+  request.setId(id);
 
-    // we have to do this weird promise/await pattern in order to manufacturer sure that return values are
-    // present.
-    const p = new Promise((resolve, reject) =>
-      client.getOneByID(
-        request,
-        metadata,
-        (err: Error, response: getByIDResponse<O, PB>) => {
-          if (err) {
-            return reject(err);
-          }
-          return resolve(response);
+  // we have to do this weird promise/await pattern in order to manufacturer sure that return values are
+  // present.
+  const p = new Promise((resolve, reject) =>
+    client.getOneByID(
+      request,
+      metadata,
+      (err: Error, response: getByIDResponse<O, PB>) => {
+        if (err) {
+          return reject(err);
         }
-      )
-    );
+        return resolve(response);
+      }
+    )
+  );
 
-    await p
-      .then(
-        (response: getByIDResponse<O, PB>) => {
-          // we have to do this because the raw object is not serializable to json
-          props.result = response.getResult().toObject();
-        },
-        (e: Error) => {
-          // we have to reconstruct the object because the raw Error object is not serializable to json
-          props.error = {
-            code: e.code,
-            message: e.message,
-          };
-        }
-      )
-      .catch(() => {
+  await p
+    .then(
+      (response: getByIDResponse<O, PB>) => {
+        // we have to do this because the raw object is not serializable to json
+        props.result = response.getResult().toObject();
+      },
+      (e: Error) => {
         // we have to reconstruct the object because the raw Error object is not serializable to json
         props.error = {
-          code: StatusCode.UNKNOWN,
-          message: "Unknown error",
+          code: e.code,
+          message: e.message,
         };
-      });
+      }
+    )
+    .catch(() => {
+      // we have to reconstruct the object because the raw Error object is not serializable to json
+      props.error = {
+        code: StatusCode.UNKNOWN,
+        message: "Unknown error",
+      };
+    });
 
-    if (props.error) {
-      const httpStatusCode = httpStatusCodeFromGRPCError(props.error);
-      context.res.statusCode = httpStatusCode;
-      props.httpStatusCode = httpStatusCode;
-    }
+  if (props.error) {
+    const httpStatusCode = httpStatusCodeFromGRPCError(props.error);
+    context.res.statusCode = httpStatusCode;
+    props.httpStatusCode = httpStatusCode;
+  }
 
-    return {
-      props,
-    };
+  return {
+    props,
   };
+};
 
 export default GetOneByIDServerSide;

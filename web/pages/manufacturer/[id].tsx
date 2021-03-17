@@ -18,7 +18,9 @@ export const getServerSideProps: GetServerSideFunc<Manufacturer.AsObject> = GetO
   Manufacturer
 >(new GetOneByIDRequest(), ManufacturerReaderClient, "legit");
 
-const ManufacturerPage = (props: GetOnePageProp<Manufacturer.AsObject>): JSX.Element => {
+const ManufacturerPage = (
+  props: GetOnePageProp<Manufacturer.AsObject>
+): JSX.Element => {
   if (props.result) {
     return (
       <Container menuKey="manufacturer">
