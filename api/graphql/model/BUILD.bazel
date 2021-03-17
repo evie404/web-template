@@ -5,5 +5,4 @@ go_library(
     srcs = ["models_gen.go"],
     importpath = "github.com/rickypai/web-template/api/graphql/model",
     visibility = ["//visibility:public"],
-    deps = ["//api/ent/schema"],
 )

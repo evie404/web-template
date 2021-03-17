@@ -9,6 +9,7 @@ go_library(
     importpath = "github.com/rickypai/web-template/api/graphql/generated",
     visibility = ["//visibility:public"],
     deps = [
+        "//api/ent",
         "//api/ent/schema",
         "//api/graphql/model",
         "@com_github_99designs_gqlgen//graphql",

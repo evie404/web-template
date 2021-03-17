@@ -4,7 +4,7 @@ go_library(
     name = "schema",
     srcs = [
         "manufacturer.go",
-        "os.go",
+        "operatingsystem.go",
         "phone.go",
     ],
     importpath = "github.com/rickypai/web-template/api/ent/schema",
