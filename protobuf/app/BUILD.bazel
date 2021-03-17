@@ -7,7 +7,7 @@ proto_library(
     srcs = ["app.proto"],
     visibility = ["//visibility:public"],
     deps = [
-        "//protobuf/os:os_proto",
+        "//protobuf/operating_system:operating_system_proto",
         "@com_google_protobuf//:timestamp_proto",
     ],
 )
@@ -17,7 +17,7 @@ go_proto_library(
     importpath = "github.com/rickypai/web-template/api/protobuf/app",
     proto = ":app_proto",
     visibility = ["//visibility:public"],
-    deps = ["//protobuf/os"],
+    deps = ["//protobuf/operating_system"],
 )
 
 go_library(

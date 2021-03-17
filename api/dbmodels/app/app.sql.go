@@ -8,7 +8,7 @@ import (
 )
 
 const getByID = `-- name: GetByID :one
-SELECT id, name, os_id, created_at, modified_at FROM app WHERE id = $1 LIMIT 1
+SELECT id, name, operating_system_id, created_at, modified_at FROM app WHERE id = $1 LIMIT 1
 `
 
 func (q *Queries) GetByID(ctx context.Context, id int64) (App, error) {
@@ -17,7 +17,7 @@ func (q *Queries) GetByID(ctx context.Context, id int64) (App, error) {
 	err := row.Scan(
 		&i.ID,
 		&i.Name,
-		&i.OsID,
+		&i.OperatingSystemID,
 		&i.CreatedAt,
 		&i.ModifiedAt,
 	)

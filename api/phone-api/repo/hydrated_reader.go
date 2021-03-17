@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	manufacturerPb "github.com/rickypai/web-template/api/protobuf/manufacturer"
-	osPb "github.com/rickypai/web-template/api/protobuf/os"
+	operatingSystemPb "github.com/rickypai/web-template/api/protobuf/operating_system"
 	cursorPkg "github.com/rickypai/web-template/api/server/cursor"
 )
 
@@ -14,10 +14,10 @@ type HydratedReader struct {
 	hydrator *Hydrator
 }
 
-func NewHydratedReader(repo *Reader, manufacturerClient manufacturerPb.ManufacturerReaderClient, osClient osPb.OSReaderClient) *HydratedReader {
+func NewHydratedReader(repo *Reader, manufacturerClient manufacturerPb.ManufacturerReaderClient, operatingSystemClient operatingSystemPb.OperatingSystemReaderClient) *HydratedReader {
 	return &HydratedReader{
 		repo:     repo,
-		hydrator: NewHydrator(manufacturerClient, osClient),
+		hydrator: NewHydrator(manufacturerClient, operatingSystemClient),
 	}
 }
 

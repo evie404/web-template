@@ -2,7 +2,7 @@ package repo
 
 import (
 	manufacturerPb "github.com/rickypai/web-template/api/protobuf/manufacturer"
-	"github.com/rickypai/web-template/api/protobuf/os"
+	operatingSystemPb "github.com/rickypai/web-template/api/protobuf/operating_system"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
@@ -14,8 +14,8 @@ func toRPCModel(model dbModelT) *modelT {
 		Manufacturer: &manufacturerPb.Manufacturer{
 			Id: int64(model.ManufacturerID),
 		},
-		Os: &os.OS{
-			Id: int64(model.OsID),
+		OperatingSystem: &operatingSystemPb.OperatingSystem{
+			Id: int64(model.OperatingSystemID),
 		},
 
 		CreatedAt:  timestamppb.New(model.CreatedAt),

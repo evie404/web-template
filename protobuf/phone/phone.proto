@@ -3,7 +3,7 @@ package phone;
 
 import "google/protobuf/timestamp.proto";
 import "protobuf/manufacturer/manufacturer.proto";
-import "protobuf/os/os.proto";
+import "protobuf/operating_system/operating_system.proto";
 
 option go_package = "github.com/rickypai/web-template/api/protobuf/phone";
 
@@ -14,7 +14,7 @@ message Phone {
 
   manufacturer.Manufacturer manufacturer = 3;
 
-  os.OS os = 4;
+  operating_system.OperatingSystem operating_system = 4;
 
   // TODO: automatically handle timestamps
   // TODO: CLI should print warning asking to manufacturer auto-handling behavior explicit
@@ -30,7 +30,7 @@ message PhoneRecord {
 
   int64 manufacturer_id = 3;
 
-  int64 os_id = 4;
+  int64 operating_system_id = 4;
 
   google.protobuf.Timestamp created_at = 9000;
 
@@ -43,5 +43,5 @@ message PhoneCreateRequest {
 
   int64 manufacturer_id = 3;
 
-  int64 os_id = 4;
+  int64 operating_system_id = 4;
 }

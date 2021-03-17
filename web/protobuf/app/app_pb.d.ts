@@ -1,7 +1,7 @@
 import * as jspb from 'google-protobuf'
 
 import * as google_protobuf_timestamp_pb from 'google-protobuf/google/protobuf/timestamp_pb';
-import * as protobuf_os_os_pb from '../../protobuf/os/os_pb';
+import * as protobuf_operating_system_operating_system_pb from '../../protobuf/operating_system/operating_system_pb';
 
 
 export class App extends jspb.Message {
@@ -11,10 +11,10 @@ export class App extends jspb.Message {
   getName(): string;
   setName(value: string): App;
 
-  getOs(): protobuf_os_os_pb.OS | undefined;
-  setOs(value?: protobuf_os_os_pb.OS): App;
-  hasOs(): boolean;
-  clearOs(): App;
+  getOperatingSystem(): protobuf_operating_system_operating_system_pb.OperatingSystem | undefined;
+  setOperatingSystem(value?: protobuf_operating_system_operating_system_pb.OperatingSystem): App;
+  hasOperatingSystem(): boolean;
+  clearOperatingSystem(): App;
 
   getCreatedAt(): google_protobuf_timestamp_pb.Timestamp | undefined;
   setCreatedAt(value?: google_protobuf_timestamp_pb.Timestamp): App;
@@ -38,7 +38,7 @@ export namespace App {
   export type AsObject = {
     id: number,
     name: string,
-    os?: protobuf_os_os_pb.OS.AsObject,
+    operatingSystem?: protobuf_operating_system_operating_system_pb.OperatingSystem.AsObject,
     createdAt?: google_protobuf_timestamp_pb.Timestamp.AsObject,
     modifiedAt?: google_protobuf_timestamp_pb.Timestamp.AsObject,
   }

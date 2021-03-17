@@ -4,52 +4,29 @@ import { TablePaginationConfig } from "antd/lib/table";
 import { SorterResult, TableCurrentDataSource } from "antd/lib/table/interface";
 import Container from "../../components/container";
 import SEO from "../../components/seo";
-import PhoneReaderClient from "../../clients/grpc-web/phone_reader_client";
-import { Phone } from "../../protobuf/phone/phone_pb";
-import { ListByPageRequest } from "../../protobuf/phone/phone_reader_pb";
-import { Manufacturer } from "../../protobuf/manufacturer/manufacturer_pb";
+import OperatingSystemReaderClient from "../../clients/grpc-web/operating_system_reader_client";
 import { OperatingSystem } from "../../protobuf/operating_system/operating_system_pb";
+import { ListByPageRequest } from "../../protobuf/operating_system/operating_system_reader_pb";
+
 import { ListByPageClientSide, PageResult } from "../../components/listPage";
 
-const PhoneLink = (
+const OperatingSystemLink = (
   text: string,
-  record: Phone.AsObject,
+  record: OperatingSystem.AsObject,
   index: number
-): JSX.Element => <a href={`/phone/${record.id}/`}>{text}</a>;
-
-const ManufacturerLink = (record: Manufacturer.AsObject): JSX.Element => (
-  <a href={`/manufacturer/${record.id}/`}>{record.name}</a>
-);
-
-const OperatingSystemLink = (record: OperatingSystem.AsObject): JSX.Element => (
-  <a href={`/operating_system/${record.id}/`}>{record.name}</a>
-);
+): JSX.Element => <a href={`/operating_system/${record.id}/`}>{text}</a>;
 
 const columns = [
   {
     title: "ID",
     dataIndex: "id",
     sorter: true,
-    render: PhoneLink,
+    render: OperatingSystemLink,
     width: "20%",
   },
   {
     title: "Name",
     dataIndex: "name",
-    sorter: true,
-    render: PhoneLink,
-    width: "20%",
-  },
-  {
-    title: "Manufacturer",
-    dataIndex: "manufacturer",
-    sorter: true,
-    render: ManufacturerLink,
-    width: "20%",
-  },
-  {
-    title: "OperatingSystem",
-    dataIndex: "operating_system",
     sorter: true,
     render: OperatingSystemLink,
     width: "20%",
@@ -57,17 +34,20 @@ const columns = [
 ];
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface PhoneIndexProps {}
+interface OperatingSystemIndexProps {}
 
-interface PhoneIndexState {
-  data: Array<Phone.AsObject>;
+interface OperatingSystemIndexState {
+  data: Array<OperatingSystem.AsObject>;
   pagination: TablePaginationConfig;
   loading: boolean;
   error?: Error;
 }
 
-class PhoneIndexPage extends React.Component<PhoneIndexProps, PhoneIndexState> {
-  constructor(props: PhoneIndexProps) {
+class OperatingSystemIndexPage extends React.Component<
+  OperatingSystemIndexProps,
+  OperatingSystemIndexState
+> {
+  constructor(props: OperatingSystemIndexProps) {
     super(props);
 
     this.state = {
@@ -88,13 +68,13 @@ class PhoneIndexPage extends React.Component<PhoneIndexProps, PhoneIndexState> {
   fetchData = (pagination: TablePaginationConfig): void => {
     this.setState({ loading: true, error: null });
 
-    ListByPageClientSide<Phone.AsObject, Phone>(
+    ListByPageClientSide<OperatingSystem.AsObject, OperatingSystem>(
       new ListByPageRequest(),
       pagination,
-      PhoneReaderClient,
+      OperatingSystemReaderClient,
       "legit"
     )
-      .then((response: PageResult<Phone.AsObject>) => {
+      .then((response: PageResult<OperatingSystem.AsObject>) => {
         this.setState({
           loading: false,
           data: response.results,
@@ -113,8 +93,10 @@ class PhoneIndexPage extends React.Component<PhoneIndexProps, PhoneIndexState> {
   handleTableChange = (
     pagination: TablePaginationConfig,
     filters: Record<string, (React.Key | boolean)[] | null>,
-    sorter: SorterResult<Phone.AsObject> | SorterResult<Phone.AsObject>[],
-    extra: TableCurrentDataSource<Phone.AsObject>
+    sorter:
+      | SorterResult<OperatingSystem.AsObject>
+      | SorterResult<OperatingSystem.AsObject>[],
+    extra: TableCurrentDataSource<OperatingSystem.AsObject>
   ): void => {
     this.fetchData(pagination);
   };
@@ -122,13 +104,13 @@ class PhoneIndexPage extends React.Component<PhoneIndexProps, PhoneIndexState> {
   render(): JSX.Element {
     const { data, pagination, loading } = this.state;
     return (
-      <Container menuKey="phone">
-        <SEO title="Phones" />
+      <Container menuKey="operating_system">
+        <SEO title="OperatingSystems" />
         {this.state.error ? (
           <Alert message={this.state.error.message} type="error" />
         ) : null}
-        <h1>Phones</h1>
-        <Table<Phone.AsObject>
+        <h1>OperatingSystems</h1>
+        <Table<OperatingSystem.AsObject>
           columns={columns}
           rowKey={(record) => record.id}
           dataSource={data}
@@ -141,4 +123,4 @@ class PhoneIndexPage extends React.Component<PhoneIndexProps, PhoneIndexState> {
   }
 }
 
-export default PhoneIndexPage;
+export default OperatingSystemIndexPage;

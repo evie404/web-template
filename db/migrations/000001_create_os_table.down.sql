@@ -1,5 +1,5 @@
 BEGIN;
 
-DROP TABLE IF EXISTS os;
+DROP TABLE IF EXISTS operating_system;
 
 COMMIT;

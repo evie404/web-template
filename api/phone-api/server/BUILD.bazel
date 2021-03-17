@@ -13,7 +13,7 @@ go_library(
         "//api/phone-api/repo",
         "//api/server/cursor",
         "//protobuf/manufacturer",
-        "//protobuf/os",
+        "//protobuf/operating_system",
         "//protobuf/phone",
         "@org_golang_google_grpc//codes",
         "@org_golang_google_grpc//status",

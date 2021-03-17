@@ -27,7 +27,7 @@ SET default_table_access_method = heap;
 CREATE TABLE public.app (
     id bigint NOT NULL,
     name character varying(300) NOT NULL,
-    os_id integer NOT NULL,
+    operating_system_id integer NOT NULL,
     created_at timestamp with time zone NOT NULL,
     modified_at timestamp with time zone NOT NULL
 );
@@ -80,11 +80,11 @@ ALTER TABLE ONLY public.app
 
 
 --
--- Name: app app_os_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: app app_operating_system_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
 ALTER TABLE ONLY public.app
-    ADD CONSTRAINT app_os_id_fkey FOREIGN KEY (os_id) REFERENCES public.os(id);
+    ADD CONSTRAINT app_operating_system_id_fkey FOREIGN KEY (operating_system_id) REFERENCES public.operating_system(id);
 
 
 --
