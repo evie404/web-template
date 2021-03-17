@@ -32,8 +32,6 @@ func (Manufacturer) Edges() []ent.Edge {
 	return []ent.Edge{
 		edge.To("phones", Manufacturer.Type).
 			Annotations(entgql.Bind()).
-			Unique().
-			From("manufacturer").
-			Annotations(entgql.Bind()),
+			Unique(),
 	}
 }
