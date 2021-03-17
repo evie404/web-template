@@ -1,0 +1,18 @@
+syntax = "proto3";
+package operating_system;
+
+import "protobuf/operating_system/operating_system.proto";
+
+option go_package = "github.com/rickypai/web-template/api/protobuf/operating_system";
+
+service OperatingSystemWriter {
+  rpc CreateOne(CreateOneRequest) returns (CreateOneResponse) {}
+}
+
+message CreateOneRequest {
+  operating_system.OperatingSystemCreateRequest request = 1;
+}
+
+message CreateOneResponse {
+  operating_system.OperatingSystem result = 1;
+}
