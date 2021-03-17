@@ -2,26 +2,8 @@
 
 package model
 
-import (
-	"time"
-)
-
 type Node interface {
 	IsNode()
-}
-
-type Manufacturer struct {
-	ID         int       `json:"id"`
-	Name       string    `json:"name"`
-	CreatedAt  time.Time `json:"createdAt"`
-	ModifiedAt time.Time `json:"modifiedAt"`
-}
-
-type Os struct {
-	ID         int       `json:"id"`
-	Name       string    `json:"name"`
-	CreatedAt  time.Time `json:"createdAt"`
-	ModifiedAt time.Time `json:"modifiedAt"`
 }
 
 type PageInfo struct {
@@ -29,13 +11,4 @@ type PageInfo struct {
 	HasPreviousPage bool    `json:"hasPreviousPage"`
 	StartCursor     *string `json:"startCursor"`
 	EndCursor       *string `json:"endCursor"`
-}
-
-type Phone struct {
-	ID           int           `json:"id"`
-	Name         string        `json:"name"`
-	Os           *Os           `json:"os"`
-	Manufacturer *Manufacturer `json:"manufacturer"`
-	CreatedAt    time.Time     `json:"createdAt"`
-	ModifiedAt   time.Time     `json:"modifiedAt"`
 }
