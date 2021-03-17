@@ -2,11 +2,11 @@
   "version": "1",
   "packages": [
     {
-      "name": "make",
+      "name": "manufacturer",
       "engine": "postgresql",
-      "path": "dbmodels/make",
-      "schema": "schema/tables/make.sql",
-      "queries": "schema/queries/make.sql",
+      "path": "dbmodels/manufacturer",
+      "schema": "schema/tables/manufacturer.sql",
+      "queries": "schema/queries/manufacturer.sql",
       "emit_interface": true
     },
     {

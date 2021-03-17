@@ -1,11 +1,13 @@
 import { Descriptions } from "antd";
 import { OS } from "../protobuf/os/os_pb";
 
-interface MakeComponentProp {
+interface ManufacturerComponentProp {
   os: OS.AsObject;
 }
 
-const MakeComponent = ({ os }: MakeComponentProp): JSX.Element => (
+const ManufacturerComponent = ({
+  os,
+}: ManufacturerComponentProp): JSX.Element => (
   <div>
     <h1>{os.name}</h1>
     <Descriptions
@@ -24,4 +26,4 @@ const MakeComponent = ({ os }: MakeComponentProp): JSX.Element => (
   </div>
 );
 
-export default MakeComponent;
+export default ManufacturerComponent;

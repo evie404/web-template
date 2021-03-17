@@ -15,7 +15,7 @@ go_library(
     deps = [
         "//api/dbmodels/phone",
         "//api/server/cursor",
-        "//protobuf/make",
+        "//protobuf/manufacturer",
         "//protobuf/os",
         "//protobuf/phone",
         "@org_golang_google_protobuf//types/known/timestamppb",

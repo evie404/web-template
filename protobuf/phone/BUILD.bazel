@@ -11,7 +11,7 @@ proto_library(
     ],
     visibility = ["//visibility:public"],
     deps = [
-        "//protobuf/make:make_proto",
+        "//protobuf/manufacturer:manufacturer_proto",
         "//protobuf/os:os_proto",
         "@com_google_protobuf//:timestamp_proto",
     ],
@@ -24,7 +24,7 @@ go_proto_library(
     proto = ":phone_proto",
     visibility = ["//visibility:public"],
     deps = [
-        "//protobuf/make",
+        "//protobuf/manufacturer",
         "//protobuf/os",
     ],
 )

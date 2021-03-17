@@ -86,7 +86,7 @@ export const GetOneByIDServerSide = <
 
   request.setId(id);
 
-  // we have to do this weird promise/await pattern in order to make sure that return values are
+  // we have to do this weird promise/await pattern in order to manufacturer sure that return values are
   // present.
   const p = new Promise((resolve, reject) =>
     client.getOneByID(

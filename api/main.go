@@ -6,14 +6,14 @@ import (
 	"net"
 	"net/http"
 
-	makeCl "github.com/rickypai/web-template/api/clients/make-api"
+	manufacturerCl "github.com/rickypai/web-template/api/clients/manufacturer-api"
 	osCl "github.com/rickypai/web-template/api/clients/os-api"
 	"github.com/rickypai/web-template/api/config"
 	"github.com/rickypai/web-template/api/extauth"
-	makeSrv "github.com/rickypai/web-template/api/make-api/server"
+	manufacturerSrv "github.com/rickypai/web-template/api/manufacturer-api/server"
 	osSrv "github.com/rickypai/web-template/api/os-api/server"
 	phoneSrv "github.com/rickypai/web-template/api/phone-api/server"
-	"github.com/rickypai/web-template/api/protobuf/make"
+	"github.com/rickypai/web-template/api/protobuf/manufacturer"
 	"github.com/rickypai/web-template/api/protobuf/os"
 	"github.com/rickypai/web-template/api/protobuf/phone"
 	"github.com/rickypai/web-template/api/server/address"
@@ -38,16 +38,16 @@ func main() {
 		log.Fatalf("connecting to database: %v", err)
 	}
 
-	makeClient := makeCl.NewLocalReadServer(db)
+	manufacturerClient := manufacturerCl.NewLocalReadServer(db)
 	osClient := osCl.NewLocalReadServer(db)
 
 	s := grpc.NewServer()
-	phone.RegisterPhoneReaderServer(s, phoneSrv.NewReadServer(db, makeClient, osClient))
-	make.RegisterMakeReaderServer(s, makeSrv.NewReadServer(db))
+	phone.RegisterPhoneReaderServer(s, phoneSrv.NewReadServer(db, manufacturerClient, osClient))
+	manufacturer.RegisterManufacturerReaderServer(s, manufacturerSrv.NewReadServer(db))
 	os.RegisterOSReaderServer(s, osSrv.NewReadServer(db))
 
 	phone.RegisterPhoneWriterServer(s, phoneSrv.NewWriteServer(db))
-	make.RegisterMakeWriterServer(s, makeSrv.NewWriteServer(db))
+	manufacturer.RegisterManufacturerWriterServer(s, manufacturerSrv.NewWriteServer(db))
 	os.RegisterOSWriterServer(s, osSrv.NewWriteServer(db))
 
 	extAuth := extauth.NewExternalAuth()

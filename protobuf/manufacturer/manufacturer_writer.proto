@@ -1,0 +1,18 @@
+syntax = "proto3";
+package manufacturer;
+
+import "protobuf/manufacturer/manufacturer.proto";
+
+option go_package = "github.com/rickypai/web-template/api/protobuf/manufacturer";
+
+service ManufacturerWriter {
+  rpc CreateOne(CreateOneRequest) returns (CreateOneResponse) {}
+}
+
+message CreateOneRequest {
+  manufacturer.ManufacturerCreateRequest request = 1;
+}
+
+message CreateOneResponse {
+  manufacturer.Manufacturer result = 1;
+}

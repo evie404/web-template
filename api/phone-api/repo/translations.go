@@ -1,7 +1,7 @@
 package repo
 
 import (
-	makePb "github.com/rickypai/web-template/api/protobuf/make"
+	manufacturerPb "github.com/rickypai/web-template/api/protobuf/manufacturer"
 	"github.com/rickypai/web-template/api/protobuf/os"
 	"google.golang.org/protobuf/types/known/timestamppb"
 )
@@ -11,8 +11,8 @@ func toRPCModel(model dbModelT) *modelT {
 		Id:   model.ID,
 		Name: model.Name,
 
-		Make: &makePb.Make{
-			Id: int64(model.MakeID),
+		Manufacturer: &manufacturerPb.Manufacturer{
+			Id: int64(model.ManufacturerID),
 		},
 		Os: &os.OS{
 			Id: int64(model.OsID),

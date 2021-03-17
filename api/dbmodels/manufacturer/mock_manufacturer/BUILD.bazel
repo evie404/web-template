@@ -1,0 +1,12 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "mock_manufacturer",
+    srcs = ["querier_mock.go"],
+    importpath = "github.com/rickypai/web-template/api/dbmodels/manufacturer/mock_manufacturer",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//api/dbmodels/manufacturer",
+        "@com_github_golang_mock//gomock",
+    ],
+)

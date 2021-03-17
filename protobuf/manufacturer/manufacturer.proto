@@ -1,0 +1,31 @@
+syntax = "proto3";
+package manufacturer;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/rickypai/web-template/api/protobuf/manufacturer";
+
+message Manufacturer {
+  int64 id = 1;
+
+  string name = 2;
+
+  google.protobuf.Timestamp created_at = 9000;
+
+  google.protobuf.Timestamp modified_at = 9001;
+}
+
+message ManufacturerRecord {
+  int64 id = 1;
+
+  string name = 2;
+
+  google.protobuf.Timestamp created_at = 9000;
+
+  google.protobuf.Timestamp modified_at = 9001;
+}
+
+message ManufacturerCreateRequest {
+  // same field number to ensure wire-compatbility
+  string name = 2;
+}

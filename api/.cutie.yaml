@@ -1,6 +1,6 @@
 database: web_template_dev
 tables:
-  - name: make
+  - name: manufacturer
   - name: phone
   - name: app
   - name: os
