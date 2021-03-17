@@ -7,7 +7,7 @@ import SEO from "../../components/seo";
 import PhoneReaderClient from "../../clients/grpc-web/phone_reader_client";
 import { Phone } from "../../protobuf/phone/phone_pb";
 import { ListByPageRequest } from "../../protobuf/phone/phone_reader_pb";
-import { Make } from "../../protobuf/make/make_pb";
+import { Manufacturer } from "../../protobuf/manufacturer/manufacturer_pb";
 import { OS } from "../../protobuf/os/os_pb";
 import { ListByPageClientSide, PageResult } from "../../components/listPage";
 
@@ -17,8 +17,8 @@ const PhoneLink = (
   index: number
 ): JSX.Element => <a href={`/phone/${record.id}/`}>{text}</a>;
 
-const MakeLink = (record: Make.AsObject): JSX.Element => (
-  <a href={`/make/${record.id}/`}>{record.name}</a>
+const ManufacturerLink = (record: Manufacturer.AsObject): JSX.Element => (
+  <a href={`/manufacturer/${record.id}/`}>{record.name}</a>
 );
 
 const OSLink = (record: OS.AsObject): JSX.Element => (
@@ -41,10 +41,10 @@ const columns = [
     width: "20%",
   },
   {
-    title: "Make",
-    dataIndex: "make",
+    title: "Manufacturer",
+    dataIndex: "manufacturer",
     sorter: true,
-    render: MakeLink,
+    render: ManufacturerLink,
     width: "20%",
   },
   {
@@ -57,7 +57,7 @@ const columns = [
 ];
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-interface PhoneIndexProps {}
+interface PhoneIndexProps { }
 
 interface PhoneIndexState {
   data: Array<Phone.AsObject>;

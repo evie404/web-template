@@ -1,7 +1,7 @@
 import * as jspb from 'google-protobuf'
 
 import * as google_protobuf_timestamp_pb from 'google-protobuf/google/protobuf/timestamp_pb';
-import * as protobuf_make_make_pb from '../../protobuf/make/make_pb';
+import * as protobuf_manufacturer_manufacturer_pb from '../../protobuf/manufacturer/manufacturer_pb';
 import * as protobuf_os_os_pb from '../../protobuf/os/os_pb';
 
 
@@ -12,10 +12,10 @@ export class Phone extends jspb.Message {
   getName(): string;
   setName(value: string): Phone;
 
-  getMake(): protobuf_make_make_pb.Make | undefined;
-  setMake(value?: protobuf_make_make_pb.Make): Phone;
-  hasMake(): boolean;
-  clearMake(): Phone;
+  getManufacturer(): protobuf_manufacturer_manufacturer_pb.Manufacturer | undefined;
+  setManufacturer(value?: protobuf_manufacturer_manufacturer_pb.Manufacturer): Phone;
+  hasManufacturer(): boolean;
+  clearManufacturer(): Phone;
 
   getOs(): protobuf_os_os_pb.OS | undefined;
   setOs(value?: protobuf_os_os_pb.OS): Phone;
@@ -44,7 +44,7 @@ export namespace Phone {
   export type AsObject = {
     id: number,
     name: string,
-    make?: protobuf_make_make_pb.Make.AsObject,
+    manufacturer?: protobuf_manufacturer_manufacturer_pb.Manufacturer.AsObject,
     os?: protobuf_os_os_pb.OS.AsObject,
     createdAt?: google_protobuf_timestamp_pb.Timestamp.AsObject,
     modifiedAt?: google_protobuf_timestamp_pb.Timestamp.AsObject,
@@ -58,8 +58,8 @@ export class PhoneRecord extends jspb.Message {
   getName(): string;
   setName(value: string): PhoneRecord;
 
-  getMakeId(): number;
-  setMakeId(value: number): PhoneRecord;
+  getManufacturerId(): number;
+  setManufacturerId(value: number): PhoneRecord;
 
   getOsId(): number;
   setOsId(value: number): PhoneRecord;
@@ -86,7 +86,7 @@ export namespace PhoneRecord {
   export type AsObject = {
     id: number,
     name: string,
-    makeId: number,
+    manufacturerId: number,
     osId: number,
     createdAt?: google_protobuf_timestamp_pb.Timestamp.AsObject,
     modifiedAt?: google_protobuf_timestamp_pb.Timestamp.AsObject,
@@ -97,8 +97,8 @@ export class PhoneCreateRequest extends jspb.Message {
   getName(): string;
   setName(value: string): PhoneCreateRequest;
 
-  getMakeId(): number;
-  setMakeId(value: number): PhoneCreateRequest;
+  getManufacturerId(): number;
+  setManufacturerId(value: number): PhoneCreateRequest;
 
   getOsId(): number;
   setOsId(value: number): PhoneCreateRequest;
@@ -114,7 +114,7 @@ export class PhoneCreateRequest extends jspb.Message {
 export namespace PhoneCreateRequest {
   export type AsObject = {
     name: string,
-    makeId: number,
+    manufacturerId: number,
     osId: number,
   }
 }

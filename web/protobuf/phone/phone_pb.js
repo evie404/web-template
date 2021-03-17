@@ -16,8 +16,8 @@ var global = Function('return this')();
 
 var google_protobuf_timestamp_pb = require('google-protobuf/google/protobuf/timestamp_pb.js');
 goog.object.extend(proto, google_protobuf_timestamp_pb);
-var protobuf_make_make_pb = require('../../protobuf/make/make_pb.js');
-goog.object.extend(proto, protobuf_make_make_pb);
+var protobuf_manufacturer_manufacturer_pb = require('../../protobuf/manufacturer/manufacturer_pb.js');
+goog.object.extend(proto, protobuf_manufacturer_manufacturer_pb);
 var protobuf_os_os_pb = require('../../protobuf/os/os_pb.js');
 goog.object.extend(proto, protobuf_os_os_pb);
 goog.exportSymbol('proto.phone.Phone', null, global);
@@ -120,7 +120,7 @@ proto.phone.Phone.toObject = function(includeInstance, msg) {
   var f, obj = {
     id: jspb.Message.getFieldWithDefault(msg, 1, 0),
     name: jspb.Message.getFieldWithDefault(msg, 2, ""),
-    make: (f = msg.getMake()) && protobuf_make_make_pb.Make.toObject(includeInstance, f),
+    manufacturer: (f = msg.getManufacturer()) && protobuf_manufacturer_manufacturer_pb.Manufacturer.toObject(includeInstance, f),
     os: (f = msg.getOs()) && protobuf_os_os_pb.OS.toObject(includeInstance, f),
     createdAt: (f = msg.getCreatedAt()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
     modifiedAt: (f = msg.getModifiedAt()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f)
@@ -169,9 +169,9 @@ proto.phone.Phone.deserializeBinaryFromReader = function(msg, reader) {
       msg.setName(value);
       break;
     case 3:
-      var value = new protobuf_make_make_pb.Make;
-      reader.readMessage(value,protobuf_make_make_pb.Make.deserializeBinaryFromReader);
-      msg.setMake(value);
+      var value = new protobuf_manufacturer_manufacturer_pb.Manufacturer;
+      reader.readMessage(value,protobuf_manufacturer_manufacturer_pb.Manufacturer.deserializeBinaryFromReader);
+      msg.setManufacturer(value);
       break;
     case 4:
       var value = new protobuf_os_os_pb.OS;
@@ -231,12 +231,12 @@ proto.phone.Phone.serializeBinaryToWriter = function(message, writer) {
       f
     );
   }
-  f = message.getMake();
+  f = message.getManufacturer();
   if (f != null) {
     writer.writeMessage(
       3,
       f,
-      protobuf_make_make_pb.Make.serializeBinaryToWriter
+      protobuf_manufacturer_manufacturer_pb.Manufacturer.serializeBinaryToWriter
     );
   }
   f = message.getOs();
@@ -303,20 +303,20 @@ proto.phone.Phone.prototype.setName = function(value) {
 
 
 /**
- * optional make.Make make = 3;
- * @return {?proto.make.Make}
+ * optional manufacturer.Manufacturer manufacturer = 3;
+ * @return {?proto.manufacturer.Manufacturer}
  */
-proto.phone.Phone.prototype.getMake = function() {
-  return /** @type{?proto.make.Make} */ (
-    jspb.Message.getWrapperField(this, protobuf_make_make_pb.Make, 3));
+proto.phone.Phone.prototype.getManufacturer = function() {
+  return /** @type{?proto.manufacturer.Manufacturer} */ (
+    jspb.Message.getWrapperField(this, protobuf_manufacturer_manufacturer_pb.Manufacturer, 3));
 };
 
 
 /**
- * @param {?proto.make.Make|undefined} value
+ * @param {?proto.manufacturer.Manufacturer|undefined} value
  * @return {!proto.phone.Phone} returns this
 */
-proto.phone.Phone.prototype.setMake = function(value) {
+proto.phone.Phone.prototype.setManufacturer = function(value) {
   return jspb.Message.setWrapperField(this, 3, value);
 };
 
@@ -325,8 +325,8 @@ proto.phone.Phone.prototype.setMake = function(value) {
  * Clears the message field making it undefined.
  * @return {!proto.phone.Phone} returns this
  */
-proto.phone.Phone.prototype.clearMake = function() {
-  return this.setMake(undefined);
+proto.phone.Phone.prototype.clearManufacturer = function() {
+  return this.setManufacturer(undefined);
 };
 
 
@@ -334,7 +334,7 @@ proto.phone.Phone.prototype.clearMake = function() {
  * Returns whether this field is set.
  * @return {boolean}
  */
-proto.phone.Phone.prototype.hasMake = function() {
+proto.phone.Phone.prototype.hasManufacturer = function() {
   return jspb.Message.getField(this, 3) != null;
 };
 
@@ -484,7 +484,7 @@ proto.phone.PhoneRecord.toObject = function(includeInstance, msg) {
   var f, obj = {
     id: jspb.Message.getFieldWithDefault(msg, 1, 0),
     name: jspb.Message.getFieldWithDefault(msg, 2, ""),
-    makeId: jspb.Message.getFieldWithDefault(msg, 3, 0),
+    manufacturerId: jspb.Message.getFieldWithDefault(msg, 3, 0),
     osId: jspb.Message.getFieldWithDefault(msg, 4, 0),
     createdAt: (f = msg.getCreatedAt()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f),
     modifiedAt: (f = msg.getModifiedAt()) && google_protobuf_timestamp_pb.Timestamp.toObject(includeInstance, f)
@@ -534,7 +534,7 @@ proto.phone.PhoneRecord.deserializeBinaryFromReader = function(msg, reader) {
       break;
     case 3:
       var value = /** @type {number} */ (reader.readInt64());
-      msg.setMakeId(value);
+      msg.setManufacturerId(value);
       break;
     case 4:
       var value = /** @type {number} */ (reader.readInt64());
@@ -593,7 +593,7 @@ proto.phone.PhoneRecord.serializeBinaryToWriter = function(message, writer) {
       f
     );
   }
-  f = message.getMakeId();
+  f = message.getManufacturerId();
   if (f !== 0) {
     writer.writeInt64(
       3,
@@ -663,10 +663,10 @@ proto.phone.PhoneRecord.prototype.setName = function(value) {
 
 
 /**
- * optional int64 make_id = 3;
+ * optional int64 manufacturer_id = 3;
  * @return {number}
  */
-proto.phone.PhoneRecord.prototype.getMakeId = function() {
+proto.phone.PhoneRecord.prototype.getManufacturerId = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 3, 0));
 };
 
@@ -675,7 +675,7 @@ proto.phone.PhoneRecord.prototype.getMakeId = function() {
  * @param {number} value
  * @return {!proto.phone.PhoneRecord} returns this
  */
-proto.phone.PhoneRecord.prototype.setMakeId = function(value) {
+proto.phone.PhoneRecord.prototype.setManufacturerId = function(value) {
   return jspb.Message.setProto3IntField(this, 3, value);
 };
 
@@ -805,7 +805,7 @@ proto.phone.PhoneCreateRequest.prototype.toObject = function(opt_includeInstance
 proto.phone.PhoneCreateRequest.toObject = function(includeInstance, msg) {
   var f, obj = {
     name: jspb.Message.getFieldWithDefault(msg, 2, ""),
-    makeId: jspb.Message.getFieldWithDefault(msg, 3, 0),
+    manufacturerId: jspb.Message.getFieldWithDefault(msg, 3, 0),
     osId: jspb.Message.getFieldWithDefault(msg, 4, 0)
   };
 
@@ -849,7 +849,7 @@ proto.phone.PhoneCreateRequest.deserializeBinaryFromReader = function(msg, reade
       break;
     case 3:
       var value = /** @type {number} */ (reader.readInt64());
-      msg.setMakeId(value);
+      msg.setManufacturerId(value);
       break;
     case 4:
       var value = /** @type {number} */ (reader.readInt64());
@@ -891,7 +891,7 @@ proto.phone.PhoneCreateRequest.serializeBinaryToWriter = function(message, write
       f
     );
   }
-  f = message.getMakeId();
+  f = message.getManufacturerId();
   if (f !== 0) {
     writer.writeInt64(
       3,
@@ -927,10 +927,10 @@ proto.phone.PhoneCreateRequest.prototype.setName = function(value) {
 
 
 /**
- * optional int64 make_id = 3;
+ * optional int64 manufacturer_id = 3;
  * @return {number}
  */
-proto.phone.PhoneCreateRequest.prototype.getMakeId = function() {
+proto.phone.PhoneCreateRequest.prototype.getManufacturerId = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 3, 0));
 };
 
@@ -939,7 +939,7 @@ proto.phone.PhoneCreateRequest.prototype.getMakeId = function() {
  * @param {number} value
  * @return {!proto.phone.PhoneCreateRequest} returns this
  */
-proto.phone.PhoneCreateRequest.prototype.setMakeId = function(value) {
+proto.phone.PhoneCreateRequest.prototype.setManufacturerId = function(value) {
   return jspb.Message.setProto3IntField(this, 3, value);
 };
 

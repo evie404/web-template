@@ -7,10 +7,10 @@ import (
 )
 
 type Phone struct {
-	ID         int64
-	Name       string
-	MakeID     int32
-	OsID       int32
-	CreatedAt  time.Time
-	ModifiedAt time.Time
+	ID             int64
+	Name           string
+	ManufacturerID int32
+	OsID           int32
+	CreatedAt      time.Time
+	ModifiedAt     time.Time
 }

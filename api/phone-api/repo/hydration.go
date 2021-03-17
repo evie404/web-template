@@ -4,19 +4,19 @@ import (
 	"context"
 	"fmt"
 
-	makePb "github.com/rickypai/web-template/api/protobuf/make"
+	manufacturerPb "github.com/rickypai/web-template/api/protobuf/manufacturer"
 	osPb "github.com/rickypai/web-template/api/protobuf/os"
 	"golang.org/x/sync/errgroup"
 )
 
 type Hydrator struct {
-	makeClient makePb.MakeReaderClient
+	manufacturerClient manufacturerPb.ManufacturerReaderClient
 	osClient   osPb.OSReaderClient
 }
 
-func NewHydrator(makeClient makePb.MakeReaderClient, osClient osPb.OSReaderClient) *Hydrator {
+func NewHydrator(manufacturerClient manufacturerPb.ManufacturerReaderClient, osClient osPb.OSReaderClient) *Hydrator {
 	return &Hydrator{
-		makeClient: makeClient,
+		manufacturerClient: manufacturerClient,
 		osClient:   osClient,
 	}
 }
@@ -24,14 +24,14 @@ func NewHydrator(makeClient makePb.MakeReaderClient, osClient osPb.OSReaderClien
 func (h *Hydrator) HydrateOne(ctx context.Context, instance *modelT) error {
 	wg, ctx := errgroup.WithContext(ctx)
 
-	var makeResult *makePb.GetOneByIDResponse
+	var manufacturerResult *manufacturerPb.GetOneByIDResponse
 	wg.Go(func() error {
-		var makeErr error
-		makeResult, makeErr = h.makeClient.GetOneByID(ctx, &makePb.GetOneByIDRequest{
-			Id: instance.GetMake().GetId(),
+		var manufacturerErr error
+		manufacturerResult, manufacturerErr = h.manufacturerClient.GetOneByID(ctx, &manufacturerPb.GetOneByIDRequest{
+			Id: instance.GetManufacturer().GetId(),
 		})
-		if makeErr != nil {
-			return fmt.Errorf("error fetching make ID#%v: %w", instance.GetMake().GetId(), makeErr)
+		if manufacturerErr != nil {
+			return fmt.Errorf("error fetching manufacturer ID#%v: %w", instance.GetManufacturer().GetId(), manufacturerErr)
 		}
 
 		return nil
@@ -55,7 +55,7 @@ func (h *Hydrator) HydrateOne(ctx context.Context, instance *modelT) error {
 		return err
 	}
 
-	instance.Make = makeResult.GetResult()
+	instance.Manufacturer = manufacturerResult.GetResult()
 	instance.Os = osResult.GetResult()
 
 	return nil
@@ -64,22 +64,22 @@ func (h *Hydrator) HydrateOne(ctx context.Context, instance *modelT) error {
 func (h *Hydrator) HydrateMany(ctx context.Context, instances []*modelT) error {
 	wg, ctx := errgroup.WithContext(ctx)
 
-	makeResults := make(map[int64]*makePb.Make, len(instances))
+	manufacturerResults := make(map[int64]*manufacturerPb.Manufacturer, len(instances))
 	wg.Go(func() error {
-		makeIds := make([]int64, len(instances))
+		manufacturerIds := make([]int64, len(instances))
 		for i, instance := range instances {
-			makeIds[i] = instance.GetMake().GetId()
+			manufacturerIds[i] = instance.GetManufacturer().GetId()
 		}
 
-		makesResponse, makeErr := h.makeClient.GetManyByIDs(ctx, &makePb.GetManyByIDsRequest{
-			Ids: makeIds,
+		manufacturersResponse, manufacturerErr := h.manufacturerClient.GetManyByIDs(ctx, &manufacturerPb.GetManyByIDsRequest{
+			Ids: manufacturerIds,
 		})
-		if makeErr != nil {
-			return fmt.Errorf("error fetching make IDs#%+v: %w", makeIds, makeErr)
+		if manufacturerErr != nil {
+			return fmt.Errorf("error fetching manufacturer IDs#%+v: %w", manufacturerIds, manufacturerErr)
 		}
 
-		for _, result := range makesResponse.GetResults() {
-			makeResults[result.GetId()] = result
+		for _, result := range manufacturersResponse.GetResults() {
+			manufacturerResults[result.GetId()] = result
 		}
 
 		return nil
@@ -112,7 +112,7 @@ func (h *Hydrator) HydrateMany(ctx context.Context, instances []*modelT) error {
 	}
 
 	for _, instance := range instances {
-		instance.Make = makeResults[instance.GetMake().GetId()]
+		instance.Manufacturer = manufacturerResults[instance.GetManufacturer().GetId()]
 		instance.Os = osResults[instance.GetOs().GetId()]
 	}
 

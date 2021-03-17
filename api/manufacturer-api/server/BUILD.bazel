@@ -1,0 +1,19 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "server",
+    srcs = [
+        "read_server.go",
+        "types.go",
+        "write_server.go",
+    ],
+    importpath = "github.com/rickypai/web-template/api/manufacturer-api/server",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//api/manufacturer-api/repo",
+        "//api/server/cursor",
+        "//protobuf/manufacturer",
+        "@org_golang_google_grpc//codes",
+        "@org_golang_google_grpc//status",
+    ],
+)

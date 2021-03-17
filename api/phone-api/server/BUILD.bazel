@@ -12,7 +12,7 @@ go_library(
     deps = [
         "//api/phone-api/repo",
         "//api/server/cursor",
-        "//protobuf/make",
+        "//protobuf/manufacturer",
         "//protobuf/os",
         "//protobuf/phone",
         "@org_golang_google_grpc//codes",

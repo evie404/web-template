@@ -6,7 +6,7 @@ import (
 	"fmt"
 
 	"github.com/rickypai/web-template/api/phone-api/repo"
-	makePb "github.com/rickypai/web-template/api/protobuf/make"
+	manufacturerPb "github.com/rickypai/web-template/api/protobuf/manufacturer"
 	osPb "github.com/rickypai/web-template/api/protobuf/os"
 	rpc "github.com/rickypai/web-template/api/protobuf/phone"
 	"github.com/rickypai/web-template/api/server/cursor"
@@ -24,10 +24,10 @@ type modelTReader interface {
 	ListByPrefix(context.Context, string, int64) ([]*modelT, error)
 }
 
-func NewReadServer(db *sql.DB, makeClient makePb.MakeReaderClient, osClient osPb.OSReaderClient) *ReadServer {
+func NewReadServer(db *sql.DB, manufacturerClient manufacturerPb.ManufacturerReaderClient, osClient osPb.OSReaderClient) *ReadServer {
 	reader := repo.NewReader(db)
 	return &ReadServer{
-		repo: repo.NewHydratedReader(reader, makeClient, osClient),
+		repo: repo.NewHydratedReader(reader, manufacturerClient, osClient),
 	}
 }
 

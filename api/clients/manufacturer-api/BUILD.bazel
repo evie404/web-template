@@ -1,0 +1,17 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "manufacturer-api",
+    srcs = [
+        "client.go",
+        "local_server.go",
+    ],
+    importpath = "github.com/rickypai/web-template/api/clients/manufacturer-api",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//api/manufacturer-api/server",
+        "//api/server/address",
+        "//protobuf/manufacturer",
+        "@org_golang_google_grpc//:go_default_library",
+    ],
+)
