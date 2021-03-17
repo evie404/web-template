@@ -8,3 +8,14 @@ type Phone {
     createdAt: Time!
     modifiedAt: Time!
 }
+
+input PhoneInput {
+    name: String!
+
+    osID: ID!
+    manufacturerID: ID!
+}
+
+type PhoneMutation {
+    createPhone(phone: PhoneInput!): Phone!
+}

@@ -5,3 +5,11 @@ type Manufacturer {
     createdAt: Time!
     modifiedAt: Time!
 }
+
+input ManufacturerInput {
+    name: String!
+}
+
+type ManufacturerMutation {
+    createMake(phone: ManufacturerInput!): Manufacturer!
+}

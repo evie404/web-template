@@ -54,11 +54,19 @@ type ComplexityRoot struct {
 		Name       func(childComplexity int) int
 	}
 
+	ManufacturerMutation struct {
+		CreateMake func(childComplexity int, phone model.ManufacturerInput) int
+	}
+
 	Os struct {
 		CreatedAt  func(childComplexity int) int
 		ID         func(childComplexity int) int
 		ModifiedAt func(childComplexity int) int
 		Name       func(childComplexity int) int
+	}
+
+	OSMutation struct {
+		CreateOs func(childComplexity int, phone model.OSInput) int
 	}
 
 	PageInfo struct {
@@ -75,6 +83,10 @@ type ComplexityRoot struct {
 		ModifiedAt   func(childComplexity int) int
 		Name         func(childComplexity int) int
 		Os           func(childComplexity int) int
+	}
+
+	PhoneMutation struct {
+		CreatePhone func(childComplexity int, phone model.PhoneInput) int
 	}
 
 	Query struct {
@@ -145,6 +157,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Manufacturer.Name(childComplexity), true
 
+	case "ManufacturerMutation.createMake":
+		if e.complexity.ManufacturerMutation.CreateMake == nil {
+			break
+		}
+
+		args, err := ec.field_ManufacturerMutation_createMake_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.ManufacturerMutation.CreateMake(childComplexity, args["phone"].(model.ManufacturerInput)), true
+
 	case "OS.createdAt":
 		if e.complexity.Os.CreatedAt == nil {
 			break
@@ -172,6 +196,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Os.Name(childComplexity), true
+
+	case "OSMutation.createOS":
+		if e.complexity.OSMutation.CreateOs == nil {
+			break
+		}
+
+		args, err := ec.field_OSMutation_createOS_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.OSMutation.CreateOs(childComplexity, args["phone"].(model.OSInput)), true
 
 	case "PageInfo.endCursor":
 		if e.complexity.PageInfo.EndCursor == nil {
@@ -242,6 +278,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Phone.Os(childComplexity), true
+
+	case "PhoneMutation.createPhone":
+		if e.complexity.PhoneMutation.CreatePhone == nil {
+			break
+		}
+
+		args, err := ec.field_PhoneMutation_createPhone_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.PhoneMutation.CreatePhone(childComplexity, args["phone"].(model.PhoneInput)), true
 
 	}
 	return 0, false
@@ -318,6 +366,14 @@ type PageInfo {
     createdAt: Time!
     modifiedAt: Time!
 }
+
+input ManufacturerInput {
+    name: String!
+}
+
+type ManufacturerMutation {
+    createMake(phone: ManufacturerInput!): Manufacturer!
+}
 `, BuiltIn: false},
 	{Name: "../graphql/os/os.graphql", Input: `type OS {
     id: ID!
@@ -325,6 +381,14 @@ type PageInfo {
 
     createdAt: Time!
     modifiedAt: Time!
+}
+
+input OSInput {
+    name: String!
+}
+
+type OSMutation {
+    createOS(phone: OSInput!): OS!
 }
 `, BuiltIn: false},
 	{Name: "../graphql/phone/phone.graphql", Input: `type Phone {
@@ -336,6 +400,17 @@ type PageInfo {
 
     createdAt: Time!
     modifiedAt: Time!
+}
+
+input PhoneInput {
+    name: String!
+
+    osID: ID!
+    manufacturerID: ID!
+}
+
+type PhoneMutation {
+    createPhone(phone: PhoneInput!): Phone!
 }
 `, BuiltIn: false},
 	{Name: "federation/directives.graphql", Input: `
@@ -354,6 +429,51 @@ var parsedSchema = gqlparser.MustLoadSchema(sources...)
 // endregion ************************** generated!.gotpl **************************
 
 // region    ***************************** args.gotpl *****************************
+
+func (ec *executionContext) field_ManufacturerMutation_createMake_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 model.ManufacturerInput
+	if tmp, ok := rawArgs["phone"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("phone"))
+		arg0, err = ec.unmarshalNManufacturerInput2githubᚗcomᚋrickypaiᚋwebᚑtemplateᚋapiᚋgraphqlᚋmodelᚐManufacturerInput(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["phone"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_OSMutation_createOS_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 model.OSInput
+	if tmp, ok := rawArgs["phone"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("phone"))
+		arg0, err = ec.unmarshalNOSInput2githubᚗcomᚋrickypaiᚋwebᚑtemplateᚋapiᚋgraphqlᚋmodelᚐOSInput(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["phone"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_PhoneMutation_createPhone_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 model.PhoneInput
+	if tmp, ok := rawArgs["phone"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("phone"))
+		arg0, err = ec.unmarshalNPhoneInput2githubᚗcomᚋrickypaiᚋwebᚑtemplateᚋapiᚋgraphqlᚋmodelᚐPhoneInput(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["phone"] = arg0
+	return args, nil
+}
 
 func (ec *executionContext) field_Query___type_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
@@ -548,6 +668,48 @@ func (ec *executionContext) _Manufacturer_modifiedAt(ctx context.Context, field 
 	return ec.marshalNTime2ᚖtimeᚐTime(ctx, field.Selections, res)
 }
 
+func (ec *executionContext) _ManufacturerMutation_createMake(ctx context.Context, field graphql.CollectedField, obj *model.ManufacturerMutation) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "ManufacturerMutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_ManufacturerMutation_createMake_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreateMake, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*schema.Manufacturer)
+	fc.Result = res
+	return ec.marshalNManufacturer2ᚖgithubᚗcomᚋrickypaiᚋwebᚑtemplateᚋapiᚋentᚋschemaᚐManufacturer(ctx, field.Selections, res)
+}
+
 func (ec *executionContext) _OS_id(ctx context.Context, field graphql.CollectedField, obj *schema.OS) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -686,6 +848,48 @@ func (ec *executionContext) _OS_modifiedAt(ctx context.Context, field graphql.Co
 	res := resTmp.(*time.Time)
 	fc.Result = res
 	return ec.marshalNTime2ᚖtimeᚐTime(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _OSMutation_createOS(ctx context.Context, field graphql.CollectedField, obj *model.OSMutation) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "OSMutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_OSMutation_createOS_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreateOs, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*schema.OS)
+	fc.Result = res
+	return ec.marshalNOS2ᚖgithubᚗcomᚋrickypaiᚋwebᚑtemplateᚋapiᚋentᚋschemaᚐOS(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _PageInfo_hasNextPage(ctx context.Context, field graphql.CollectedField, obj *model.PageInfo) (ret graphql.Marshaler) {
@@ -1030,6 +1234,48 @@ func (ec *executionContext) _Phone_modifiedAt(ctx context.Context, field graphql
 	res := resTmp.(*time.Time)
 	fc.Result = res
 	return ec.marshalNTime2ᚖtimeᚐTime(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _PhoneMutation_createPhone(ctx context.Context, field graphql.CollectedField, obj *model.PhoneMutation) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "PhoneMutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_PhoneMutation_createPhone_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatePhone, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*schema.Phone)
+	fc.Result = res
+	return ec.marshalNPhone2ᚖgithubᚗcomᚋrickypaiᚋwebᚑtemplateᚋapiᚋentᚋschemaᚐPhone(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query___type(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -2190,6 +2436,82 @@ func (ec *executionContext) ___Type_ofType(ctx context.Context, field graphql.Co
 
 // region    **************************** input.gotpl *****************************
 
+func (ec *executionContext) unmarshalInputManufacturerInput(ctx context.Context, obj interface{}) (model.ManufacturerInput, error) {
+	var it model.ManufacturerInput
+	var asMap = obj.(map[string]interface{})
+
+	for k, v := range asMap {
+		switch k {
+		case "name":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
+			it.Name, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputOSInput(ctx context.Context, obj interface{}) (model.OSInput, error) {
+	var it model.OSInput
+	var asMap = obj.(map[string]interface{})
+
+	for k, v := range asMap {
+		switch k {
+		case "name":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
+			it.Name, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
+func (ec *executionContext) unmarshalInputPhoneInput(ctx context.Context, obj interface{}) (model.PhoneInput, error) {
+	var it model.PhoneInput
+	var asMap = obj.(map[string]interface{})
+
+	for k, v := range asMap {
+		switch k {
+		case "name":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("name"))
+			it.Name, err = ec.unmarshalNString2string(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "osID":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("osID"))
+			it.OsID, err = ec.unmarshalNID2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "manufacturerID":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("manufacturerID"))
+			it.ManufacturerID, err = ec.unmarshalNID2int(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		}
+	}
+
+	return it, nil
+}
+
 // endregion **************************** input.gotpl *****************************
 
 // region    ************************** interface.gotpl ***************************
@@ -2285,6 +2607,33 @@ func (ec *executionContext) _Manufacturer(ctx context.Context, sel ast.Selection
 	return out
 }
 
+var manufacturerMutationImplementors = []string{"ManufacturerMutation"}
+
+func (ec *executionContext) _ManufacturerMutation(ctx context.Context, sel ast.SelectionSet, obj *model.ManufacturerMutation) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, manufacturerMutationImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("ManufacturerMutation")
+		case "createMake":
+			out.Values[i] = ec._ManufacturerMutation_createMake(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
 var oSImplementors = []string{"OS"}
 
 func (ec *executionContext) _OS(ctx context.Context, sel ast.SelectionSet, obj *schema.OS) graphql.Marshaler {
@@ -2352,6 +2701,33 @@ func (ec *executionContext) _OS(ctx context.Context, sel ast.SelectionSet, obj *
 				}
 				return res
 			})
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
+var oSMutationImplementors = []string{"OSMutation"}
+
+func (ec *executionContext) _OSMutation(ctx context.Context, sel ast.SelectionSet, obj *model.OSMutation) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, oSMutationImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("OSMutation")
+		case "createOS":
+			out.Values[i] = ec._OSMutation_createOS(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -2494,6 +2870,33 @@ func (ec *executionContext) _Phone(ctx context.Context, sel ast.SelectionSet, ob
 				}
 				return res
 			})
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
+var phoneMutationImplementors = []string{"PhoneMutation"}
+
+func (ec *executionContext) _PhoneMutation(ctx context.Context, sel ast.SelectionSet, obj *model.PhoneMutation) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, phoneMutationImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("PhoneMutation")
+		case "createPhone":
+			out.Values[i] = ec._PhoneMutation_createPhone(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -2824,6 +3227,11 @@ func (ec *executionContext) marshalNManufacturer2ᚖgithubᚗcomᚋrickypaiᚋwe
 	return ec._Manufacturer(ctx, sel, v)
 }
 
+func (ec *executionContext) unmarshalNManufacturerInput2githubᚗcomᚋrickypaiᚋwebᚑtemplateᚋapiᚋgraphqlᚋmodelᚐManufacturerInput(ctx context.Context, v interface{}) (model.ManufacturerInput, error) {
+	res, err := ec.unmarshalInputManufacturerInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
 func (ec *executionContext) marshalNOS2githubᚗcomᚋrickypaiᚋwebᚑtemplateᚋapiᚋentᚋschemaᚐOS(ctx context.Context, sel ast.SelectionSet, v schema.OS) graphql.Marshaler {
 	return ec._OS(ctx, sel, &v)
 }
@@ -2836,6 +3244,26 @@ func (ec *executionContext) marshalNOS2ᚖgithubᚗcomᚋrickypaiᚋwebᚑtempla
 		return graphql.Null
 	}
 	return ec._OS(ctx, sel, v)
+}
+
+func (ec *executionContext) unmarshalNOSInput2githubᚗcomᚋrickypaiᚋwebᚑtemplateᚋapiᚋgraphqlᚋmodelᚐOSInput(ctx context.Context, v interface{}) (model.OSInput, error) {
+	res, err := ec.unmarshalInputOSInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalNPhone2ᚖgithubᚗcomᚋrickypaiᚋwebᚑtemplateᚋapiᚋentᚋschemaᚐPhone(ctx context.Context, sel ast.SelectionSet, v *schema.Phone) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	return ec._Phone(ctx, sel, v)
+}
+
+func (ec *executionContext) unmarshalNPhoneInput2githubᚗcomᚋrickypaiᚋwebᚑtemplateᚋapiᚋgraphqlᚋmodelᚐPhoneInput(ctx context.Context, v interface{}) (model.PhoneInput, error) {
+	res, err := ec.unmarshalInputPhoneInput(ctx, v)
+	return res, graphql.ErrorOnPath(ctx, err)
 }
 
 func (ec *executionContext) unmarshalNString2string(ctx context.Context, v interface{}) (string, error) {

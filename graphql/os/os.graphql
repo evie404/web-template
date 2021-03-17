@@ -5,3 +5,11 @@ type OS {
     createdAt: Time!
     modifiedAt: Time!
 }
+
+input OSInput {
+    name: String!
+}
+
+type OSMutation {
+    createOS(phone: OSInput!): OS!
+}

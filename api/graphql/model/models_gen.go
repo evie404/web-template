@@ -2,8 +2,28 @@
 
 package model
 
+import (
+	"github.com/rickypai/web-template/api/ent/schema"
+)
+
 type Node interface {
 	IsNode()
+}
+
+type ManufacturerInput struct {
+	Name string `json:"name"`
+}
+
+type ManufacturerMutation struct {
+	CreateMake *schema.Manufacturer `json:"createMake"`
+}
+
+type OSInput struct {
+	Name string `json:"name"`
+}
+
+type OSMutation struct {
+	CreateOs *schema.OS `json:"createOS"`
 }
 
 type PageInfo struct {
@@ -11,4 +31,14 @@ type PageInfo struct {
 	HasPreviousPage bool    `json:"hasPreviousPage"`
 	StartCursor     *string `json:"startCursor"`
 	EndCursor       *string `json:"endCursor"`
+}
+
+type PhoneInput struct {
+	Name           string `json:"name"`
+	OsID           int    `json:"osID"`
+	ManufacturerID int    `json:"manufacturerID"`
+}
+
+type PhoneMutation struct {
+	CreatePhone *schema.Phone `json:"createPhone"`
 }
