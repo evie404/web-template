@@ -1,0 +1,9 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "model",
+    srcs = ["models_gen.go"],
+    importpath = "github.com/rickypai/web-template/api/graphql/model",
+    visibility = ["//visibility:public"],
+    deps = ["//api/ent/schema"],
+)

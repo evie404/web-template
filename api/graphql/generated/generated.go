@@ -52,6 +52,7 @@ type ComplexityRoot struct {
 		ID         func(childComplexity int) int
 		ModifiedAt func(childComplexity int) int
 		Name       func(childComplexity int) int
+		Phones     func(childComplexity int) int
 	}
 
 	ManufacturerMutation struct {
@@ -63,6 +64,7 @@ type ComplexityRoot struct {
 		ID         func(childComplexity int) int
 		ModifiedAt func(childComplexity int) int
 		Name       func(childComplexity int) int
+		Phones     func(childComplexity int) int
 	}
 
 	OSMutation struct {
@@ -96,12 +98,14 @@ type ComplexityRoot struct {
 type ManufacturerResolver interface {
 	ID(ctx context.Context, obj *schema.Manufacturer) (int, error)
 	Name(ctx context.Context, obj *schema.Manufacturer) (string, error)
+	Phones(ctx context.Context, obj *schema.Manufacturer) ([]*schema.Phone, error)
 	CreatedAt(ctx context.Context, obj *schema.Manufacturer) (*time.Time, error)
 	ModifiedAt(ctx context.Context, obj *schema.Manufacturer) (*time.Time, error)
 }
 type OSResolver interface {
 	ID(ctx context.Context, obj *schema.OS) (int, error)
 	Name(ctx context.Context, obj *schema.OS) (string, error)
+	Phones(ctx context.Context, obj *schema.OS) ([]*schema.Phone, error)
 	CreatedAt(ctx context.Context, obj *schema.OS) (*time.Time, error)
 	ModifiedAt(ctx context.Context, obj *schema.OS) (*time.Time, error)
 }
@@ -157,6 +161,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Manufacturer.Name(childComplexity), true
 
+	case "Manufacturer.phones":
+		if e.complexity.Manufacturer.Phones == nil {
+			break
+		}
+
+		return e.complexity.Manufacturer.Phones(childComplexity), true
+
 	case "ManufacturerMutation.createMake":
 		if e.complexity.ManufacturerMutation.CreateMake == nil {
 			break
@@ -196,6 +207,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Os.Name(childComplexity), true
+
+	case "OS.phones":
+		if e.complexity.Os.Phones == nil {
+			break
+		}
+
+		return e.complexity.Os.Phones(childComplexity), true
 
 	case "OSMutation.createOS":
 		if e.complexity.OSMutation.CreateOs == nil {
@@ -363,6 +381,8 @@ type PageInfo {
     id: ID!
     name: String!
 
+    phones: [Phone!]
+
     createdAt: Time!
     modifiedAt: Time!
 }
@@ -378,6 +398,8 @@ type ManufacturerMutation {
 	{Name: "../graphql/os/os.graphql", Input: `type OS {
     id: ID!
     name: String!
+
+    phones: [Phone!]
 
     createdAt: Time!
     modifiedAt: Time!
@@ -598,6 +620,38 @@ func (ec *executionContext) _Manufacturer_name(ctx context.Context, field graphq
 	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
+func (ec *executionContext) _Manufacturer_phones(ctx context.Context, field graphql.CollectedField, obj *schema.Manufacturer) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Manufacturer",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Manufacturer().Phones(rctx, obj)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.([]*schema.Phone)
+	fc.Result = res
+	return ec.marshalOPhone2ᚕᚖgithubᚗcomᚋrickypaiᚋwebᚑtemplateᚋapiᚋentᚋschemaᚐPhoneᚄ(ctx, field.Selections, res)
+}
+
 func (ec *executionContext) _Manufacturer_createdAt(ctx context.Context, field graphql.CollectedField, obj *schema.Manufacturer) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -778,6 +832,38 @@ func (ec *executionContext) _OS_name(ctx context.Context, field graphql.Collecte
 	res := resTmp.(string)
 	fc.Result = res
 	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _OS_phones(ctx context.Context, field graphql.CollectedField, obj *schema.OS) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "OS",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.OS().Phones(rctx, obj)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.([]*schema.Phone)
+	fc.Result = res
+	return ec.marshalOPhone2ᚕᚖgithubᚗcomᚋrickypaiᚋwebᚑtemplateᚋapiᚋentᚋschemaᚐPhoneᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _OS_createdAt(ctx context.Context, field graphql.CollectedField, obj *schema.OS) (ret graphql.Marshaler) {
@@ -2568,6 +2654,17 @@ func (ec *executionContext) _Manufacturer(ctx context.Context, sel ast.Selection
 				}
 				return res
 			})
+		case "phones":
+			field := field
+			out.Concurrently(i, func() (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Manufacturer_phones(ctx, field, obj)
+				return res
+			})
 		case "createdAt":
 			field := field
 			out.Concurrently(i, func() (res graphql.Marshaler) {
@@ -2671,6 +2768,17 @@ func (ec *executionContext) _OS(ctx context.Context, sel ast.SelectionSet, obj *
 				if res == graphql.Null {
 					atomic.AddUint32(&invalids, 1)
 				}
+				return res
+			})
+		case "phones":
+			field := field
+			out.Concurrently(i, func() (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._OS_phones(ctx, field, obj)
 				return res
 			})
 		case "createdAt":
@@ -3598,6 +3706,46 @@ func (ec *executionContext) marshalOCursor2ᚖstring(ctx context.Context, sel as
 		return graphql.Null
 	}
 	return graphql.MarshalString(*v)
+}
+
+func (ec *executionContext) marshalOPhone2ᚕᚖgithubᚗcomᚋrickypaiᚋwebᚑtemplateᚋapiᚋentᚋschemaᚐPhoneᚄ(ctx context.Context, sel ast.SelectionSet, v []*schema.Phone) graphql.Marshaler {
+	if v == nil {
+		return graphql.Null
+	}
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNPhone2ᚖgithubᚗcomᚋrickypaiᚋwebᚑtemplateᚋapiᚋentᚋschemaᚐPhone(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+	return ret
 }
 
 func (ec *executionContext) unmarshalOString2string(ctx context.Context, v interface{}) (string, error) {

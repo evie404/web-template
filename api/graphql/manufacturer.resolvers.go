@@ -20,6 +20,10 @@ func (r *manufacturerResolver) Name(ctx context.Context, obj *schema.Manufacture
 	panic(fmt.Errorf("not implemented"))
 }
 
+func (r *manufacturerResolver) Phones(ctx context.Context, obj *schema.Manufacturer) ([]*schema.Phone, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
 func (r *manufacturerResolver) CreatedAt(ctx context.Context, obj *schema.Manufacturer) (*time.Time, error) {
 	panic(fmt.Errorf("not implemented"))
 }

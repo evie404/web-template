@@ -20,6 +20,10 @@ func (r *oSResolver) Name(ctx context.Context, obj *schema.OS) (string, error) {
 	panic(fmt.Errorf("not implemented"))
 }
 
+func (r *oSResolver) Phones(ctx context.Context, obj *schema.OS) ([]*schema.Phone, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
 func (r *oSResolver) CreatedAt(ctx context.Context, obj *schema.OS) (*time.Time, error) {
 	panic(fmt.Errorf("not implemented"))
 }

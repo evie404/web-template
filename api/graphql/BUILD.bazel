@@ -1,0 +1,17 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "graphql",
+    srcs = [
+        "manufacturer.resolvers.go",
+        "os.resolvers.go",
+        "phone.resolvers.go",
+        "resolver.go",
+    ],
+    importpath = "github.com/rickypai/web-template/api/graphql",
+    visibility = ["//visibility:public"],
+    deps = [
+        "//api/ent/schema",
+        "//api/graphql/generated",
+    ],
+)

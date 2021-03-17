@@ -3,6 +3,7 @@ module github.com/rickypai/web-template/api
 go 1.16
 
 require (
+	entgo.io/contrib v0.0.0-20210317163310-9c7274f43c18 // indirect
 	entgo.io/ent v0.7.0 // indirect
 	github.com/99designs/gqlgen v0.13.0 // indirect
 	github.com/apache/thrift v0.12.0 // indirect
@@ -16,6 +17,7 @@ require (
 	github.com/gorilla/mux v1.8.0 // indirect
 	github.com/gorilla/pat v1.0.1
 	github.com/gorilla/sessions v1.2.1 // indirect
+	github.com/hashicorp/go-multierror v1.1.0 // indirect
 	github.com/jackc/pgproto3/v2 v2.0.7 // indirect
 	github.com/jackc/pgx/v4 v4.10.1
 	github.com/kr/text v0.2.0 // indirect
