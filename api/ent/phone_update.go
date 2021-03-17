@@ -11,7 +11,7 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 	"github.com/rickypai/web-template/api/ent/manufacturer"
-	"github.com/rickypai/web-template/api/ent/os"
+	"github.com/rickypai/web-template/api/ent/operatingsystem"
 	"github.com/rickypai/web-template/api/ent/phone"
 	"github.com/rickypai/web-template/api/ent/predicate"
 )
@@ -68,13 +68,13 @@ func (pu *PhoneUpdate) SetManufacturer(m *Manufacturer) *PhoneUpdate {
 	return pu.SetManufacturerID(m.ID)
 }
 
-// SetOsID sets the "os" edge to the OS entity by ID.
+// SetOsID sets the "os" edge to the OperatingSystem entity by ID.
 func (pu *PhoneUpdate) SetOsID(id int) *PhoneUpdate {
 	pu.mutation.SetOsID(id)
 	return pu
 }
 
-// SetNillableOsID sets the "os" edge to the OS entity by ID if the given value is not nil.
+// SetNillableOsID sets the "os" edge to the OperatingSystem entity by ID if the given value is not nil.
 func (pu *PhoneUpdate) SetNillableOsID(id *int) *PhoneUpdate {
 	if id != nil {
 		pu = pu.SetOsID(*id)
@@ -82,8 +82,8 @@ func (pu *PhoneUpdate) SetNillableOsID(id *int) *PhoneUpdate {
 	return pu
 }
 
-// SetOs sets the "os" edge to the OS entity.
-func (pu *PhoneUpdate) SetOs(o *OS) *PhoneUpdate {
+// SetOs sets the "os" edge to the OperatingSystem entity.
+func (pu *PhoneUpdate) SetOs(o *OperatingSystem) *PhoneUpdate {
 	return pu.SetOsID(o.ID)
 }
 
@@ -98,7 +98,7 @@ func (pu *PhoneUpdate) ClearManufacturer() *PhoneUpdate {
 	return pu
 }
 
-// ClearOs clears the "os" edge to the OS entity.
+// ClearOs clears the "os" edge to the OperatingSystem entity.
 func (pu *PhoneUpdate) ClearOs() *PhoneUpdate {
 	pu.mutation.ClearOs()
 	return pu
@@ -248,7 +248,7 @@ func (pu *PhoneUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
-					Column: os.FieldID,
+					Column: operatingsystem.FieldID,
 				},
 			},
 		}
@@ -264,7 +264,7 @@ func (pu *PhoneUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
-					Column: os.FieldID,
+					Column: operatingsystem.FieldID,
 				},
 			},
 		}
@@ -330,13 +330,13 @@ func (puo *PhoneUpdateOne) SetManufacturer(m *Manufacturer) *PhoneUpdateOne {
 	return puo.SetManufacturerID(m.ID)
 }
 
-// SetOsID sets the "os" edge to the OS entity by ID.
+// SetOsID sets the "os" edge to the OperatingSystem entity by ID.
 func (puo *PhoneUpdateOne) SetOsID(id int) *PhoneUpdateOne {
 	puo.mutation.SetOsID(id)
 	return puo
 }
 
-// SetNillableOsID sets the "os" edge to the OS entity by ID if the given value is not nil.
+// SetNillableOsID sets the "os" edge to the OperatingSystem entity by ID if the given value is not nil.
 func (puo *PhoneUpdateOne) SetNillableOsID(id *int) *PhoneUpdateOne {
 	if id != nil {
 		puo = puo.SetOsID(*id)
@@ -344,8 +344,8 @@ func (puo *PhoneUpdateOne) SetNillableOsID(id *int) *PhoneUpdateOne {
 	return puo
 }
 
-// SetOs sets the "os" edge to the OS entity.
-func (puo *PhoneUpdateOne) SetOs(o *OS) *PhoneUpdateOne {
+// SetOs sets the "os" edge to the OperatingSystem entity.
+func (puo *PhoneUpdateOne) SetOs(o *OperatingSystem) *PhoneUpdateOne {
 	return puo.SetOsID(o.ID)
 }
 
@@ -360,7 +360,7 @@ func (puo *PhoneUpdateOne) ClearManufacturer() *PhoneUpdateOne {
 	return puo
 }
 
-// ClearOs clears the "os" edge to the OS entity.
+// ClearOs clears the "os" edge to the OperatingSystem entity.
 func (puo *PhoneUpdateOne) ClearOs() *PhoneUpdateOne {
 	puo.mutation.ClearOs()
 	return puo
@@ -515,7 +515,7 @@ func (puo *PhoneUpdateOne) sqlSave(ctx context.Context) (_node *Phone, err error
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
-					Column: os.FieldID,
+					Column: operatingsystem.FieldID,
 				},
 			},
 		}
@@ -531,7 +531,7 @@ func (puo *PhoneUpdateOne) sqlSave(ctx context.Context) (_node *Phone, err error
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
-					Column: os.FieldID,
+					Column: operatingsystem.FieldID,
 				},
 			},
 		}

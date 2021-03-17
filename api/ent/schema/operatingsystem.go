@@ -9,13 +9,13 @@ import (
 	"entgo.io/ent/schema/field"
 )
 
-// OS holds the schema definition for the OS entity.
-type OS struct {
+// OperatingSystem holds the schema definition for the OperatingSystem entity.
+type OperatingSystem struct {
 	ent.Schema
 }
 
-// Fields of the OS.
-func (OS) Fields() []ent.Field {
+// Fields of the OperatingSystem.
+func (OperatingSystem) Fields() []ent.Field {
 	return []ent.Field{
 		field.Text("name").
 			NotEmpty(),
@@ -27,8 +27,8 @@ func (OS) Fields() []ent.Field {
 	}
 }
 
-// Edges of the OS.
-func (OS) Edges() []ent.Edge {
+// Edges of the OperatingSystem.
+func (OperatingSystem) Edges() []ent.Edge {
 	return []ent.Edge{
 		edge.To("phones", Manufacturer.Type).
 			Annotations(entgql.Bind()).

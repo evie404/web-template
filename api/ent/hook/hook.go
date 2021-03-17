@@ -22,15 +22,15 @@ func (f ManufacturerFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value
 	return f(ctx, mv)
 }
 
-// The OSFunc type is an adapter to allow the use of ordinary
-// function as OS mutator.
-type OSFunc func(context.Context, *ent.OSMutation) (ent.Value, error)
+// The OperatingSystemFunc type is an adapter to allow the use of ordinary
+// function as OperatingSystem mutator.
+type OperatingSystemFunc func(context.Context, *ent.OperatingSystemMutation) (ent.Value, error)
 
 // Mutate calls f(ctx, m).
-func (f OSFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
-	mv, ok := m.(*ent.OSMutation)
+func (f OperatingSystemFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	mv, ok := m.(*ent.OperatingSystemMutation)
 	if !ok {
-		return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.OSMutation", m)
+		return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.OperatingSystemMutation", m)
 	}
 	return f(ctx, mv)
 }

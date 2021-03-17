@@ -9,7 +9,7 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/rickypai/web-template/api/ent/manufacturer"
-	"github.com/rickypai/web-template/api/ent/os"
+	"github.com/rickypai/web-template/api/ent/operatingsystem"
 	"github.com/rickypai/web-template/api/ent/phone"
 )
 
@@ -36,7 +36,7 @@ type PhoneEdges struct {
 	// Manufacturer holds the value of the manufacturer edge.
 	Manufacturer *Manufacturer `json:"manufacturer,omitempty"`
 	// Os holds the value of the os edge.
-	Os *OS `json:"os,omitempty"`
+	Os *OperatingSystem `json:"os,omitempty"`
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
 	loadedTypes [2]bool
@@ -58,12 +58,12 @@ func (e PhoneEdges) ManufacturerOrErr() (*Manufacturer, error) {
 
 // OsOrErr returns the Os value or an error if the edge
 // was not loaded in eager-loading, or loaded but was not found.
-func (e PhoneEdges) OsOrErr() (*OS, error) {
+func (e PhoneEdges) OsOrErr() (*OperatingSystem, error) {
 	if e.loadedTypes[1] {
 		if e.Os == nil {
 			// The edge os was loaded in eager-loading,
 			// but was not found.
-			return nil, &NotFoundError{label: os.Label}
+			return nil, &NotFoundError{label: operatingsystem.Label}
 		}
 		return e.Os, nil
 	}
@@ -149,7 +149,7 @@ func (ph *Phone) QueryManufacturer() *ManufacturerQuery {
 }
 
 // QueryOs queries the "os" edge of the Phone entity.
-func (ph *Phone) QueryOs() *OSQuery {
+func (ph *Phone) QueryOs() *OperatingSystemQuery {
 	return (&PhoneClient{config: ph.config}).QueryOs(ph)
 }
 

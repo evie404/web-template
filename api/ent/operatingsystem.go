@@ -9,11 +9,11 @@ import (
 
 	"entgo.io/ent/dialect/sql"
 	"github.com/rickypai/web-template/api/ent/manufacturer"
-	"github.com/rickypai/web-template/api/ent/os"
+	"github.com/rickypai/web-template/api/ent/operatingsystem"
 )
 
-// OS is the model entity for the OS schema.
-type OS struct {
+// OperatingSystem is the model entity for the OperatingSystem schema.
+type OperatingSystem struct {
 	config `json:"-"`
 	// ID of the ent.
 	ID int `json:"id,omitempty"`
@@ -24,13 +24,13 @@ type OS struct {
 	// ModifiedAt holds the value of the "modified_at" field.
 	ModifiedAt time.Time `json:"modified_at,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
-	// The values are being populated by the OSQuery when eager-loading is set.
-	Edges     OSEdges `json:"edges"`
-	os_phones *int
+	// The values are being populated by the OperatingSystemQuery when eager-loading is set.
+	Edges                   OperatingSystemEdges `json:"edges"`
+	operating_system_phones *int
 }
 
-// OSEdges holds the relations/edges for other nodes in the graph.
-type OSEdges struct {
+// OperatingSystemEdges holds the relations/edges for other nodes in the graph.
+type OperatingSystemEdges struct {
 	// Phones holds the value of the phones edge.
 	Phones *Manufacturer `json:"phones,omitempty"`
 	// loadedTypes holds the information for reporting if a
@@ -40,7 +40,7 @@ type OSEdges struct {
 
 // PhonesOrErr returns the Phones value or an error if the edge
 // was not loaded in eager-loading, or loaded but was not found.
-func (e OSEdges) PhonesOrErr() (*Manufacturer, error) {
+func (e OperatingSystemEdges) PhonesOrErr() (*Manufacturer, error) {
 	if e.loadedTypes[0] {
 		if e.Phones == nil {
 			// The edge phones was loaded in eager-loading,
@@ -53,112 +53,112 @@ func (e OSEdges) PhonesOrErr() (*Manufacturer, error) {
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
-func (*OS) scanValues(columns []string) ([]interface{}, error) {
+func (*OperatingSystem) scanValues(columns []string) ([]interface{}, error) {
 	values := make([]interface{}, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case os.FieldID:
+		case operatingsystem.FieldID:
 			values[i] = &sql.NullInt64{}
-		case os.FieldName:
+		case operatingsystem.FieldName:
 			values[i] = &sql.NullString{}
-		case os.FieldCreatedAt, os.FieldModifiedAt:
+		case operatingsystem.FieldCreatedAt, operatingsystem.FieldModifiedAt:
 			values[i] = &sql.NullTime{}
-		case os.ForeignKeys[0]: // os_phones
+		case operatingsystem.ForeignKeys[0]: // operating_system_phones
 			values[i] = &sql.NullInt64{}
 		default:
-			return nil, fmt.Errorf("unexpected column %q for type OS", columns[i])
+			return nil, fmt.Errorf("unexpected column %q for type OperatingSystem", columns[i])
 		}
 	}
 	return values, nil
 }
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
-// to the OS fields.
-func (o *OS) assignValues(columns []string, values []interface{}) error {
+// to the OperatingSystem fields.
+func (os *OperatingSystem) assignValues(columns []string, values []interface{}) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
 	for i := range columns {
 		switch columns[i] {
-		case os.FieldID:
+		case operatingsystem.FieldID:
 			value, ok := values[i].(*sql.NullInt64)
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			o.ID = int(value.Int64)
-		case os.FieldName:
+			os.ID = int(value.Int64)
+		case operatingsystem.FieldName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field name", values[i])
 			} else if value.Valid {
-				o.Name = value.String
+				os.Name = value.String
 			}
-		case os.FieldCreatedAt:
+		case operatingsystem.FieldCreatedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field created_at", values[i])
 			} else if value.Valid {
-				o.CreatedAt = value.Time
+				os.CreatedAt = value.Time
 			}
-		case os.FieldModifiedAt:
+		case operatingsystem.FieldModifiedAt:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field modified_at", values[i])
 			} else if value.Valid {
-				o.ModifiedAt = value.Time
+				os.ModifiedAt = value.Time
 			}
-		case os.ForeignKeys[0]:
+		case operatingsystem.ForeignKeys[0]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for edge-field os_phones", value)
+				return fmt.Errorf("unexpected type %T for edge-field operating_system_phones", value)
 			} else if value.Valid {
-				o.os_phones = new(int)
-				*o.os_phones = int(value.Int64)
+				os.operating_system_phones = new(int)
+				*os.operating_system_phones = int(value.Int64)
 			}
 		}
 	}
 	return nil
 }
 
-// QueryPhones queries the "phones" edge of the OS entity.
-func (o *OS) QueryPhones() *ManufacturerQuery {
-	return (&OSClient{config: o.config}).QueryPhones(o)
+// QueryPhones queries the "phones" edge of the OperatingSystem entity.
+func (os *OperatingSystem) QueryPhones() *ManufacturerQuery {
+	return (&OperatingSystemClient{config: os.config}).QueryPhones(os)
 }
 
-// Update returns a builder for updating this OS.
-// Note that you need to call OS.Unwrap() before calling this method if this OS
+// Update returns a builder for updating this OperatingSystem.
+// Note that you need to call OperatingSystem.Unwrap() before calling this method if this OperatingSystem
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (o *OS) Update() *OSUpdateOne {
-	return (&OSClient{config: o.config}).UpdateOne(o)
+func (os *OperatingSystem) Update() *OperatingSystemUpdateOne {
+	return (&OperatingSystemClient{config: os.config}).UpdateOne(os)
 }
 
-// Unwrap unwraps the OS entity that was returned from a transaction after it was closed,
+// Unwrap unwraps the OperatingSystem entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (o *OS) Unwrap() *OS {
-	tx, ok := o.config.driver.(*txDriver)
+func (os *OperatingSystem) Unwrap() *OperatingSystem {
+	tx, ok := os.config.driver.(*txDriver)
 	if !ok {
-		panic("ent: OS is not a transactional entity")
+		panic("ent: OperatingSystem is not a transactional entity")
 	}
-	o.config.driver = tx.drv
-	return o
+	os.config.driver = tx.drv
+	return os
 }
 
 // String implements the fmt.Stringer.
-func (o *OS) String() string {
+func (os *OperatingSystem) String() string {
 	var builder strings.Builder
-	builder.WriteString("OS(")
-	builder.WriteString(fmt.Sprintf("id=%v", o.ID))
+	builder.WriteString("OperatingSystem(")
+	builder.WriteString(fmt.Sprintf("id=%v", os.ID))
 	builder.WriteString(", name=")
-	builder.WriteString(o.Name)
+	builder.WriteString(os.Name)
 	builder.WriteString(", created_at=")
-	builder.WriteString(o.CreatedAt.Format(time.ANSIC))
+	builder.WriteString(os.CreatedAt.Format(time.ANSIC))
 	builder.WriteString(", modified_at=")
-	builder.WriteString(o.ModifiedAt.Format(time.ANSIC))
+	builder.WriteString(os.ModifiedAt.Format(time.ANSIC))
 	builder.WriteByte(')')
 	return builder.String()
 }
 
-// OSs is a parsable slice of OS.
-type OSs []*OS
+// OperatingSystems is a parsable slice of OperatingSystem.
+type OperatingSystems []*OperatingSystem
 
-func (o OSs) config(cfg config) {
-	for _i := range o {
-		o[_i].config = cfg
+func (os OperatingSystems) config(cfg config) {
+	for _i := range os {
+		os[_i].config = cfg
 	}
 }

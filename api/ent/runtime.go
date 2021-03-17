@@ -6,7 +6,7 @@ import (
 	"time"
 
 	"github.com/rickypai/web-template/api/ent/manufacturer"
-	"github.com/rickypai/web-template/api/ent/os"
+	"github.com/rickypai/web-template/api/ent/operatingsystem"
 	"github.com/rickypai/web-template/api/ent/phone"
 	"github.com/rickypai/web-template/api/ent/schema"
 )
@@ -29,20 +29,20 @@ func init() {
 	manufacturerDescModifiedAt := manufacturerFields[2].Descriptor()
 	// manufacturer.DefaultModifiedAt holds the default value on creation for the modified_at field.
 	manufacturer.DefaultModifiedAt = manufacturerDescModifiedAt.Default.(func() time.Time)
-	osFields := schema.OS{}.Fields()
-	_ = osFields
-	// osDescName is the schema descriptor for name field.
-	osDescName := osFields[0].Descriptor()
-	// os.NameValidator is a validator for the "name" field. It is called by the builders before save.
-	os.NameValidator = osDescName.Validators[0].(func(string) error)
-	// osDescCreatedAt is the schema descriptor for created_at field.
-	osDescCreatedAt := osFields[1].Descriptor()
-	// os.DefaultCreatedAt holds the default value on creation for the created_at field.
-	os.DefaultCreatedAt = osDescCreatedAt.Default.(func() time.Time)
-	// osDescModifiedAt is the schema descriptor for modified_at field.
-	osDescModifiedAt := osFields[2].Descriptor()
-	// os.DefaultModifiedAt holds the default value on creation for the modified_at field.
-	os.DefaultModifiedAt = osDescModifiedAt.Default.(func() time.Time)
+	operatingsystemFields := schema.OperatingSystem{}.Fields()
+	_ = operatingsystemFields
+	// operatingsystemDescName is the schema descriptor for name field.
+	operatingsystemDescName := operatingsystemFields[0].Descriptor()
+	// operatingsystem.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	operatingsystem.NameValidator = operatingsystemDescName.Validators[0].(func(string) error)
+	// operatingsystemDescCreatedAt is the schema descriptor for created_at field.
+	operatingsystemDescCreatedAt := operatingsystemFields[1].Descriptor()
+	// operatingsystem.DefaultCreatedAt holds the default value on creation for the created_at field.
+	operatingsystem.DefaultCreatedAt = operatingsystemDescCreatedAt.Default.(func() time.Time)
+	// operatingsystemDescModifiedAt is the schema descriptor for modified_at field.
+	operatingsystemDescModifiedAt := operatingsystemFields[2].Descriptor()
+	// operatingsystem.DefaultModifiedAt holds the default value on creation for the modified_at field.
+	operatingsystem.DefaultModifiedAt = operatingsystemDescModifiedAt.Default.(func() time.Time)
 	phoneFields := schema.Phone{}.Fields()
 	_ = phoneFields
 	// phoneDescName is the schema descriptor for name field.

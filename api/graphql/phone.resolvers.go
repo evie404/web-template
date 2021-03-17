@@ -8,8 +8,10 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/rickypai/web-template/api/ent"
 	"github.com/rickypai/web-template/api/ent/schema"
 	"github.com/rickypai/web-template/api/graphql/generated"
+	"github.com/rickypai/web-template/api/graphql/model"
 )
 
 func (r *phoneResolver) ID(ctx context.Context, obj *schema.Phone) (int, error) {
@@ -20,7 +22,7 @@ func (r *phoneResolver) Name(ctx context.Context, obj *schema.Phone) (string, er
 	panic(fmt.Errorf("not implemented"))
 }
 
-func (r *phoneResolver) Os(ctx context.Context, obj *schema.Phone) (*schema.OS, error) {
+func (r *phoneResolver) OperatingSystem(ctx context.Context, obj *schema.Phone) (*schema.OperatingSystem, error) {
 	panic(fmt.Errorf("not implemented"))
 }
 
@@ -36,7 +38,15 @@ func (r *phoneResolver) ModifiedAt(ctx context.Context, obj *schema.Phone) (*tim
 	panic(fmt.Errorf("not implemented"))
 }
 
+func (r *phoneMutationResolver) CreatePhone(ctx context.Context, obj *ent.PhoneMutation, phone model.PhoneInput) (*schema.Phone, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
 // Phone returns generated.PhoneResolver implementation.
 func (r *Resolver) Phone() generated.PhoneResolver { return &phoneResolver{r} }
 
+// PhoneMutation returns generated.PhoneMutationResolver implementation.
+func (r *Resolver) PhoneMutation() generated.PhoneMutationResolver { return &phoneMutationResolver{r} }
+
 type phoneResolver struct{ *Resolver }
+type phoneMutationResolver struct{ *Resolver }

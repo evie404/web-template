@@ -42,9 +42,9 @@ models:
   Phone:
     model:
       - github.com/rickypai/web-template/api/ent/schema.Phone
-  OS:
+  OperatingSystem:
     model:
-      - github.com/rickypai/web-template/api/ent/schema.OS
+      - github.com/rickypai/web-template/api/ent/schema.OperatingSystem
   Manufacturer:
     model:
       - github.com/rickypai/web-template/api/ent/schema.Manufacturer

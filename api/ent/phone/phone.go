@@ -32,9 +32,9 @@ const (
 	ManufacturerColumn = "phone_manufacturer"
 	// OsTable is the table the holds the os relation/edge.
 	OsTable = "phones"
-	// OsInverseTable is the table name for the OS entity.
-	// It exists in this package in order to avoid circular dependency with the "os" package.
-	OsInverseTable = "oss"
+	// OsInverseTable is the table name for the OperatingSystem entity.
+	// It exists in this package in order to avoid circular dependency with the "operatingsystem" package.
+	OsInverseTable = "operating_systems"
 	// OsColumn is the table column denoting the os relation/edge.
 	OsColumn = "phone_os"
 )

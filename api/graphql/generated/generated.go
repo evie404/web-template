@@ -14,6 +14,7 @@ import (
 
 	"github.com/99designs/gqlgen/graphql"
 	"github.com/99designs/gqlgen/graphql/introspection"
+	"github.com/rickypai/web-template/api/ent"
 	"github.com/rickypai/web-template/api/ent/schema"
 	"github.com/rickypai/web-template/api/graphql/model"
 	gqlparser "github.com/vektah/gqlparser/v2"
@@ -39,8 +40,11 @@ type Config struct {
 
 type ResolverRoot interface {
 	Manufacturer() ManufacturerResolver
-	OS() OSResolver
+	ManufacturerMutation() ManufacturerMutationResolver
+	OperatingSystem() OperatingSystemResolver
+	OperatingSystemMutation() OperatingSystemMutationResolver
 	Phone() PhoneResolver
+	PhoneMutation() PhoneMutationResolver
 }
 
 type DirectiveRoot struct {
@@ -59,7 +63,7 @@ type ComplexityRoot struct {
 		CreateMake func(childComplexity int, phone model.ManufacturerInput) int
 	}
 
-	Os struct {
+	OperatingSystem struct {
 		CreatedAt  func(childComplexity int) int
 		ID         func(childComplexity int) int
 		ModifiedAt func(childComplexity int) int
@@ -67,8 +71,8 @@ type ComplexityRoot struct {
 		Phones     func(childComplexity int) int
 	}
 
-	OSMutation struct {
-		CreateOs func(childComplexity int, phone model.OSInput) int
+	OperatingSystemMutation struct {
+		CreateOperatingSystem func(childComplexity int, phone model.OperatingSystemInput) int
 	}
 
 	PageInfo struct {
@@ -79,12 +83,12 @@ type ComplexityRoot struct {
 	}
 
 	Phone struct {
-		CreatedAt    func(childComplexity int) int
-		ID           func(childComplexity int) int
-		Manufacturer func(childComplexity int) int
-		ModifiedAt   func(childComplexity int) int
-		Name         func(childComplexity int) int
-		Os           func(childComplexity int) int
+		CreatedAt       func(childComplexity int) int
+		ID              func(childComplexity int) int
+		Manufacturer    func(childComplexity int) int
+		ModifiedAt      func(childComplexity int) int
+		Name            func(childComplexity int) int
+		OperatingSystem func(childComplexity int) int
 	}
 
 	PhoneMutation struct {
@@ -102,20 +106,29 @@ type ManufacturerResolver interface {
 	CreatedAt(ctx context.Context, obj *schema.Manufacturer) (*time.Time, error)
 	ModifiedAt(ctx context.Context, obj *schema.Manufacturer) (*time.Time, error)
 }
-type OSResolver interface {
-	ID(ctx context.Context, obj *schema.OS) (int, error)
-	Name(ctx context.Context, obj *schema.OS) (string, error)
-	Phones(ctx context.Context, obj *schema.OS) ([]*schema.Phone, error)
-	CreatedAt(ctx context.Context, obj *schema.OS) (*time.Time, error)
-	ModifiedAt(ctx context.Context, obj *schema.OS) (*time.Time, error)
+type ManufacturerMutationResolver interface {
+	CreateMake(ctx context.Context, obj *ent.ManufacturerMutation, phone model.ManufacturerInput) (*schema.Manufacturer, error)
+}
+type OperatingSystemResolver interface {
+	ID(ctx context.Context, obj *schema.OperatingSystem) (int, error)
+	Name(ctx context.Context, obj *schema.OperatingSystem) (string, error)
+	Phones(ctx context.Context, obj *schema.OperatingSystem) ([]*schema.Phone, error)
+	CreatedAt(ctx context.Context, obj *schema.OperatingSystem) (*time.Time, error)
+	ModifiedAt(ctx context.Context, obj *schema.OperatingSystem) (*time.Time, error)
+}
+type OperatingSystemMutationResolver interface {
+	CreateOperatingSystem(ctx context.Context, obj *ent.OperatingSystemMutation, phone model.OperatingSystemInput) (*schema.OperatingSystem, error)
 }
 type PhoneResolver interface {
 	ID(ctx context.Context, obj *schema.Phone) (int, error)
 	Name(ctx context.Context, obj *schema.Phone) (string, error)
-	Os(ctx context.Context, obj *schema.Phone) (*schema.OS, error)
+	OperatingSystem(ctx context.Context, obj *schema.Phone) (*schema.OperatingSystem, error)
 	Manufacturer(ctx context.Context, obj *schema.Phone) (*schema.Manufacturer, error)
 	CreatedAt(ctx context.Context, obj *schema.Phone) (*time.Time, error)
 	ModifiedAt(ctx context.Context, obj *schema.Phone) (*time.Time, error)
+}
+type PhoneMutationResolver interface {
+	CreatePhone(ctx context.Context, obj *ent.PhoneMutation, phone model.PhoneInput) (*schema.Phone, error)
 }
 
 type executableSchema struct {
@@ -180,52 +193,52 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.ManufacturerMutation.CreateMake(childComplexity, args["phone"].(model.ManufacturerInput)), true
 
-	case "OS.createdAt":
-		if e.complexity.Os.CreatedAt == nil {
+	case "OperatingSystem.createdAt":
+		if e.complexity.OperatingSystem.CreatedAt == nil {
 			break
 		}
 
-		return e.complexity.Os.CreatedAt(childComplexity), true
+		return e.complexity.OperatingSystem.CreatedAt(childComplexity), true
 
-	case "OS.id":
-		if e.complexity.Os.ID == nil {
+	case "OperatingSystem.id":
+		if e.complexity.OperatingSystem.ID == nil {
 			break
 		}
 
-		return e.complexity.Os.ID(childComplexity), true
+		return e.complexity.OperatingSystem.ID(childComplexity), true
 
-	case "OS.modifiedAt":
-		if e.complexity.Os.ModifiedAt == nil {
+	case "OperatingSystem.modifiedAt":
+		if e.complexity.OperatingSystem.ModifiedAt == nil {
 			break
 		}
 
-		return e.complexity.Os.ModifiedAt(childComplexity), true
+		return e.complexity.OperatingSystem.ModifiedAt(childComplexity), true
 
-	case "OS.name":
-		if e.complexity.Os.Name == nil {
+	case "OperatingSystem.name":
+		if e.complexity.OperatingSystem.Name == nil {
 			break
 		}
 
-		return e.complexity.Os.Name(childComplexity), true
+		return e.complexity.OperatingSystem.Name(childComplexity), true
 
-	case "OS.phones":
-		if e.complexity.Os.Phones == nil {
+	case "OperatingSystem.phones":
+		if e.complexity.OperatingSystem.Phones == nil {
 			break
 		}
 
-		return e.complexity.Os.Phones(childComplexity), true
+		return e.complexity.OperatingSystem.Phones(childComplexity), true
 
-	case "OSMutation.createOS":
-		if e.complexity.OSMutation.CreateOs == nil {
+	case "OperatingSystemMutation.createOperatingSystem":
+		if e.complexity.OperatingSystemMutation.CreateOperatingSystem == nil {
 			break
 		}
 
-		args, err := ec.field_OSMutation_createOS_args(context.TODO(), rawArgs)
+		args, err := ec.field_OperatingSystemMutation_createOperatingSystem_args(context.TODO(), rawArgs)
 		if err != nil {
 			return 0, false
 		}
 
-		return e.complexity.OSMutation.CreateOs(childComplexity, args["phone"].(model.OSInput)), true
+		return e.complexity.OperatingSystemMutation.CreateOperatingSystem(childComplexity, args["phone"].(model.OperatingSystemInput)), true
 
 	case "PageInfo.endCursor":
 		if e.complexity.PageInfo.EndCursor == nil {
@@ -290,12 +303,12 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Phone.Name(childComplexity), true
 
-	case "Phone.os":
-		if e.complexity.Phone.Os == nil {
+	case "Phone.operatingSystem":
+		if e.complexity.Phone.OperatingSystem == nil {
 			break
 		}
 
-		return e.complexity.Phone.Os(childComplexity), true
+		return e.complexity.Phone.OperatingSystem(childComplexity), true
 
 	case "PhoneMutation.createPhone":
 		if e.complexity.PhoneMutation.CreatePhone == nil {
@@ -395,7 +408,7 @@ type ManufacturerMutation {
     createMake(phone: ManufacturerInput!): Manufacturer!
 }
 `, BuiltIn: false},
-	{Name: "../graphql/os/os.graphql", Input: `type OS {
+	{Name: "../graphql/operating_system/operating_system.graphql", Input: `type OperatingSystem {
     id: ID!
     name: String!
 
@@ -405,19 +418,19 @@ type ManufacturerMutation {
     modifiedAt: Time!
 }
 
-input OSInput {
+input OperatingSystemInput {
     name: String!
 }
 
-type OSMutation {
-    createOS(phone: OSInput!): OS!
+type OperatingSystemMutation {
+    createOperatingSystem(phone: OperatingSystemInput!): OperatingSystem!
 }
 `, BuiltIn: false},
 	{Name: "../graphql/phone/phone.graphql", Input: `type Phone {
     id: ID!
     name: String!
 
-    os: OS!
+    operatingSystem: OperatingSystem!
     manufacturer: Manufacturer!
 
     createdAt: Time!
@@ -427,7 +440,7 @@ type OSMutation {
 input PhoneInput {
     name: String!
 
-    osID: ID!
+    operatingSystemID: ID!
     manufacturerID: ID!
 }
 
@@ -467,13 +480,13 @@ func (ec *executionContext) field_ManufacturerMutation_createMake_args(ctx conte
 	return args, nil
 }
 
-func (ec *executionContext) field_OSMutation_createOS_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+func (ec *executionContext) field_OperatingSystemMutation_createOperatingSystem_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
-	var arg0 model.OSInput
+	var arg0 model.OperatingSystemInput
 	if tmp, ok := rawArgs["phone"]; ok {
 		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("phone"))
-		arg0, err = ec.unmarshalNOSInput2githubᚗcomᚋrickypaiᚋwebᚑtemplateᚋapiᚋgraphqlᚋmodelᚐOSInput(ctx, tmp)
+		arg0, err = ec.unmarshalNOperatingSystemInput2githubᚗcomᚋrickypaiᚋwebᚑtemplateᚋapiᚋgraphqlᚋmodelᚐOperatingSystemInput(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
@@ -722,7 +735,7 @@ func (ec *executionContext) _Manufacturer_modifiedAt(ctx context.Context, field 
 	return ec.marshalNTime2ᚖtimeᚐTime(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _ManufacturerMutation_createMake(ctx context.Context, field graphql.CollectedField, obj *model.ManufacturerMutation) (ret graphql.Marshaler) {
+func (ec *executionContext) _ManufacturerMutation_createMake(ctx context.Context, field graphql.CollectedField, obj *ent.ManufacturerMutation) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -733,8 +746,8 @@ func (ec *executionContext) _ManufacturerMutation_createMake(ctx context.Context
 		Object:     "ManufacturerMutation",
 		Field:      field,
 		Args:       nil,
-		IsMethod:   false,
-		IsResolver: false,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -747,7 +760,7 @@ func (ec *executionContext) _ManufacturerMutation_createMake(ctx context.Context
 	fc.Args = args
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.CreateMake, nil
+		return ec.resolvers.ManufacturerMutation().CreateMake(rctx, obj, args["phone"].(model.ManufacturerInput))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -764,7 +777,7 @@ func (ec *executionContext) _ManufacturerMutation_createMake(ctx context.Context
 	return ec.marshalNManufacturer2ᚖgithubᚗcomᚋrickypaiᚋwebᚑtemplateᚋapiᚋentᚋschemaᚐManufacturer(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _OS_id(ctx context.Context, field graphql.CollectedField, obj *schema.OS) (ret graphql.Marshaler) {
+func (ec *executionContext) _OperatingSystem_id(ctx context.Context, field graphql.CollectedField, obj *schema.OperatingSystem) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -772,7 +785,7 @@ func (ec *executionContext) _OS_id(ctx context.Context, field graphql.CollectedF
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:     "OS",
+		Object:     "OperatingSystem",
 		Field:      field,
 		Args:       nil,
 		IsMethod:   true,
@@ -782,7 +795,7 @@ func (ec *executionContext) _OS_id(ctx context.Context, field graphql.CollectedF
 	ctx = graphql.WithFieldContext(ctx, fc)
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.OS().ID(rctx, obj)
+		return ec.resolvers.OperatingSystem().ID(rctx, obj)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -799,7 +812,7 @@ func (ec *executionContext) _OS_id(ctx context.Context, field graphql.CollectedF
 	return ec.marshalNID2int(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _OS_name(ctx context.Context, field graphql.CollectedField, obj *schema.OS) (ret graphql.Marshaler) {
+func (ec *executionContext) _OperatingSystem_name(ctx context.Context, field graphql.CollectedField, obj *schema.OperatingSystem) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -807,7 +820,7 @@ func (ec *executionContext) _OS_name(ctx context.Context, field graphql.Collecte
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:     "OS",
+		Object:     "OperatingSystem",
 		Field:      field,
 		Args:       nil,
 		IsMethod:   true,
@@ -817,7 +830,7 @@ func (ec *executionContext) _OS_name(ctx context.Context, field graphql.Collecte
 	ctx = graphql.WithFieldContext(ctx, fc)
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.OS().Name(rctx, obj)
+		return ec.resolvers.OperatingSystem().Name(rctx, obj)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -834,7 +847,7 @@ func (ec *executionContext) _OS_name(ctx context.Context, field graphql.Collecte
 	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _OS_phones(ctx context.Context, field graphql.CollectedField, obj *schema.OS) (ret graphql.Marshaler) {
+func (ec *executionContext) _OperatingSystem_phones(ctx context.Context, field graphql.CollectedField, obj *schema.OperatingSystem) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -842,7 +855,7 @@ func (ec *executionContext) _OS_phones(ctx context.Context, field graphql.Collec
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:     "OS",
+		Object:     "OperatingSystem",
 		Field:      field,
 		Args:       nil,
 		IsMethod:   true,
@@ -852,7 +865,7 @@ func (ec *executionContext) _OS_phones(ctx context.Context, field graphql.Collec
 	ctx = graphql.WithFieldContext(ctx, fc)
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.OS().Phones(rctx, obj)
+		return ec.resolvers.OperatingSystem().Phones(rctx, obj)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -866,7 +879,7 @@ func (ec *executionContext) _OS_phones(ctx context.Context, field graphql.Collec
 	return ec.marshalOPhone2ᚕᚖgithubᚗcomᚋrickypaiᚋwebᚑtemplateᚋapiᚋentᚋschemaᚐPhoneᚄ(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _OS_createdAt(ctx context.Context, field graphql.CollectedField, obj *schema.OS) (ret graphql.Marshaler) {
+func (ec *executionContext) _OperatingSystem_createdAt(ctx context.Context, field graphql.CollectedField, obj *schema.OperatingSystem) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -874,7 +887,7 @@ func (ec *executionContext) _OS_createdAt(ctx context.Context, field graphql.Col
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:     "OS",
+		Object:     "OperatingSystem",
 		Field:      field,
 		Args:       nil,
 		IsMethod:   true,
@@ -884,7 +897,7 @@ func (ec *executionContext) _OS_createdAt(ctx context.Context, field graphql.Col
 	ctx = graphql.WithFieldContext(ctx, fc)
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.OS().CreatedAt(rctx, obj)
+		return ec.resolvers.OperatingSystem().CreatedAt(rctx, obj)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -901,7 +914,7 @@ func (ec *executionContext) _OS_createdAt(ctx context.Context, field graphql.Col
 	return ec.marshalNTime2ᚖtimeᚐTime(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _OS_modifiedAt(ctx context.Context, field graphql.CollectedField, obj *schema.OS) (ret graphql.Marshaler) {
+func (ec *executionContext) _OperatingSystem_modifiedAt(ctx context.Context, field graphql.CollectedField, obj *schema.OperatingSystem) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -909,7 +922,7 @@ func (ec *executionContext) _OS_modifiedAt(ctx context.Context, field graphql.Co
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:     "OS",
+		Object:     "OperatingSystem",
 		Field:      field,
 		Args:       nil,
 		IsMethod:   true,
@@ -919,7 +932,7 @@ func (ec *executionContext) _OS_modifiedAt(ctx context.Context, field graphql.Co
 	ctx = graphql.WithFieldContext(ctx, fc)
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.OS().ModifiedAt(rctx, obj)
+		return ec.resolvers.OperatingSystem().ModifiedAt(rctx, obj)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -936,7 +949,7 @@ func (ec *executionContext) _OS_modifiedAt(ctx context.Context, field graphql.Co
 	return ec.marshalNTime2ᚖtimeᚐTime(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _OSMutation_createOS(ctx context.Context, field graphql.CollectedField, obj *model.OSMutation) (ret graphql.Marshaler) {
+func (ec *executionContext) _OperatingSystemMutation_createOperatingSystem(ctx context.Context, field graphql.CollectedField, obj *ent.OperatingSystemMutation) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -944,16 +957,16 @@ func (ec *executionContext) _OSMutation_createOS(ctx context.Context, field grap
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:     "OSMutation",
+		Object:     "OperatingSystemMutation",
 		Field:      field,
 		Args:       nil,
-		IsMethod:   false,
-		IsResolver: false,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
 	rawArgs := field.ArgumentMap(ec.Variables)
-	args, err := ec.field_OSMutation_createOS_args(ctx, rawArgs)
+	args, err := ec.field_OperatingSystemMutation_createOperatingSystem_args(ctx, rawArgs)
 	if err != nil {
 		ec.Error(ctx, err)
 		return graphql.Null
@@ -961,7 +974,7 @@ func (ec *executionContext) _OSMutation_createOS(ctx context.Context, field grap
 	fc.Args = args
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.CreateOs, nil
+		return ec.resolvers.OperatingSystemMutation().CreateOperatingSystem(rctx, obj, args["phone"].(model.OperatingSystemInput))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -973,9 +986,9 @@ func (ec *executionContext) _OSMutation_createOS(ctx context.Context, field grap
 		}
 		return graphql.Null
 	}
-	res := resTmp.(*schema.OS)
+	res := resTmp.(*schema.OperatingSystem)
 	fc.Result = res
-	return ec.marshalNOS2ᚖgithubᚗcomᚋrickypaiᚋwebᚑtemplateᚋapiᚋentᚋschemaᚐOS(ctx, field.Selections, res)
+	return ec.marshalNOperatingSystem2ᚖgithubᚗcomᚋrickypaiᚋwebᚑtemplateᚋapiᚋentᚋschemaᚐOperatingSystem(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _PageInfo_hasNextPage(ctx context.Context, field graphql.CollectedField, obj *model.PageInfo) (ret graphql.Marshaler) {
@@ -1182,7 +1195,7 @@ func (ec *executionContext) _Phone_name(ctx context.Context, field graphql.Colle
 	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _Phone_os(ctx context.Context, field graphql.CollectedField, obj *schema.Phone) (ret graphql.Marshaler) {
+func (ec *executionContext) _Phone_operatingSystem(ctx context.Context, field graphql.CollectedField, obj *schema.Phone) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -1200,7 +1213,7 @@ func (ec *executionContext) _Phone_os(ctx context.Context, field graphql.Collect
 	ctx = graphql.WithFieldContext(ctx, fc)
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Phone().Os(rctx, obj)
+		return ec.resolvers.Phone().OperatingSystem(rctx, obj)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -1212,9 +1225,9 @@ func (ec *executionContext) _Phone_os(ctx context.Context, field graphql.Collect
 		}
 		return graphql.Null
 	}
-	res := resTmp.(*schema.OS)
+	res := resTmp.(*schema.OperatingSystem)
 	fc.Result = res
-	return ec.marshalNOS2ᚖgithubᚗcomᚋrickypaiᚋwebᚑtemplateᚋapiᚋentᚋschemaᚐOS(ctx, field.Selections, res)
+	return ec.marshalNOperatingSystem2ᚖgithubᚗcomᚋrickypaiᚋwebᚑtemplateᚋapiᚋentᚋschemaᚐOperatingSystem(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Phone_manufacturer(ctx context.Context, field graphql.CollectedField, obj *schema.Phone) (ret graphql.Marshaler) {
@@ -1322,7 +1335,7 @@ func (ec *executionContext) _Phone_modifiedAt(ctx context.Context, field graphql
 	return ec.marshalNTime2ᚖtimeᚐTime(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _PhoneMutation_createPhone(ctx context.Context, field graphql.CollectedField, obj *model.PhoneMutation) (ret graphql.Marshaler) {
+func (ec *executionContext) _PhoneMutation_createPhone(ctx context.Context, field graphql.CollectedField, obj *ent.PhoneMutation) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -1333,8 +1346,8 @@ func (ec *executionContext) _PhoneMutation_createPhone(ctx context.Context, fiel
 		Object:     "PhoneMutation",
 		Field:      field,
 		Args:       nil,
-		IsMethod:   false,
-		IsResolver: false,
+		IsMethod:   true,
+		IsResolver: true,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
@@ -1347,7 +1360,7 @@ func (ec *executionContext) _PhoneMutation_createPhone(ctx context.Context, fiel
 	fc.Args = args
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.CreatePhone, nil
+		return ec.resolvers.PhoneMutation().CreatePhone(rctx, obj, args["phone"].(model.PhoneInput))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -2542,8 +2555,8 @@ func (ec *executionContext) unmarshalInputManufacturerInput(ctx context.Context,
 	return it, nil
 }
 
-func (ec *executionContext) unmarshalInputOSInput(ctx context.Context, obj interface{}) (model.OSInput, error) {
-	var it model.OSInput
+func (ec *executionContext) unmarshalInputOperatingSystemInput(ctx context.Context, obj interface{}) (model.OperatingSystemInput, error) {
+	var it model.OperatingSystemInput
 	var asMap = obj.(map[string]interface{})
 
 	for k, v := range asMap {
@@ -2576,11 +2589,11 @@ func (ec *executionContext) unmarshalInputPhoneInput(ctx context.Context, obj in
 			if err != nil {
 				return it, err
 			}
-		case "osID":
+		case "operatingSystemID":
 			var err error
 
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("osID"))
-			it.OsID, err = ec.unmarshalNID2int(ctx, v)
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("operatingSystemID"))
+			it.OperatingSystemID, err = ec.unmarshalNID2int(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -2706,7 +2719,7 @@ func (ec *executionContext) _Manufacturer(ctx context.Context, sel ast.Selection
 
 var manufacturerMutationImplementors = []string{"ManufacturerMutation"}
 
-func (ec *executionContext) _ManufacturerMutation(ctx context.Context, sel ast.SelectionSet, obj *model.ManufacturerMutation) graphql.Marshaler {
+func (ec *executionContext) _ManufacturerMutation(ctx context.Context, sel ast.SelectionSet, obj *ent.ManufacturerMutation) graphql.Marshaler {
 	fields := graphql.CollectFields(ec.OperationContext, sel, manufacturerMutationImplementors)
 
 	out := graphql.NewFieldSet(fields)
@@ -2716,10 +2729,19 @@ func (ec *executionContext) _ManufacturerMutation(ctx context.Context, sel ast.S
 		case "__typename":
 			out.Values[i] = graphql.MarshalString("ManufacturerMutation")
 		case "createMake":
-			out.Values[i] = ec._ManufacturerMutation_createMake(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
+			field := field
+			out.Concurrently(i, func() (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._ManufacturerMutation_createMake(ctx, field, obj)
+				if res == graphql.Null {
+					atomic.AddUint32(&invalids, 1)
+				}
+				return res
+			})
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -2731,17 +2753,17 @@ func (ec *executionContext) _ManufacturerMutation(ctx context.Context, sel ast.S
 	return out
 }
 
-var oSImplementors = []string{"OS"}
+var operatingSystemImplementors = []string{"OperatingSystem"}
 
-func (ec *executionContext) _OS(ctx context.Context, sel ast.SelectionSet, obj *schema.OS) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, oSImplementors)
+func (ec *executionContext) _OperatingSystem(ctx context.Context, sel ast.SelectionSet, obj *schema.OperatingSystem) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, operatingSystemImplementors)
 
 	out := graphql.NewFieldSet(fields)
 	var invalids uint32
 	for i, field := range fields {
 		switch field.Name {
 		case "__typename":
-			out.Values[i] = graphql.MarshalString("OS")
+			out.Values[i] = graphql.MarshalString("OperatingSystem")
 		case "id":
 			field := field
 			out.Concurrently(i, func() (res graphql.Marshaler) {
@@ -2750,7 +2772,7 @@ func (ec *executionContext) _OS(ctx context.Context, sel ast.SelectionSet, obj *
 						ec.Error(ctx, ec.Recover(ctx, r))
 					}
 				}()
-				res = ec._OS_id(ctx, field, obj)
+				res = ec._OperatingSystem_id(ctx, field, obj)
 				if res == graphql.Null {
 					atomic.AddUint32(&invalids, 1)
 				}
@@ -2764,7 +2786,7 @@ func (ec *executionContext) _OS(ctx context.Context, sel ast.SelectionSet, obj *
 						ec.Error(ctx, ec.Recover(ctx, r))
 					}
 				}()
-				res = ec._OS_name(ctx, field, obj)
+				res = ec._OperatingSystem_name(ctx, field, obj)
 				if res == graphql.Null {
 					atomic.AddUint32(&invalids, 1)
 				}
@@ -2778,7 +2800,7 @@ func (ec *executionContext) _OS(ctx context.Context, sel ast.SelectionSet, obj *
 						ec.Error(ctx, ec.Recover(ctx, r))
 					}
 				}()
-				res = ec._OS_phones(ctx, field, obj)
+				res = ec._OperatingSystem_phones(ctx, field, obj)
 				return res
 			})
 		case "createdAt":
@@ -2789,7 +2811,7 @@ func (ec *executionContext) _OS(ctx context.Context, sel ast.SelectionSet, obj *
 						ec.Error(ctx, ec.Recover(ctx, r))
 					}
 				}()
-				res = ec._OS_createdAt(ctx, field, obj)
+				res = ec._OperatingSystem_createdAt(ctx, field, obj)
 				if res == graphql.Null {
 					atomic.AddUint32(&invalids, 1)
 				}
@@ -2803,7 +2825,7 @@ func (ec *executionContext) _OS(ctx context.Context, sel ast.SelectionSet, obj *
 						ec.Error(ctx, ec.Recover(ctx, r))
 					}
 				}()
-				res = ec._OS_modifiedAt(ctx, field, obj)
+				res = ec._OperatingSystem_modifiedAt(ctx, field, obj)
 				if res == graphql.Null {
 					atomic.AddUint32(&invalids, 1)
 				}
@@ -2820,22 +2842,31 @@ func (ec *executionContext) _OS(ctx context.Context, sel ast.SelectionSet, obj *
 	return out
 }
 
-var oSMutationImplementors = []string{"OSMutation"}
+var operatingSystemMutationImplementors = []string{"OperatingSystemMutation"}
 
-func (ec *executionContext) _OSMutation(ctx context.Context, sel ast.SelectionSet, obj *model.OSMutation) graphql.Marshaler {
-	fields := graphql.CollectFields(ec.OperationContext, sel, oSMutationImplementors)
+func (ec *executionContext) _OperatingSystemMutation(ctx context.Context, sel ast.SelectionSet, obj *ent.OperatingSystemMutation) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, operatingSystemMutationImplementors)
 
 	out := graphql.NewFieldSet(fields)
 	var invalids uint32
 	for i, field := range fields {
 		switch field.Name {
 		case "__typename":
-			out.Values[i] = graphql.MarshalString("OSMutation")
-		case "createOS":
-			out.Values[i] = ec._OSMutation_createOS(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
+			out.Values[i] = graphql.MarshalString("OperatingSystemMutation")
+		case "createOperatingSystem":
+			field := field
+			out.Concurrently(i, func() (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._OperatingSystemMutation_createOperatingSystem(ctx, field, obj)
+				if res == graphql.Null {
+					atomic.AddUint32(&invalids, 1)
+				}
+				return res
+			})
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -2922,7 +2953,7 @@ func (ec *executionContext) _Phone(ctx context.Context, sel ast.SelectionSet, ob
 				}
 				return res
 			})
-		case "os":
+		case "operatingSystem":
 			field := field
 			out.Concurrently(i, func() (res graphql.Marshaler) {
 				defer func() {
@@ -2930,7 +2961,7 @@ func (ec *executionContext) _Phone(ctx context.Context, sel ast.SelectionSet, ob
 						ec.Error(ctx, ec.Recover(ctx, r))
 					}
 				}()
-				res = ec._Phone_os(ctx, field, obj)
+				res = ec._Phone_operatingSystem(ctx, field, obj)
 				if res == graphql.Null {
 					atomic.AddUint32(&invalids, 1)
 				}
@@ -2991,7 +3022,7 @@ func (ec *executionContext) _Phone(ctx context.Context, sel ast.SelectionSet, ob
 
 var phoneMutationImplementors = []string{"PhoneMutation"}
 
-func (ec *executionContext) _PhoneMutation(ctx context.Context, sel ast.SelectionSet, obj *model.PhoneMutation) graphql.Marshaler {
+func (ec *executionContext) _PhoneMutation(ctx context.Context, sel ast.SelectionSet, obj *ent.PhoneMutation) graphql.Marshaler {
 	fields := graphql.CollectFields(ec.OperationContext, sel, phoneMutationImplementors)
 
 	out := graphql.NewFieldSet(fields)
@@ -3001,10 +3032,19 @@ func (ec *executionContext) _PhoneMutation(ctx context.Context, sel ast.Selectio
 		case "__typename":
 			out.Values[i] = graphql.MarshalString("PhoneMutation")
 		case "createPhone":
-			out.Values[i] = ec._PhoneMutation_createPhone(ctx, field, obj)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
+			field := field
+			out.Concurrently(i, func() (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._PhoneMutation_createPhone(ctx, field, obj)
+				if res == graphql.Null {
+					atomic.AddUint32(&invalids, 1)
+				}
+				return res
+			})
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -3340,23 +3380,27 @@ func (ec *executionContext) unmarshalNManufacturerInput2githubᚗcomᚋrickypai�
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
-func (ec *executionContext) marshalNOS2githubᚗcomᚋrickypaiᚋwebᚑtemplateᚋapiᚋentᚋschemaᚐOS(ctx context.Context, sel ast.SelectionSet, v schema.OS) graphql.Marshaler {
-	return ec._OS(ctx, sel, &v)
+func (ec *executionContext) marshalNOperatingSystem2githubᚗcomᚋrickypaiᚋwebᚑtemplateᚋapiᚋentᚋschemaᚐOperatingSystem(ctx context.Context, sel ast.SelectionSet, v schema.OperatingSystem) graphql.Marshaler {
+	return ec._OperatingSystem(ctx, sel, &v)
 }
 
-func (ec *executionContext) marshalNOS2ᚖgithubᚗcomᚋrickypaiᚋwebᚑtemplateᚋapiᚋentᚋschemaᚐOS(ctx context.Context, sel ast.SelectionSet, v *schema.OS) graphql.Marshaler {
+func (ec *executionContext) marshalNOperatingSystem2ᚖgithubᚗcomᚋrickypaiᚋwebᚑtemplateᚋapiᚋentᚋschemaᚐOperatingSystem(ctx context.Context, sel ast.SelectionSet, v *schema.OperatingSystem) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
 			ec.Errorf(ctx, "must not be null")
 		}
 		return graphql.Null
 	}
-	return ec._OS(ctx, sel, v)
+	return ec._OperatingSystem(ctx, sel, v)
 }
 
-func (ec *executionContext) unmarshalNOSInput2githubᚗcomᚋrickypaiᚋwebᚑtemplateᚋapiᚋgraphqlᚋmodelᚐOSInput(ctx context.Context, v interface{}) (model.OSInput, error) {
-	res, err := ec.unmarshalInputOSInput(ctx, v)
+func (ec *executionContext) unmarshalNOperatingSystemInput2githubᚗcomᚋrickypaiᚋwebᚑtemplateᚋapiᚋgraphqlᚋmodelᚐOperatingSystemInput(ctx context.Context, v interface{}) (model.OperatingSystemInput, error) {
+	res, err := ec.unmarshalInputOperatingSystemInput(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalNPhone2githubᚗcomᚋrickypaiᚋwebᚑtemplateᚋapiᚋentᚋschemaᚐPhone(ctx context.Context, sel ast.SelectionSet, v schema.Phone) graphql.Marshaler {
+	return ec._Phone(ctx, sel, &v)
 }
 
 func (ec *executionContext) marshalNPhone2ᚖgithubᚗcomᚋrickypaiᚋwebᚑtemplateᚋapiᚋentᚋschemaᚐPhone(ctx context.Context, sel ast.SelectionSet, v *schema.Phone) graphql.Marshaler {

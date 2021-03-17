@@ -30,23 +30,23 @@ var (
 			},
 		},
 	}
-	// OssColumns holds the columns for the "oss" table.
-	OssColumns = []*schema.Column{
+	// OperatingSystemsColumns holds the columns for the "operating_systems" table.
+	OperatingSystemsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
 		{Name: "name", Type: field.TypeString, Size: 2147483647},
 		{Name: "created_at", Type: field.TypeTime},
 		{Name: "modified_at", Type: field.TypeTime},
-		{Name: "os_phones", Type: field.TypeInt, Nullable: true},
+		{Name: "operating_system_phones", Type: field.TypeInt, Nullable: true},
 	}
-	// OssTable holds the schema information for the "oss" table.
-	OssTable = &schema.Table{
-		Name:       "oss",
-		Columns:    OssColumns,
-		PrimaryKey: []*schema.Column{OssColumns[0]},
+	// OperatingSystemsTable holds the schema information for the "operating_systems" table.
+	OperatingSystemsTable = &schema.Table{
+		Name:       "operating_systems",
+		Columns:    OperatingSystemsColumns,
+		PrimaryKey: []*schema.Column{OperatingSystemsColumns[0]},
 		ForeignKeys: []*schema.ForeignKey{
 			{
-				Symbol:     "oss_manufacturers_phones",
-				Columns:    []*schema.Column{OssColumns[4]},
+				Symbol:     "operating_systems_manufacturers_phones",
+				Columns:    []*schema.Column{OperatingSystemsColumns[4]},
 				RefColumns: []*schema.Column{ManufacturersColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
@@ -74,9 +74,9 @@ var (
 				OnDelete:   schema.SetNull,
 			},
 			{
-				Symbol:     "phones_oss_os",
+				Symbol:     "phones_operating_systems_os",
 				Columns:    []*schema.Column{PhonesColumns[5]},
-				RefColumns: []*schema.Column{OssColumns[0]},
+				RefColumns: []*schema.Column{OperatingSystemsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 		},
@@ -84,14 +84,14 @@ var (
 	// Tables holds all the tables in the schema.
 	Tables = []*schema.Table{
 		ManufacturersTable,
-		OssTable,
+		OperatingSystemsTable,
 		PhonesTable,
 	}
 )
 
 func init() {
 	ManufacturersTable.ForeignKeys[0].RefTable = ManufacturersTable
-	OssTable.ForeignKeys[0].RefTable = ManufacturersTable
+	OperatingSystemsTable.ForeignKeys[0].RefTable = ManufacturersTable
 	PhonesTable.ForeignKeys[0].RefTable = ManufacturersTable
-	PhonesTable.ForeignKeys[1].RefTable = OssTable
+	PhonesTable.ForeignKeys[1].RefTable = OperatingSystemsTable
 }

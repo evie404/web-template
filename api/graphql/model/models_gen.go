@@ -2,10 +2,6 @@
 
 package model
 
-import (
-	"github.com/rickypai/web-template/api/ent/schema"
-)
-
 type Node interface {
 	IsNode()
 }
@@ -14,16 +10,8 @@ type ManufacturerInput struct {
 	Name string `json:"name"`
 }
 
-type ManufacturerMutation struct {
-	CreateMake *schema.Manufacturer `json:"createMake"`
-}
-
-type OSInput struct {
+type OperatingSystemInput struct {
 	Name string `json:"name"`
-}
-
-type OSMutation struct {
-	CreateOs *schema.OS `json:"createOS"`
 }
 
 type PageInfo struct {
@@ -34,11 +22,7 @@ type PageInfo struct {
 }
 
 type PhoneInput struct {
-	Name           string `json:"name"`
-	OsID           int    `json:"osID"`
-	ManufacturerID int    `json:"manufacturerID"`
-}
-
-type PhoneMutation struct {
-	CreatePhone *schema.Phone `json:"createPhone"`
+	Name              string `json:"name"`
+	OperatingSystemID int    `json:"operatingSystemID"`
+	ManufacturerID    int    `json:"manufacturerID"`
 }

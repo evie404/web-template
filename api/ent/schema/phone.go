@@ -33,7 +33,7 @@ func (Phone) Edges() []ent.Edge {
 		edge.To("manufacturer", Manufacturer.Type).
 			Annotations(entgql.Bind()).
 			Unique(),
-		edge.To("os", OS.Type).
+		edge.To("os", OperatingSystem.Type).
 			Annotations(entgql.Bind()).
 			Unique(),
 	}

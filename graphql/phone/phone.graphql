@@ -2,7 +2,7 @@ type Phone {
     id: ID!
     name: String!
 
-    os: OS!
+    operatingSystem: OperatingSystem!
     manufacturer: Manufacturer!
 
     createdAt: Time!
@@ -12,7 +12,7 @@ type Phone {
 input PhoneInput {
     name: String!
 
-    osID: ID!
+    operatingSystemID: ID!
     manufacturerID: ID!
 }
 

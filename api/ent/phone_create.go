@@ -11,7 +11,7 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 	"github.com/rickypai/web-template/api/ent/manufacturer"
-	"github.com/rickypai/web-template/api/ent/os"
+	"github.com/rickypai/web-template/api/ent/operatingsystem"
 	"github.com/rickypai/web-template/api/ent/phone"
 )
 
@@ -75,13 +75,13 @@ func (pc *PhoneCreate) SetManufacturer(m *Manufacturer) *PhoneCreate {
 	return pc.SetManufacturerID(m.ID)
 }
 
-// SetOsID sets the "os" edge to the OS entity by ID.
+// SetOsID sets the "os" edge to the OperatingSystem entity by ID.
 func (pc *PhoneCreate) SetOsID(id int) *PhoneCreate {
 	pc.mutation.SetOsID(id)
 	return pc
 }
 
-// SetNillableOsID sets the "os" edge to the OS entity by ID if the given value is not nil.
+// SetNillableOsID sets the "os" edge to the OperatingSystem entity by ID if the given value is not nil.
 func (pc *PhoneCreate) SetNillableOsID(id *int) *PhoneCreate {
 	if id != nil {
 		pc = pc.SetOsID(*id)
@@ -89,8 +89,8 @@ func (pc *PhoneCreate) SetNillableOsID(id *int) *PhoneCreate {
 	return pc
 }
 
-// SetOs sets the "os" edge to the OS entity.
-func (pc *PhoneCreate) SetOs(o *OS) *PhoneCreate {
+// SetOs sets the "os" edge to the OperatingSystem entity.
+func (pc *PhoneCreate) SetOs(o *OperatingSystem) *PhoneCreate {
 	return pc.SetOsID(o.ID)
 }
 
@@ -253,7 +253,7 @@ func (pc *PhoneCreate) createSpec() (*Phone, *sqlgraph.CreateSpec) {
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
-					Column: os.FieldID,
+					Column: operatingsystem.FieldID,
 				},
 			},
 		}

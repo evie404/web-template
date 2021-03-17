@@ -418,7 +418,7 @@ func HasOs() predicate.Phone {
 }
 
 // HasOsWith applies the HasEdge predicate on the "os" edge with a given conditions (other predicates).
-func HasOsWith(preds ...predicate.OS) predicate.Phone {
+func HasOsWith(preds ...predicate.OperatingSystem) predicate.Phone {
 	return predicate.Phone(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),

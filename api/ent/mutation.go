@@ -9,7 +9,7 @@ import (
 	"time"
 
 	"github.com/rickypai/web-template/api/ent/manufacturer"
-	"github.com/rickypai/web-template/api/ent/os"
+	"github.com/rickypai/web-template/api/ent/operatingsystem"
 	"github.com/rickypai/web-template/api/ent/phone"
 	"github.com/rickypai/web-template/api/ent/predicate"
 
@@ -25,9 +25,9 @@ const (
 	OpUpdateOne = ent.OpUpdateOne
 
 	// Node types.
-	TypeManufacturer = "Manufacturer"
-	TypeOS           = "OS"
-	TypePhone        = "Phone"
+	TypeManufacturer    = "Manufacturer"
+	TypeOperatingSystem = "OperatingSystem"
+	TypePhone           = "Phone"
 )
 
 // ManufacturerMutation represents an operation that mutates the Manufacturer nodes in the graph.
@@ -494,8 +494,8 @@ func (m *ManufacturerMutation) ResetEdge(name string) error {
 	return fmt.Errorf("unknown Manufacturer edge %s", name)
 }
 
-// OSMutation represents an operation that mutates the OS nodes in the graph.
-type OSMutation struct {
+// OperatingSystemMutation represents an operation that mutates the OperatingSystem nodes in the graph.
+type OperatingSystemMutation struct {
 	config
 	op            Op
 	typ           string
@@ -507,21 +507,21 @@ type OSMutation struct {
 	phones        *int
 	clearedphones bool
 	done          bool
-	oldValue      func(context.Context) (*OS, error)
-	predicates    []predicate.OS
+	oldValue      func(context.Context) (*OperatingSystem, error)
+	predicates    []predicate.OperatingSystem
 }
 
-var _ ent.Mutation = (*OSMutation)(nil)
+var _ ent.Mutation = (*OperatingSystemMutation)(nil)
 
-// osOption allows management of the mutation configuration using functional options.
-type osOption func(*OSMutation)
+// operatingsystemOption allows management of the mutation configuration using functional options.
+type operatingsystemOption func(*OperatingSystemMutation)
 
-// newOSMutation creates new mutation for the OS entity.
-func newOSMutation(c config, op Op, opts ...osOption) *OSMutation {
-	m := &OSMutation{
+// newOperatingSystemMutation creates new mutation for the OperatingSystem entity.
+func newOperatingSystemMutation(c config, op Op, opts ...operatingsystemOption) *OperatingSystemMutation {
+	m := &OperatingSystemMutation{
 		config:        c,
 		op:            op,
-		typ:           TypeOS,
+		typ:           TypeOperatingSystem,
 		clearedFields: make(map[string]struct{}),
 	}
 	for _, opt := range opts {
@@ -530,20 +530,20 @@ func newOSMutation(c config, op Op, opts ...osOption) *OSMutation {
 	return m
 }
 
-// withOSID sets the ID field of the mutation.
-func withOSID(id int) osOption {
-	return func(m *OSMutation) {
+// withOperatingSystemID sets the ID field of the mutation.
+func withOperatingSystemID(id int) operatingsystemOption {
+	return func(m *OperatingSystemMutation) {
 		var (
 			err   error
 			once  sync.Once
-			value *OS
+			value *OperatingSystem
 		)
-		m.oldValue = func(ctx context.Context) (*OS, error) {
+		m.oldValue = func(ctx context.Context) (*OperatingSystem, error) {
 			once.Do(func() {
 				if m.done {
 					err = fmt.Errorf("querying old values post mutation is not allowed")
 				} else {
-					value, err = m.Client().OS.Get(ctx, id)
+					value, err = m.Client().OperatingSystem.Get(ctx, id)
 				}
 			})
 			return value, err
@@ -552,10 +552,10 @@ func withOSID(id int) osOption {
 	}
 }
 
-// withOS sets the old OS of the mutation.
-func withOS(node *OS) osOption {
-	return func(m *OSMutation) {
-		m.oldValue = func(context.Context) (*OS, error) {
+// withOperatingSystem sets the old OperatingSystem of the mutation.
+func withOperatingSystem(node *OperatingSystem) operatingsystemOption {
+	return func(m *OperatingSystemMutation) {
+		m.oldValue = func(context.Context) (*OperatingSystem, error) {
 			return node, nil
 		}
 		m.id = &node.ID
@@ -564,7 +564,7 @@ func withOS(node *OS) osOption {
 
 // Client returns a new `ent.Client` from the mutation. If the mutation was
 // executed in a transaction (ent.Tx), a transactional client is returned.
-func (m OSMutation) Client() *Client {
+func (m OperatingSystemMutation) Client() *Client {
 	client := &Client{config: m.config}
 	client.init()
 	return client
@@ -572,7 +572,7 @@ func (m OSMutation) Client() *Client {
 
 // Tx returns an `ent.Tx` for mutations that were executed in transactions;
 // it returns an error otherwise.
-func (m OSMutation) Tx() (*Tx, error) {
+func (m OperatingSystemMutation) Tx() (*Tx, error) {
 	if _, ok := m.driver.(*txDriver); !ok {
 		return nil, fmt.Errorf("ent: mutation is not running in a transaction")
 	}
@@ -583,7 +583,7 @@ func (m OSMutation) Tx() (*Tx, error) {
 
 // ID returns the ID value in the mutation. Note that the ID
 // is only available if it was provided to the builder.
-func (m *OSMutation) ID() (id int, exists bool) {
+func (m *OperatingSystemMutation) ID() (id int, exists bool) {
 	if m.id == nil {
 		return
 	}
@@ -591,12 +591,12 @@ func (m *OSMutation) ID() (id int, exists bool) {
 }
 
 // SetName sets the "name" field.
-func (m *OSMutation) SetName(s string) {
+func (m *OperatingSystemMutation) SetName(s string) {
 	m.name = &s
 }
 
 // Name returns the value of the "name" field in the mutation.
-func (m *OSMutation) Name() (r string, exists bool) {
+func (m *OperatingSystemMutation) Name() (r string, exists bool) {
 	v := m.name
 	if v == nil {
 		return
@@ -604,10 +604,10 @@ func (m *OSMutation) Name() (r string, exists bool) {
 	return *v, true
 }
 
-// OldName returns the old "name" field's value of the OS entity.
-// If the OS object wasn't provided to the builder, the object is fetched from the database.
+// OldName returns the old "name" field's value of the OperatingSystem entity.
+// If the OperatingSystem object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *OSMutation) OldName(ctx context.Context) (v string, err error) {
+func (m *OperatingSystemMutation) OldName(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, fmt.Errorf("OldName is only allowed on UpdateOne operations")
 	}
@@ -622,17 +622,17 @@ func (m *OSMutation) OldName(ctx context.Context) (v string, err error) {
 }
 
 // ResetName resets all changes to the "name" field.
-func (m *OSMutation) ResetName() {
+func (m *OperatingSystemMutation) ResetName() {
 	m.name = nil
 }
 
 // SetCreatedAt sets the "created_at" field.
-func (m *OSMutation) SetCreatedAt(t time.Time) {
+func (m *OperatingSystemMutation) SetCreatedAt(t time.Time) {
 	m.created_at = &t
 }
 
 // CreatedAt returns the value of the "created_at" field in the mutation.
-func (m *OSMutation) CreatedAt() (r time.Time, exists bool) {
+func (m *OperatingSystemMutation) CreatedAt() (r time.Time, exists bool) {
 	v := m.created_at
 	if v == nil {
 		return
@@ -640,10 +640,10 @@ func (m *OSMutation) CreatedAt() (r time.Time, exists bool) {
 	return *v, true
 }
 
-// OldCreatedAt returns the old "created_at" field's value of the OS entity.
-// If the OS object wasn't provided to the builder, the object is fetched from the database.
+// OldCreatedAt returns the old "created_at" field's value of the OperatingSystem entity.
+// If the OperatingSystem object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *OSMutation) OldCreatedAt(ctx context.Context) (v time.Time, err error) {
+func (m *OperatingSystemMutation) OldCreatedAt(ctx context.Context) (v time.Time, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, fmt.Errorf("OldCreatedAt is only allowed on UpdateOne operations")
 	}
@@ -658,17 +658,17 @@ func (m *OSMutation) OldCreatedAt(ctx context.Context) (v time.Time, err error) 
 }
 
 // ResetCreatedAt resets all changes to the "created_at" field.
-func (m *OSMutation) ResetCreatedAt() {
+func (m *OperatingSystemMutation) ResetCreatedAt() {
 	m.created_at = nil
 }
 
 // SetModifiedAt sets the "modified_at" field.
-func (m *OSMutation) SetModifiedAt(t time.Time) {
+func (m *OperatingSystemMutation) SetModifiedAt(t time.Time) {
 	m.modified_at = &t
 }
 
 // ModifiedAt returns the value of the "modified_at" field in the mutation.
-func (m *OSMutation) ModifiedAt() (r time.Time, exists bool) {
+func (m *OperatingSystemMutation) ModifiedAt() (r time.Time, exists bool) {
 	v := m.modified_at
 	if v == nil {
 		return
@@ -676,10 +676,10 @@ func (m *OSMutation) ModifiedAt() (r time.Time, exists bool) {
 	return *v, true
 }
 
-// OldModifiedAt returns the old "modified_at" field's value of the OS entity.
-// If the OS object wasn't provided to the builder, the object is fetched from the database.
+// OldModifiedAt returns the old "modified_at" field's value of the OperatingSystem entity.
+// If the OperatingSystem object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *OSMutation) OldModifiedAt(ctx context.Context) (v time.Time, err error) {
+func (m *OperatingSystemMutation) OldModifiedAt(ctx context.Context) (v time.Time, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, fmt.Errorf("OldModifiedAt is only allowed on UpdateOne operations")
 	}
@@ -694,27 +694,27 @@ func (m *OSMutation) OldModifiedAt(ctx context.Context) (v time.Time, err error)
 }
 
 // ResetModifiedAt resets all changes to the "modified_at" field.
-func (m *OSMutation) ResetModifiedAt() {
+func (m *OperatingSystemMutation) ResetModifiedAt() {
 	m.modified_at = nil
 }
 
 // SetPhonesID sets the "phones" edge to the Manufacturer entity by id.
-func (m *OSMutation) SetPhonesID(id int) {
+func (m *OperatingSystemMutation) SetPhonesID(id int) {
 	m.phones = &id
 }
 
 // ClearPhones clears the "phones" edge to the Manufacturer entity.
-func (m *OSMutation) ClearPhones() {
+func (m *OperatingSystemMutation) ClearPhones() {
 	m.clearedphones = true
 }
 
 // PhonesCleared returns if the "phones" edge to the Manufacturer entity was cleared.
-func (m *OSMutation) PhonesCleared() bool {
+func (m *OperatingSystemMutation) PhonesCleared() bool {
 	return m.clearedphones
 }
 
 // PhonesID returns the "phones" edge ID in the mutation.
-func (m *OSMutation) PhonesID() (id int, exists bool) {
+func (m *OperatingSystemMutation) PhonesID() (id int, exists bool) {
 	if m.phones != nil {
 		return *m.phones, true
 	}
@@ -724,7 +724,7 @@ func (m *OSMutation) PhonesID() (id int, exists bool) {
 // PhonesIDs returns the "phones" edge IDs in the mutation.
 // Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
 // PhonesID instead. It exists only for internal usage by the builders.
-func (m *OSMutation) PhonesIDs() (ids []int) {
+func (m *OperatingSystemMutation) PhonesIDs() (ids []int) {
 	if id := m.phones; id != nil {
 		ids = append(ids, *id)
 	}
@@ -732,34 +732,34 @@ func (m *OSMutation) PhonesIDs() (ids []int) {
 }
 
 // ResetPhones resets all changes to the "phones" edge.
-func (m *OSMutation) ResetPhones() {
+func (m *OperatingSystemMutation) ResetPhones() {
 	m.phones = nil
 	m.clearedphones = false
 }
 
 // Op returns the operation name.
-func (m *OSMutation) Op() Op {
+func (m *OperatingSystemMutation) Op() Op {
 	return m.op
 }
 
-// Type returns the node type of this mutation (OS).
-func (m *OSMutation) Type() string {
+// Type returns the node type of this mutation (OperatingSystem).
+func (m *OperatingSystemMutation) Type() string {
 	return m.typ
 }
 
 // Fields returns all fields that were changed during this mutation. Note that in
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
-func (m *OSMutation) Fields() []string {
+func (m *OperatingSystemMutation) Fields() []string {
 	fields := make([]string, 0, 3)
 	if m.name != nil {
-		fields = append(fields, os.FieldName)
+		fields = append(fields, operatingsystem.FieldName)
 	}
 	if m.created_at != nil {
-		fields = append(fields, os.FieldCreatedAt)
+		fields = append(fields, operatingsystem.FieldCreatedAt)
 	}
 	if m.modified_at != nil {
-		fields = append(fields, os.FieldModifiedAt)
+		fields = append(fields, operatingsystem.FieldModifiedAt)
 	}
 	return fields
 }
@@ -767,13 +767,13 @@ func (m *OSMutation) Fields() []string {
 // Field returns the value of a field with the given name. The second boolean
 // return value indicates that this field was not set, or was not defined in the
 // schema.
-func (m *OSMutation) Field(name string) (ent.Value, bool) {
+func (m *OperatingSystemMutation) Field(name string) (ent.Value, bool) {
 	switch name {
-	case os.FieldName:
+	case operatingsystem.FieldName:
 		return m.Name()
-	case os.FieldCreatedAt:
+	case operatingsystem.FieldCreatedAt:
 		return m.CreatedAt()
-	case os.FieldModifiedAt:
+	case operatingsystem.FieldModifiedAt:
 		return m.ModifiedAt()
 	}
 	return nil, false
@@ -782,38 +782,38 @@ func (m *OSMutation) Field(name string) (ent.Value, bool) {
 // OldField returns the old value of the field from the database. An error is
 // returned if the mutation operation is not UpdateOne, or the query to the
 // database failed.
-func (m *OSMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+func (m *OperatingSystemMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
 	switch name {
-	case os.FieldName:
+	case operatingsystem.FieldName:
 		return m.OldName(ctx)
-	case os.FieldCreatedAt:
+	case operatingsystem.FieldCreatedAt:
 		return m.OldCreatedAt(ctx)
-	case os.FieldModifiedAt:
+	case operatingsystem.FieldModifiedAt:
 		return m.OldModifiedAt(ctx)
 	}
-	return nil, fmt.Errorf("unknown OS field %s", name)
+	return nil, fmt.Errorf("unknown OperatingSystem field %s", name)
 }
 
 // SetField sets the value of a field with the given name. It returns an error if
 // the field is not defined in the schema, or if the type mismatched the field
 // type.
-func (m *OSMutation) SetField(name string, value ent.Value) error {
+func (m *OperatingSystemMutation) SetField(name string, value ent.Value) error {
 	switch name {
-	case os.FieldName:
+	case operatingsystem.FieldName:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetName(v)
 		return nil
-	case os.FieldCreatedAt:
+	case operatingsystem.FieldCreatedAt:
 		v, ok := value.(time.Time)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetCreatedAt(v)
 		return nil
-	case os.FieldModifiedAt:
+	case operatingsystem.FieldModifiedAt:
 		v, ok := value.(time.Time)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
@@ -821,81 +821,81 @@ func (m *OSMutation) SetField(name string, value ent.Value) error {
 		m.SetModifiedAt(v)
 		return nil
 	}
-	return fmt.Errorf("unknown OS field %s", name)
+	return fmt.Errorf("unknown OperatingSystem field %s", name)
 }
 
 // AddedFields returns all numeric fields that were incremented/decremented during
 // this mutation.
-func (m *OSMutation) AddedFields() []string {
+func (m *OperatingSystemMutation) AddedFields() []string {
 	return nil
 }
 
 // AddedField returns the numeric value that was incremented/decremented on a field
 // with the given name. The second boolean return value indicates that this field
 // was not set, or was not defined in the schema.
-func (m *OSMutation) AddedField(name string) (ent.Value, bool) {
+func (m *OperatingSystemMutation) AddedField(name string) (ent.Value, bool) {
 	return nil, false
 }
 
 // AddField adds the value to the field with the given name. It returns an error if
 // the field is not defined in the schema, or if the type mismatched the field
 // type.
-func (m *OSMutation) AddField(name string, value ent.Value) error {
+func (m *OperatingSystemMutation) AddField(name string, value ent.Value) error {
 	switch name {
 	}
-	return fmt.Errorf("unknown OS numeric field %s", name)
+	return fmt.Errorf("unknown OperatingSystem numeric field %s", name)
 }
 
 // ClearedFields returns all nullable fields that were cleared during this
 // mutation.
-func (m *OSMutation) ClearedFields() []string {
+func (m *OperatingSystemMutation) ClearedFields() []string {
 	return nil
 }
 
 // FieldCleared returns a boolean indicating if a field with the given name was
 // cleared in this mutation.
-func (m *OSMutation) FieldCleared(name string) bool {
+func (m *OperatingSystemMutation) FieldCleared(name string) bool {
 	_, ok := m.clearedFields[name]
 	return ok
 }
 
 // ClearField clears the value of the field with the given name. It returns an
 // error if the field is not defined in the schema.
-func (m *OSMutation) ClearField(name string) error {
-	return fmt.Errorf("unknown OS nullable field %s", name)
+func (m *OperatingSystemMutation) ClearField(name string) error {
+	return fmt.Errorf("unknown OperatingSystem nullable field %s", name)
 }
 
 // ResetField resets all changes in the mutation for the field with the given name.
 // It returns an error if the field is not defined in the schema.
-func (m *OSMutation) ResetField(name string) error {
+func (m *OperatingSystemMutation) ResetField(name string) error {
 	switch name {
-	case os.FieldName:
+	case operatingsystem.FieldName:
 		m.ResetName()
 		return nil
-	case os.FieldCreatedAt:
+	case operatingsystem.FieldCreatedAt:
 		m.ResetCreatedAt()
 		return nil
-	case os.FieldModifiedAt:
+	case operatingsystem.FieldModifiedAt:
 		m.ResetModifiedAt()
 		return nil
 	}
-	return fmt.Errorf("unknown OS field %s", name)
+	return fmt.Errorf("unknown OperatingSystem field %s", name)
 }
 
 // AddedEdges returns all edge names that were set/added in this mutation.
-func (m *OSMutation) AddedEdges() []string {
+func (m *OperatingSystemMutation) AddedEdges() []string {
 	edges := make([]string, 0, 1)
 	if m.phones != nil {
-		edges = append(edges, os.EdgePhones)
+		edges = append(edges, operatingsystem.EdgePhones)
 	}
 	return edges
 }
 
 // AddedIDs returns all IDs (to other nodes) that were added for the given edge
 // name in this mutation.
-func (m *OSMutation) AddedIDs(name string) []ent.Value {
+func (m *OperatingSystemMutation) AddedIDs(name string) []ent.Value {
 	switch name {
-	case os.EdgePhones:
+	case operatingsystem.EdgePhones:
 		if id := m.phones; id != nil {
 			return []ent.Value{*id}
 		}
@@ -904,33 +904,33 @@ func (m *OSMutation) AddedIDs(name string) []ent.Value {
 }
 
 // RemovedEdges returns all edge names that were removed in this mutation.
-func (m *OSMutation) RemovedEdges() []string {
+func (m *OperatingSystemMutation) RemovedEdges() []string {
 	edges := make([]string, 0, 1)
 	return edges
 }
 
 // RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
 // the given name in this mutation.
-func (m *OSMutation) RemovedIDs(name string) []ent.Value {
+func (m *OperatingSystemMutation) RemovedIDs(name string) []ent.Value {
 	switch name {
 	}
 	return nil
 }
 
 // ClearedEdges returns all edge names that were cleared in this mutation.
-func (m *OSMutation) ClearedEdges() []string {
+func (m *OperatingSystemMutation) ClearedEdges() []string {
 	edges := make([]string, 0, 1)
 	if m.clearedphones {
-		edges = append(edges, os.EdgePhones)
+		edges = append(edges, operatingsystem.EdgePhones)
 	}
 	return edges
 }
 
 // EdgeCleared returns a boolean which indicates if the edge with the given name
 // was cleared in this mutation.
-func (m *OSMutation) EdgeCleared(name string) bool {
+func (m *OperatingSystemMutation) EdgeCleared(name string) bool {
 	switch name {
-	case os.EdgePhones:
+	case operatingsystem.EdgePhones:
 		return m.clearedphones
 	}
 	return false
@@ -938,24 +938,24 @@ func (m *OSMutation) EdgeCleared(name string) bool {
 
 // ClearEdge clears the value of the edge with the given name. It returns an error
 // if that edge is not defined in the schema.
-func (m *OSMutation) ClearEdge(name string) error {
+func (m *OperatingSystemMutation) ClearEdge(name string) error {
 	switch name {
-	case os.EdgePhones:
+	case operatingsystem.EdgePhones:
 		m.ClearPhones()
 		return nil
 	}
-	return fmt.Errorf("unknown OS unique edge %s", name)
+	return fmt.Errorf("unknown OperatingSystem unique edge %s", name)
 }
 
 // ResetEdge resets all changes to the edge with the given name in this mutation.
 // It returns an error if the edge is not defined in the schema.
-func (m *OSMutation) ResetEdge(name string) error {
+func (m *OperatingSystemMutation) ResetEdge(name string) error {
 	switch name {
-	case os.EdgePhones:
+	case operatingsystem.EdgePhones:
 		m.ResetPhones()
 		return nil
 	}
-	return fmt.Errorf("unknown OS edge %s", name)
+	return fmt.Errorf("unknown OperatingSystem edge %s", name)
 }
 
 // PhoneMutation represents an operation that mutates the Phone nodes in the graph.
@@ -1203,17 +1203,17 @@ func (m *PhoneMutation) ResetManufacturer() {
 	m.clearedmanufacturer = false
 }
 
-// SetOsID sets the "os" edge to the OS entity by id.
+// SetOsID sets the "os" edge to the OperatingSystem entity by id.
 func (m *PhoneMutation) SetOsID(id int) {
 	m.os = &id
 }
 
-// ClearOs clears the "os" edge to the OS entity.
+// ClearOs clears the "os" edge to the OperatingSystem entity.
 func (m *PhoneMutation) ClearOs() {
 	m.clearedos = true
 }
 
-// OsCleared returns if the "os" edge to the OS entity was cleared.
+// OsCleared returns if the "os" edge to the OperatingSystem entity was cleared.
 func (m *PhoneMutation) OsCleared() bool {
 	return m.clearedos
 }

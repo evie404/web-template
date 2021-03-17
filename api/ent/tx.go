@@ -14,8 +14,8 @@ type Tx struct {
 	config
 	// Manufacturer is the client for interacting with the Manufacturer builders.
 	Manufacturer *ManufacturerClient
-	// OS is the client for interacting with the OS builders.
-	OS *OSClient
+	// OperatingSystem is the client for interacting with the OperatingSystem builders.
+	OperatingSystem *OperatingSystemClient
 	// Phone is the client for interacting with the Phone builders.
 	Phone *PhoneClient
 
@@ -154,7 +154,7 @@ func (tx *Tx) Client() *Client {
 
 func (tx *Tx) init() {
 	tx.Manufacturer = NewManufacturerClient(tx.config)
-	tx.OS = NewOSClient(tx.config)
+	tx.OperatingSystem = NewOperatingSystemClient(tx.config)
 	tx.Phone = NewPhoneClient(tx.config)
 }
 

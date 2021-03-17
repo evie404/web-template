@@ -10,7 +10,7 @@ import (
 	"github.com/rickypai/web-template/api/ent/migrate"
 
 	"github.com/rickypai/web-template/api/ent/manufacturer"
-	"github.com/rickypai/web-template/api/ent/os"
+	"github.com/rickypai/web-template/api/ent/operatingsystem"
 	"github.com/rickypai/web-template/api/ent/phone"
 
 	"entgo.io/ent/dialect"
@@ -25,8 +25,8 @@ type Client struct {
 	Schema *migrate.Schema
 	// Manufacturer is the client for interacting with the Manufacturer builders.
 	Manufacturer *ManufacturerClient
-	// OS is the client for interacting with the OS builders.
-	OS *OSClient
+	// OperatingSystem is the client for interacting with the OperatingSystem builders.
+	OperatingSystem *OperatingSystemClient
 	// Phone is the client for interacting with the Phone builders.
 	Phone *PhoneClient
 }
@@ -43,7 +43,7 @@ func NewClient(opts ...Option) *Client {
 func (c *Client) init() {
 	c.Schema = migrate.NewSchema(c.driver)
 	c.Manufacturer = NewManufacturerClient(c.config)
-	c.OS = NewOSClient(c.config)
+	c.OperatingSystem = NewOperatingSystemClient(c.config)
 	c.Phone = NewPhoneClient(c.config)
 }
 
@@ -76,11 +76,11 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 	cfg := c.config
 	cfg.driver = tx
 	return &Tx{
-		ctx:          ctx,
-		config:       cfg,
-		Manufacturer: NewManufacturerClient(cfg),
-		OS:           NewOSClient(cfg),
-		Phone:        NewPhoneClient(cfg),
+		ctx:             ctx,
+		config:          cfg,
+		Manufacturer:    NewManufacturerClient(cfg),
+		OperatingSystem: NewOperatingSystemClient(cfg),
+		Phone:           NewPhoneClient(cfg),
 	}, nil
 }
 
@@ -98,10 +98,10 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 	cfg := c.config
 	cfg.driver = &txDriver{tx: tx, drv: c.driver}
 	return &Tx{
-		config:       cfg,
-		Manufacturer: NewManufacturerClient(cfg),
-		OS:           NewOSClient(cfg),
-		Phone:        NewPhoneClient(cfg),
+		config:          cfg,
+		Manufacturer:    NewManufacturerClient(cfg),
+		OperatingSystem: NewOperatingSystemClient(cfg),
+		Phone:           NewPhoneClient(cfg),
 	}, nil
 }
 
@@ -132,7 +132,7 @@ func (c *Client) Close() error {
 // In order to add hooks to a specific client, call: `client.Node.Use(...)`.
 func (c *Client) Use(hooks ...Hook) {
 	c.Manufacturer.Use(hooks...)
-	c.OS.Use(hooks...)
+	c.OperatingSystem.Use(hooks...)
 	c.Phone.Use(hooks...)
 }
 
@@ -240,82 +240,82 @@ func (c *ManufacturerClient) Hooks() []Hook {
 	return c.hooks.Manufacturer
 }
 
-// OSClient is a client for the OS schema.
-type OSClient struct {
+// OperatingSystemClient is a client for the OperatingSystem schema.
+type OperatingSystemClient struct {
 	config
 }
 
-// NewOSClient returns a client for the OS from the given config.
-func NewOSClient(c config) *OSClient {
-	return &OSClient{config: c}
+// NewOperatingSystemClient returns a client for the OperatingSystem from the given config.
+func NewOperatingSystemClient(c config) *OperatingSystemClient {
+	return &OperatingSystemClient{config: c}
 }
 
 // Use adds a list of mutation hooks to the hooks stack.
-// A call to `Use(f, g, h)` equals to `os.Hooks(f(g(h())))`.
-func (c *OSClient) Use(hooks ...Hook) {
-	c.hooks.OS = append(c.hooks.OS, hooks...)
+// A call to `Use(f, g, h)` equals to `operatingsystem.Hooks(f(g(h())))`.
+func (c *OperatingSystemClient) Use(hooks ...Hook) {
+	c.hooks.OperatingSystem = append(c.hooks.OperatingSystem, hooks...)
 }
 
-// Create returns a create builder for OS.
-func (c *OSClient) Create() *OSCreate {
-	mutation := newOSMutation(c.config, OpCreate)
-	return &OSCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Create returns a create builder for OperatingSystem.
+func (c *OperatingSystemClient) Create() *OperatingSystemCreate {
+	mutation := newOperatingSystemMutation(c.config, OpCreate)
+	return &OperatingSystemCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
-// CreateBulk returns a builder for creating a bulk of OS entities.
-func (c *OSClient) CreateBulk(builders ...*OSCreate) *OSCreateBulk {
-	return &OSCreateBulk{config: c.config, builders: builders}
+// CreateBulk returns a builder for creating a bulk of OperatingSystem entities.
+func (c *OperatingSystemClient) CreateBulk(builders ...*OperatingSystemCreate) *OperatingSystemCreateBulk {
+	return &OperatingSystemCreateBulk{config: c.config, builders: builders}
 }
 
-// Update returns an update builder for OS.
-func (c *OSClient) Update() *OSUpdate {
-	mutation := newOSMutation(c.config, OpUpdate)
-	return &OSUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Update returns an update builder for OperatingSystem.
+func (c *OperatingSystemClient) Update() *OperatingSystemUpdate {
+	mutation := newOperatingSystemMutation(c.config, OpUpdate)
+	return &OperatingSystemUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *OSClient) UpdateOne(o *OS) *OSUpdateOne {
-	mutation := newOSMutation(c.config, OpUpdateOne, withOS(o))
-	return &OSUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+func (c *OperatingSystemClient) UpdateOne(os *OperatingSystem) *OperatingSystemUpdateOne {
+	mutation := newOperatingSystemMutation(c.config, OpUpdateOne, withOperatingSystem(os))
+	return &OperatingSystemUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *OSClient) UpdateOneID(id int) *OSUpdateOne {
-	mutation := newOSMutation(c.config, OpUpdateOne, withOSID(id))
-	return &OSUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+func (c *OperatingSystemClient) UpdateOneID(id int) *OperatingSystemUpdateOne {
+	mutation := newOperatingSystemMutation(c.config, OpUpdateOne, withOperatingSystemID(id))
+	return &OperatingSystemUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
-// Delete returns a delete builder for OS.
-func (c *OSClient) Delete() *OSDelete {
-	mutation := newOSMutation(c.config, OpDelete)
-	return &OSDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Delete returns a delete builder for OperatingSystem.
+func (c *OperatingSystemClient) Delete() *OperatingSystemDelete {
+	mutation := newOperatingSystemMutation(c.config, OpDelete)
+	return &OperatingSystemDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // DeleteOne returns a delete builder for the given entity.
-func (c *OSClient) DeleteOne(o *OS) *OSDeleteOne {
-	return c.DeleteOneID(o.ID)
+func (c *OperatingSystemClient) DeleteOne(os *OperatingSystem) *OperatingSystemDeleteOne {
+	return c.DeleteOneID(os.ID)
 }
 
 // DeleteOneID returns a delete builder for the given id.
-func (c *OSClient) DeleteOneID(id int) *OSDeleteOne {
-	builder := c.Delete().Where(os.ID(id))
+func (c *OperatingSystemClient) DeleteOneID(id int) *OperatingSystemDeleteOne {
+	builder := c.Delete().Where(operatingsystem.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
-	return &OSDeleteOne{builder}
+	return &OperatingSystemDeleteOne{builder}
 }
 
-// Query returns a query builder for OS.
-func (c *OSClient) Query() *OSQuery {
-	return &OSQuery{config: c.config}
+// Query returns a query builder for OperatingSystem.
+func (c *OperatingSystemClient) Query() *OperatingSystemQuery {
+	return &OperatingSystemQuery{config: c.config}
 }
 
-// Get returns a OS entity by its id.
-func (c *OSClient) Get(ctx context.Context, id int) (*OS, error) {
-	return c.Query().Where(os.ID(id)).Only(ctx)
+// Get returns a OperatingSystem entity by its id.
+func (c *OperatingSystemClient) Get(ctx context.Context, id int) (*OperatingSystem, error) {
+	return c.Query().Where(operatingsystem.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *OSClient) GetX(ctx context.Context, id int) *OS {
+func (c *OperatingSystemClient) GetX(ctx context.Context, id int) *OperatingSystem {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -323,25 +323,25 @@ func (c *OSClient) GetX(ctx context.Context, id int) *OS {
 	return obj
 }
 
-// QueryPhones queries the phones edge of a OS.
-func (c *OSClient) QueryPhones(o *OS) *ManufacturerQuery {
+// QueryPhones queries the phones edge of a OperatingSystem.
+func (c *OperatingSystemClient) QueryPhones(os *OperatingSystem) *ManufacturerQuery {
 	query := &ManufacturerQuery{config: c.config}
 	query.path = func(ctx context.Context) (fromV *sql.Selector, _ error) {
-		id := o.ID
+		id := os.ID
 		step := sqlgraph.NewStep(
-			sqlgraph.From(os.Table, os.FieldID, id),
+			sqlgraph.From(operatingsystem.Table, operatingsystem.FieldID, id),
 			sqlgraph.To(manufacturer.Table, manufacturer.FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, false, os.PhonesTable, os.PhonesColumn),
+			sqlgraph.Edge(sqlgraph.M2O, false, operatingsystem.PhonesTable, operatingsystem.PhonesColumn),
 		)
-		fromV = sqlgraph.Neighbors(o.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(os.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
 }
 
 // Hooks returns the client hooks.
-func (c *OSClient) Hooks() []Hook {
-	return c.hooks.OS
+func (c *OperatingSystemClient) Hooks() []Hook {
+	return c.hooks.OperatingSystem
 }
 
 // PhoneClient is a client for the Phone schema.
@@ -444,13 +444,13 @@ func (c *PhoneClient) QueryManufacturer(ph *Phone) *ManufacturerQuery {
 }
 
 // QueryOs queries the os edge of a Phone.
-func (c *PhoneClient) QueryOs(ph *Phone) *OSQuery {
-	query := &OSQuery{config: c.config}
+func (c *PhoneClient) QueryOs(ph *Phone) *OperatingSystemQuery {
+	query := &OperatingSystemQuery{config: c.config}
 	query.path = func(ctx context.Context) (fromV *sql.Selector, _ error) {
 		id := ph.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(phone.Table, phone.FieldID, id),
-			sqlgraph.To(os.Table, os.FieldID),
+			sqlgraph.To(operatingsystem.Table, operatingsystem.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, false, phone.OsTable, phone.OsColumn),
 		)
 		fromV = sqlgraph.Neighbors(ph.driver.Dialect(), step)

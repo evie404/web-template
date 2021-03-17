@@ -12,7 +12,7 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 	"github.com/rickypai/web-template/api/ent/manufacturer"
-	"github.com/rickypai/web-template/api/ent/os"
+	"github.com/rickypai/web-template/api/ent/operatingsystem"
 	"github.com/rickypai/web-template/api/ent/phone"
 	"github.com/rickypai/web-template/api/ent/predicate"
 )
@@ -27,7 +27,7 @@ type PhoneQuery struct {
 	predicates []predicate.Phone
 	// eager-loading edges.
 	withManufacturer *ManufacturerQuery
-	withOs           *OSQuery
+	withOs           *OperatingSystemQuery
 	withFKs          bool
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
@@ -81,8 +81,8 @@ func (pq *PhoneQuery) QueryManufacturer() *ManufacturerQuery {
 }
 
 // QueryOs chains the current query on the "os" edge.
-func (pq *PhoneQuery) QueryOs() *OSQuery {
-	query := &OSQuery{config: pq.config}
+func (pq *PhoneQuery) QueryOs() *OperatingSystemQuery {
+	query := &OperatingSystemQuery{config: pq.config}
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
 		if err := pq.prepareQuery(ctx); err != nil {
 			return nil, err
@@ -93,7 +93,7 @@ func (pq *PhoneQuery) QueryOs() *OSQuery {
 		}
 		step := sqlgraph.NewStep(
 			sqlgraph.From(phone.Table, phone.FieldID, selector),
-			sqlgraph.To(os.Table, os.FieldID),
+			sqlgraph.To(operatingsystem.Table, operatingsystem.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, false, phone.OsTable, phone.OsColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(pq.driver.Dialect(), step)
@@ -304,8 +304,8 @@ func (pq *PhoneQuery) WithManufacturer(opts ...func(*ManufacturerQuery)) *PhoneQ
 
 // WithOs tells the query-builder to eager-load the nodes that are connected to
 // the "os" edge. The optional arguments are used to configure the query builder of the edge.
-func (pq *PhoneQuery) WithOs(opts ...func(*OSQuery)) *PhoneQuery {
-	query := &OSQuery{config: pq.config}
+func (pq *PhoneQuery) WithOs(opts ...func(*OperatingSystemQuery)) *PhoneQuery {
+	query := &OperatingSystemQuery{config: pq.config}
 	for _, opt := range opts {
 		opt(query)
 	}
@@ -446,7 +446,7 @@ func (pq *PhoneQuery) sqlAll(ctx context.Context) ([]*Phone, error) {
 				nodeids[*fk] = append(nodeids[*fk], nodes[i])
 			}
 		}
-		query.Where(os.IDIn(ids...))
+		query.Where(operatingsystem.IDIn(ids...))
 		neighbors, err := query.All(ctx)
 		if err != nil {
 			return nil, err
