@@ -41,10 +41,10 @@ models:
   # Map the Status type that was defined in the schema
   Phone:
     model:
-      - github.com/rickypai/web-template/api/ent/schema.Phone
+      - github.com/rickypai/web-template/api/ent.Phone
   OperatingSystem:
     model:
-      - github.com/rickypai/web-template/api/ent/schema.OperatingSystem
+      - github.com/rickypai/web-template/api/ent.OperatingSystem
   Manufacturer:
     model:
-      - github.com/rickypai/web-template/api/ent/schema.Manufacturer
+      - github.com/rickypai/web-template/api/ent.Manufacturer

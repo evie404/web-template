@@ -14,27 +14,11 @@ import (
 	"github.com/rickypai/web-template/api/graphql/model"
 )
 
-func (r *manufacturerResolver) ID(ctx context.Context, obj *schema.Manufacturer) (int, error) {
+func (r *manufacturerResolver) Phones(ctx context.Context, obj *ent.Manufacturer) ([]*ent.Phone, error) {
 	panic(fmt.Errorf("not implemented"))
 }
 
-func (r *manufacturerResolver) Name(ctx context.Context, obj *schema.Manufacturer) (string, error) {
-	panic(fmt.Errorf("not implemented"))
-}
-
-func (r *manufacturerResolver) Phones(ctx context.Context, obj *schema.Manufacturer) ([]*schema.Phone, error) {
-	panic(fmt.Errorf("not implemented"))
-}
-
-func (r *manufacturerResolver) CreatedAt(ctx context.Context, obj *schema.Manufacturer) (*time.Time, error) {
-	panic(fmt.Errorf("not implemented"))
-}
-
-func (r *manufacturerResolver) ModifiedAt(ctx context.Context, obj *schema.Manufacturer) (*time.Time, error) {
-	panic(fmt.Errorf("not implemented"))
-}
-
-func (r *manufacturerMutationResolver) CreateManufacturer(ctx context.Context, obj *ent.ManufacturerMutation, input model.ManufacturerInput) (*schema.Manufacturer, error) {
+func (r *manufacturerMutationResolver) CreateManufacturer(ctx context.Context, obj *ent.ManufacturerMutation, input model.ManufacturerInput) (*ent.Manufacturer, error) {
 	panic(fmt.Errorf("not implemented"))
 }
 
@@ -55,6 +39,18 @@ type manufacturerMutationResolver struct{ *Resolver }
 //  - When renaming or deleting a resolver the old code will be put in here. You can safely delete
 //    it when you're done.
 //  - You have helper methods in this file. Move them out to keep these resolver files clean.
+func (r *manufacturerResolver) ID(ctx context.Context, obj *schema.Manufacturer) (int, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+func (r *manufacturerResolver) Name(ctx context.Context, obj *schema.Manufacturer) (string, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+func (r *manufacturerResolver) CreatedAt(ctx context.Context, obj *schema.Manufacturer) (*time.Time, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+func (r *manufacturerResolver) ModifiedAt(ctx context.Context, obj *schema.Manufacturer) (*time.Time, error) {
+	panic(fmt.Errorf("not implemented"))
+}
 func (r *manufacturerMutationResolver) CreateMake(ctx context.Context, obj *ent.ManufacturerMutation, phone model.ManufacturerInput) (*schema.Manufacturer, error) {
 	panic(fmt.Errorf("not implemented"))
 }

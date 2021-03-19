@@ -14,31 +14,15 @@ import (
 	"github.com/rickypai/web-template/api/graphql/model"
 )
 
-func (r *phoneResolver) ID(ctx context.Context, obj *schema.Phone) (int, error) {
+func (r *phoneResolver) OperatingSystem(ctx context.Context, obj *ent.Phone) (*ent.OperatingSystem, error) {
 	panic(fmt.Errorf("not implemented"))
 }
 
-func (r *phoneResolver) Name(ctx context.Context, obj *schema.Phone) (string, error) {
+func (r *phoneResolver) Manufacturer(ctx context.Context, obj *ent.Phone) (*ent.Manufacturer, error) {
 	panic(fmt.Errorf("not implemented"))
 }
 
-func (r *phoneResolver) OperatingSystem(ctx context.Context, obj *schema.Phone) (*schema.OperatingSystem, error) {
-	panic(fmt.Errorf("not implemented"))
-}
-
-func (r *phoneResolver) Manufacturer(ctx context.Context, obj *schema.Phone) (*schema.Manufacturer, error) {
-	panic(fmt.Errorf("not implemented"))
-}
-
-func (r *phoneResolver) CreatedAt(ctx context.Context, obj *schema.Phone) (*time.Time, error) {
-	panic(fmt.Errorf("not implemented"))
-}
-
-func (r *phoneResolver) ModifiedAt(ctx context.Context, obj *schema.Phone) (*time.Time, error) {
-	panic(fmt.Errorf("not implemented"))
-}
-
-func (r *phoneMutationResolver) CreatePhone(ctx context.Context, obj *ent.PhoneMutation, input model.PhoneInput) (*schema.Phone, error) {
+func (r *phoneMutationResolver) CreatePhone(ctx context.Context, obj *ent.PhoneMutation, input model.PhoneInput) (*ent.Phone, error) {
 	panic(fmt.Errorf("not implemented"))
 }
 
@@ -50,3 +34,22 @@ func (r *Resolver) PhoneMutation() generated.PhoneMutationResolver { return &pho
 
 type phoneResolver struct{ *Resolver }
 type phoneMutationResolver struct{ *Resolver }
+
+// !!! WARNING !!!
+// The code below was going to be deleted when updating resolvers. It has been copied here so you have
+// one last chance to move it out of harms way if you want. There are two reasons this happens:
+//  - When renaming or deleting a resolver the old code will be put in here. You can safely delete
+//    it when you're done.
+//  - You have helper methods in this file. Move them out to keep these resolver files clean.
+func (r *phoneResolver) ID(ctx context.Context, obj *schema.Phone) (int, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+func (r *phoneResolver) Name(ctx context.Context, obj *schema.Phone) (string, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+func (r *phoneResolver) CreatedAt(ctx context.Context, obj *schema.Phone) (*time.Time, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+func (r *phoneResolver) ModifiedAt(ctx context.Context, obj *schema.Phone) (*time.Time, error) {
+	panic(fmt.Errorf("not implemented"))
+}
