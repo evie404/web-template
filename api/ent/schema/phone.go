@@ -18,7 +18,8 @@ type Phone struct {
 func (Phone) Fields() []ent.Field {
 	return []ent.Field{
 		field.Text("name").
-			NotEmpty(),
+			NotEmpty().
+			Unique(),
 		field.Time("created_at").
 			Default(time.Now).
 			Immutable(),
