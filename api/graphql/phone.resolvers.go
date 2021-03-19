@@ -23,7 +23,15 @@ func (r *phoneResolver) Manufacturer(ctx context.Context, obj *ent.Phone) (*ent.
 }
 
 func (r *phoneMutationResolver) CreatePhone(ctx context.Context, obj *ent.PhoneMutation, input model.PhoneInput) (*ent.Phone, error) {
-	panic(fmt.Errorf("not implemented"))
+	now := time.Now()
+
+	return r.client.Phone.Create().
+		SetName(input.Name).
+		SetOsID(input.OperatingSystemID).
+		SetManufacturerID(input.ManufacturerID).
+		SetCreatedAt(now).
+		SetModifiedAt(now).
+		Save(ctx)
 }
 
 // Phone returns generated.PhoneResolver implementation.

@@ -19,7 +19,13 @@ func (r *operatingSystemResolver) Phones(ctx context.Context, obj *ent.Operating
 }
 
 func (r *operatingSystemMutationResolver) CreateOperatingSystem(ctx context.Context, obj *ent.OperatingSystemMutation, input model.OperatingSystemInput) (*ent.OperatingSystem, error) {
-	panic(fmt.Errorf("not implemented"))
+	now := time.Now()
+
+	return r.client.OperatingSystem.Create().
+		SetName(input.Name).
+		SetCreatedAt(now).
+		SetModifiedAt(now).
+		Save(ctx)
 }
 
 // OperatingSystem returns generated.OperatingSystemResolver implementation.

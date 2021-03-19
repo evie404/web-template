@@ -19,7 +19,13 @@ func (r *manufacturerResolver) Phones(ctx context.Context, obj *ent.Manufacturer
 }
 
 func (r *manufacturerMutationResolver) CreateManufacturer(ctx context.Context, obj *ent.ManufacturerMutation, input model.ManufacturerInput) (*ent.Manufacturer, error) {
-	panic(fmt.Errorf("not implemented"))
+	now := time.Now()
+
+	return r.client.Manufacturer.Create().
+		SetName(input.Name).
+		SetCreatedAt(now).
+		SetModifiedAt(now).
+		Save(ctx)
 }
 
 // Manufacturer returns generated.ManufacturerResolver implementation.
