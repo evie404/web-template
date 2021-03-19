@@ -34,7 +34,7 @@ func (r *manufacturerResolver) ModifiedAt(ctx context.Context, obj *schema.Manuf
 	panic(fmt.Errorf("not implemented"))
 }
 
-func (r *manufacturerMutationResolver) CreateManufacturer(ctx context.Context, obj *ent.ManufacturerMutation, phone model.ManufacturerInput) (*schema.Manufacturer, error) {
+func (r *manufacturerMutationResolver) CreateManufacturer(ctx context.Context, obj *ent.ManufacturerMutation, input model.ManufacturerInput) (*schema.Manufacturer, error) {
 	panic(fmt.Errorf("not implemented"))
 }
 

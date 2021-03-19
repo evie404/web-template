@@ -17,5 +17,5 @@ input PhoneInput {
 }
 
 type PhoneMutation {
-    createPhone(phone: PhoneInput!): Phone!
+    createPhone(input: PhoneInput!): Phone!
 }

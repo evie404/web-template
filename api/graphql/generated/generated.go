@@ -60,7 +60,7 @@ type ComplexityRoot struct {
 	}
 
 	ManufacturerMutation struct {
-		CreateManufacturer func(childComplexity int, phone model.ManufacturerInput) int
+		CreateManufacturer func(childComplexity int, input model.ManufacturerInput) int
 	}
 
 	OperatingSystem struct {
@@ -72,7 +72,7 @@ type ComplexityRoot struct {
 	}
 
 	OperatingSystemMutation struct {
-		CreateOperatingSystem func(childComplexity int, phone model.OperatingSystemInput) int
+		CreateOperatingSystem func(childComplexity int, input model.OperatingSystemInput) int
 	}
 
 	PageInfo struct {
@@ -92,7 +92,7 @@ type ComplexityRoot struct {
 	}
 
 	PhoneMutation struct {
-		CreatePhone func(childComplexity int, phone model.PhoneInput) int
+		CreatePhone func(childComplexity int, input model.PhoneInput) int
 	}
 
 	Query struct {
@@ -107,7 +107,7 @@ type ManufacturerResolver interface {
 	ModifiedAt(ctx context.Context, obj *schema.Manufacturer) (*time.Time, error)
 }
 type ManufacturerMutationResolver interface {
-	CreateManufacturer(ctx context.Context, obj *ent.ManufacturerMutation, phone model.ManufacturerInput) (*schema.Manufacturer, error)
+	CreateManufacturer(ctx context.Context, obj *ent.ManufacturerMutation, input model.ManufacturerInput) (*schema.Manufacturer, error)
 }
 type OperatingSystemResolver interface {
 	ID(ctx context.Context, obj *schema.OperatingSystem) (int, error)
@@ -117,7 +117,7 @@ type OperatingSystemResolver interface {
 	ModifiedAt(ctx context.Context, obj *schema.OperatingSystem) (*time.Time, error)
 }
 type OperatingSystemMutationResolver interface {
-	CreateOperatingSystem(ctx context.Context, obj *ent.OperatingSystemMutation, phone model.OperatingSystemInput) (*schema.OperatingSystem, error)
+	CreateOperatingSystem(ctx context.Context, obj *ent.OperatingSystemMutation, input model.OperatingSystemInput) (*schema.OperatingSystem, error)
 }
 type PhoneResolver interface {
 	ID(ctx context.Context, obj *schema.Phone) (int, error)
@@ -128,7 +128,7 @@ type PhoneResolver interface {
 	ModifiedAt(ctx context.Context, obj *schema.Phone) (*time.Time, error)
 }
 type PhoneMutationResolver interface {
-	CreatePhone(ctx context.Context, obj *ent.PhoneMutation, phone model.PhoneInput) (*schema.Phone, error)
+	CreatePhone(ctx context.Context, obj *ent.PhoneMutation, input model.PhoneInput) (*schema.Phone, error)
 }
 
 type executableSchema struct {
@@ -191,7 +191,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.ManufacturerMutation.CreateManufacturer(childComplexity, args["phone"].(model.ManufacturerInput)), true
+		return e.complexity.ManufacturerMutation.CreateManufacturer(childComplexity, args["input"].(model.ManufacturerInput)), true
 
 	case "OperatingSystem.createdAt":
 		if e.complexity.OperatingSystem.CreatedAt == nil {
@@ -238,7 +238,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.OperatingSystemMutation.CreateOperatingSystem(childComplexity, args["phone"].(model.OperatingSystemInput)), true
+		return e.complexity.OperatingSystemMutation.CreateOperatingSystem(childComplexity, args["input"].(model.OperatingSystemInput)), true
 
 	case "PageInfo.endCursor":
 		if e.complexity.PageInfo.EndCursor == nil {
@@ -320,7 +320,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.PhoneMutation.CreatePhone(childComplexity, args["phone"].(model.PhoneInput)), true
+		return e.complexity.PhoneMutation.CreatePhone(childComplexity, args["input"].(model.PhoneInput)), true
 
 	}
 	return 0, false
@@ -405,7 +405,7 @@ input ManufacturerInput {
 }
 
 type ManufacturerMutation {
-    createManufacturer(phone: ManufacturerInput!): Manufacturer!
+    createManufacturer(input: ManufacturerInput!): Manufacturer!
 }
 `, BuiltIn: false},
 	{Name: "../graphql/operating_system/operating_system.graphql", Input: `type OperatingSystem {
@@ -423,7 +423,7 @@ input OperatingSystemInput {
 }
 
 type OperatingSystemMutation {
-    createOperatingSystem(phone: OperatingSystemInput!): OperatingSystem!
+    createOperatingSystem(input: OperatingSystemInput!): OperatingSystem!
 }
 `, BuiltIn: false},
 	{Name: "../graphql/phone/phone.graphql", Input: `type Phone {
@@ -445,7 +445,7 @@ input PhoneInput {
 }
 
 type PhoneMutation {
-    createPhone(phone: PhoneInput!): Phone!
+    createPhone(input: PhoneInput!): Phone!
 }
 `, BuiltIn: false},
 	{Name: "federation/directives.graphql", Input: `
@@ -469,14 +469,14 @@ func (ec *executionContext) field_ManufacturerMutation_createManufacturer_args(c
 	var err error
 	args := map[string]interface{}{}
 	var arg0 model.ManufacturerInput
-	if tmp, ok := rawArgs["phone"]; ok {
-		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("phone"))
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 		arg0, err = ec.unmarshalNManufacturerInput2githubᚗcomᚋrickypaiᚋwebᚑtemplateᚋapiᚋgraphqlᚋmodelᚐManufacturerInput(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
 	}
-	args["phone"] = arg0
+	args["input"] = arg0
 	return args, nil
 }
 
@@ -484,14 +484,14 @@ func (ec *executionContext) field_OperatingSystemMutation_createOperatingSystem_
 	var err error
 	args := map[string]interface{}{}
 	var arg0 model.OperatingSystemInput
-	if tmp, ok := rawArgs["phone"]; ok {
-		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("phone"))
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 		arg0, err = ec.unmarshalNOperatingSystemInput2githubᚗcomᚋrickypaiᚋwebᚑtemplateᚋapiᚋgraphqlᚋmodelᚐOperatingSystemInput(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
 	}
-	args["phone"] = arg0
+	args["input"] = arg0
 	return args, nil
 }
 
@@ -499,14 +499,14 @@ func (ec *executionContext) field_PhoneMutation_createPhone_args(ctx context.Con
 	var err error
 	args := map[string]interface{}{}
 	var arg0 model.PhoneInput
-	if tmp, ok := rawArgs["phone"]; ok {
-		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("phone"))
+	if tmp, ok := rawArgs["input"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("input"))
 		arg0, err = ec.unmarshalNPhoneInput2githubᚗcomᚋrickypaiᚋwebᚑtemplateᚋapiᚋgraphqlᚋmodelᚐPhoneInput(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
 	}
-	args["phone"] = arg0
+	args["input"] = arg0
 	return args, nil
 }
 
@@ -760,7 +760,7 @@ func (ec *executionContext) _ManufacturerMutation_createManufacturer(ctx context
 	fc.Args = args
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.ManufacturerMutation().CreateManufacturer(rctx, obj, args["phone"].(model.ManufacturerInput))
+		return ec.resolvers.ManufacturerMutation().CreateManufacturer(rctx, obj, args["input"].(model.ManufacturerInput))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -974,7 +974,7 @@ func (ec *executionContext) _OperatingSystemMutation_createOperatingSystem(ctx c
 	fc.Args = args
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.OperatingSystemMutation().CreateOperatingSystem(rctx, obj, args["phone"].(model.OperatingSystemInput))
+		return ec.resolvers.OperatingSystemMutation().CreateOperatingSystem(rctx, obj, args["input"].(model.OperatingSystemInput))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -1360,7 +1360,7 @@ func (ec *executionContext) _PhoneMutation_createPhone(ctx context.Context, fiel
 	fc.Args = args
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.PhoneMutation().CreatePhone(rctx, obj, args["phone"].(model.PhoneInput))
+		return ec.resolvers.PhoneMutation().CreatePhone(rctx, obj, args["input"].(model.PhoneInput))
 	})
 	if err != nil {
 		ec.Error(ctx, err)

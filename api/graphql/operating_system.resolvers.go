@@ -34,7 +34,7 @@ func (r *operatingSystemResolver) ModifiedAt(ctx context.Context, obj *schema.Op
 	panic(fmt.Errorf("not implemented"))
 }
 
-func (r *operatingSystemMutationResolver) CreateOperatingSystem(ctx context.Context, obj *ent.OperatingSystemMutation, phone model.OperatingSystemInput) (*schema.OperatingSystem, error) {
+func (r *operatingSystemMutationResolver) CreateOperatingSystem(ctx context.Context, obj *ent.OperatingSystemMutation, input model.OperatingSystemInput) (*schema.OperatingSystem, error) {
 	panic(fmt.Errorf("not implemented"))
 }
 

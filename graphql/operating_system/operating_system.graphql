@@ -13,5 +13,5 @@ input OperatingSystemInput {
 }
 
 type OperatingSystemMutation {
-    createOperatingSystem(phone: OperatingSystemInput!): OperatingSystem!
+    createOperatingSystem(input: OperatingSystemInput!): OperatingSystem!
 }

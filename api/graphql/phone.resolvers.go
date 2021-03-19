@@ -38,7 +38,7 @@ func (r *phoneResolver) ModifiedAt(ctx context.Context, obj *schema.Phone) (*tim
 	panic(fmt.Errorf("not implemented"))
 }
 
-func (r *phoneMutationResolver) CreatePhone(ctx context.Context, obj *ent.PhoneMutation, phone model.PhoneInput) (*schema.Phone, error) {
+func (r *phoneMutationResolver) CreatePhone(ctx context.Context, obj *ent.PhoneMutation, input model.PhoneInput) (*schema.Phone, error) {
 	panic(fmt.Errorf("not implemented"))
 }
 
