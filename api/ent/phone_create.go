@@ -62,36 +62,20 @@ func (pc *PhoneCreate) SetManufacturerID(id int) *PhoneCreate {
 	return pc
 }
 
-// SetNillableManufacturerID sets the "manufacturer" edge to the Manufacturer entity by ID if the given value is not nil.
-func (pc *PhoneCreate) SetNillableManufacturerID(id *int) *PhoneCreate {
-	if id != nil {
-		pc = pc.SetManufacturerID(*id)
-	}
-	return pc
-}
-
 // SetManufacturer sets the "manufacturer" edge to the Manufacturer entity.
 func (pc *PhoneCreate) SetManufacturer(m *Manufacturer) *PhoneCreate {
 	return pc.SetManufacturerID(m.ID)
 }
 
-// SetOsID sets the "os" edge to the OperatingSystem entity by ID.
-func (pc *PhoneCreate) SetOsID(id int) *PhoneCreate {
-	pc.mutation.SetOsID(id)
+// SetOperatingSystemID sets the "operating_system" edge to the OperatingSystem entity by ID.
+func (pc *PhoneCreate) SetOperatingSystemID(id int) *PhoneCreate {
+	pc.mutation.SetOperatingSystemID(id)
 	return pc
 }
 
-// SetNillableOsID sets the "os" edge to the OperatingSystem entity by ID if the given value is not nil.
-func (pc *PhoneCreate) SetNillableOsID(id *int) *PhoneCreate {
-	if id != nil {
-		pc = pc.SetOsID(*id)
-	}
-	return pc
-}
-
-// SetOs sets the "os" edge to the OperatingSystem entity.
-func (pc *PhoneCreate) SetOs(o *OperatingSystem) *PhoneCreate {
-	return pc.SetOsID(o.ID)
+// SetOperatingSystem sets the "operating_system" edge to the OperatingSystem entity.
+func (pc *PhoneCreate) SetOperatingSystem(o *OperatingSystem) *PhoneCreate {
+	return pc.SetOperatingSystemID(o.ID)
 }
 
 // Mutation returns the PhoneMutation object of the builder.
@@ -172,6 +156,12 @@ func (pc *PhoneCreate) check() error {
 	if _, ok := pc.mutation.ModifiedAt(); !ok {
 		return &ValidationError{Name: "modified_at", err: errors.New("ent: missing required field \"modified_at\"")}
 	}
+	if _, ok := pc.mutation.ManufacturerID(); !ok {
+		return &ValidationError{Name: "manufacturer", err: errors.New("ent: missing required edge \"manufacturer\"")}
+	}
+	if _, ok := pc.mutation.OperatingSystemID(); !ok {
+		return &ValidationError{Name: "operating_system", err: errors.New("ent: missing required edge \"operating_system\"")}
+	}
 	return nil
 }
 
@@ -240,15 +230,15 @@ func (pc *PhoneCreate) createSpec() (*Phone, *sqlgraph.CreateSpec) {
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
-		_node.phone_manufacturer = &nodes[0]
+		_node.manufacturer_id = &nodes[0]
 		_spec.Edges = append(_spec.Edges, edge)
 	}
-	if nodes := pc.mutation.OsIDs(); len(nodes) > 0 {
+	if nodes := pc.mutation.OperatingSystemIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: false,
-			Table:   phone.OsTable,
-			Columns: []string{phone.OsColumn},
+			Table:   phone.OperatingSystemTable,
+			Columns: []string{phone.OperatingSystemColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -260,7 +250,7 @@ func (pc *PhoneCreate) createSpec() (*Phone, *sqlgraph.CreateSpec) {
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
-		_node.phone_os = &nodes[0]
+		_node.operating_system_id = &nodes[0]
 		_spec.Edges = append(_spec.Edges, edge)
 	}
 	return _node, _spec

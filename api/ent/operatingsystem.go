@@ -8,7 +8,6 @@ import (
 	"time"
 
 	"entgo.io/ent/dialect/sql"
-	"github.com/rickypai/web-template/api/ent/manufacturer"
 	"github.com/rickypai/web-template/api/ent/operatingsystem"
 )
 
@@ -25,28 +24,22 @@ type OperatingSystem struct {
 	ModifiedAt time.Time `json:"modified_at,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
 	// The values are being populated by the OperatingSystemQuery when eager-loading is set.
-	Edges                   OperatingSystemEdges `json:"edges"`
-	operating_system_phones *int
+	Edges OperatingSystemEdges `json:"edges"`
 }
 
 // OperatingSystemEdges holds the relations/edges for other nodes in the graph.
 type OperatingSystemEdges struct {
 	// Phones holds the value of the phones edge.
-	Phones *Manufacturer `json:"phones,omitempty"`
+	Phones []*Phone `json:"phones,omitempty"`
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
 	loadedTypes [1]bool
 }
 
 // PhonesOrErr returns the Phones value or an error if the edge
-// was not loaded in eager-loading, or loaded but was not found.
-func (e OperatingSystemEdges) PhonesOrErr() (*Manufacturer, error) {
+// was not loaded in eager-loading.
+func (e OperatingSystemEdges) PhonesOrErr() ([]*Phone, error) {
 	if e.loadedTypes[0] {
-		if e.Phones == nil {
-			// The edge phones was loaded in eager-loading,
-			// but was not found.
-			return nil, &NotFoundError{label: manufacturer.Label}
-		}
 		return e.Phones, nil
 	}
 	return nil, &NotLoadedError{edge: "phones"}
@@ -63,8 +56,6 @@ func (*OperatingSystem) scanValues(columns []string) ([]interface{}, error) {
 			values[i] = &sql.NullString{}
 		case operatingsystem.FieldCreatedAt, operatingsystem.FieldModifiedAt:
 			values[i] = &sql.NullTime{}
-		case operatingsystem.ForeignKeys[0]: // operating_system_phones
-			values[i] = &sql.NullInt64{}
 		default:
 			return nil, fmt.Errorf("unexpected column %q for type OperatingSystem", columns[i])
 		}
@@ -104,20 +95,13 @@ func (os *OperatingSystem) assignValues(columns []string, values []interface{}) 
 			} else if value.Valid {
 				os.ModifiedAt = value.Time
 			}
-		case operatingsystem.ForeignKeys[0]:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for edge-field operating_system_phones", value)
-			} else if value.Valid {
-				os.operating_system_phones = new(int)
-				*os.operating_system_phones = int(value.Int64)
-			}
 		}
 	}
 	return nil
 }
 
 // QueryPhones queries the "phones" edge of the OperatingSystem entity.
-func (os *OperatingSystem) QueryPhones() *ManufacturerQuery {
+func (os *OperatingSystem) QueryPhones() *PhoneQuery {
 	return (&OperatingSystemClient{config: os.config}).QueryPhones(os)
 }
 

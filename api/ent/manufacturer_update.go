@@ -11,6 +11,7 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 	"github.com/rickypai/web-template/api/ent/manufacturer"
+	"github.com/rickypai/web-template/api/ent/phone"
 	"github.com/rickypai/web-template/api/ent/predicate"
 )
 
@@ -47,23 +48,19 @@ func (mu *ManufacturerUpdate) SetNillableModifiedAt(t *time.Time) *ManufacturerU
 	return mu
 }
 
-// SetPhonesID sets the "phones" edge to the Manufacturer entity by ID.
-func (mu *ManufacturerUpdate) SetPhonesID(id int) *ManufacturerUpdate {
-	mu.mutation.SetPhonesID(id)
+// AddPhoneIDs adds the "phones" edge to the Phone entity by IDs.
+func (mu *ManufacturerUpdate) AddPhoneIDs(ids ...int) *ManufacturerUpdate {
+	mu.mutation.AddPhoneIDs(ids...)
 	return mu
 }
 
-// SetNillablePhonesID sets the "phones" edge to the Manufacturer entity by ID if the given value is not nil.
-func (mu *ManufacturerUpdate) SetNillablePhonesID(id *int) *ManufacturerUpdate {
-	if id != nil {
-		mu = mu.SetPhonesID(*id)
+// AddPhones adds the "phones" edges to the Phone entity.
+func (mu *ManufacturerUpdate) AddPhones(p ...*Phone) *ManufacturerUpdate {
+	ids := make([]int, len(p))
+	for i := range p {
+		ids[i] = p[i].ID
 	}
-	return mu
-}
-
-// SetPhones sets the "phones" edge to the Manufacturer entity.
-func (mu *ManufacturerUpdate) SetPhones(m *Manufacturer) *ManufacturerUpdate {
-	return mu.SetPhonesID(m.ID)
+	return mu.AddPhoneIDs(ids...)
 }
 
 // Mutation returns the ManufacturerMutation object of the builder.
@@ -71,10 +68,25 @@ func (mu *ManufacturerUpdate) Mutation() *ManufacturerMutation {
 	return mu.mutation
 }
 
-// ClearPhones clears the "phones" edge to the Manufacturer entity.
+// ClearPhones clears all "phones" edges to the Phone entity.
 func (mu *ManufacturerUpdate) ClearPhones() *ManufacturerUpdate {
 	mu.mutation.ClearPhones()
 	return mu
+}
+
+// RemovePhoneIDs removes the "phones" edge to Phone entities by IDs.
+func (mu *ManufacturerUpdate) RemovePhoneIDs(ids ...int) *ManufacturerUpdate {
+	mu.mutation.RemovePhoneIDs(ids...)
+	return mu
+}
+
+// RemovePhones removes "phones" edges to Phone entities.
+func (mu *ManufacturerUpdate) RemovePhones(p ...*Phone) *ManufacturerUpdate {
+	ids := make([]int, len(p))
+	for i := range p {
+		ids[i] = p[i].ID
+	}
+	return mu.RemovePhoneIDs(ids...)
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
@@ -178,31 +190,50 @@ func (mu *ManufacturerUpdate) sqlSave(ctx context.Context) (n int, err error) {
 	}
 	if mu.mutation.PhonesCleared() {
 		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2O,
-			Inverse: false,
+			Rel:     sqlgraph.O2M,
+			Inverse: true,
 			Table:   manufacturer.PhonesTable,
 			Columns: []string{manufacturer.PhonesColumn},
-			Bidi:    true,
+			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
-					Column: manufacturer.FieldID,
+					Column: phone.FieldID,
 				},
 			},
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := mu.mutation.PhonesIDs(); len(nodes) > 0 {
+	if nodes := mu.mutation.RemovedPhonesIDs(); len(nodes) > 0 && !mu.mutation.PhonesCleared() {
 		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2O,
-			Inverse: false,
+			Rel:     sqlgraph.O2M,
+			Inverse: true,
 			Table:   manufacturer.PhonesTable,
 			Columns: []string{manufacturer.PhonesColumn},
-			Bidi:    true,
+			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
-					Column: manufacturer.FieldID,
+					Column: phone.FieldID,
+				},
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := mu.mutation.PhonesIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: true,
+			Table:   manufacturer.PhonesTable,
+			Columns: []string{manufacturer.PhonesColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: &sqlgraph.FieldSpec{
+					Type:   field.TypeInt,
+					Column: phone.FieldID,
 				},
 			},
 		}
@@ -249,23 +280,19 @@ func (muo *ManufacturerUpdateOne) SetNillableModifiedAt(t *time.Time) *Manufactu
 	return muo
 }
 
-// SetPhonesID sets the "phones" edge to the Manufacturer entity by ID.
-func (muo *ManufacturerUpdateOne) SetPhonesID(id int) *ManufacturerUpdateOne {
-	muo.mutation.SetPhonesID(id)
+// AddPhoneIDs adds the "phones" edge to the Phone entity by IDs.
+func (muo *ManufacturerUpdateOne) AddPhoneIDs(ids ...int) *ManufacturerUpdateOne {
+	muo.mutation.AddPhoneIDs(ids...)
 	return muo
 }
 
-// SetNillablePhonesID sets the "phones" edge to the Manufacturer entity by ID if the given value is not nil.
-func (muo *ManufacturerUpdateOne) SetNillablePhonesID(id *int) *ManufacturerUpdateOne {
-	if id != nil {
-		muo = muo.SetPhonesID(*id)
+// AddPhones adds the "phones" edges to the Phone entity.
+func (muo *ManufacturerUpdateOne) AddPhones(p ...*Phone) *ManufacturerUpdateOne {
+	ids := make([]int, len(p))
+	for i := range p {
+		ids[i] = p[i].ID
 	}
-	return muo
-}
-
-// SetPhones sets the "phones" edge to the Manufacturer entity.
-func (muo *ManufacturerUpdateOne) SetPhones(m *Manufacturer) *ManufacturerUpdateOne {
-	return muo.SetPhonesID(m.ID)
+	return muo.AddPhoneIDs(ids...)
 }
 
 // Mutation returns the ManufacturerMutation object of the builder.
@@ -273,10 +300,25 @@ func (muo *ManufacturerUpdateOne) Mutation() *ManufacturerMutation {
 	return muo.mutation
 }
 
-// ClearPhones clears the "phones" edge to the Manufacturer entity.
+// ClearPhones clears all "phones" edges to the Phone entity.
 func (muo *ManufacturerUpdateOne) ClearPhones() *ManufacturerUpdateOne {
 	muo.mutation.ClearPhones()
 	return muo
+}
+
+// RemovePhoneIDs removes the "phones" edge to Phone entities by IDs.
+func (muo *ManufacturerUpdateOne) RemovePhoneIDs(ids ...int) *ManufacturerUpdateOne {
+	muo.mutation.RemovePhoneIDs(ids...)
+	return muo
+}
+
+// RemovePhones removes "phones" edges to Phone entities.
+func (muo *ManufacturerUpdateOne) RemovePhones(p ...*Phone) *ManufacturerUpdateOne {
+	ids := make([]int, len(p))
+	for i := range p {
+		ids[i] = p[i].ID
+	}
+	return muo.RemovePhoneIDs(ids...)
 }
 
 // Save executes the query and returns the updated Manufacturer entity.
@@ -385,31 +427,50 @@ func (muo *ManufacturerUpdateOne) sqlSave(ctx context.Context) (_node *Manufactu
 	}
 	if muo.mutation.PhonesCleared() {
 		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2O,
-			Inverse: false,
+			Rel:     sqlgraph.O2M,
+			Inverse: true,
 			Table:   manufacturer.PhonesTable,
 			Columns: []string{manufacturer.PhonesColumn},
-			Bidi:    true,
+			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
-					Column: manufacturer.FieldID,
+					Column: phone.FieldID,
 				},
 			},
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := muo.mutation.PhonesIDs(); len(nodes) > 0 {
+	if nodes := muo.mutation.RemovedPhonesIDs(); len(nodes) > 0 && !muo.mutation.PhonesCleared() {
 		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2O,
-			Inverse: false,
+			Rel:     sqlgraph.O2M,
+			Inverse: true,
 			Table:   manufacturer.PhonesTable,
 			Columns: []string{manufacturer.PhonesColumn},
-			Bidi:    true,
+			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
-					Column: manufacturer.FieldID,
+					Column: phone.FieldID,
+				},
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := muo.mutation.PhonesIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: true,
+			Table:   manufacturer.PhonesTable,
+			Columns: []string{manufacturer.PhonesColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: &sqlgraph.FieldSpec{
+					Type:   field.TypeInt,
+					Column: phone.FieldID,
 				},
 			},
 		}

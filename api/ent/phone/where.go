@@ -405,25 +405,25 @@ func HasManufacturerWith(preds ...predicate.Manufacturer) predicate.Phone {
 	})
 }
 
-// HasOs applies the HasEdge predicate on the "os" edge.
-func HasOs() predicate.Phone {
+// HasOperatingSystem applies the HasEdge predicate on the "operating_system" edge.
+func HasOperatingSystem() predicate.Phone {
 	return predicate.Phone(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.To(OsTable, FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, false, OsTable, OsColumn),
+			sqlgraph.To(OperatingSystemTable, FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, false, OperatingSystemTable, OperatingSystemColumn),
 		)
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
 
-// HasOsWith applies the HasEdge predicate on the "os" edge with a given conditions (other predicates).
-func HasOsWith(preds ...predicate.OperatingSystem) predicate.Phone {
+// HasOperatingSystemWith applies the HasEdge predicate on the "operating_system" edge with a given conditions (other predicates).
+func HasOperatingSystemWith(preds ...predicate.OperatingSystem) predicate.Phone {
 	return predicate.Phone(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.To(OsInverseTable, FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, false, OsTable, OsColumn),
+			sqlgraph.To(OperatingSystemInverseTable, FieldID),
+			sqlgraph.Edge(sqlgraph.M2O, false, OperatingSystemTable, OperatingSystemColumn),
 		)
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {

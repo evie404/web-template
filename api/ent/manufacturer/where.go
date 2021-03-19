@@ -383,19 +383,19 @@ func HasPhones() predicate.Manufacturer {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
 			sqlgraph.To(PhonesTable, FieldID),
-			sqlgraph.Edge(sqlgraph.O2O, false, PhonesTable, PhonesColumn),
+			sqlgraph.Edge(sqlgraph.O2M, true, PhonesTable, PhonesColumn),
 		)
 		sqlgraph.HasNeighbors(s, step)
 	})
 }
 
 // HasPhonesWith applies the HasEdge predicate on the "phones" edge with a given conditions (other predicates).
-func HasPhonesWith(preds ...predicate.Manufacturer) predicate.Manufacturer {
+func HasPhonesWith(preds ...predicate.Phone) predicate.Manufacturer {
 	return predicate.Manufacturer(func(s *sql.Selector) {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(Table, FieldID),
-			sqlgraph.To(Table, FieldID),
-			sqlgraph.Edge(sqlgraph.O2O, false, PhonesTable, PhonesColumn),
+			sqlgraph.To(PhonesInverseTable, FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, true, PhonesTable, PhonesColumn),
 		)
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {
 			for _, p := range preds {

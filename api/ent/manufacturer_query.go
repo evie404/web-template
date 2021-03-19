@@ -4,6 +4,7 @@ package ent
 
 import (
 	"context"
+	"database/sql/driver"
 	"errors"
 	"fmt"
 	"math"
@@ -12,6 +13,7 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 	"github.com/rickypai/web-template/api/ent/manufacturer"
+	"github.com/rickypai/web-template/api/ent/phone"
 	"github.com/rickypai/web-template/api/ent/predicate"
 )
 
@@ -24,8 +26,7 @@ type ManufacturerQuery struct {
 	fields     []string
 	predicates []predicate.Manufacturer
 	// eager-loading edges.
-	withPhones *ManufacturerQuery
-	withFKs    bool
+	withPhones *PhoneQuery
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
 	path func(context.Context) (*sql.Selector, error)
@@ -56,8 +57,8 @@ func (mq *ManufacturerQuery) Order(o ...OrderFunc) *ManufacturerQuery {
 }
 
 // QueryPhones chains the current query on the "phones" edge.
-func (mq *ManufacturerQuery) QueryPhones() *ManufacturerQuery {
-	query := &ManufacturerQuery{config: mq.config}
+func (mq *ManufacturerQuery) QueryPhones() *PhoneQuery {
+	query := &PhoneQuery{config: mq.config}
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
 		if err := mq.prepareQuery(ctx); err != nil {
 			return nil, err
@@ -68,8 +69,8 @@ func (mq *ManufacturerQuery) QueryPhones() *ManufacturerQuery {
 		}
 		step := sqlgraph.NewStep(
 			sqlgraph.From(manufacturer.Table, manufacturer.FieldID, selector),
-			sqlgraph.To(manufacturer.Table, manufacturer.FieldID),
-			sqlgraph.Edge(sqlgraph.O2O, false, manufacturer.PhonesTable, manufacturer.PhonesColumn),
+			sqlgraph.To(phone.Table, phone.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, true, manufacturer.PhonesTable, manufacturer.PhonesColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(mq.driver.Dialect(), step)
 		return fromU, nil
@@ -267,8 +268,8 @@ func (mq *ManufacturerQuery) Clone() *ManufacturerQuery {
 
 // WithPhones tells the query-builder to eager-load the nodes that are connected to
 // the "phones" edge. The optional arguments are used to configure the query builder of the edge.
-func (mq *ManufacturerQuery) WithPhones(opts ...func(*ManufacturerQuery)) *ManufacturerQuery {
-	query := &ManufacturerQuery{config: mq.config}
+func (mq *ManufacturerQuery) WithPhones(opts ...func(*PhoneQuery)) *ManufacturerQuery {
+	query := &PhoneQuery{config: mq.config}
 	for _, opt := range opts {
 		opt(query)
 	}
@@ -340,18 +341,11 @@ func (mq *ManufacturerQuery) prepareQuery(ctx context.Context) error {
 func (mq *ManufacturerQuery) sqlAll(ctx context.Context) ([]*Manufacturer, error) {
 	var (
 		nodes       = []*Manufacturer{}
-		withFKs     = mq.withFKs
 		_spec       = mq.querySpec()
 		loadedTypes = [1]bool{
 			mq.withPhones != nil,
 		}
 	)
-	if mq.withPhones != nil {
-		withFKs = true
-	}
-	if withFKs {
-		_spec.Node.Columns = append(_spec.Node.Columns, manufacturer.ForeignKeys...)
-	}
 	_spec.ScanValues = func(columns []string) ([]interface{}, error) {
 		node := &Manufacturer{config: mq.config}
 		nodes = append(nodes, node)
@@ -373,28 +367,31 @@ func (mq *ManufacturerQuery) sqlAll(ctx context.Context) ([]*Manufacturer, error
 	}
 
 	if query := mq.withPhones; query != nil {
-		ids := make([]int, 0, len(nodes))
-		nodeids := make(map[int][]*Manufacturer)
+		fks := make([]driver.Value, 0, len(nodes))
+		nodeids := make(map[int]*Manufacturer)
 		for i := range nodes {
-			fk := nodes[i].manufacturer_phones
-			if fk != nil {
-				ids = append(ids, *fk)
-				nodeids[*fk] = append(nodeids[*fk], nodes[i])
-			}
+			fks = append(fks, nodes[i].ID)
+			nodeids[nodes[i].ID] = nodes[i]
+			nodes[i].Edges.Phones = []*Phone{}
 		}
-		query.Where(manufacturer.IDIn(ids...))
+		query.withFKs = true
+		query.Where(predicate.Phone(func(s *sql.Selector) {
+			s.Where(sql.InValues(manufacturer.PhonesColumn, fks...))
+		}))
 		neighbors, err := query.All(ctx)
 		if err != nil {
 			return nil, err
 		}
 		for _, n := range neighbors {
-			nodes, ok := nodeids[n.ID]
+			fk := n.manufacturer_id
+			if fk == nil {
+				return nil, fmt.Errorf(`foreign-key "manufacturer_id" is nil for node %v`, n.ID)
+			}
+			node, ok := nodeids[*fk]
 			if !ok {
-				return nil, fmt.Errorf(`unexpected foreign-key "manufacturer_phones" returned %v`, n.ID)
+				return nil, fmt.Errorf(`unexpected foreign-key "manufacturer_id" returned %v for node %v`, *fk, n.ID)
 			}
-			for i := range nodes {
-				nodes[i].Edges.Phones = n
-			}
+			node.Edges.Phones = append(node.Edges.Phones, n)
 		}
 	}
 

@@ -33,9 +33,13 @@ func (Phone) Edges() []ent.Edge {
 	return []ent.Edge{
 		edge.To("manufacturer", Manufacturer.Type).
 			Annotations(entgql.Bind()).
-			Unique(),
-		edge.To("os", OperatingSystem.Type).
+			StorageKey(edge.Column("manufacturer_id")).
+			Unique().
+			Required(),
+		edge.To("operating_system", OperatingSystem.Type).
 			Annotations(entgql.Bind()).
-			Unique(),
+			StorageKey(edge.Column("operating_system_id")).
+			Unique().
+			Required(),
 	}
 }

@@ -40,7 +40,8 @@ type ManufacturerMutation struct {
 	created_at    *time.Time
 	modified_at   *time.Time
 	clearedFields map[string]struct{}
-	phones        *int
+	phones        map[int]struct{}
+	removedphones map[int]struct{}
 	clearedphones bool
 	done          bool
 	oldValue      func(context.Context) (*Manufacturer, error)
@@ -234,35 +235,48 @@ func (m *ManufacturerMutation) ResetModifiedAt() {
 	m.modified_at = nil
 }
 
-// SetPhonesID sets the "phones" edge to the Manufacturer entity by id.
-func (m *ManufacturerMutation) SetPhonesID(id int) {
-	m.phones = &id
+// AddPhoneIDs adds the "phones" edge to the Phone entity by ids.
+func (m *ManufacturerMutation) AddPhoneIDs(ids ...int) {
+	if m.phones == nil {
+		m.phones = make(map[int]struct{})
+	}
+	for i := range ids {
+		m.phones[ids[i]] = struct{}{}
+	}
 }
 
-// ClearPhones clears the "phones" edge to the Manufacturer entity.
+// ClearPhones clears the "phones" edge to the Phone entity.
 func (m *ManufacturerMutation) ClearPhones() {
 	m.clearedphones = true
 }
 
-// PhonesCleared returns if the "phones" edge to the Manufacturer entity was cleared.
+// PhonesCleared returns if the "phones" edge to the Phone entity was cleared.
 func (m *ManufacturerMutation) PhonesCleared() bool {
 	return m.clearedphones
 }
 
-// PhonesID returns the "phones" edge ID in the mutation.
-func (m *ManufacturerMutation) PhonesID() (id int, exists bool) {
-	if m.phones != nil {
-		return *m.phones, true
+// RemovePhoneIDs removes the "phones" edge to the Phone entity by IDs.
+func (m *ManufacturerMutation) RemovePhoneIDs(ids ...int) {
+	if m.removedphones == nil {
+		m.removedphones = make(map[int]struct{})
+	}
+	for i := range ids {
+		m.removedphones[ids[i]] = struct{}{}
+	}
+}
+
+// RemovedPhones returns the removed IDs of the "phones" edge to the Phone entity.
+func (m *ManufacturerMutation) RemovedPhonesIDs() (ids []int) {
+	for id := range m.removedphones {
+		ids = append(ids, id)
 	}
 	return
 }
 
 // PhonesIDs returns the "phones" edge IDs in the mutation.
-// Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
-// PhonesID instead. It exists only for internal usage by the builders.
 func (m *ManufacturerMutation) PhonesIDs() (ids []int) {
-	if id := m.phones; id != nil {
-		ids = append(ids, *id)
+	for id := range m.phones {
+		ids = append(ids, id)
 	}
 	return
 }
@@ -271,6 +285,7 @@ func (m *ManufacturerMutation) PhonesIDs() (ids []int) {
 func (m *ManufacturerMutation) ResetPhones() {
 	m.phones = nil
 	m.clearedphones = false
+	m.removedphones = nil
 }
 
 // Op returns the operation name.
@@ -432,9 +447,11 @@ func (m *ManufacturerMutation) AddedEdges() []string {
 func (m *ManufacturerMutation) AddedIDs(name string) []ent.Value {
 	switch name {
 	case manufacturer.EdgePhones:
-		if id := m.phones; id != nil {
-			return []ent.Value{*id}
+		ids := make([]ent.Value, 0, len(m.phones))
+		for id := range m.phones {
+			ids = append(ids, id)
 		}
+		return ids
 	}
 	return nil
 }
@@ -442,6 +459,9 @@ func (m *ManufacturerMutation) AddedIDs(name string) []ent.Value {
 // RemovedEdges returns all edge names that were removed in this mutation.
 func (m *ManufacturerMutation) RemovedEdges() []string {
 	edges := make([]string, 0, 1)
+	if m.removedphones != nil {
+		edges = append(edges, manufacturer.EdgePhones)
+	}
 	return edges
 }
 
@@ -449,6 +469,12 @@ func (m *ManufacturerMutation) RemovedEdges() []string {
 // the given name in this mutation.
 func (m *ManufacturerMutation) RemovedIDs(name string) []ent.Value {
 	switch name {
+	case manufacturer.EdgePhones:
+		ids := make([]ent.Value, 0, len(m.removedphones))
+		for id := range m.removedphones {
+			ids = append(ids, id)
+		}
+		return ids
 	}
 	return nil
 }
@@ -476,9 +502,6 @@ func (m *ManufacturerMutation) EdgeCleared(name string) bool {
 // if that edge is not defined in the schema.
 func (m *ManufacturerMutation) ClearEdge(name string) error {
 	switch name {
-	case manufacturer.EdgePhones:
-		m.ClearPhones()
-		return nil
 	}
 	return fmt.Errorf("unknown Manufacturer unique edge %s", name)
 }
@@ -504,7 +527,8 @@ type OperatingSystemMutation struct {
 	created_at    *time.Time
 	modified_at   *time.Time
 	clearedFields map[string]struct{}
-	phones        *int
+	phones        map[int]struct{}
+	removedphones map[int]struct{}
 	clearedphones bool
 	done          bool
 	oldValue      func(context.Context) (*OperatingSystem, error)
@@ -698,35 +722,48 @@ func (m *OperatingSystemMutation) ResetModifiedAt() {
 	m.modified_at = nil
 }
 
-// SetPhonesID sets the "phones" edge to the Manufacturer entity by id.
-func (m *OperatingSystemMutation) SetPhonesID(id int) {
-	m.phones = &id
+// AddPhoneIDs adds the "phones" edge to the Phone entity by ids.
+func (m *OperatingSystemMutation) AddPhoneIDs(ids ...int) {
+	if m.phones == nil {
+		m.phones = make(map[int]struct{})
+	}
+	for i := range ids {
+		m.phones[ids[i]] = struct{}{}
+	}
 }
 
-// ClearPhones clears the "phones" edge to the Manufacturer entity.
+// ClearPhones clears the "phones" edge to the Phone entity.
 func (m *OperatingSystemMutation) ClearPhones() {
 	m.clearedphones = true
 }
 
-// PhonesCleared returns if the "phones" edge to the Manufacturer entity was cleared.
+// PhonesCleared returns if the "phones" edge to the Phone entity was cleared.
 func (m *OperatingSystemMutation) PhonesCleared() bool {
 	return m.clearedphones
 }
 
-// PhonesID returns the "phones" edge ID in the mutation.
-func (m *OperatingSystemMutation) PhonesID() (id int, exists bool) {
-	if m.phones != nil {
-		return *m.phones, true
+// RemovePhoneIDs removes the "phones" edge to the Phone entity by IDs.
+func (m *OperatingSystemMutation) RemovePhoneIDs(ids ...int) {
+	if m.removedphones == nil {
+		m.removedphones = make(map[int]struct{})
+	}
+	for i := range ids {
+		m.removedphones[ids[i]] = struct{}{}
+	}
+}
+
+// RemovedPhones returns the removed IDs of the "phones" edge to the Phone entity.
+func (m *OperatingSystemMutation) RemovedPhonesIDs() (ids []int) {
+	for id := range m.removedphones {
+		ids = append(ids, id)
 	}
 	return
 }
 
 // PhonesIDs returns the "phones" edge IDs in the mutation.
-// Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
-// PhonesID instead. It exists only for internal usage by the builders.
 func (m *OperatingSystemMutation) PhonesIDs() (ids []int) {
-	if id := m.phones; id != nil {
-		ids = append(ids, *id)
+	for id := range m.phones {
+		ids = append(ids, id)
 	}
 	return
 }
@@ -735,6 +772,7 @@ func (m *OperatingSystemMutation) PhonesIDs() (ids []int) {
 func (m *OperatingSystemMutation) ResetPhones() {
 	m.phones = nil
 	m.clearedphones = false
+	m.removedphones = nil
 }
 
 // Op returns the operation name.
@@ -896,9 +934,11 @@ func (m *OperatingSystemMutation) AddedEdges() []string {
 func (m *OperatingSystemMutation) AddedIDs(name string) []ent.Value {
 	switch name {
 	case operatingsystem.EdgePhones:
-		if id := m.phones; id != nil {
-			return []ent.Value{*id}
+		ids := make([]ent.Value, 0, len(m.phones))
+		for id := range m.phones {
+			ids = append(ids, id)
 		}
+		return ids
 	}
 	return nil
 }
@@ -906,6 +946,9 @@ func (m *OperatingSystemMutation) AddedIDs(name string) []ent.Value {
 // RemovedEdges returns all edge names that were removed in this mutation.
 func (m *OperatingSystemMutation) RemovedEdges() []string {
 	edges := make([]string, 0, 1)
+	if m.removedphones != nil {
+		edges = append(edges, operatingsystem.EdgePhones)
+	}
 	return edges
 }
 
@@ -913,6 +956,12 @@ func (m *OperatingSystemMutation) RemovedEdges() []string {
 // the given name in this mutation.
 func (m *OperatingSystemMutation) RemovedIDs(name string) []ent.Value {
 	switch name {
+	case operatingsystem.EdgePhones:
+		ids := make([]ent.Value, 0, len(m.removedphones))
+		for id := range m.removedphones {
+			ids = append(ids, id)
+		}
+		return ids
 	}
 	return nil
 }
@@ -940,9 +989,6 @@ func (m *OperatingSystemMutation) EdgeCleared(name string) bool {
 // if that edge is not defined in the schema.
 func (m *OperatingSystemMutation) ClearEdge(name string) error {
 	switch name {
-	case operatingsystem.EdgePhones:
-		m.ClearPhones()
-		return nil
 	}
 	return fmt.Errorf("unknown OperatingSystem unique edge %s", name)
 }
@@ -961,20 +1007,20 @@ func (m *OperatingSystemMutation) ResetEdge(name string) error {
 // PhoneMutation represents an operation that mutates the Phone nodes in the graph.
 type PhoneMutation struct {
 	config
-	op                  Op
-	typ                 string
-	id                  *int
-	name                *string
-	created_at          *time.Time
-	modified_at         *time.Time
-	clearedFields       map[string]struct{}
-	manufacturer        *int
-	clearedmanufacturer bool
-	os                  *int
-	clearedos           bool
-	done                bool
-	oldValue            func(context.Context) (*Phone, error)
-	predicates          []predicate.Phone
+	op                      Op
+	typ                     string
+	id                      *int
+	name                    *string
+	created_at              *time.Time
+	modified_at             *time.Time
+	clearedFields           map[string]struct{}
+	manufacturer            *int
+	clearedmanufacturer     bool
+	operating_system        *int
+	clearedoperating_system bool
+	done                    bool
+	oldValue                func(context.Context) (*Phone, error)
+	predicates              []predicate.Phone
 }
 
 var _ ent.Mutation = (*PhoneMutation)(nil)
@@ -1203,43 +1249,43 @@ func (m *PhoneMutation) ResetManufacturer() {
 	m.clearedmanufacturer = false
 }
 
-// SetOsID sets the "os" edge to the OperatingSystem entity by id.
-func (m *PhoneMutation) SetOsID(id int) {
-	m.os = &id
+// SetOperatingSystemID sets the "operating_system" edge to the OperatingSystem entity by id.
+func (m *PhoneMutation) SetOperatingSystemID(id int) {
+	m.operating_system = &id
 }
 
-// ClearOs clears the "os" edge to the OperatingSystem entity.
-func (m *PhoneMutation) ClearOs() {
-	m.clearedos = true
+// ClearOperatingSystem clears the "operating_system" edge to the OperatingSystem entity.
+func (m *PhoneMutation) ClearOperatingSystem() {
+	m.clearedoperating_system = true
 }
 
-// OsCleared returns if the "os" edge to the OperatingSystem entity was cleared.
-func (m *PhoneMutation) OsCleared() bool {
-	return m.clearedos
+// OperatingSystemCleared returns if the "operating_system" edge to the OperatingSystem entity was cleared.
+func (m *PhoneMutation) OperatingSystemCleared() bool {
+	return m.clearedoperating_system
 }
 
-// OsID returns the "os" edge ID in the mutation.
-func (m *PhoneMutation) OsID() (id int, exists bool) {
-	if m.os != nil {
-		return *m.os, true
+// OperatingSystemID returns the "operating_system" edge ID in the mutation.
+func (m *PhoneMutation) OperatingSystemID() (id int, exists bool) {
+	if m.operating_system != nil {
+		return *m.operating_system, true
 	}
 	return
 }
 
-// OsIDs returns the "os" edge IDs in the mutation.
+// OperatingSystemIDs returns the "operating_system" edge IDs in the mutation.
 // Note that IDs always returns len(IDs) <= 1 for unique edges, and you should use
-// OsID instead. It exists only for internal usage by the builders.
-func (m *PhoneMutation) OsIDs() (ids []int) {
-	if id := m.os; id != nil {
+// OperatingSystemID instead. It exists only for internal usage by the builders.
+func (m *PhoneMutation) OperatingSystemIDs() (ids []int) {
+	if id := m.operating_system; id != nil {
 		ids = append(ids, *id)
 	}
 	return
 }
 
-// ResetOs resets all changes to the "os" edge.
-func (m *PhoneMutation) ResetOs() {
-	m.os = nil
-	m.clearedos = false
+// ResetOperatingSystem resets all changes to the "operating_system" edge.
+func (m *PhoneMutation) ResetOperatingSystem() {
+	m.operating_system = nil
+	m.clearedoperating_system = false
 }
 
 // Op returns the operation name.
@@ -1393,8 +1439,8 @@ func (m *PhoneMutation) AddedEdges() []string {
 	if m.manufacturer != nil {
 		edges = append(edges, phone.EdgeManufacturer)
 	}
-	if m.os != nil {
-		edges = append(edges, phone.EdgeOs)
+	if m.operating_system != nil {
+		edges = append(edges, phone.EdgeOperatingSystem)
 	}
 	return edges
 }
@@ -1407,8 +1453,8 @@ func (m *PhoneMutation) AddedIDs(name string) []ent.Value {
 		if id := m.manufacturer; id != nil {
 			return []ent.Value{*id}
 		}
-	case phone.EdgeOs:
-		if id := m.os; id != nil {
+	case phone.EdgeOperatingSystem:
+		if id := m.operating_system; id != nil {
 			return []ent.Value{*id}
 		}
 	}
@@ -1435,8 +1481,8 @@ func (m *PhoneMutation) ClearedEdges() []string {
 	if m.clearedmanufacturer {
 		edges = append(edges, phone.EdgeManufacturer)
 	}
-	if m.clearedos {
-		edges = append(edges, phone.EdgeOs)
+	if m.clearedoperating_system {
+		edges = append(edges, phone.EdgeOperatingSystem)
 	}
 	return edges
 }
@@ -1447,8 +1493,8 @@ func (m *PhoneMutation) EdgeCleared(name string) bool {
 	switch name {
 	case phone.EdgeManufacturer:
 		return m.clearedmanufacturer
-	case phone.EdgeOs:
-		return m.clearedos
+	case phone.EdgeOperatingSystem:
+		return m.clearedoperating_system
 	}
 	return false
 }
@@ -1460,8 +1506,8 @@ func (m *PhoneMutation) ClearEdge(name string) error {
 	case phone.EdgeManufacturer:
 		m.ClearManufacturer()
 		return nil
-	case phone.EdgeOs:
-		m.ClearOs()
+	case phone.EdgeOperatingSystem:
+		m.ClearOperatingSystem()
 		return nil
 	}
 	return fmt.Errorf("unknown Phone unique edge %s", name)
@@ -1474,8 +1520,8 @@ func (m *PhoneMutation) ResetEdge(name string) error {
 	case phone.EdgeManufacturer:
 		m.ResetManufacturer()
 		return nil
-	case phone.EdgeOs:
-		m.ResetOs()
+	case phone.EdgeOperatingSystem:
+		m.ResetOperatingSystem()
 		return nil
 	}
 	return fmt.Errorf("unknown Phone edge %s", name)

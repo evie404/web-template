@@ -19,8 +19,8 @@ const (
 	FieldModifiedAt = "modified_at"
 	// EdgeManufacturer holds the string denoting the manufacturer edge name in mutations.
 	EdgeManufacturer = "manufacturer"
-	// EdgeOs holds the string denoting the os edge name in mutations.
-	EdgeOs = "os"
+	// EdgeOperatingSystem holds the string denoting the operating_system edge name in mutations.
+	EdgeOperatingSystem = "operating_system"
 	// Table holds the table name of the phone in the database.
 	Table = "phones"
 	// ManufacturerTable is the table the holds the manufacturer relation/edge.
@@ -29,14 +29,14 @@ const (
 	// It exists in this package in order to avoid circular dependency with the "manufacturer" package.
 	ManufacturerInverseTable = "manufacturers"
 	// ManufacturerColumn is the table column denoting the manufacturer relation/edge.
-	ManufacturerColumn = "phone_manufacturer"
-	// OsTable is the table the holds the os relation/edge.
-	OsTable = "phones"
-	// OsInverseTable is the table name for the OperatingSystem entity.
+	ManufacturerColumn = "manufacturer_id"
+	// OperatingSystemTable is the table the holds the operating_system relation/edge.
+	OperatingSystemTable = "phones"
+	// OperatingSystemInverseTable is the table name for the OperatingSystem entity.
 	// It exists in this package in order to avoid circular dependency with the "operatingsystem" package.
-	OsInverseTable = "operating_systems"
-	// OsColumn is the table column denoting the os relation/edge.
-	OsColumn = "phone_os"
+	OperatingSystemInverseTable = "operating_systems"
+	// OperatingSystemColumn is the table column denoting the operating_system relation/edge.
+	OperatingSystemColumn = "operating_system_id"
 )
 
 // Columns holds all SQL columns for phone fields.
@@ -50,8 +50,8 @@ var Columns = []string{
 // ForeignKeys holds the SQL foreign-keys that are owned by the "phones"
 // table and are not defined as standalone fields in the schema.
 var ForeignKeys = []string{
-	"phone_manufacturer",
-	"phone_os",
+	"manufacturer_id",
+	"operating_system_id",
 }
 
 // ValidColumn reports if the column name is valid (part of the table columns).

@@ -10,8 +10,8 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/rickypai/web-template/api/ent/manufacturer"
 	"github.com/rickypai/web-template/api/ent/operatingsystem"
+	"github.com/rickypai/web-template/api/ent/phone"
 	"github.com/rickypai/web-template/api/ent/predicate"
 )
 
@@ -48,23 +48,19 @@ func (osu *OperatingSystemUpdate) SetNillableModifiedAt(t *time.Time) *Operating
 	return osu
 }
 
-// SetPhonesID sets the "phones" edge to the Manufacturer entity by ID.
-func (osu *OperatingSystemUpdate) SetPhonesID(id int) *OperatingSystemUpdate {
-	osu.mutation.SetPhonesID(id)
+// AddPhoneIDs adds the "phones" edge to the Phone entity by IDs.
+func (osu *OperatingSystemUpdate) AddPhoneIDs(ids ...int) *OperatingSystemUpdate {
+	osu.mutation.AddPhoneIDs(ids...)
 	return osu
 }
 
-// SetNillablePhonesID sets the "phones" edge to the Manufacturer entity by ID if the given value is not nil.
-func (osu *OperatingSystemUpdate) SetNillablePhonesID(id *int) *OperatingSystemUpdate {
-	if id != nil {
-		osu = osu.SetPhonesID(*id)
+// AddPhones adds the "phones" edges to the Phone entity.
+func (osu *OperatingSystemUpdate) AddPhones(p ...*Phone) *OperatingSystemUpdate {
+	ids := make([]int, len(p))
+	for i := range p {
+		ids[i] = p[i].ID
 	}
-	return osu
-}
-
-// SetPhones sets the "phones" edge to the Manufacturer entity.
-func (osu *OperatingSystemUpdate) SetPhones(m *Manufacturer) *OperatingSystemUpdate {
-	return osu.SetPhonesID(m.ID)
+	return osu.AddPhoneIDs(ids...)
 }
 
 // Mutation returns the OperatingSystemMutation object of the builder.
@@ -72,10 +68,25 @@ func (osu *OperatingSystemUpdate) Mutation() *OperatingSystemMutation {
 	return osu.mutation
 }
 
-// ClearPhones clears the "phones" edge to the Manufacturer entity.
+// ClearPhones clears all "phones" edges to the Phone entity.
 func (osu *OperatingSystemUpdate) ClearPhones() *OperatingSystemUpdate {
 	osu.mutation.ClearPhones()
 	return osu
+}
+
+// RemovePhoneIDs removes the "phones" edge to Phone entities by IDs.
+func (osu *OperatingSystemUpdate) RemovePhoneIDs(ids ...int) *OperatingSystemUpdate {
+	osu.mutation.RemovePhoneIDs(ids...)
+	return osu
+}
+
+// RemovePhones removes "phones" edges to Phone entities.
+func (osu *OperatingSystemUpdate) RemovePhones(p ...*Phone) *OperatingSystemUpdate {
+	ids := make([]int, len(p))
+	for i := range p {
+		ids[i] = p[i].ID
+	}
+	return osu.RemovePhoneIDs(ids...)
 }
 
 // Save executes the query and returns the number of nodes affected by the update operation.
@@ -179,31 +190,50 @@ func (osu *OperatingSystemUpdate) sqlSave(ctx context.Context) (n int, err error
 	}
 	if osu.mutation.PhonesCleared() {
 		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.M2O,
-			Inverse: false,
+			Rel:     sqlgraph.O2M,
+			Inverse: true,
 			Table:   operatingsystem.PhonesTable,
 			Columns: []string{operatingsystem.PhonesColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
-					Column: manufacturer.FieldID,
+					Column: phone.FieldID,
 				},
 			},
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := osu.mutation.PhonesIDs(); len(nodes) > 0 {
+	if nodes := osu.mutation.RemovedPhonesIDs(); len(nodes) > 0 && !osu.mutation.PhonesCleared() {
 		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.M2O,
-			Inverse: false,
+			Rel:     sqlgraph.O2M,
+			Inverse: true,
 			Table:   operatingsystem.PhonesTable,
 			Columns: []string{operatingsystem.PhonesColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
-					Column: manufacturer.FieldID,
+					Column: phone.FieldID,
+				},
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := osu.mutation.PhonesIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: true,
+			Table:   operatingsystem.PhonesTable,
+			Columns: []string{operatingsystem.PhonesColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: &sqlgraph.FieldSpec{
+					Type:   field.TypeInt,
+					Column: phone.FieldID,
 				},
 			},
 		}
@@ -250,23 +280,19 @@ func (osuo *OperatingSystemUpdateOne) SetNillableModifiedAt(t *time.Time) *Opera
 	return osuo
 }
 
-// SetPhonesID sets the "phones" edge to the Manufacturer entity by ID.
-func (osuo *OperatingSystemUpdateOne) SetPhonesID(id int) *OperatingSystemUpdateOne {
-	osuo.mutation.SetPhonesID(id)
+// AddPhoneIDs adds the "phones" edge to the Phone entity by IDs.
+func (osuo *OperatingSystemUpdateOne) AddPhoneIDs(ids ...int) *OperatingSystemUpdateOne {
+	osuo.mutation.AddPhoneIDs(ids...)
 	return osuo
 }
 
-// SetNillablePhonesID sets the "phones" edge to the Manufacturer entity by ID if the given value is not nil.
-func (osuo *OperatingSystemUpdateOne) SetNillablePhonesID(id *int) *OperatingSystemUpdateOne {
-	if id != nil {
-		osuo = osuo.SetPhonesID(*id)
+// AddPhones adds the "phones" edges to the Phone entity.
+func (osuo *OperatingSystemUpdateOne) AddPhones(p ...*Phone) *OperatingSystemUpdateOne {
+	ids := make([]int, len(p))
+	for i := range p {
+		ids[i] = p[i].ID
 	}
-	return osuo
-}
-
-// SetPhones sets the "phones" edge to the Manufacturer entity.
-func (osuo *OperatingSystemUpdateOne) SetPhones(m *Manufacturer) *OperatingSystemUpdateOne {
-	return osuo.SetPhonesID(m.ID)
+	return osuo.AddPhoneIDs(ids...)
 }
 
 // Mutation returns the OperatingSystemMutation object of the builder.
@@ -274,10 +300,25 @@ func (osuo *OperatingSystemUpdateOne) Mutation() *OperatingSystemMutation {
 	return osuo.mutation
 }
 
-// ClearPhones clears the "phones" edge to the Manufacturer entity.
+// ClearPhones clears all "phones" edges to the Phone entity.
 func (osuo *OperatingSystemUpdateOne) ClearPhones() *OperatingSystemUpdateOne {
 	osuo.mutation.ClearPhones()
 	return osuo
+}
+
+// RemovePhoneIDs removes the "phones" edge to Phone entities by IDs.
+func (osuo *OperatingSystemUpdateOne) RemovePhoneIDs(ids ...int) *OperatingSystemUpdateOne {
+	osuo.mutation.RemovePhoneIDs(ids...)
+	return osuo
+}
+
+// RemovePhones removes "phones" edges to Phone entities.
+func (osuo *OperatingSystemUpdateOne) RemovePhones(p ...*Phone) *OperatingSystemUpdateOne {
+	ids := make([]int, len(p))
+	for i := range p {
+		ids[i] = p[i].ID
+	}
+	return osuo.RemovePhoneIDs(ids...)
 }
 
 // Save executes the query and returns the updated OperatingSystem entity.
@@ -386,31 +427,50 @@ func (osuo *OperatingSystemUpdateOne) sqlSave(ctx context.Context) (_node *Opera
 	}
 	if osuo.mutation.PhonesCleared() {
 		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.M2O,
-			Inverse: false,
+			Rel:     sqlgraph.O2M,
+			Inverse: true,
 			Table:   operatingsystem.PhonesTable,
 			Columns: []string{operatingsystem.PhonesColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
-					Column: manufacturer.FieldID,
+					Column: phone.FieldID,
 				},
 			},
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := osuo.mutation.PhonesIDs(); len(nodes) > 0 {
+	if nodes := osuo.mutation.RemovedPhonesIDs(); len(nodes) > 0 && !osuo.mutation.PhonesCleared() {
 		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.M2O,
-			Inverse: false,
+			Rel:     sqlgraph.O2M,
+			Inverse: true,
 			Table:   operatingsystem.PhonesTable,
 			Columns: []string{operatingsystem.PhonesColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
-					Column: manufacturer.FieldID,
+					Column: phone.FieldID,
+				},
+			},
+		}
+		for _, k := range nodes {
+			edge.Target.Nodes = append(edge.Target.Nodes, k)
+		}
+		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
+	}
+	if nodes := osuo.mutation.PhonesIDs(); len(nodes) > 0 {
+		edge := &sqlgraph.EdgeSpec{
+			Rel:     sqlgraph.O2M,
+			Inverse: true,
+			Table:   operatingsystem.PhonesTable,
+			Columns: []string{operatingsystem.PhonesColumn},
+			Bidi:    false,
+			Target: &sqlgraph.EdgeTarget{
+				IDSpec: &sqlgraph.FieldSpec{
+					Type:   field.TypeInt,
+					Column: phone.FieldID,
 				},
 			},
 		}

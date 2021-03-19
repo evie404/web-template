@@ -11,6 +11,7 @@ import (
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
 	"github.com/rickypai/web-template/api/ent/manufacturer"
+	"github.com/rickypai/web-template/api/ent/phone"
 )
 
 // ManufacturerCreate is the builder for creating a Manufacturer entity.
@@ -54,23 +55,19 @@ func (mc *ManufacturerCreate) SetNillableModifiedAt(t *time.Time) *ManufacturerC
 	return mc
 }
 
-// SetPhonesID sets the "phones" edge to the Manufacturer entity by ID.
-func (mc *ManufacturerCreate) SetPhonesID(id int) *ManufacturerCreate {
-	mc.mutation.SetPhonesID(id)
+// AddPhoneIDs adds the "phones" edge to the Phone entity by IDs.
+func (mc *ManufacturerCreate) AddPhoneIDs(ids ...int) *ManufacturerCreate {
+	mc.mutation.AddPhoneIDs(ids...)
 	return mc
 }
 
-// SetNillablePhonesID sets the "phones" edge to the Manufacturer entity by ID if the given value is not nil.
-func (mc *ManufacturerCreate) SetNillablePhonesID(id *int) *ManufacturerCreate {
-	if id != nil {
-		mc = mc.SetPhonesID(*id)
+// AddPhones adds the "phones" edges to the Phone entity.
+func (mc *ManufacturerCreate) AddPhones(p ...*Phone) *ManufacturerCreate {
+	ids := make([]int, len(p))
+	for i := range p {
+		ids[i] = p[i].ID
 	}
-	return mc
-}
-
-// SetPhones sets the "phones" edge to the Manufacturer entity.
-func (mc *ManufacturerCreate) SetPhones(m *Manufacturer) *ManufacturerCreate {
-	return mc.SetPhonesID(m.ID)
+	return mc.AddPhoneIDs(ids...)
 }
 
 // Mutation returns the ManufacturerMutation object of the builder.
@@ -204,22 +201,21 @@ func (mc *ManufacturerCreate) createSpec() (*Manufacturer, *sqlgraph.CreateSpec)
 	}
 	if nodes := mc.mutation.PhonesIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.O2O,
-			Inverse: false,
+			Rel:     sqlgraph.O2M,
+			Inverse: true,
 			Table:   manufacturer.PhonesTable,
 			Columns: []string{manufacturer.PhonesColumn},
-			Bidi:    true,
+			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
-					Column: manufacturer.FieldID,
+					Column: phone.FieldID,
 				},
 			},
 		}
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
-		_node.manufacturer_phones = &nodes[0]
 		_spec.Edges = append(_spec.Edges, edge)
 	}
 	return _node, _spec

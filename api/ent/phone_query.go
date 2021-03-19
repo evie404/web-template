@@ -26,9 +26,9 @@ type PhoneQuery struct {
 	fields     []string
 	predicates []predicate.Phone
 	// eager-loading edges.
-	withManufacturer *ManufacturerQuery
-	withOs           *OperatingSystemQuery
-	withFKs          bool
+	withManufacturer    *ManufacturerQuery
+	withOperatingSystem *OperatingSystemQuery
+	withFKs             bool
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
 	path func(context.Context) (*sql.Selector, error)
@@ -80,8 +80,8 @@ func (pq *PhoneQuery) QueryManufacturer() *ManufacturerQuery {
 	return query
 }
 
-// QueryOs chains the current query on the "os" edge.
-func (pq *PhoneQuery) QueryOs() *OperatingSystemQuery {
+// QueryOperatingSystem chains the current query on the "operating_system" edge.
+func (pq *PhoneQuery) QueryOperatingSystem() *OperatingSystemQuery {
 	query := &OperatingSystemQuery{config: pq.config}
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
 		if err := pq.prepareQuery(ctx); err != nil {
@@ -94,7 +94,7 @@ func (pq *PhoneQuery) QueryOs() *OperatingSystemQuery {
 		step := sqlgraph.NewStep(
 			sqlgraph.From(phone.Table, phone.FieldID, selector),
 			sqlgraph.To(operatingsystem.Table, operatingsystem.FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, false, phone.OsTable, phone.OsColumn),
+			sqlgraph.Edge(sqlgraph.M2O, false, phone.OperatingSystemTable, phone.OperatingSystemColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(pq.driver.Dialect(), step)
 		return fromU, nil
@@ -278,13 +278,13 @@ func (pq *PhoneQuery) Clone() *PhoneQuery {
 		return nil
 	}
 	return &PhoneQuery{
-		config:           pq.config,
-		limit:            pq.limit,
-		offset:           pq.offset,
-		order:            append([]OrderFunc{}, pq.order...),
-		predicates:       append([]predicate.Phone{}, pq.predicates...),
-		withManufacturer: pq.withManufacturer.Clone(),
-		withOs:           pq.withOs.Clone(),
+		config:              pq.config,
+		limit:               pq.limit,
+		offset:              pq.offset,
+		order:               append([]OrderFunc{}, pq.order...),
+		predicates:          append([]predicate.Phone{}, pq.predicates...),
+		withManufacturer:    pq.withManufacturer.Clone(),
+		withOperatingSystem: pq.withOperatingSystem.Clone(),
 		// clone intermediate query.
 		sql:  pq.sql.Clone(),
 		path: pq.path,
@@ -302,14 +302,14 @@ func (pq *PhoneQuery) WithManufacturer(opts ...func(*ManufacturerQuery)) *PhoneQ
 	return pq
 }
 
-// WithOs tells the query-builder to eager-load the nodes that are connected to
-// the "os" edge. The optional arguments are used to configure the query builder of the edge.
-func (pq *PhoneQuery) WithOs(opts ...func(*OperatingSystemQuery)) *PhoneQuery {
+// WithOperatingSystem tells the query-builder to eager-load the nodes that are connected to
+// the "operating_system" edge. The optional arguments are used to configure the query builder of the edge.
+func (pq *PhoneQuery) WithOperatingSystem(opts ...func(*OperatingSystemQuery)) *PhoneQuery {
 	query := &OperatingSystemQuery{config: pq.config}
 	for _, opt := range opts {
 		opt(query)
 	}
-	pq.withOs = query
+	pq.withOperatingSystem = query
 	return pq
 }
 
@@ -381,10 +381,10 @@ func (pq *PhoneQuery) sqlAll(ctx context.Context) ([]*Phone, error) {
 		_spec       = pq.querySpec()
 		loadedTypes = [2]bool{
 			pq.withManufacturer != nil,
-			pq.withOs != nil,
+			pq.withOperatingSystem != nil,
 		}
 	)
-	if pq.withManufacturer != nil || pq.withOs != nil {
+	if pq.withManufacturer != nil || pq.withOperatingSystem != nil {
 		withFKs = true
 	}
 	if withFKs {
@@ -414,7 +414,7 @@ func (pq *PhoneQuery) sqlAll(ctx context.Context) ([]*Phone, error) {
 		ids := make([]int, 0, len(nodes))
 		nodeids := make(map[int][]*Phone)
 		for i := range nodes {
-			fk := nodes[i].phone_manufacturer
+			fk := nodes[i].manufacturer_id
 			if fk != nil {
 				ids = append(ids, *fk)
 				nodeids[*fk] = append(nodeids[*fk], nodes[i])
@@ -428,7 +428,7 @@ func (pq *PhoneQuery) sqlAll(ctx context.Context) ([]*Phone, error) {
 		for _, n := range neighbors {
 			nodes, ok := nodeids[n.ID]
 			if !ok {
-				return nil, fmt.Errorf(`unexpected foreign-key "phone_manufacturer" returned %v`, n.ID)
+				return nil, fmt.Errorf(`unexpected foreign-key "manufacturer_id" returned %v`, n.ID)
 			}
 			for i := range nodes {
 				nodes[i].Edges.Manufacturer = n
@@ -436,11 +436,11 @@ func (pq *PhoneQuery) sqlAll(ctx context.Context) ([]*Phone, error) {
 		}
 	}
 
-	if query := pq.withOs; query != nil {
+	if query := pq.withOperatingSystem; query != nil {
 		ids := make([]int, 0, len(nodes))
 		nodeids := make(map[int][]*Phone)
 		for i := range nodes {
-			fk := nodes[i].phone_os
+			fk := nodes[i].operating_system_id
 			if fk != nil {
 				ids = append(ids, *fk)
 				nodeids[*fk] = append(nodeids[*fk], nodes[i])
@@ -454,10 +454,10 @@ func (pq *PhoneQuery) sqlAll(ctx context.Context) ([]*Phone, error) {
 		for _, n := range neighbors {
 			nodes, ok := nodeids[n.ID]
 			if !ok {
-				return nil, fmt.Errorf(`unexpected foreign-key "phone_os" returned %v`, n.ID)
+				return nil, fmt.Errorf(`unexpected foreign-key "operating_system_id" returned %v`, n.ID)
 			}
 			for i := range nodes {
-				nodes[i].Edges.Os = n
+				nodes[i].Edges.OperatingSystem = n
 			}
 		}
 	}

@@ -31,8 +31,8 @@ func (Manufacturer) Fields() []ent.Field {
 // Edges of the Manufacturer.
 func (Manufacturer) Edges() []ent.Edge {
 	return []ent.Edge{
-		edge.To("phones", Manufacturer.Type).
+		edge.From("phones", Phone.Type).
 			Annotations(entgql.Bind()).
-			Unique(),
+			Ref("manufacturer"),
 	}
 }

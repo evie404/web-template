@@ -26,17 +26,17 @@ type Phone struct {
 	ModifiedAt time.Time `json:"modified_at,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
 	// The values are being populated by the PhoneQuery when eager-loading is set.
-	Edges              PhoneEdges `json:"edges"`
-	phone_manufacturer *int
-	phone_os           *int
+	Edges               PhoneEdges `json:"edges"`
+	manufacturer_id     *int
+	operating_system_id *int
 }
 
 // PhoneEdges holds the relations/edges for other nodes in the graph.
 type PhoneEdges struct {
 	// Manufacturer holds the value of the manufacturer edge.
 	Manufacturer *Manufacturer `json:"manufacturer,omitempty"`
-	// Os holds the value of the os edge.
-	Os *OperatingSystem `json:"os,omitempty"`
+	// OperatingSystem holds the value of the operating_system edge.
+	OperatingSystem *OperatingSystem `json:"operating_system,omitempty"`
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
 	loadedTypes [2]bool
@@ -56,18 +56,18 @@ func (e PhoneEdges) ManufacturerOrErr() (*Manufacturer, error) {
 	return nil, &NotLoadedError{edge: "manufacturer"}
 }
 
-// OsOrErr returns the Os value or an error if the edge
+// OperatingSystemOrErr returns the OperatingSystem value or an error if the edge
 // was not loaded in eager-loading, or loaded but was not found.
-func (e PhoneEdges) OsOrErr() (*OperatingSystem, error) {
+func (e PhoneEdges) OperatingSystemOrErr() (*OperatingSystem, error) {
 	if e.loadedTypes[1] {
-		if e.Os == nil {
-			// The edge os was loaded in eager-loading,
+		if e.OperatingSystem == nil {
+			// The edge operating_system was loaded in eager-loading,
 			// but was not found.
 			return nil, &NotFoundError{label: operatingsystem.Label}
 		}
-		return e.Os, nil
+		return e.OperatingSystem, nil
 	}
-	return nil, &NotLoadedError{edge: "os"}
+	return nil, &NotLoadedError{edge: "operating_system"}
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
@@ -81,9 +81,9 @@ func (*Phone) scanValues(columns []string) ([]interface{}, error) {
 			values[i] = &sql.NullString{}
 		case phone.FieldCreatedAt, phone.FieldModifiedAt:
 			values[i] = &sql.NullTime{}
-		case phone.ForeignKeys[0]: // phone_manufacturer
+		case phone.ForeignKeys[0]: // manufacturer_id
 			values[i] = &sql.NullInt64{}
-		case phone.ForeignKeys[1]: // phone_os
+		case phone.ForeignKeys[1]: // operating_system_id
 			values[i] = &sql.NullInt64{}
 		default:
 			return nil, fmt.Errorf("unexpected column %q for type Phone", columns[i])
@@ -126,17 +126,17 @@ func (ph *Phone) assignValues(columns []string, values []interface{}) error {
 			}
 		case phone.ForeignKeys[0]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for edge-field phone_manufacturer", value)
+				return fmt.Errorf("unexpected type %T for edge-field manufacturer_id", value)
 			} else if value.Valid {
-				ph.phone_manufacturer = new(int)
-				*ph.phone_manufacturer = int(value.Int64)
+				ph.manufacturer_id = new(int)
+				*ph.manufacturer_id = int(value.Int64)
 			}
 		case phone.ForeignKeys[1]:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for edge-field phone_os", value)
+				return fmt.Errorf("unexpected type %T for edge-field operating_system_id", value)
 			} else if value.Valid {
-				ph.phone_os = new(int)
-				*ph.phone_os = int(value.Int64)
+				ph.operating_system_id = new(int)
+				*ph.operating_system_id = int(value.Int64)
 			}
 		}
 	}
@@ -148,9 +148,9 @@ func (ph *Phone) QueryManufacturer() *ManufacturerQuery {
 	return (&PhoneClient{config: ph.config}).QueryManufacturer(ph)
 }
 
-// QueryOs queries the "os" edge of the Phone entity.
-func (ph *Phone) QueryOs() *OperatingSystemQuery {
-	return (&PhoneClient{config: ph.config}).QueryOs(ph)
+// QueryOperatingSystem queries the "operating_system" edge of the Phone entity.
+func (ph *Phone) QueryOperatingSystem() *OperatingSystemQuery {
+	return (&PhoneClient{config: ph.config}).QueryOperatingSystem(ph)
 }
 
 // Update returns a builder for updating this Phone.

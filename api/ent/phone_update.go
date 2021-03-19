@@ -4,6 +4,7 @@ package ent
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"time"
 
@@ -55,36 +56,20 @@ func (pu *PhoneUpdate) SetManufacturerID(id int) *PhoneUpdate {
 	return pu
 }
 
-// SetNillableManufacturerID sets the "manufacturer" edge to the Manufacturer entity by ID if the given value is not nil.
-func (pu *PhoneUpdate) SetNillableManufacturerID(id *int) *PhoneUpdate {
-	if id != nil {
-		pu = pu.SetManufacturerID(*id)
-	}
-	return pu
-}
-
 // SetManufacturer sets the "manufacturer" edge to the Manufacturer entity.
 func (pu *PhoneUpdate) SetManufacturer(m *Manufacturer) *PhoneUpdate {
 	return pu.SetManufacturerID(m.ID)
 }
 
-// SetOsID sets the "os" edge to the OperatingSystem entity by ID.
-func (pu *PhoneUpdate) SetOsID(id int) *PhoneUpdate {
-	pu.mutation.SetOsID(id)
+// SetOperatingSystemID sets the "operating_system" edge to the OperatingSystem entity by ID.
+func (pu *PhoneUpdate) SetOperatingSystemID(id int) *PhoneUpdate {
+	pu.mutation.SetOperatingSystemID(id)
 	return pu
 }
 
-// SetNillableOsID sets the "os" edge to the OperatingSystem entity by ID if the given value is not nil.
-func (pu *PhoneUpdate) SetNillableOsID(id *int) *PhoneUpdate {
-	if id != nil {
-		pu = pu.SetOsID(*id)
-	}
-	return pu
-}
-
-// SetOs sets the "os" edge to the OperatingSystem entity.
-func (pu *PhoneUpdate) SetOs(o *OperatingSystem) *PhoneUpdate {
-	return pu.SetOsID(o.ID)
+// SetOperatingSystem sets the "operating_system" edge to the OperatingSystem entity.
+func (pu *PhoneUpdate) SetOperatingSystem(o *OperatingSystem) *PhoneUpdate {
+	return pu.SetOperatingSystemID(o.ID)
 }
 
 // Mutation returns the PhoneMutation object of the builder.
@@ -98,9 +83,9 @@ func (pu *PhoneUpdate) ClearManufacturer() *PhoneUpdate {
 	return pu
 }
 
-// ClearOs clears the "os" edge to the OperatingSystem entity.
-func (pu *PhoneUpdate) ClearOs() *PhoneUpdate {
-	pu.mutation.ClearOs()
+// ClearOperatingSystem clears the "operating_system" edge to the OperatingSystem entity.
+func (pu *PhoneUpdate) ClearOperatingSystem() *PhoneUpdate {
+	pu.mutation.ClearOperatingSystem()
 	return pu
 }
 
@@ -167,6 +152,12 @@ func (pu *PhoneUpdate) check() error {
 		if err := phone.NameValidator(v); err != nil {
 			return &ValidationError{Name: "name", err: fmt.Errorf("ent: validator failed for field \"name\": %w", err)}
 		}
+	}
+	if _, ok := pu.mutation.ManufacturerID(); pu.mutation.ManufacturerCleared() && !ok {
+		return errors.New("ent: clearing a required unique edge \"manufacturer\"")
+	}
+	if _, ok := pu.mutation.OperatingSystemID(); pu.mutation.OperatingSystemCleared() && !ok {
+		return errors.New("ent: clearing a required unique edge \"operating_system\"")
 	}
 	return nil
 }
@@ -238,12 +229,12 @@ func (pu *PhoneUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if pu.mutation.OsCleared() {
+	if pu.mutation.OperatingSystemCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: false,
-			Table:   phone.OsTable,
-			Columns: []string{phone.OsColumn},
+			Table:   phone.OperatingSystemTable,
+			Columns: []string{phone.OperatingSystemColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -254,12 +245,12 @@ func (pu *PhoneUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := pu.mutation.OsIDs(); len(nodes) > 0 {
+	if nodes := pu.mutation.OperatingSystemIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: false,
-			Table:   phone.OsTable,
-			Columns: []string{phone.OsColumn},
+			Table:   phone.OperatingSystemTable,
+			Columns: []string{phone.OperatingSystemColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -317,36 +308,20 @@ func (puo *PhoneUpdateOne) SetManufacturerID(id int) *PhoneUpdateOne {
 	return puo
 }
 
-// SetNillableManufacturerID sets the "manufacturer" edge to the Manufacturer entity by ID if the given value is not nil.
-func (puo *PhoneUpdateOne) SetNillableManufacturerID(id *int) *PhoneUpdateOne {
-	if id != nil {
-		puo = puo.SetManufacturerID(*id)
-	}
-	return puo
-}
-
 // SetManufacturer sets the "manufacturer" edge to the Manufacturer entity.
 func (puo *PhoneUpdateOne) SetManufacturer(m *Manufacturer) *PhoneUpdateOne {
 	return puo.SetManufacturerID(m.ID)
 }
 
-// SetOsID sets the "os" edge to the OperatingSystem entity by ID.
-func (puo *PhoneUpdateOne) SetOsID(id int) *PhoneUpdateOne {
-	puo.mutation.SetOsID(id)
+// SetOperatingSystemID sets the "operating_system" edge to the OperatingSystem entity by ID.
+func (puo *PhoneUpdateOne) SetOperatingSystemID(id int) *PhoneUpdateOne {
+	puo.mutation.SetOperatingSystemID(id)
 	return puo
 }
 
-// SetNillableOsID sets the "os" edge to the OperatingSystem entity by ID if the given value is not nil.
-func (puo *PhoneUpdateOne) SetNillableOsID(id *int) *PhoneUpdateOne {
-	if id != nil {
-		puo = puo.SetOsID(*id)
-	}
-	return puo
-}
-
-// SetOs sets the "os" edge to the OperatingSystem entity.
-func (puo *PhoneUpdateOne) SetOs(o *OperatingSystem) *PhoneUpdateOne {
-	return puo.SetOsID(o.ID)
+// SetOperatingSystem sets the "operating_system" edge to the OperatingSystem entity.
+func (puo *PhoneUpdateOne) SetOperatingSystem(o *OperatingSystem) *PhoneUpdateOne {
+	return puo.SetOperatingSystemID(o.ID)
 }
 
 // Mutation returns the PhoneMutation object of the builder.
@@ -360,9 +335,9 @@ func (puo *PhoneUpdateOne) ClearManufacturer() *PhoneUpdateOne {
 	return puo
 }
 
-// ClearOs clears the "os" edge to the OperatingSystem entity.
-func (puo *PhoneUpdateOne) ClearOs() *PhoneUpdateOne {
-	puo.mutation.ClearOs()
+// ClearOperatingSystem clears the "operating_system" edge to the OperatingSystem entity.
+func (puo *PhoneUpdateOne) ClearOperatingSystem() *PhoneUpdateOne {
+	puo.mutation.ClearOperatingSystem()
 	return puo
 }
 
@@ -429,6 +404,12 @@ func (puo *PhoneUpdateOne) check() error {
 		if err := phone.NameValidator(v); err != nil {
 			return &ValidationError{Name: "name", err: fmt.Errorf("ent: validator failed for field \"name\": %w", err)}
 		}
+	}
+	if _, ok := puo.mutation.ManufacturerID(); puo.mutation.ManufacturerCleared() && !ok {
+		return errors.New("ent: clearing a required unique edge \"manufacturer\"")
+	}
+	if _, ok := puo.mutation.OperatingSystemID(); puo.mutation.OperatingSystemCleared() && !ok {
+		return errors.New("ent: clearing a required unique edge \"operating_system\"")
 	}
 	return nil
 }
@@ -505,12 +486,12 @@ func (puo *PhoneUpdateOne) sqlSave(ctx context.Context) (_node *Phone, err error
 		}
 		_spec.Edges.Add = append(_spec.Edges.Add, edge)
 	}
-	if puo.mutation.OsCleared() {
+	if puo.mutation.OperatingSystemCleared() {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: false,
-			Table:   phone.OsTable,
-			Columns: []string{phone.OsColumn},
+			Table:   phone.OperatingSystemTable,
+			Columns: []string{phone.OperatingSystemColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
@@ -521,12 +502,12 @@ func (puo *PhoneUpdateOne) sqlSave(ctx context.Context) (_node *Phone, err error
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
 	}
-	if nodes := puo.mutation.OsIDs(); len(nodes) > 0 {
+	if nodes := puo.mutation.OperatingSystemIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
 			Rel:     sqlgraph.M2O,
 			Inverse: false,
-			Table:   phone.OsTable,
-			Columns: []string{phone.OsColumn},
+			Table:   phone.OperatingSystemTable,
+			Columns: []string{phone.OperatingSystemColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{

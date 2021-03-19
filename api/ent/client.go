@@ -220,14 +220,14 @@ func (c *ManufacturerClient) GetX(ctx context.Context, id int) *Manufacturer {
 }
 
 // QueryPhones queries the phones edge of a Manufacturer.
-func (c *ManufacturerClient) QueryPhones(m *Manufacturer) *ManufacturerQuery {
-	query := &ManufacturerQuery{config: c.config}
+func (c *ManufacturerClient) QueryPhones(m *Manufacturer) *PhoneQuery {
+	query := &PhoneQuery{config: c.config}
 	query.path = func(ctx context.Context) (fromV *sql.Selector, _ error) {
 		id := m.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(manufacturer.Table, manufacturer.FieldID, id),
-			sqlgraph.To(manufacturer.Table, manufacturer.FieldID),
-			sqlgraph.Edge(sqlgraph.O2O, false, manufacturer.PhonesTable, manufacturer.PhonesColumn),
+			sqlgraph.To(phone.Table, phone.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, true, manufacturer.PhonesTable, manufacturer.PhonesColumn),
 		)
 		fromV = sqlgraph.Neighbors(m.driver.Dialect(), step)
 		return fromV, nil
@@ -324,14 +324,14 @@ func (c *OperatingSystemClient) GetX(ctx context.Context, id int) *OperatingSyst
 }
 
 // QueryPhones queries the phones edge of a OperatingSystem.
-func (c *OperatingSystemClient) QueryPhones(os *OperatingSystem) *ManufacturerQuery {
-	query := &ManufacturerQuery{config: c.config}
+func (c *OperatingSystemClient) QueryPhones(os *OperatingSystem) *PhoneQuery {
+	query := &PhoneQuery{config: c.config}
 	query.path = func(ctx context.Context) (fromV *sql.Selector, _ error) {
 		id := os.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(operatingsystem.Table, operatingsystem.FieldID, id),
-			sqlgraph.To(manufacturer.Table, manufacturer.FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, false, operatingsystem.PhonesTable, operatingsystem.PhonesColumn),
+			sqlgraph.To(phone.Table, phone.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, true, operatingsystem.PhonesTable, operatingsystem.PhonesColumn),
 		)
 		fromV = sqlgraph.Neighbors(os.driver.Dialect(), step)
 		return fromV, nil
@@ -443,15 +443,15 @@ func (c *PhoneClient) QueryManufacturer(ph *Phone) *ManufacturerQuery {
 	return query
 }
 
-// QueryOs queries the os edge of a Phone.
-func (c *PhoneClient) QueryOs(ph *Phone) *OperatingSystemQuery {
+// QueryOperatingSystem queries the operating_system edge of a Phone.
+func (c *PhoneClient) QueryOperatingSystem(ph *Phone) *OperatingSystemQuery {
 	query := &OperatingSystemQuery{config: c.config}
 	query.path = func(ctx context.Context) (fromV *sql.Selector, _ error) {
 		id := ph.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(phone.Table, phone.FieldID, id),
 			sqlgraph.To(operatingsystem.Table, operatingsystem.FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, false, phone.OsTable, phone.OsColumn),
+			sqlgraph.Edge(sqlgraph.M2O, false, phone.OperatingSystemTable, phone.OperatingSystemColumn),
 		)
 		fromV = sqlgraph.Neighbors(ph.driver.Dialect(), step)
 		return fromV, nil

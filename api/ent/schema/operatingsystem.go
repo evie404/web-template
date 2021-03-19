@@ -31,8 +31,8 @@ func (OperatingSystem) Fields() []ent.Field {
 // Edges of the OperatingSystem.
 func (OperatingSystem) Edges() []ent.Edge {
 	return []ent.Edge{
-		edge.To("phones", Manufacturer.Type).
+		edge.From("phones", Phone.Type).
 			Annotations(entgql.Bind()).
-			Unique(),
+			Ref("operating_system"),
 	}
 }

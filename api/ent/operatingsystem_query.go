@@ -4,6 +4,7 @@ package ent
 
 import (
 	"context"
+	"database/sql/driver"
 	"errors"
 	"fmt"
 	"math"
@@ -11,8 +12,8 @@ import (
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/rickypai/web-template/api/ent/manufacturer"
 	"github.com/rickypai/web-template/api/ent/operatingsystem"
+	"github.com/rickypai/web-template/api/ent/phone"
 	"github.com/rickypai/web-template/api/ent/predicate"
 )
 
@@ -25,8 +26,7 @@ type OperatingSystemQuery struct {
 	fields     []string
 	predicates []predicate.OperatingSystem
 	// eager-loading edges.
-	withPhones *ManufacturerQuery
-	withFKs    bool
+	withPhones *PhoneQuery
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
 	path func(context.Context) (*sql.Selector, error)
@@ -57,8 +57,8 @@ func (osq *OperatingSystemQuery) Order(o ...OrderFunc) *OperatingSystemQuery {
 }
 
 // QueryPhones chains the current query on the "phones" edge.
-func (osq *OperatingSystemQuery) QueryPhones() *ManufacturerQuery {
-	query := &ManufacturerQuery{config: osq.config}
+func (osq *OperatingSystemQuery) QueryPhones() *PhoneQuery {
+	query := &PhoneQuery{config: osq.config}
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
 		if err := osq.prepareQuery(ctx); err != nil {
 			return nil, err
@@ -69,8 +69,8 @@ func (osq *OperatingSystemQuery) QueryPhones() *ManufacturerQuery {
 		}
 		step := sqlgraph.NewStep(
 			sqlgraph.From(operatingsystem.Table, operatingsystem.FieldID, selector),
-			sqlgraph.To(manufacturer.Table, manufacturer.FieldID),
-			sqlgraph.Edge(sqlgraph.M2O, false, operatingsystem.PhonesTable, operatingsystem.PhonesColumn),
+			sqlgraph.To(phone.Table, phone.FieldID),
+			sqlgraph.Edge(sqlgraph.O2M, true, operatingsystem.PhonesTable, operatingsystem.PhonesColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(osq.driver.Dialect(), step)
 		return fromU, nil
@@ -268,8 +268,8 @@ func (osq *OperatingSystemQuery) Clone() *OperatingSystemQuery {
 
 // WithPhones tells the query-builder to eager-load the nodes that are connected to
 // the "phones" edge. The optional arguments are used to configure the query builder of the edge.
-func (osq *OperatingSystemQuery) WithPhones(opts ...func(*ManufacturerQuery)) *OperatingSystemQuery {
-	query := &ManufacturerQuery{config: osq.config}
+func (osq *OperatingSystemQuery) WithPhones(opts ...func(*PhoneQuery)) *OperatingSystemQuery {
+	query := &PhoneQuery{config: osq.config}
 	for _, opt := range opts {
 		opt(query)
 	}
@@ -341,18 +341,11 @@ func (osq *OperatingSystemQuery) prepareQuery(ctx context.Context) error {
 func (osq *OperatingSystemQuery) sqlAll(ctx context.Context) ([]*OperatingSystem, error) {
 	var (
 		nodes       = []*OperatingSystem{}
-		withFKs     = osq.withFKs
 		_spec       = osq.querySpec()
 		loadedTypes = [1]bool{
 			osq.withPhones != nil,
 		}
 	)
-	if osq.withPhones != nil {
-		withFKs = true
-	}
-	if withFKs {
-		_spec.Node.Columns = append(_spec.Node.Columns, operatingsystem.ForeignKeys...)
-	}
 	_spec.ScanValues = func(columns []string) ([]interface{}, error) {
 		node := &OperatingSystem{config: osq.config}
 		nodes = append(nodes, node)
@@ -374,28 +367,31 @@ func (osq *OperatingSystemQuery) sqlAll(ctx context.Context) ([]*OperatingSystem
 	}
 
 	if query := osq.withPhones; query != nil {
-		ids := make([]int, 0, len(nodes))
-		nodeids := make(map[int][]*OperatingSystem)
+		fks := make([]driver.Value, 0, len(nodes))
+		nodeids := make(map[int]*OperatingSystem)
 		for i := range nodes {
-			fk := nodes[i].operating_system_phones
-			if fk != nil {
-				ids = append(ids, *fk)
-				nodeids[*fk] = append(nodeids[*fk], nodes[i])
-			}
+			fks = append(fks, nodes[i].ID)
+			nodeids[nodes[i].ID] = nodes[i]
+			nodes[i].Edges.Phones = []*Phone{}
 		}
-		query.Where(manufacturer.IDIn(ids...))
+		query.withFKs = true
+		query.Where(predicate.Phone(func(s *sql.Selector) {
+			s.Where(sql.InValues(operatingsystem.PhonesColumn, fks...))
+		}))
 		neighbors, err := query.All(ctx)
 		if err != nil {
 			return nil, err
 		}
 		for _, n := range neighbors {
-			nodes, ok := nodeids[n.ID]
+			fk := n.operating_system_id
+			if fk == nil {
+				return nil, fmt.Errorf(`foreign-key "operating_system_id" is nil for node %v`, n.ID)
+			}
+			node, ok := nodeids[*fk]
 			if !ok {
-				return nil, fmt.Errorf(`unexpected foreign-key "operating_system_phones" returned %v`, n.ID)
+				return nil, fmt.Errorf(`unexpected foreign-key "operating_system_id" returned %v for node %v`, *fk, n.ID)
 			}
-			for i := range nodes {
-				nodes[i].Edges.Phones = n
-			}
+			node.Edges.Phones = append(node.Edges.Phones, n)
 		}
 	}
 

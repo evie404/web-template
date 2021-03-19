@@ -22,12 +22,12 @@ const (
 	// Table holds the table name of the operatingsystem in the database.
 	Table = "operating_systems"
 	// PhonesTable is the table the holds the phones relation/edge.
-	PhonesTable = "operating_systems"
-	// PhonesInverseTable is the table name for the Manufacturer entity.
-	// It exists in this package in order to avoid circular dependency with the "manufacturer" package.
-	PhonesInverseTable = "manufacturers"
+	PhonesTable = "phones"
+	// PhonesInverseTable is the table name for the Phone entity.
+	// It exists in this package in order to avoid circular dependency with the "phone" package.
+	PhonesInverseTable = "phones"
 	// PhonesColumn is the table column denoting the phones relation/edge.
-	PhonesColumn = "operating_system_phones"
+	PhonesColumn = "operating_system_id"
 )
 
 // Columns holds all SQL columns for operatingsystem fields.
@@ -38,21 +38,10 @@ var Columns = []string{
 	FieldModifiedAt,
 }
 
-// ForeignKeys holds the SQL foreign-keys that are owned by the "operating_systems"
-// table and are not defined as standalone fields in the schema.
-var ForeignKeys = []string{
-	"operating_system_phones",
-}
-
 // ValidColumn reports if the column name is valid (part of the table columns).
 func ValidColumn(column string) bool {
 	for i := range Columns {
 		if column == Columns[i] {
-			return true
-		}
-	}
-	for i := range ForeignKeys {
-		if column == ForeignKeys[i] {
 			return true
 		}
 	}

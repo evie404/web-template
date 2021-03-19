@@ -24,28 +24,22 @@ type Manufacturer struct {
 	ModifiedAt time.Time `json:"modified_at,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
 	// The values are being populated by the ManufacturerQuery when eager-loading is set.
-	Edges               ManufacturerEdges `json:"edges"`
-	manufacturer_phones *int
+	Edges ManufacturerEdges `json:"edges"`
 }
 
 // ManufacturerEdges holds the relations/edges for other nodes in the graph.
 type ManufacturerEdges struct {
 	// Phones holds the value of the phones edge.
-	Phones *Manufacturer `json:"phones,omitempty"`
+	Phones []*Phone `json:"phones,omitempty"`
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
 	loadedTypes [1]bool
 }
 
 // PhonesOrErr returns the Phones value or an error if the edge
-// was not loaded in eager-loading, or loaded but was not found.
-func (e ManufacturerEdges) PhonesOrErr() (*Manufacturer, error) {
+// was not loaded in eager-loading.
+func (e ManufacturerEdges) PhonesOrErr() ([]*Phone, error) {
 	if e.loadedTypes[0] {
-		if e.Phones == nil {
-			// The edge phones was loaded in eager-loading,
-			// but was not found.
-			return nil, &NotFoundError{label: manufacturer.Label}
-		}
 		return e.Phones, nil
 	}
 	return nil, &NotLoadedError{edge: "phones"}
@@ -62,8 +56,6 @@ func (*Manufacturer) scanValues(columns []string) ([]interface{}, error) {
 			values[i] = &sql.NullString{}
 		case manufacturer.FieldCreatedAt, manufacturer.FieldModifiedAt:
 			values[i] = &sql.NullTime{}
-		case manufacturer.ForeignKeys[0]: // manufacturer_phones
-			values[i] = &sql.NullInt64{}
 		default:
 			return nil, fmt.Errorf("unexpected column %q for type Manufacturer", columns[i])
 		}
@@ -103,20 +95,13 @@ func (m *Manufacturer) assignValues(columns []string, values []interface{}) erro
 			} else if value.Valid {
 				m.ModifiedAt = value.Time
 			}
-		case manufacturer.ForeignKeys[0]:
-			if value, ok := values[i].(*sql.NullInt64); !ok {
-				return fmt.Errorf("unexpected type %T for edge-field manufacturer_phones", value)
-			} else if value.Valid {
-				m.manufacturer_phones = new(int)
-				*m.manufacturer_phones = int(value.Int64)
-			}
 		}
 	}
 	return nil
 }
 
 // QueryPhones queries the "phones" edge of the Manufacturer entity.
-func (m *Manufacturer) QueryPhones() *ManufacturerQuery {
+func (m *Manufacturer) QueryPhones() *PhoneQuery {
 	return (&ManufacturerClient{config: m.config}).QueryPhones(m)
 }
 

@@ -10,8 +10,8 @@ import (
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
 	"entgo.io/ent/schema/field"
-	"github.com/rickypai/web-template/api/ent/manufacturer"
 	"github.com/rickypai/web-template/api/ent/operatingsystem"
+	"github.com/rickypai/web-template/api/ent/phone"
 )
 
 // OperatingSystemCreate is the builder for creating a OperatingSystem entity.
@@ -55,23 +55,19 @@ func (osc *OperatingSystemCreate) SetNillableModifiedAt(t *time.Time) *Operating
 	return osc
 }
 
-// SetPhonesID sets the "phones" edge to the Manufacturer entity by ID.
-func (osc *OperatingSystemCreate) SetPhonesID(id int) *OperatingSystemCreate {
-	osc.mutation.SetPhonesID(id)
+// AddPhoneIDs adds the "phones" edge to the Phone entity by IDs.
+func (osc *OperatingSystemCreate) AddPhoneIDs(ids ...int) *OperatingSystemCreate {
+	osc.mutation.AddPhoneIDs(ids...)
 	return osc
 }
 
-// SetNillablePhonesID sets the "phones" edge to the Manufacturer entity by ID if the given value is not nil.
-func (osc *OperatingSystemCreate) SetNillablePhonesID(id *int) *OperatingSystemCreate {
-	if id != nil {
-		osc = osc.SetPhonesID(*id)
+// AddPhones adds the "phones" edges to the Phone entity.
+func (osc *OperatingSystemCreate) AddPhones(p ...*Phone) *OperatingSystemCreate {
+	ids := make([]int, len(p))
+	for i := range p {
+		ids[i] = p[i].ID
 	}
-	return osc
-}
-
-// SetPhones sets the "phones" edge to the Manufacturer entity.
-func (osc *OperatingSystemCreate) SetPhones(m *Manufacturer) *OperatingSystemCreate {
-	return osc.SetPhonesID(m.ID)
+	return osc.AddPhoneIDs(ids...)
 }
 
 // Mutation returns the OperatingSystemMutation object of the builder.
@@ -205,22 +201,21 @@ func (osc *OperatingSystemCreate) createSpec() (*OperatingSystem, *sqlgraph.Crea
 	}
 	if nodes := osc.mutation.PhonesIDs(); len(nodes) > 0 {
 		edge := &sqlgraph.EdgeSpec{
-			Rel:     sqlgraph.M2O,
-			Inverse: false,
+			Rel:     sqlgraph.O2M,
+			Inverse: true,
 			Table:   operatingsystem.PhonesTable,
 			Columns: []string{operatingsystem.PhonesColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
 				IDSpec: &sqlgraph.FieldSpec{
 					Type:   field.TypeInt,
-					Column: manufacturer.FieldID,
+					Column: phone.FieldID,
 				},
 			},
 		}
 		for _, k := range nodes {
 			edge.Target.Nodes = append(edge.Target.Nodes, k)
 		}
-		_node.operating_system_phones = &nodes[0]
 		_spec.Edges = append(_spec.Edges, edge)
 	}
 	return _node, _spec
