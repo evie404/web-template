@@ -1,12 +1,9 @@
 package schema
 
 import (
-	"time"
-
 	"entgo.io/contrib/entgql"
 	"entgo.io/ent"
 	"entgo.io/ent/schema/edge"
-	"entgo.io/ent/schema/field"
 )
 
 // Manufacturer holds the schema definition for the Manufacturer entity.
@@ -16,16 +13,7 @@ type Manufacturer struct {
 
 // Fields of the Manufacturer.
 func (Manufacturer) Fields() []ent.Field {
-	return []ent.Field{
-		field.Text("name").
-			NotEmpty().
-			Unique(),
-		field.Time("created_at").
-			Default(time.Now).
-			Immutable(),
-		field.Time("modified_at").
-			Default(time.Now),
-	}
+	return []ent.Field{}
 }
 
 // Edges of the Manufacturer.
@@ -34,5 +22,12 @@ func (Manufacturer) Edges() []ent.Edge {
 		edge.From("phones", Phone.Type).
 			Annotations(entgql.Bind()).
 			Ref("manufacturer"),
+	}
+}
+
+func (Manufacturer) Mixin() []ent.Mixin {
+	return []ent.Mixin{
+		NameMixin{},
+		TimestampsMixin{},
 	}
 }

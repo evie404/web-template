@@ -1,12 +1,9 @@
 package schema
 
 import (
-	"time"
-
 	"entgo.io/contrib/entgql"
 	"entgo.io/ent"
 	"entgo.io/ent/schema/edge"
-	"entgo.io/ent/schema/field"
 )
 
 // OperatingSystem holds the schema definition for the OperatingSystem entity.
@@ -16,16 +13,7 @@ type OperatingSystem struct {
 
 // Fields of the OperatingSystem.
 func (OperatingSystem) Fields() []ent.Field {
-	return []ent.Field{
-		field.Text("name").
-			NotEmpty().
-			Unique(),
-		field.Time("created_at").
-			Default(time.Now).
-			Immutable(),
-		field.Time("modified_at").
-			Default(time.Now),
-	}
+	return []ent.Field{}
 }
 
 // Edges of the OperatingSystem.
@@ -34,5 +22,12 @@ func (OperatingSystem) Edges() []ent.Edge {
 		edge.From("phones", Phone.Type).
 			Annotations(entgql.Bind()).
 			Ref("operating_system"),
+	}
+}
+
+func (OperatingSystem) Mixin() []ent.Mixin {
+	return []ent.Mixin{
+		NameMixin{},
+		TimestampsMixin{},
 	}
 }

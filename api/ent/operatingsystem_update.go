@@ -5,7 +5,6 @@ package ent
 import (
 	"context"
 	"fmt"
-	"time"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
@@ -31,20 +30,6 @@ func (osu *OperatingSystemUpdate) Where(ps ...predicate.OperatingSystem) *Operat
 // SetName sets the "name" field.
 func (osu *OperatingSystemUpdate) SetName(s string) *OperatingSystemUpdate {
 	osu.mutation.SetName(s)
-	return osu
-}
-
-// SetModifiedAt sets the "modified_at" field.
-func (osu *OperatingSystemUpdate) SetModifiedAt(t time.Time) *OperatingSystemUpdate {
-	osu.mutation.SetModifiedAt(t)
-	return osu
-}
-
-// SetNillableModifiedAt sets the "modified_at" field if the given value is not nil.
-func (osu *OperatingSystemUpdate) SetNillableModifiedAt(t *time.Time) *OperatingSystemUpdate {
-	if t != nil {
-		osu.SetModifiedAt(*t)
-	}
 	return osu
 }
 
@@ -95,6 +80,7 @@ func (osu *OperatingSystemUpdate) Save(ctx context.Context) (int, error) {
 		err      error
 		affected int
 	)
+	osu.defaults()
 	if len(osu.hooks) == 0 {
 		if err = osu.check(); err != nil {
 			return 0, err
@@ -143,6 +129,14 @@ func (osu *OperatingSystemUpdate) Exec(ctx context.Context) error {
 func (osu *OperatingSystemUpdate) ExecX(ctx context.Context) {
 	if err := osu.Exec(ctx); err != nil {
 		panic(err)
+	}
+}
+
+// defaults sets the default values of the builder before save.
+func (osu *OperatingSystemUpdate) defaults() {
+	if _, ok := osu.mutation.ModifiedAt(); !ok {
+		v := operatingsystem.UpdateDefaultModifiedAt()
+		osu.mutation.SetModifiedAt(v)
 	}
 }
 
@@ -266,20 +260,6 @@ func (osuo *OperatingSystemUpdateOne) SetName(s string) *OperatingSystemUpdateOn
 	return osuo
 }
 
-// SetModifiedAt sets the "modified_at" field.
-func (osuo *OperatingSystemUpdateOne) SetModifiedAt(t time.Time) *OperatingSystemUpdateOne {
-	osuo.mutation.SetModifiedAt(t)
-	return osuo
-}
-
-// SetNillableModifiedAt sets the "modified_at" field if the given value is not nil.
-func (osuo *OperatingSystemUpdateOne) SetNillableModifiedAt(t *time.Time) *OperatingSystemUpdateOne {
-	if t != nil {
-		osuo.SetModifiedAt(*t)
-	}
-	return osuo
-}
-
 // AddPhoneIDs adds the "phones" edge to the Phone entity by IDs.
 func (osuo *OperatingSystemUpdateOne) AddPhoneIDs(ids ...int) *OperatingSystemUpdateOne {
 	osuo.mutation.AddPhoneIDs(ids...)
@@ -327,6 +307,7 @@ func (osuo *OperatingSystemUpdateOne) Save(ctx context.Context) (*OperatingSyste
 		err  error
 		node *OperatingSystem
 	)
+	osuo.defaults()
 	if len(osuo.hooks) == 0 {
 		if err = osuo.check(); err != nil {
 			return nil, err
@@ -375,6 +356,14 @@ func (osuo *OperatingSystemUpdateOne) Exec(ctx context.Context) error {
 func (osuo *OperatingSystemUpdateOne) ExecX(ctx context.Context) {
 	if err := osuo.Exec(ctx); err != nil {
 		panic(err)
+	}
+}
+
+// defaults sets the default values of the builder before save.
+func (osuo *OperatingSystemUpdateOne) defaults() {
+	if _, ok := osuo.mutation.ModifiedAt(); !ok {
+		v := operatingsystem.UpdateDefaultModifiedAt()
+		osuo.mutation.SetModifiedAt(v)
 	}
 }
 

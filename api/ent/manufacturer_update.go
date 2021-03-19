@@ -5,7 +5,6 @@ package ent
 import (
 	"context"
 	"fmt"
-	"time"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
@@ -31,20 +30,6 @@ func (mu *ManufacturerUpdate) Where(ps ...predicate.Manufacturer) *ManufacturerU
 // SetName sets the "name" field.
 func (mu *ManufacturerUpdate) SetName(s string) *ManufacturerUpdate {
 	mu.mutation.SetName(s)
-	return mu
-}
-
-// SetModifiedAt sets the "modified_at" field.
-func (mu *ManufacturerUpdate) SetModifiedAt(t time.Time) *ManufacturerUpdate {
-	mu.mutation.SetModifiedAt(t)
-	return mu
-}
-
-// SetNillableModifiedAt sets the "modified_at" field if the given value is not nil.
-func (mu *ManufacturerUpdate) SetNillableModifiedAt(t *time.Time) *ManufacturerUpdate {
-	if t != nil {
-		mu.SetModifiedAt(*t)
-	}
 	return mu
 }
 
@@ -95,6 +80,7 @@ func (mu *ManufacturerUpdate) Save(ctx context.Context) (int, error) {
 		err      error
 		affected int
 	)
+	mu.defaults()
 	if len(mu.hooks) == 0 {
 		if err = mu.check(); err != nil {
 			return 0, err
@@ -143,6 +129,14 @@ func (mu *ManufacturerUpdate) Exec(ctx context.Context) error {
 func (mu *ManufacturerUpdate) ExecX(ctx context.Context) {
 	if err := mu.Exec(ctx); err != nil {
 		panic(err)
+	}
+}
+
+// defaults sets the default values of the builder before save.
+func (mu *ManufacturerUpdate) defaults() {
+	if _, ok := mu.mutation.ModifiedAt(); !ok {
+		v := manufacturer.UpdateDefaultModifiedAt()
+		mu.mutation.SetModifiedAt(v)
 	}
 }
 
@@ -266,20 +260,6 @@ func (muo *ManufacturerUpdateOne) SetName(s string) *ManufacturerUpdateOne {
 	return muo
 }
 
-// SetModifiedAt sets the "modified_at" field.
-func (muo *ManufacturerUpdateOne) SetModifiedAt(t time.Time) *ManufacturerUpdateOne {
-	muo.mutation.SetModifiedAt(t)
-	return muo
-}
-
-// SetNillableModifiedAt sets the "modified_at" field if the given value is not nil.
-func (muo *ManufacturerUpdateOne) SetNillableModifiedAt(t *time.Time) *ManufacturerUpdateOne {
-	if t != nil {
-		muo.SetModifiedAt(*t)
-	}
-	return muo
-}
-
 // AddPhoneIDs adds the "phones" edge to the Phone entity by IDs.
 func (muo *ManufacturerUpdateOne) AddPhoneIDs(ids ...int) *ManufacturerUpdateOne {
 	muo.mutation.AddPhoneIDs(ids...)
@@ -327,6 +307,7 @@ func (muo *ManufacturerUpdateOne) Save(ctx context.Context) (*Manufacturer, erro
 		err  error
 		node *Manufacturer
 	)
+	muo.defaults()
 	if len(muo.hooks) == 0 {
 		if err = muo.check(); err != nil {
 			return nil, err
@@ -375,6 +356,14 @@ func (muo *ManufacturerUpdateOne) Exec(ctx context.Context) error {
 func (muo *ManufacturerUpdateOne) ExecX(ctx context.Context) {
 	if err := muo.Exec(ctx); err != nil {
 		panic(err)
+	}
+}
+
+// defaults sets the default values of the builder before save.
+func (muo *ManufacturerUpdateOne) defaults() {
+	if _, ok := muo.mutation.ModifiedAt(); !ok {
+		v := manufacturer.UpdateDefaultModifiedAt()
+		muo.mutation.SetModifiedAt(v)
 	}
 }
 

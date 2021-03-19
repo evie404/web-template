@@ -15,46 +15,67 @@ import (
 // (default values, validators, hooks and policies) and stitches it
 // to their package variables.
 func init() {
+	manufacturerMixin := schema.Manufacturer{}.Mixin()
+	manufacturerMixinFields0 := manufacturerMixin[0].Fields()
+	_ = manufacturerMixinFields0
+	manufacturerMixinFields1 := manufacturerMixin[1].Fields()
+	_ = manufacturerMixinFields1
 	manufacturerFields := schema.Manufacturer{}.Fields()
 	_ = manufacturerFields
 	// manufacturerDescName is the schema descriptor for name field.
-	manufacturerDescName := manufacturerFields[0].Descriptor()
+	manufacturerDescName := manufacturerMixinFields0[0].Descriptor()
 	// manufacturer.NameValidator is a validator for the "name" field. It is called by the builders before save.
 	manufacturer.NameValidator = manufacturerDescName.Validators[0].(func(string) error)
 	// manufacturerDescCreatedAt is the schema descriptor for created_at field.
-	manufacturerDescCreatedAt := manufacturerFields[1].Descriptor()
+	manufacturerDescCreatedAt := manufacturerMixinFields1[0].Descriptor()
 	// manufacturer.DefaultCreatedAt holds the default value on creation for the created_at field.
 	manufacturer.DefaultCreatedAt = manufacturerDescCreatedAt.Default.(func() time.Time)
 	// manufacturerDescModifiedAt is the schema descriptor for modified_at field.
-	manufacturerDescModifiedAt := manufacturerFields[2].Descriptor()
+	manufacturerDescModifiedAt := manufacturerMixinFields1[1].Descriptor()
 	// manufacturer.DefaultModifiedAt holds the default value on creation for the modified_at field.
 	manufacturer.DefaultModifiedAt = manufacturerDescModifiedAt.Default.(func() time.Time)
+	// manufacturer.UpdateDefaultModifiedAt holds the default value on update for the modified_at field.
+	manufacturer.UpdateDefaultModifiedAt = manufacturerDescModifiedAt.UpdateDefault.(func() time.Time)
+	operatingsystemMixin := schema.OperatingSystem{}.Mixin()
+	operatingsystemMixinFields0 := operatingsystemMixin[0].Fields()
+	_ = operatingsystemMixinFields0
+	operatingsystemMixinFields1 := operatingsystemMixin[1].Fields()
+	_ = operatingsystemMixinFields1
 	operatingsystemFields := schema.OperatingSystem{}.Fields()
 	_ = operatingsystemFields
 	// operatingsystemDescName is the schema descriptor for name field.
-	operatingsystemDescName := operatingsystemFields[0].Descriptor()
+	operatingsystemDescName := operatingsystemMixinFields0[0].Descriptor()
 	// operatingsystem.NameValidator is a validator for the "name" field. It is called by the builders before save.
 	operatingsystem.NameValidator = operatingsystemDescName.Validators[0].(func(string) error)
 	// operatingsystemDescCreatedAt is the schema descriptor for created_at field.
-	operatingsystemDescCreatedAt := operatingsystemFields[1].Descriptor()
+	operatingsystemDescCreatedAt := operatingsystemMixinFields1[0].Descriptor()
 	// operatingsystem.DefaultCreatedAt holds the default value on creation for the created_at field.
 	operatingsystem.DefaultCreatedAt = operatingsystemDescCreatedAt.Default.(func() time.Time)
 	// operatingsystemDescModifiedAt is the schema descriptor for modified_at field.
-	operatingsystemDescModifiedAt := operatingsystemFields[2].Descriptor()
+	operatingsystemDescModifiedAt := operatingsystemMixinFields1[1].Descriptor()
 	// operatingsystem.DefaultModifiedAt holds the default value on creation for the modified_at field.
 	operatingsystem.DefaultModifiedAt = operatingsystemDescModifiedAt.Default.(func() time.Time)
+	// operatingsystem.UpdateDefaultModifiedAt holds the default value on update for the modified_at field.
+	operatingsystem.UpdateDefaultModifiedAt = operatingsystemDescModifiedAt.UpdateDefault.(func() time.Time)
+	phoneMixin := schema.Phone{}.Mixin()
+	phoneMixinFields0 := phoneMixin[0].Fields()
+	_ = phoneMixinFields0
+	phoneMixinFields1 := phoneMixin[1].Fields()
+	_ = phoneMixinFields1
 	phoneFields := schema.Phone{}.Fields()
 	_ = phoneFields
 	// phoneDescName is the schema descriptor for name field.
-	phoneDescName := phoneFields[0].Descriptor()
+	phoneDescName := phoneMixinFields0[0].Descriptor()
 	// phone.NameValidator is a validator for the "name" field. It is called by the builders before save.
 	phone.NameValidator = phoneDescName.Validators[0].(func(string) error)
 	// phoneDescCreatedAt is the schema descriptor for created_at field.
-	phoneDescCreatedAt := phoneFields[1].Descriptor()
+	phoneDescCreatedAt := phoneMixinFields1[0].Descriptor()
 	// phone.DefaultCreatedAt holds the default value on creation for the created_at field.
 	phone.DefaultCreatedAt = phoneDescCreatedAt.Default.(func() time.Time)
 	// phoneDescModifiedAt is the schema descriptor for modified_at field.
-	phoneDescModifiedAt := phoneFields[2].Descriptor()
+	phoneDescModifiedAt := phoneMixinFields1[1].Descriptor()
 	// phone.DefaultModifiedAt holds the default value on creation for the modified_at field.
 	phone.DefaultModifiedAt = phoneDescModifiedAt.Default.(func() time.Time)
+	// phone.UpdateDefaultModifiedAt holds the default value on update for the modified_at field.
+	phone.UpdateDefaultModifiedAt = phoneDescModifiedAt.UpdateDefault.(func() time.Time)
 }

@@ -6,7 +6,6 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"time"
 
 	"entgo.io/ent/dialect/sql"
 	"entgo.io/ent/dialect/sql/sqlgraph"
@@ -33,20 +32,6 @@ func (pu *PhoneUpdate) Where(ps ...predicate.Phone) *PhoneUpdate {
 // SetName sets the "name" field.
 func (pu *PhoneUpdate) SetName(s string) *PhoneUpdate {
 	pu.mutation.SetName(s)
-	return pu
-}
-
-// SetModifiedAt sets the "modified_at" field.
-func (pu *PhoneUpdate) SetModifiedAt(t time.Time) *PhoneUpdate {
-	pu.mutation.SetModifiedAt(t)
-	return pu
-}
-
-// SetNillableModifiedAt sets the "modified_at" field if the given value is not nil.
-func (pu *PhoneUpdate) SetNillableModifiedAt(t *time.Time) *PhoneUpdate {
-	if t != nil {
-		pu.SetModifiedAt(*t)
-	}
 	return pu
 }
 
@@ -95,6 +80,7 @@ func (pu *PhoneUpdate) Save(ctx context.Context) (int, error) {
 		err      error
 		affected int
 	)
+	pu.defaults()
 	if len(pu.hooks) == 0 {
 		if err = pu.check(); err != nil {
 			return 0, err
@@ -143,6 +129,14 @@ func (pu *PhoneUpdate) Exec(ctx context.Context) error {
 func (pu *PhoneUpdate) ExecX(ctx context.Context) {
 	if err := pu.Exec(ctx); err != nil {
 		panic(err)
+	}
+}
+
+// defaults sets the default values of the builder before save.
+func (pu *PhoneUpdate) defaults() {
+	if _, ok := pu.mutation.ModifiedAt(); !ok {
+		v := phone.UpdateDefaultModifiedAt()
+		pu.mutation.SetModifiedAt(v)
 	}
 }
 
@@ -288,20 +282,6 @@ func (puo *PhoneUpdateOne) SetName(s string) *PhoneUpdateOne {
 	return puo
 }
 
-// SetModifiedAt sets the "modified_at" field.
-func (puo *PhoneUpdateOne) SetModifiedAt(t time.Time) *PhoneUpdateOne {
-	puo.mutation.SetModifiedAt(t)
-	return puo
-}
-
-// SetNillableModifiedAt sets the "modified_at" field if the given value is not nil.
-func (puo *PhoneUpdateOne) SetNillableModifiedAt(t *time.Time) *PhoneUpdateOne {
-	if t != nil {
-		puo.SetModifiedAt(*t)
-	}
-	return puo
-}
-
 // SetManufacturerID sets the "manufacturer" edge to the Manufacturer entity by ID.
 func (puo *PhoneUpdateOne) SetManufacturerID(id int) *PhoneUpdateOne {
 	puo.mutation.SetManufacturerID(id)
@@ -347,6 +327,7 @@ func (puo *PhoneUpdateOne) Save(ctx context.Context) (*Phone, error) {
 		err  error
 		node *Phone
 	)
+	puo.defaults()
 	if len(puo.hooks) == 0 {
 		if err = puo.check(); err != nil {
 			return nil, err
@@ -395,6 +376,14 @@ func (puo *PhoneUpdateOne) Exec(ctx context.Context) error {
 func (puo *PhoneUpdateOne) ExecX(ctx context.Context) {
 	if err := puo.Exec(ctx); err != nil {
 		panic(err)
+	}
+}
+
+// defaults sets the default values of the builder before save.
+func (puo *PhoneUpdateOne) defaults() {
+	if _, ok := puo.mutation.ModifiedAt(); !ok {
+		v := phone.UpdateDefaultModifiedAt()
+		puo.mutation.SetModifiedAt(v)
 	}
 }
 
