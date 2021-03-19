@@ -15,5 +15,6 @@ go_library(
         "//api/ent/schema",
         "//api/graphql/generated",
         "//api/graphql/model",
+        "@com_github_99designs_gqlgen//graphql",
     ],
 )
