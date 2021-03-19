@@ -98,6 +98,8 @@ jobs:
           key: go-mod-{{ checksum "api/go.sum" }}
           paths:
             - "/go/pkg/mod"
+      - run: sudo apt-get update
+      - run: sudo apt-get install postgresql-client
       - run:
           command: make db-setup
       - run:
