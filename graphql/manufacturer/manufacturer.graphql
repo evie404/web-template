@@ -13,5 +13,5 @@ input ManufacturerInput {
 }
 
 type ManufacturerMutation {
-    createMake(phone: ManufacturerInput!): Manufacturer!
+    createManufacturer(phone: ManufacturerInput!): Manufacturer!
 }

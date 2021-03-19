@@ -60,7 +60,7 @@ type ComplexityRoot struct {
 	}
 
 	ManufacturerMutation struct {
-		CreateMake func(childComplexity int, phone model.ManufacturerInput) int
+		CreateManufacturer func(childComplexity int, phone model.ManufacturerInput) int
 	}
 
 	OperatingSystem struct {
@@ -107,7 +107,7 @@ type ManufacturerResolver interface {
 	ModifiedAt(ctx context.Context, obj *schema.Manufacturer) (*time.Time, error)
 }
 type ManufacturerMutationResolver interface {
-	CreateMake(ctx context.Context, obj *ent.ManufacturerMutation, phone model.ManufacturerInput) (*schema.Manufacturer, error)
+	CreateManufacturer(ctx context.Context, obj *ent.ManufacturerMutation, phone model.ManufacturerInput) (*schema.Manufacturer, error)
 }
 type OperatingSystemResolver interface {
 	ID(ctx context.Context, obj *schema.OperatingSystem) (int, error)
@@ -181,17 +181,17 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Manufacturer.Phones(childComplexity), true
 
-	case "ManufacturerMutation.createMake":
-		if e.complexity.ManufacturerMutation.CreateMake == nil {
+	case "ManufacturerMutation.createManufacturer":
+		if e.complexity.ManufacturerMutation.CreateManufacturer == nil {
 			break
 		}
 
-		args, err := ec.field_ManufacturerMutation_createMake_args(context.TODO(), rawArgs)
+		args, err := ec.field_ManufacturerMutation_createManufacturer_args(context.TODO(), rawArgs)
 		if err != nil {
 			return 0, false
 		}
 
-		return e.complexity.ManufacturerMutation.CreateMake(childComplexity, args["phone"].(model.ManufacturerInput)), true
+		return e.complexity.ManufacturerMutation.CreateManufacturer(childComplexity, args["phone"].(model.ManufacturerInput)), true
 
 	case "OperatingSystem.createdAt":
 		if e.complexity.OperatingSystem.CreatedAt == nil {
@@ -405,7 +405,7 @@ input ManufacturerInput {
 }
 
 type ManufacturerMutation {
-    createMake(phone: ManufacturerInput!): Manufacturer!
+    createManufacturer(phone: ManufacturerInput!): Manufacturer!
 }
 `, BuiltIn: false},
 	{Name: "../graphql/operating_system/operating_system.graphql", Input: `type OperatingSystem {
@@ -465,7 +465,7 @@ var parsedSchema = gqlparser.MustLoadSchema(sources...)
 
 // region    ***************************** args.gotpl *****************************
 
-func (ec *executionContext) field_ManufacturerMutation_createMake_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+func (ec *executionContext) field_ManufacturerMutation_createManufacturer_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
 	var arg0 model.ManufacturerInput
@@ -735,7 +735,7 @@ func (ec *executionContext) _Manufacturer_modifiedAt(ctx context.Context, field 
 	return ec.marshalNTime2ᚖtimeᚐTime(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _ManufacturerMutation_createMake(ctx context.Context, field graphql.CollectedField, obj *ent.ManufacturerMutation) (ret graphql.Marshaler) {
+func (ec *executionContext) _ManufacturerMutation_createManufacturer(ctx context.Context, field graphql.CollectedField, obj *ent.ManufacturerMutation) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -752,7 +752,7 @@ func (ec *executionContext) _ManufacturerMutation_createMake(ctx context.Context
 
 	ctx = graphql.WithFieldContext(ctx, fc)
 	rawArgs := field.ArgumentMap(ec.Variables)
-	args, err := ec.field_ManufacturerMutation_createMake_args(ctx, rawArgs)
+	args, err := ec.field_ManufacturerMutation_createManufacturer_args(ctx, rawArgs)
 	if err != nil {
 		ec.Error(ctx, err)
 		return graphql.Null
@@ -760,7 +760,7 @@ func (ec *executionContext) _ManufacturerMutation_createMake(ctx context.Context
 	fc.Args = args
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.ManufacturerMutation().CreateMake(rctx, obj, args["phone"].(model.ManufacturerInput))
+		return ec.resolvers.ManufacturerMutation().CreateManufacturer(rctx, obj, args["phone"].(model.ManufacturerInput))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -2728,7 +2728,7 @@ func (ec *executionContext) _ManufacturerMutation(ctx context.Context, sel ast.S
 		switch field.Name {
 		case "__typename":
 			out.Values[i] = graphql.MarshalString("ManufacturerMutation")
-		case "createMake":
+		case "createManufacturer":
 			field := field
 			out.Concurrently(i, func() (res graphql.Marshaler) {
 				defer func() {
@@ -2736,7 +2736,7 @@ func (ec *executionContext) _ManufacturerMutation(ctx context.Context, sel ast.S
 						ec.Error(ctx, ec.Recover(ctx, r))
 					}
 				}()
-				res = ec._ManufacturerMutation_createMake(ctx, field, obj)
+				res = ec._ManufacturerMutation_createManufacturer(ctx, field, obj)
 				if res == graphql.Null {
 					atomic.AddUint32(&invalids, 1)
 				}
