@@ -6,7 +6,6 @@ package graphql
 import (
 	"context"
 	"fmt"
-	"time"
 
 	"github.com/rickypai/web-template/api/ent"
 	"github.com/rickypai/web-template/api/graphql/generated"
@@ -22,14 +21,10 @@ func (r *phoneResolver) Manufacturer(ctx context.Context, obj *ent.Phone) (*ent.
 }
 
 func (r *phoneMutationResolver) CreatePhone(ctx context.Context, obj *ent.PhoneMutation, input model.PhoneInput) (*ent.Phone, error) {
-	now := time.Now()
-
 	return r.client.Phone.Create().
 		SetName(input.Name).
-		SetOsID(input.OperatingSystemID).
+		SetOperatingSystemID(input.OperatingSystemID).
 		SetManufacturerID(input.ManufacturerID).
-		SetCreatedAt(now).
-		SetModifiedAt(now).
 		Save(ctx)
 }
 

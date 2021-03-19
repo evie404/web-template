@@ -6,7 +6,6 @@ package graphql
 import (
 	"context"
 	"fmt"
-	"time"
 
 	"github.com/rickypai/web-template/api/ent"
 	"github.com/rickypai/web-template/api/graphql/generated"
@@ -18,12 +17,8 @@ func (r *operatingSystemResolver) Phones(ctx context.Context, obj *ent.Operating
 }
 
 func (r *operatingSystemMutationResolver) CreateOperatingSystem(ctx context.Context, obj *ent.OperatingSystemMutation, input model.OperatingSystemInput) (*ent.OperatingSystem, error) {
-	now := time.Now()
-
 	return r.client.OperatingSystem.Create().
 		SetName(input.Name).
-		SetCreatedAt(now).
-		SetModifiedAt(now).
 		Save(ctx)
 }
 
