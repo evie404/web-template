@@ -1,1 +1,8 @@
+build --incompatible_strict_action_env
+
+query --incompatible_strict_action_env
+
+test --incompatible_strict_action_env
 test --action_env=POSTGRES_HOST
+
+run --incompatible_strict_action_env
