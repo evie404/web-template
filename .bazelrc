@@ -4,5 +4,6 @@ query --incompatible_strict_action_env
 
 test --incompatible_strict_action_env
 test --action_env=POSTGRES_HOST
+test --test_output=errors
 
 run --incompatible_strict_action_env
