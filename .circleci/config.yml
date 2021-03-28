@@ -96,6 +96,7 @@ jobs:
             - "/go/pkg/mod"
       - run:
           command: go run schema/migrate/test/main.go
+          working_directory: ./api
       - run:
           command: go test -v ./...
           working_directory: ./api
