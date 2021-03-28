@@ -75,10 +75,10 @@ jobs:
 
   "Go build":
     docker:
-      - image: postgres:13.2-alpine
+      - image: circleci/golang:1.16.2
         environment:
           POSTGRES_HOST: postgresql://postgres@localhost
-      - image: circleci/postgres:13.2-ram
+      - image: postgres:13.2-alpine
         environment:
           POSTGRES_DB: web_template_test
           POSTGRES_HOST_AUTH_METHOD: trust
