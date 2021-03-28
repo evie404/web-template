@@ -39,4 +39,5 @@ require (
 	gotest.tools/v3 v3.0.2 // indirect
 )
 
+// fork to support protobuf equality assertion. see: https://github.com/stretchr/testify/issues/758
 replace github.com/stretchr/testify v1.7.0 => github.com/rickypai/testify v1.3.1-0.20210328174714-bc10acb00161
