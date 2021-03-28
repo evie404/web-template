@@ -7,14 +7,22 @@ import (
 	"os"
 	"time"
 
+	"entgo.io/ent/dialect"
+	entsql "entgo.io/ent/dialect/sql"
 	"github.com/jackc/pgx/v4"
 	"github.com/jackc/pgx/v4/log/logrusadapter"
 	"github.com/jackc/pgx/v4/stdlib"
+	"github.com/rickypai/web-template/api/ent"
 	"github.com/sirupsen/logrus"
 )
 
 func DB(ctx context.Context) (*sql.DB, error) {
 	return databaseConnection(ctx, os.Getenv("POSTGRES_HOST")+"/web_template_dev", nil)
+}
+
+func EntClient(db *sql.DB) *ent.Client {
+	drv := entsql.OpenDB(dialect.Postgres, db)
+	return ent.NewClient(ent.Driver(drv))
 }
 
 func TestDB(ctx context.Context) (*sql.DB, error) {

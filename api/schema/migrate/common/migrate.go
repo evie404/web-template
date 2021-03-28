@@ -1,45 +1,21 @@
 package common
 
 import (
+	"context"
 	"database/sql"
-	"fmt"
-	"os"
 
-	"github.com/golang-migrate/migrate/v4"
-	"github.com/golang-migrate/migrate/v4/database/postgres"
-	_ "github.com/golang-migrate/migrate/v4/source/file"
+	"github.com/rickypai/web-template/api/config"
+	"github.com/rickypai/web-template/api/ent/migrate"
 )
 
-func MigrateInstance(db *sql.DB) error {
-	driver, err := postgres.WithInstance(db, &postgres.Config{})
-	if err != nil {
-		return fmt.Errorf("creating migration database driver: %s", err)
-	}
+func MigrateInstance(ctx context.Context, db *sql.DB) error {
+	client := config.EntClient(db)
+	defer client.Close()
 
-	var m *migrate.Migrate
-	var merr error
-
-	if _, err := os.Stat("db/migrations"); os.IsNotExist(err) {
-		m, merr = migrate.NewWithDatabaseInstance(
-			"file://../db/migrations",
-			"postgres",
-			driver,
-		)
-	} else {
-		m, merr = migrate.NewWithDatabaseInstance(
-			"file://db/migrations",
-			"postgres",
-			driver,
-		)
-	}
-	if merr != nil {
-		return fmt.Errorf("creating new migration instance: %s", err)
-	}
-
-	err = m.Up()
-	if err != nil {
-		return fmt.Errorf("running migrations: %s", err)
-	}
-
-	return nil
+	// Run migration.
+	return client.Schema.Create(
+		ctx,
+		migrate.WithDropIndex(true),
+		migrate.WithDropColumn(true),
+	)
 }

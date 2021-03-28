@@ -16,7 +16,7 @@ func main() {
 		log.Fatalf("creating database connection: %s", err)
 	}
 
-	err = common.MigrateInstance(db)
+	err = common.MigrateInstance(ctx, db)
 	if err != nil {
 		log.Fatalf("running migrations: %s", err)
 	}

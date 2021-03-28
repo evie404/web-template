@@ -80,12 +80,9 @@ endif
 	chmod +x ${HOME}/.local/bin/migrate
 
 db-migrate:
-	migrate -database "${POSTGRES_HOST}/web_template_dev?sslmode=disable" -path db/migrations up
+	(cd api && go run schema/migrate/dev/main.go)
 
 db-up: db-migrate
-
-db-down:
-	migrate -database "${POSTGRES_HOST}/web_template_dev?sslmode=disable" -path db/migrations down
 
 db-create:
 	echo "SELECT 'CREATE DATABASE web_template_dev' WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'web_template_dev')\gexec" | psql
@@ -98,12 +95,9 @@ db-reset:
 	echo "CREATE DATABASE web_template_dev\gexec" | psql
 
 test-db-migrate:
-	migrate -database "${POSTGRES_HOST}/web_template_test?sslmode=disable" -path db/migrations up
+	(cd api && go run schema/migrate/test/main.go)
 
 test-db-up: test-db-migrate
-
-test-db-down:
-	migrate -database "${POSTGRES_HOST}/web_template_test?sslmode=disable" -path db/migrations down
 
 test-db-create:
 	echo "SELECT 'CREATE DATABASE web_template_test' WHERE NOT EXISTS (SELECT FROM pg_database WHERE datname = 'web_template_test')\gexec" | psql
