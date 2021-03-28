@@ -21,7 +21,7 @@ jobs:
     docker:
       - image: gcr.io/cloud-builders/bazel@sha256:b18235d91bb725131b40c495c52af6ab7ebce7c9b13b17113a05aa5af752885e
         environment:
-          POSTGRES_HOST: postgresql://root@localhost
+          POSTGRES_HOST: postgresql://postgres@localhost
       - image: circleci/postgres:13.2-ram
         environment:
           POSTGRES_DB: web_template_test
@@ -77,7 +77,7 @@ jobs:
     docker:
       - image: circleci/golang:1.16.2
         environment:
-          POSTGRES_HOST: postgresql://root@localhost
+          POSTGRES_HOST: postgresql://postgres@localhost
       - image: circleci/postgres:13.2-ram
         environment:
           POSTGRES_DB: web_template_test
