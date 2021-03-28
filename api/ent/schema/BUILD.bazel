@@ -4,8 +4,10 @@ go_library(
     name = "schema",
     srcs = [
         "manufacturer.go",
+        "name_mixin.go",
         "operatingsystem.go",
         "phone.go",
+        "timestamp_mixin.go",
     ],
     importpath = "github.com/rickypai/web-template/api/ent/schema",
     visibility = ["//visibility:public"],
@@ -14,5 +16,6 @@ go_library(
         "@io_entgo_ent//:ent",
         "@io_entgo_ent//schema/edge",
         "@io_entgo_ent//schema/field",
+        "@io_entgo_ent//schema/mixin",
     ],
 )
