@@ -44,6 +44,13 @@ jobs:
       - run:
           command: mkdir -p ~/.bazel_cache
       - run:
+          command: bazel run //api:gazelle
+      - run:
+          command: bazelisk run //api:gazelle -- update-repos -from_file=api/go.mod -to_macro=deps.bzl%go_dependencies
+      - run:
+          name: Ensure gazelle BUILD file generation is updated
+          command: ci/ensure_git_status_clean.sh
+      - run:
           command: bazel build //... --disk_cache=~/.bazel_cache --repository_cache=~/.bazel_repo --jobs=2
       - run:
           command: bazel run //api/schema/migrate/test
