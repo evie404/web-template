@@ -44,11 +44,7 @@ jobs:
       - run:
           command: bazel build //... --disk_cache=~/.bazel_cache --repository_cache=~/.bazel_repo --jobs=2
       - run:
-          command: make db-setup
-      - run:
-          command: make test-db-create
-      - run:
-          command: make test-db-migrate
+          command: bazel run //api/schema/migrate/test
       - run:
           command: bazel test //... --disk_cache=~/.bazel_cache --repository_cache=~/.bazel_repo --jobs=2
       - run:
@@ -98,14 +94,8 @@ jobs:
           key: go-mod-{{ checksum "api/go.sum" }}
           paths:
             - "/go/pkg/mod"
-      - run: sudo apt-get update
-      - run: sudo apt-get install postgresql-client
       - run:
-          command: make db-setup
-      - run:
-          command: make test-db-create
-      - run:
-          command: make test-db-migrate
+          command: go run schema/migrate/test/main.go
       - run:
           command: go test -v ./...
           working_directory: ./api
