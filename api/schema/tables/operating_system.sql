@@ -21,10 +21,10 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
--- Name: operating_system; Type: TABLE; Schema: public; Owner: postgres
+-- Name: operating_systems; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE public.operating_system (
+CREATE TABLE public.operating_systems (
     id bigint NOT NULL,
     name character varying(300) NOT NULL,
     created_at timestamp with time zone NOT NULL,
@@ -32,13 +32,13 @@ CREATE TABLE public.operating_system (
 );
 
 
-ALTER TABLE public.operating_system OWNER TO postgres;
+ALTER TABLE public.operating_systems OWNER TO postgres;
 
 --
--- Name: operating_system_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: operating_systems_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE public.operating_system_id_seq
+CREATE SEQUENCE public.operating_systems_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -46,36 +46,36 @@ CREATE SEQUENCE public.operating_system_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.operating_system_id_seq OWNER TO postgres;
+ALTER TABLE public.operating_systems_id_seq OWNER TO postgres;
 
 --
--- Name: operating_system_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: operating_systems_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE public.operating_system_id_seq OWNED BY public.operating_system.id;
-
-
---
--- Name: operating_system id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.operating_system ALTER COLUMN id SET DEFAULT nextval('public.operating_system_id_seq'::regclass);
+ALTER SEQUENCE public.operating_systems_id_seq OWNED BY public.operating_systems.id;
 
 
 --
--- Name: operating_system operating_system_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: operating_systems id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.operating_system
-    ADD CONSTRAINT operating_system_name_key UNIQUE (name);
+ALTER TABLE ONLY public.operating_systems ALTER COLUMN id SET DEFAULT nextval('public.operating_systems_id_seq'::regclass);
 
 
 --
--- Name: operating_system operating_system_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: operating_systems operating_systems_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.operating_system
-    ADD CONSTRAINT operating_system_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY public.operating_systems
+    ADD CONSTRAINT operating_systems_name_key UNIQUE (name);
+
+
+--
+-- Name: operating_systems operating_systems_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.operating_systems
+    ADD CONSTRAINT operating_systems_pkey PRIMARY KEY (id);
 
 
 --
