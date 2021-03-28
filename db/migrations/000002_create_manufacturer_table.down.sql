@@ -1,5 +1,5 @@
 BEGIN;
 
-DROP TABLE IF EXISTS manufacturer;
+DROP TABLE IF EXISTS manufacturers;
 
 COMMIT;

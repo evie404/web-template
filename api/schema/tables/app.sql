@@ -21,10 +21,10 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
--- Name: app; Type: TABLE; Schema: public; Owner: postgres
+-- Name: apps; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE public.app (
+CREATE TABLE public.apps (
     id bigint NOT NULL,
     name character varying(300) NOT NULL,
     operating_system_id integer NOT NULL,
@@ -33,13 +33,13 @@ CREATE TABLE public.app (
 );
 
 
-ALTER TABLE public.app OWNER TO postgres;
+ALTER TABLE public.apps OWNER TO postgres;
 
 --
--- Name: app_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: apps_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE public.app_id_seq
+CREATE SEQUENCE public.apps_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -47,44 +47,44 @@ CREATE SEQUENCE public.app_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.app_id_seq OWNER TO postgres;
+ALTER TABLE public.apps_id_seq OWNER TO postgres;
 
 --
--- Name: app_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: apps_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE public.app_id_seq OWNED BY public.app.id;
-
-
---
--- Name: app id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.app ALTER COLUMN id SET DEFAULT nextval('public.app_id_seq'::regclass);
+ALTER SEQUENCE public.apps_id_seq OWNED BY public.apps.id;
 
 
 --
--- Name: app app_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: apps id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.app
-    ADD CONSTRAINT app_name_key UNIQUE (name);
-
-
---
--- Name: app app_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.app
-    ADD CONSTRAINT app_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY public.apps ALTER COLUMN id SET DEFAULT nextval('public.apps_id_seq'::regclass);
 
 
 --
--- Name: app app_operating_system_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: apps apps_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.app
-    ADD CONSTRAINT app_operating_system_id_fkey FOREIGN KEY (operating_system_id) REFERENCES public.operating_system(id);
+ALTER TABLE ONLY public.apps
+    ADD CONSTRAINT apps_name_key UNIQUE (name);
+
+
+--
+-- Name: apps apps_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.apps
+    ADD CONSTRAINT apps_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: apps apps_operating_system_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.apps
+    ADD CONSTRAINT apps_operating_system_id_fkey FOREIGN KEY (operating_system_id) REFERENCES public.operating_systems(id);
 
 
 --

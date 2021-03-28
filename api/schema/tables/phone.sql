@@ -21,10 +21,10 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
--- Name: phone; Type: TABLE; Schema: public; Owner: postgres
+-- Name: phones; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE public.phone (
+CREATE TABLE public.phones (
     id bigint NOT NULL,
     name character varying(300) NOT NULL,
     manufacturer_id integer NOT NULL,
@@ -34,13 +34,13 @@ CREATE TABLE public.phone (
 );
 
 
-ALTER TABLE public.phone OWNER TO postgres;
+ALTER TABLE public.phones OWNER TO postgres;
 
 --
--- Name: phone_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: phones_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE public.phone_id_seq
+CREATE SEQUENCE public.phones_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -48,52 +48,52 @@ CREATE SEQUENCE public.phone_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.phone_id_seq OWNER TO postgres;
+ALTER TABLE public.phones_id_seq OWNER TO postgres;
 
 --
--- Name: phone_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: phones_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE public.phone_id_seq OWNED BY public.phone.id;
-
-
---
--- Name: phone id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.phone ALTER COLUMN id SET DEFAULT nextval('public.phone_id_seq'::regclass);
+ALTER SEQUENCE public.phones_id_seq OWNED BY public.phones.id;
 
 
 --
--- Name: phone phone_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: phones id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.phone
-    ADD CONSTRAINT phone_name_key UNIQUE (name);
-
-
---
--- Name: phone phone_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.phone
-    ADD CONSTRAINT phone_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY public.phones ALTER COLUMN id SET DEFAULT nextval('public.phones_id_seq'::regclass);
 
 
 --
--- Name: phone phone_manufacturer_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: phones phones_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.phone
-    ADD CONSTRAINT phone_manufacturer_id_fkey FOREIGN KEY (manufacturer_id) REFERENCES public.manufacturer(id);
+ALTER TABLE ONLY public.phones
+    ADD CONSTRAINT phones_name_key UNIQUE (name);
 
 
 --
--- Name: phone phone_operating_system_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+-- Name: phones phones_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.phone
-    ADD CONSTRAINT phone_operating_system_id_fkey FOREIGN KEY (operating_system_id) REFERENCES public.operating_system(id);
+ALTER TABLE ONLY public.phones
+    ADD CONSTRAINT phones_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: phones phones_manufacturer_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.phones
+    ADD CONSTRAINT phones_manufacturer_id_fkey FOREIGN KEY (manufacturer_id) REFERENCES public.manufacturers(id);
+
+
+--
+-- Name: phones phones_operating_system_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.phones
+    ADD CONSTRAINT phones_operating_system_id_fkey FOREIGN KEY (operating_system_id) REFERENCES public.operating_systems(id);
 
 
 --

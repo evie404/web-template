@@ -1,6 +1,10 @@
 database: web_template_dev
 tables:
-  - name: manufacturer
-  - name: phone
-  - name: app
-  - name: operating_system
+  - name: manufacturers
+    filename_override: manufacturer
+  - name: phones
+    filename_override: phone
+  - name: apps
+    filename_override: app
+  - name: operating_systems
+    filename_override: operating_system

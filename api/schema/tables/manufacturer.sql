@@ -21,10 +21,10 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
--- Name: manufacturer; Type: TABLE; Schema: public; Owner: postgres
+-- Name: manufacturers; Type: TABLE; Schema: public; Owner: postgres
 --
 
-CREATE TABLE public.manufacturer (
+CREATE TABLE public.manufacturers (
     id bigint NOT NULL,
     name character varying(300) NOT NULL,
     created_at timestamp with time zone NOT NULL,
@@ -32,13 +32,13 @@ CREATE TABLE public.manufacturer (
 );
 
 
-ALTER TABLE public.manufacturer OWNER TO postgres;
+ALTER TABLE public.manufacturers OWNER TO postgres;
 
 --
--- Name: manufacturer_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
+-- Name: manufacturers_id_seq; Type: SEQUENCE; Schema: public; Owner: postgres
 --
 
-CREATE SEQUENCE public.manufacturer_id_seq
+CREATE SEQUENCE public.manufacturers_id_seq
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -46,36 +46,36 @@ CREATE SEQUENCE public.manufacturer_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.manufacturer_id_seq OWNER TO postgres;
+ALTER TABLE public.manufacturers_id_seq OWNER TO postgres;
 
 --
--- Name: manufacturer_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
+-- Name: manufacturers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
 
-ALTER SEQUENCE public.manufacturer_id_seq OWNED BY public.manufacturer.id;
-
-
---
--- Name: manufacturer id; Type: DEFAULT; Schema: public; Owner: postgres
---
-
-ALTER TABLE ONLY public.manufacturer ALTER COLUMN id SET DEFAULT nextval('public.manufacturer_id_seq'::regclass);
+ALTER SEQUENCE public.manufacturers_id_seq OWNED BY public.manufacturers.id;
 
 
 --
--- Name: manufacturer manufacturer_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: manufacturers id; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.manufacturer
-    ADD CONSTRAINT manufacturer_name_key UNIQUE (name);
+ALTER TABLE ONLY public.manufacturers ALTER COLUMN id SET DEFAULT nextval('public.manufacturers_id_seq'::regclass);
 
 
 --
--- Name: manufacturer manufacturer_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+-- Name: manufacturers manufacturers_name_key; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
-ALTER TABLE ONLY public.manufacturer
-    ADD CONSTRAINT manufacturer_pkey PRIMARY KEY (id);
+ALTER TABLE ONLY public.manufacturers
+    ADD CONSTRAINT manufacturers_name_key UNIQUE (name);
+
+
+--
+-- Name: manufacturers manufacturers_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY public.manufacturers
+    ADD CONSTRAINT manufacturers_pkey PRIMARY KEY (id);
 
 
 --

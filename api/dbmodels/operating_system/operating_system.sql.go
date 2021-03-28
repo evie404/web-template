@@ -11,7 +11,7 @@ import (
 )
 
 const countTotal = `-- name: CountTotal :one
-SELECT COUNT(id) FROM operating_system
+SELECT COUNT(id) FROM operating_systems
 `
 
 func (q *Queries) CountTotal(ctx context.Context) (int64, error) {
@@ -22,7 +22,7 @@ func (q *Queries) CountTotal(ctx context.Context) (int64, error) {
 }
 
 const createOne = `-- name: CreateOne :one
-INSERT INTO operating_system(name, created_at, modified_at) VALUES($1, $2, $3) RETURNING id, name, created_at, modified_at
+INSERT INTO operating_systems(name, created_at, modified_at) VALUES($1, $2, $3) RETURNING id, name, created_at, modified_at
 `
 
 type CreateOneParams struct {
@@ -44,7 +44,7 @@ func (q *Queries) CreateOne(ctx context.Context, arg CreateOneParams) (Operating
 }
 
 const getByID = `-- name: GetByID :one
-SELECT id, name, created_at, modified_at FROM operating_system WHERE id = $1 LIMIT 1
+SELECT id, name, created_at, modified_at FROM operating_systems WHERE id = $1 LIMIT 1
 `
 
 func (q *Queries) GetByID(ctx context.Context, id int64) (OperatingSystem, error) {
@@ -60,7 +60,7 @@ func (q *Queries) GetByID(ctx context.Context, id int64) (OperatingSystem, error
 }
 
 const getManyByIDs = `-- name: GetManyByIDs :many
-SELECT id, name, created_at, modified_at FROM operating_system WHERE id = ANY($1::bigint[])
+SELECT id, name, created_at, modified_at FROM operating_systems WHERE id = ANY($1::bigint[])
 `
 
 func (q *Queries) GetManyByIDs(ctx context.Context, dollar_1 []int64) ([]OperatingSystem, error) {
@@ -92,7 +92,7 @@ func (q *Queries) GetManyByIDs(ctx context.Context, dollar_1 []int64) ([]Operati
 }
 
 const listByPattern = `-- name: ListByPattern :many
-SELECT id, name, created_at, modified_at FROM operating_system WHERE name LIKE $1 ORDER BY name ASC LIMIT $2
+SELECT id, name, created_at, modified_at FROM operating_systems WHERE name LIKE $1 ORDER BY name ASC LIMIT $2
 `
 
 type ListByPatternParams struct {
@@ -129,7 +129,7 @@ func (q *Queries) ListByPattern(ctx context.Context, arg ListByPatternParams) ([
 }
 
 const listOffset = `-- name: ListOffset :many
-SELECT id, name, created_at, modified_at FROM operating_system LIMIT $1 OFFSET $2
+SELECT id, name, created_at, modified_at FROM operating_systems LIMIT $1 OFFSET $2
 `
 
 type ListOffsetParams struct {

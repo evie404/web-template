@@ -1,10 +1,10 @@
 BEGIN;
 
-CREATE TABLE IF NOT EXISTS phone(
+CREATE TABLE IF NOT EXISTS phones(
   id BIGSERIAL PRIMARY KEY,
   name VARCHAR(300) UNIQUE NOT NULL,
-  manufacturer_id INTEGER REFERENCES manufacturer(id) NOT NULL,
-  operating_system_id INTEGER REFERENCES operating_system(id) NOT NULL,
+  manufacturer_id INTEGER REFERENCES manufacturers(id) NOT NULL,
+  operating_system_id INTEGER REFERENCES operating_systems(id) NOT NULL,
   created_at TIMESTAMP WITH TIME ZONE NOT NULL,
   modified_at TIMESTAMP WITH TIME ZONE NOT NULL
 );

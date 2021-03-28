@@ -11,7 +11,7 @@ import (
 )
 
 const countTotal = `-- name: CountTotal :one
-SELECT COUNT(id) FROM manufacturer
+SELECT COUNT(id) FROM manufacturers
 `
 
 func (q *Queries) CountTotal(ctx context.Context) (int64, error) {
@@ -22,7 +22,7 @@ func (q *Queries) CountTotal(ctx context.Context) (int64, error) {
 }
 
 const createOne = `-- name: CreateOne :one
-INSERT INTO manufacturer(name, created_at, modified_at) VALUES($1, $2, $3) RETURNING id, name, created_at, modified_at
+INSERT INTO manufacturers(name, created_at, modified_at) VALUES($1, $2, $3) RETURNING id, name, created_at, modified_at
 `
 
 type CreateOneParams struct {
@@ -44,7 +44,7 @@ func (q *Queries) CreateOne(ctx context.Context, arg CreateOneParams) (Manufactu
 }
 
 const getByID = `-- name: GetByID :one
-SELECT id, name, created_at, modified_at FROM manufacturer WHERE id = $1 LIMIT 1
+SELECT id, name, created_at, modified_at FROM manufacturers WHERE id = $1 LIMIT 1
 `
 
 func (q *Queries) GetByID(ctx context.Context, id int64) (Manufacturer, error) {
@@ -60,7 +60,7 @@ func (q *Queries) GetByID(ctx context.Context, id int64) (Manufacturer, error) {
 }
 
 const getManyByIDs = `-- name: GetManyByIDs :many
-SELECT id, name, created_at, modified_at FROM manufacturer WHERE id = ANY($1::bigint[])
+SELECT id, name, created_at, modified_at FROM manufacturers WHERE id = ANY($1::bigint[])
 `
 
 func (q *Queries) GetManyByIDs(ctx context.Context, dollar_1 []int64) ([]Manufacturer, error) {
@@ -92,7 +92,7 @@ func (q *Queries) GetManyByIDs(ctx context.Context, dollar_1 []int64) ([]Manufac
 }
 
 const listByPattern = `-- name: ListByPattern :many
-SELECT id, name, created_at, modified_at FROM manufacturer WHERE name LIKE $1 ORDER BY name ASC LIMIT $2
+SELECT id, name, created_at, modified_at FROM manufacturers WHERE name LIKE $1 ORDER BY name ASC LIMIT $2
 `
 
 type ListByPatternParams struct {
@@ -129,7 +129,7 @@ func (q *Queries) ListByPattern(ctx context.Context, arg ListByPatternParams) ([
 }
 
 const listOffset = `-- name: ListOffset :many
-SELECT id, name, created_at, modified_at FROM manufacturer LIMIT $1 OFFSET $2
+SELECT id, name, created_at, modified_at FROM manufacturers LIMIT $1 OFFSET $2
 `
 
 type ListOffsetParams struct {

@@ -1,9 +1,9 @@
 BEGIN;
 
-CREATE TABLE IF NOT EXISTS app(
+CREATE TABLE IF NOT EXISTS apps(
   id BIGSERIAL PRIMARY KEY,
   name VARCHAR(300) UNIQUE NOT NULL,
-  operating_system_id INTEGER REFERENCES operating_system(id) NOT NULL,
+  operating_system_id INTEGER REFERENCES operating_systems(id) NOT NULL,
   created_at TIMESTAMP WITH TIME ZONE NOT NULL,
   modified_at TIMESTAMP WITH TIME ZONE NOT NULL
 );
