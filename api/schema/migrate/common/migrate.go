@@ -17,21 +17,22 @@ func MigrateInstance(db *sql.DB) error {
 	}
 
 	var m *migrate.Migrate
+	var merr error
 
 	if _, err := os.Stat("db/migrations"); os.IsNotExist(err) {
-		m, err = migrate.NewWithDatabaseInstance(
+		m, merr = migrate.NewWithDatabaseInstance(
 			"file://../db/migrations",
 			"postgres",
 			driver,
 		)
 	} else {
-		m, err = migrate.NewWithDatabaseInstance(
+		m, merr = migrate.NewWithDatabaseInstance(
 			"file://db/migrations",
 			"postgres",
 			driver,
 		)
 	}
-	if err != nil {
+	if merr != nil {
 		return fmt.Errorf("creating new migration instance: %s", err)
 	}
 
