@@ -114,3 +114,7 @@ test-db-drop:
 test-db-reset:
 	echo "DROP DATABASE IF EXISTS web_template_test\gexec" | psql
 	echo "CREATE DATABASE web_template_test\gexec" | psql
+
+gazelle:
+	bazelisk run //api:gazelle -- update-repos -from_file=api/go.mod -to_macro=deps.bzl%go_dependencies
+	bazelisk run //api:gazelle

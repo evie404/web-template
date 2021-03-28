@@ -20,6 +20,12 @@ jobs:
   "Bazel build":
     docker:
       - image: gcr.io/cloud-builders/bazel@sha256:b18235d91bb725131b40c495c52af6ab7ebce7c9b13b17113a05aa5af752885e
+        environment:
+          POSTGRES_HOST: postgresql://postgres@localhost
+      - image: postgres:13.2-alpine
+        environment:
+          POSTGRES_DB: web_template_test
+          POSTGRES_HOST_AUTH_METHOD: trust
     resource_class: medium
     steps:
       - checkout
@@ -39,6 +45,8 @@ jobs:
           command: mkdir -p ~/.bazel_cache
       - run:
           command: bazel build //... --disk_cache=~/.bazel_cache --repository_cache=~/.bazel_repo --jobs=2
+      - run:
+          command: bazel run //api/schema/migrate/test
       - run:
           command: bazel test //... --disk_cache=~/.bazel_cache --repository_cache=~/.bazel_repo --jobs=2
       - run:
@@ -68,6 +76,12 @@ jobs:
   "Go build":
     docker:
       - image: circleci/golang:1.16.2
+        environment:
+          POSTGRES_HOST: postgresql://postgres@localhost
+      - image: postgres:13.2-alpine
+        environment:
+          POSTGRES_DB: web_template_test
+          POSTGRES_HOST_AUTH_METHOD: trust
     resource_class: small
     working_directory: /go/src/github.com/{{ORG_NAME}}/{{REPO_NAME}}
     steps:
@@ -84,6 +98,9 @@ jobs:
           key: go-mod-{{ checksum "api/go.sum" }}
           paths:
             - "/go/pkg/mod"
+      - run:
+          command: go run schema/migrate/test/main.go
+          working_directory: ./api
       - run:
           command: go test -v ./...
           working_directory: ./api

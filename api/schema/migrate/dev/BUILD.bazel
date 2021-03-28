@@ -1,0 +1,19 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
+
+go_library(
+    name = "dev_lib",
+    srcs = ["main.go"],
+    importpath = "github.com/rickypai/web-template/api/schema/migrate/dev",
+    visibility = ["//visibility:private"],
+    deps = [
+        "//api/config",
+        "//api/schema/migrate/common",
+    ],
+)
+
+go_binary(
+    name = "dev",
+    data = ["//db/migrations"],
+    embed = [":dev_lib"],
+    visibility = ["//visibility:public"],
+)
