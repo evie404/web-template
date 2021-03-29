@@ -2,6 +2,8 @@ package repo
 
 import (
 	"context"
+	"math/rand"
+	"strconv"
 	"testing"
 
 	"github.com/rickypai/web-template/api/config"
@@ -162,6 +164,223 @@ func TestReader_ListByPrefix(t *testing.T) {
 				result.CreatedAt = nil
 				result.ModifiedAt = nil
 				result.Id = 0
+			}
+
+			assert.Equal(t, tt.want, got)
+		})
+	}
+}
+
+func TestReader_GetManyByIDs(t *testing.T) {
+	numInstances := 100
+	existing := make([]*modelT, 0, numInstances)
+
+	ctx := context.Background()
+
+	db, err := config.TestDB(ctx)
+	require.NoError(t, err)
+
+	tx, err := db.Begin()
+	require.NoError(t, err)
+	defer tx.Rollback() //nolint:errcheck
+
+	w := NewWriter(tx)
+	for i := 0; i < numInstances; i++ {
+		newInstance, err := w.CreateOne(ctx, &createReqT{
+			Name: strconv.Itoa(rand.Int()),
+		})
+		require.NoError(t, err)
+
+		existing = append(existing, newInstance)
+	}
+
+	type args struct {
+		ids []int64
+	}
+	tests := []struct {
+		name    string
+		args    args
+		want    []*modelT
+		wantErr bool
+	}{
+		{
+			"returns items with matching ids",
+			args{
+				ids: []int64{
+					existing[0].GetId(),
+					existing[1].GetId(),
+					existing[2].GetId(),
+				},
+			},
+			[]*modelT{
+				existing[0],
+				existing[1],
+				existing[2],
+			},
+			false,
+		},
+		{
+			"returns items with matching ids sorted by id order", // TODO: return by requested order?
+			args{
+				ids: []int64{
+					existing[99].GetId(),
+					existing[54].GetId(),
+					existing[2].GetId(),
+				},
+			},
+			[]*modelT{
+				existing[2],
+				existing[54],
+				existing[99],
+			},
+			false,
+		},
+		{
+			"returns items with matching ids deduped", // TODO: maybe not dedup?
+			args{
+				ids: []int64{
+					existing[2].GetId(),
+					existing[2].GetId(),
+					existing[2].GetId(),
+					existing[23].GetId(),
+					existing[23].GetId(),
+					existing[23].GetId(),
+				},
+			},
+			[]*modelT{
+				existing[2],
+				existing[23],
+			},
+			false,
+		},
+		{
+			"returns items with matching ids deduped in order", // TODO: maybe not dedup?
+			args{
+				ids: []int64{
+					existing[23].GetId(),
+					existing[2].GetId(),
+					existing[23].GetId(),
+					existing[2].GetId(),
+					existing[23].GetId(),
+					existing[2].GetId(),
+				},
+			},
+			[]*modelT{
+				existing[2],
+				existing[23],
+			},
+			false,
+		},
+		{
+			"returns only found items", // TODO: maybe error if not all found?
+			args{
+				ids: []int64{
+					rand.Int63(),
+					existing[0].GetId(),
+					existing[1].GetId(),
+					existing[2].GetId(),
+					existing[23].GetId(),
+					rand.Int63(),
+				},
+			},
+			[]*modelT{
+				existing[0],
+				existing[1],
+				existing[2],
+				existing[23],
+			},
+			false,
+		},
+		{
+			"returns nothing if none are found", // TODO: maybe error if not all found?
+			args{
+				ids: []int64{
+					rand.Int63(),
+					rand.Int63(),
+					rand.Int63(),
+					rand.Int63(),
+					rand.Int63(),
+					rand.Int63(),
+				},
+			},
+			nil,
+			false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			r := NewReader(tx)
+
+			got, err := r.GetManyByIDs(ctx, tt.args.ids)
+			if tt.wantErr {
+				assert.Error(t, err)
+			} else {
+				assert.NoError(t, err)
+			}
+
+			assert.Equal(t, tt.want, got)
+		})
+	}
+}
+
+func TestReader_GetOneByID(t *testing.T) {
+	numInstances := 10
+	existing := make([]*modelT, 0, numInstances)
+
+	ctx := context.Background()
+
+	db, err := config.TestDB(ctx)
+	require.NoError(t, err)
+
+	tx, err := db.Begin()
+	require.NoError(t, err)
+	defer tx.Rollback() //nolint:errcheck
+
+	w := NewWriter(tx)
+	for i := 0; i < numInstances; i++ {
+		newInstance, err := w.CreateOne(ctx, &createReqT{
+			Name: strconv.Itoa(rand.Int()),
+		})
+		require.NoError(t, err)
+
+		existing = append(existing, newInstance)
+	}
+
+	type args struct {
+		id int64
+	}
+	tests := []struct {
+		name    string
+		args    args
+		want    *modelT
+		wantErr bool
+	}{
+		{
+			"returns item with matching id",
+			args{
+				id: existing[0].GetId(),
+			},
+			existing[0],
+			false,
+		},
+		{
+			"returns nothing when none found",
+			args{
+				id: rand.Int63(),
+			},
+			nil,
+			false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			r := NewReader(tx)
+
+			got, err := r.GetOneByID(ctx, tt.args.id)
+			if tt.wantErr {
+				assert.Error(t, err)
+			} else {
+				assert.NoError(t, err)
 			}
 
 			assert.Equal(t, tt.want, got)
