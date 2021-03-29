@@ -1387,7 +1387,7 @@ proto.phone.ListByPageResponse.toObject = function(includeInstance, msg) {
     resultsList: jspb.Message.toObjectList(msg.getResultsList(),
     protobuf_phone_phone_pb.Phone.toObject, includeInstance),
     nextPage: jspb.Message.getFieldWithDefault(msg, 2, 0),
-    totalPages: jspb.Message.getFieldWithDefault(msg, 3, 0),
+    totalItems: jspb.Message.getFieldWithDefault(msg, 3, 0),
     hasNext: jspb.Message.getBooleanFieldWithDefault(msg, 4, false)
   };
 
@@ -1436,7 +1436,7 @@ proto.phone.ListByPageResponse.deserializeBinaryFromReader = function(msg, reade
       break;
     case 3:
       var value = /** @type {number} */ (reader.readInt64());
-      msg.setTotalPages(value);
+      msg.setTotalItems(value);
       break;
     case 4:
       var value = /** @type {boolean} */ (reader.readBool());
@@ -1486,7 +1486,7 @@ proto.phone.ListByPageResponse.serializeBinaryToWriter = function(message, write
       f
     );
   }
-  f = message.getTotalPages();
+  f = message.getTotalItems();
   if (f !== 0) {
     writer.writeInt64(
       3,
@@ -1560,10 +1560,10 @@ proto.phone.ListByPageResponse.prototype.setNextPage = function(value) {
 
 
 /**
- * optional int64 total_pages = 3;
+ * optional int64 total_items = 3;
  * @return {number}
  */
-proto.phone.ListByPageResponse.prototype.getTotalPages = function() {
+proto.phone.ListByPageResponse.prototype.getTotalItems = function() {
   return /** @type {number} */ (jspb.Message.getFieldWithDefault(this, 3, 0));
 };
 
@@ -1572,7 +1572,7 @@ proto.phone.ListByPageResponse.prototype.getTotalPages = function() {
  * @param {number} value
  * @return {!proto.phone.ListByPageResponse} returns this
  */
-proto.phone.ListByPageResponse.prototype.setTotalPages = function(value) {
+proto.phone.ListByPageResponse.prototype.setTotalItems = function(value) {
   return jspb.Message.setProto3IntField(this, 3, value);
 };
 

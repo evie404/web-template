@@ -29,7 +29,7 @@ interface listByPageResponse<
   PB extends pbMessage<O>
 > extends jspb.Message {
   getResultsList: () => PB[];
-  getTotalPages: () => number;
+  getTotalItems: () => number;
 }
 
 // listByPageClient is the gRPC client that allows querying by page
@@ -81,7 +81,7 @@ export const ListByPageClientSide = async <
       (response: listByPageResponse<O, PB>) => {
         result.results = response.getResultsList().map((p: PB) => p.toObject());
         result.pagination = {
-          total: response.getTotalPages(),
+          total: response.getTotalItems(),
         };
       },
       (e: Error) => {

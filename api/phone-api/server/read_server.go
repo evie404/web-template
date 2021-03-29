@@ -46,7 +46,7 @@ func (s *ReadServer) ListByPage(ctx context.Context, req *rpc.ListByPageRequest)
 	return &rpc.ListByPageResponse{
 		Results:    results,
 		NextPage:   pageResult.NextPage,
-		TotalPages: pageResult.TotalPages,
+		TotalItems: pageResult.TotalItems,
 		HasNext:    pageResult.HasNext,
 	}, nil
 }
