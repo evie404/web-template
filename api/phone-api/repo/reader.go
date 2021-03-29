@@ -64,7 +64,7 @@ func (r *Reader) ListByPage(ctx context.Context, req cursorPkg.PageRequest) ([]*
 	return results, &cursorPkg.PageResult{
 		NextPage:   page + 1,
 		HasNext:    hasNext,
-		TotalPages: total,
+		TotalItems: total,
 	}, nil
 }
 

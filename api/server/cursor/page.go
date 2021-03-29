@@ -8,7 +8,7 @@ type PageRequest interface {
 type PageResult struct {
 	NextPage   int64
 	HasNext    bool
-	TotalPages int64
+	TotalItems int64
 }
 
 func GetPageOptions(r PageRequest) (page, cursor int64, count int) {
