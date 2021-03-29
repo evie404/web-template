@@ -379,3 +379,89 @@ func TestReader_GetManyByIDs(t *testing.T) {
 		})
 	}
 }
+
+func TestReader_GetOneByID(t *testing.T) {
+	numInstances := 10
+	existing := make([]*modelT, 0, numInstances)
+
+	ctx := context.Background()
+
+	db, err := config.TestDB(ctx)
+	require.NoError(t, err)
+
+	tx, err := db.Begin()
+	require.NoError(t, err)
+	defer tx.Rollback() //nolint:errcheck
+
+	osWriter := osRepo.NewWriter(tx)
+	manufacturerWriter := manufacturerRepo.NewWriter(tx)
+
+	someManufacturer := &manufacturerPb.Manufacturer{Name: "Manufacturer"}
+
+	someOperatingSystem := &osPb.OperatingSystem{Name: "OperatingSystem"}
+
+	// TODO: use translation method
+	someOperatingSystem, err = osWriter.CreateOne(ctx, &osPb.OperatingSystemCreateRequest{
+		Name: someOperatingSystem.GetName(),
+	})
+	require.NoError(t, err)
+
+	// TODO: use translation method
+	someManufacturer, err = manufacturerWriter.CreateOne(ctx, &manufacturerPb.ManufacturerCreateRequest{
+		Name: someManufacturer.GetName(),
+	})
+	require.NoError(t, err)
+
+	w := NewWriter(tx)
+	for i := 0; i < numInstances; i++ {
+		newInstance, err := w.CreateOne(ctx, &createReqT{
+			Name:              strconv.Itoa(rand.Int()),
+			ManufacturerId:    someManufacturer.GetId(),
+			OperatingSystemId: someOperatingSystem.GetId(),
+		})
+		require.NoError(t, err)
+
+		existing = append(existing, newInstance)
+	}
+
+	type args struct {
+		id int64
+	}
+	tests := []struct {
+		name    string
+		args    args
+		want    *modelT
+		wantErr bool
+	}{
+		{
+			"returns item with matching id",
+			args{
+				id: existing[0].GetId(),
+			},
+			existing[0],
+			false,
+		},
+		{
+			"returns nothing when none found",
+			args{
+				id: rand.Int63(),
+			},
+			nil,
+			false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			r := NewReader(tx)
+
+			got, err := r.GetOneByID(ctx, tt.args.id)
+			if tt.wantErr {
+				assert.Error(t, err)
+			} else {
+				assert.NoError(t, err)
+			}
+
+			assert.Equal(t, tt.want, got)
+		})
+	}
+}
