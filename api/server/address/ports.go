@@ -1,7 +1,7 @@
 package address
 
 const (
-	GeneralAPIFQDN    = "localhoperatingSystemt"
+	GeneralAPIFQDN    = "localhost"
 	GeneralAPIPort    = 50051
 	GeneralAPIPortStr = "50051"
 	GeneralAPIAddress = GeneralAPIFQDN + ":" + GeneralAPIPortStr
