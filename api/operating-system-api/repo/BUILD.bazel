@@ -25,6 +25,7 @@ go_test(
     embed = [":repo"],
     deps = [
         "//api/config",
+        "//api/server/cursor",
         "@com_github_stretchr_testify//assert",
         "@com_github_stretchr_testify//require",
     ],
