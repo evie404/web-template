@@ -15,7 +15,6 @@ go_library(
         "//api/server/cursor",
         "//protobuf/manufacturer",
         "@org_golang_google_protobuf//types/known/timestamppb",
-        "@org_golang_x_sync//errgroup",
     ],
 )
 
