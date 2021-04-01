@@ -31,6 +31,7 @@ go_test(
         "//api/config",
         "//api/manufacturer-api/repo",
         "//api/operating-system-api/repo",
+        "//api/server/cursor",
         "//protobuf/manufacturer",
         "//protobuf/operating_system",
         "@com_github_stretchr_testify//assert",

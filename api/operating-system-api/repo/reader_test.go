@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	"github.com/rickypai/web-template/api/config"
+	cursorPkg "github.com/rickypai/web-template/api/server/cursor"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -384,6 +385,176 @@ func TestReader_GetOneByID(t *testing.T) {
 			}
 
 			assert.Equal(t, tt.want, got)
+		})
+	}
+}
+
+func TestReader_ListByPage(t *testing.T) {
+	numInstances := 100
+	existing := make([]*modelT, 0, numInstances)
+
+	ctx := context.Background()
+
+	db, err := config.TestDB(ctx)
+	require.NoError(t, err)
+
+	tx, err := db.Begin()
+	require.NoError(t, err)
+	defer tx.Rollback() //nolint:errcheck
+
+	w := NewWriter(tx)
+	for i := 0; i < numInstances; i++ {
+		newInstance, err := w.CreateOne(ctx, &createReqT{
+			Name: strconv.Itoa(rand.Int()),
+		})
+		require.NoError(t, err)
+
+		existing = append(existing, newInstance)
+	}
+
+	type args struct {
+		req cursorPkg.PageRequest
+	}
+	tests := []struct {
+		name    string
+		args    args
+		want    []*modelT
+		want1   *cursorPkg.PageResult
+		wantErr bool
+	}{
+		{
+			"return first 20 items by default",
+			args{
+				req: &listByPageT{},
+			},
+			existing[0:20],
+			&cursorPkg.PageResult{
+				NextPage:   1,
+				HasNext:    true,
+				TotalItems: 100,
+			},
+			false,
+		},
+		{
+			"return first 10 items if 10 items are requested",
+			args{
+				req: &listByPageT{
+					Size: 10,
+				},
+			},
+			existing[0:10],
+			&cursorPkg.PageResult{
+				NextPage:   1,
+				HasNext:    true,
+				TotalItems: 100,
+			},
+			false,
+		},
+		{
+			"return first 20 items for 0th page",
+			args{
+				req: &listByPageT{
+					Page: 0,
+				},
+			},
+			existing[0:20],
+			&cursorPkg.PageResult{
+				NextPage:   1,
+				HasNext:    true,
+				TotalItems: 100,
+			},
+			false,
+		},
+		{
+			"return first 10 items for 0th page with 10 items requested",
+			args{
+				req: &listByPageT{
+					Page: 0,
+					Size: 10,
+				},
+			},
+			existing[0:10],
+			&cursorPkg.PageResult{
+				NextPage:   1,
+				HasNext:    true,
+				TotalItems: 100,
+			},
+			false,
+		},
+		{
+			"return second 20 items for 1st page",
+			args{
+				req: &listByPageT{
+					Page: 1,
+				},
+			},
+			existing[20:40],
+			&cursorPkg.PageResult{
+				NextPage:   2,
+				HasNext:    true,
+				TotalItems: 100,
+			},
+			false,
+		},
+		{
+			"return second 10 items for 1st page of 10 items",
+			args{
+				req: &listByPageT{
+					Page: 1,
+					Size: 10,
+				},
+			},
+			existing[10:20],
+			&cursorPkg.PageResult{
+				NextPage:   2,
+				HasNext:    true,
+				TotalItems: 100,
+			},
+			false,
+		},
+		{
+			"return HasNext=false at the last page",
+			args{
+				req: &listByPageT{
+					Page: 4,
+				},
+			},
+			existing[80:100],
+			&cursorPkg.PageResult{
+				NextPage:   5,
+				HasNext:    false,
+				TotalItems: 100,
+			},
+			false,
+		},
+		{
+			"return nothing if no items at the page",
+			args{
+				req: &listByPageT{
+					Page: 30,
+				},
+			},
+			nil,
+			&cursorPkg.PageResult{
+				NextPage:   31,
+				HasNext:    false,
+				TotalItems: 100,
+			},
+			false,
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			r := NewReader(tx)
+			got, got1, err := r.ListByPage(ctx, tt.args.req)
+			if tt.wantErr {
+				assert.Error(t, err)
+			} else {
+				assert.NoError(t, err)
+			}
+
+			assert.Equal(t, tt.want, got)
+			assert.Equal(t, tt.want1, got1)
 		})
 	}
 }

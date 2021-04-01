@@ -7,7 +7,6 @@ import (
 
 	dbModel "github.com/rickypai/web-template/api/dbmodels/phone"
 	cursorPkg "github.com/rickypai/web-template/api/server/cursor"
-	"golang.org/x/sync/errgroup"
 )
 
 type Reader struct {
@@ -22,33 +21,15 @@ func NewReader(db dbModel.DBTX) *Reader {
 
 func (r *Reader) ListByPage(ctx context.Context, req cursorPkg.PageRequest) ([]*modelT, *cursorPkg.PageResult, error) {
 	page, cursor, count := cursorPkg.GetPageOptions(req)
-	wg, ctx := errgroup.WithContext(ctx)
 
-	var dbModels []dbModelT
-	wg.Go(func() error {
-		var listerr error
-		dbModels, listerr = r.db.ListOffset(ctx, dbModel.ListOffsetParams{Limit: int32(count) + 1, Offset: int32(cursor)})
-		if listerr != nil {
-			return fmt.Errorf("error listing from database: %w", listerr)
-		}
-
-		return nil
-	})
-
-	var total int64
-	wg.Go(func() error {
-		var counterr error
-		total, counterr = r.db.CountTotal(ctx)
-		if counterr != nil {
-			return fmt.Errorf("error fetching total count from database: %w", counterr)
-		}
-
-		return nil
-	})
-
-	err := wg.Wait()
+	dbModels, err := r.db.ListOffset(ctx, dbModel.ListOffsetParams{Limit: int32(count) + 1, Offset: int32(cursor)})
 	if err != nil {
-		return nil, nil, fmt.Errorf("error from database: %w", err)
+		return nil, nil, fmt.Errorf("error listing from database: %w", err)
+	}
+
+	total, err := r.db.CountTotal(ctx)
+	if err != nil {
+		return nil, nil, fmt.Errorf("error fetching total count from database: %w", err)
 	}
 
 	hasNext := len(dbModels) > count

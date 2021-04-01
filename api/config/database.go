@@ -26,6 +26,7 @@ func TestDB(ctx context.Context) (*sql.DB, error) {
 }
 
 func databaseConnection(ctx context.Context, url string, logger pgx.Logger) (*sql.DB, error) {
+	// TODO: use connection pool
 	c, err := pgx.ParseConfig(url)
 	if err != nil {
 		return nil, fmt.Errorf("parsing postgres URI: %w", err)

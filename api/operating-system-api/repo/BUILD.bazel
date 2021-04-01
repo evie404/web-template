@@ -15,7 +15,6 @@ go_library(
         "//api/server/cursor",
         "//protobuf/operating_system",
         "@org_golang_google_protobuf//types/known/timestamppb",
-        "@org_golang_x_sync//errgroup",
     ],
 )
 
@@ -25,6 +24,7 @@ go_test(
     embed = [":repo"],
     deps = [
         "//api/config",
+        "//api/server/cursor",
         "@com_github_stretchr_testify//assert",
         "@com_github_stretchr_testify//require",
     ],
