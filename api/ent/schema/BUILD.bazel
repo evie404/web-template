@@ -1,0 +1,21 @@
+load("@io_bazel_rules_go//go:def.bzl", "go_library")
+
+go_library(
+    name = "schema",
+    srcs = [
+        "manufacturer.go",
+        "name_mixin.go",
+        "operatingsystem.go",
+        "phone.go",
+        "timestamp_mixin.go",
+    ],
+    importpath = "github.com/rickypai/web-template/api/ent/schema",
+    visibility = ["//visibility:public"],
+    deps = [
+        "@io_entgo_contrib//entgql",
+        "@io_entgo_ent//:ent",
+        "@io_entgo_ent//schema/edge",
+        "@io_entgo_ent//schema/field",
+        "@io_entgo_ent//schema/mixin",
+    ],
+)

@@ -1,0 +1,17 @@
+type Manufacturer {
+  id: ID!
+  name: String!
+
+  phones: [Phone!]
+
+  createdAt: Time!
+  modifiedAt: Time!
+}
+
+input ManufacturerInput {
+  name: String!
+}
+
+type ManufacturerMutation {
+  createManufacturer(input: ManufacturerInput!): Manufacturer!
+}
