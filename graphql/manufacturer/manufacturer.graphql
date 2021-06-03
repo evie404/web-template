@@ -1,17 +1,17 @@
 type Manufacturer {
-    id: ID!
-    name: String!
+  id: ID!
+  name: String!
 
-    phones: [Phone!]
+  phones: [Phone!]
 
-    createdAt: Time!
-    modifiedAt: Time!
+  createdAt: Time!
+  modifiedAt: Time!
 }
 
 input ManufacturerInput {
-    name: String!
+  name: String!
 }
 
 type ManufacturerMutation {
-    createManufacturer(input: ManufacturerInput!): Manufacturer!
+  createManufacturer(input: ManufacturerInput!): Manufacturer!
 }

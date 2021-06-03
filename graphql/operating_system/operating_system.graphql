@@ -1,17 +1,17 @@
 type OperatingSystem {
-    id: ID!
-    name: String!
+  id: ID!
+  name: String!
 
-    phones: [Phone!]
+  phones: [Phone!]
 
-    createdAt: Time!
-    modifiedAt: Time!
+  createdAt: Time!
+  modifiedAt: Time!
 }
 
 input OperatingSystemInput {
-    name: String!
+  name: String!
 }
 
 type OperatingSystemMutation {
-    createOperatingSystem(input: OperatingSystemInput!): OperatingSystem!
+  createOperatingSystem(input: OperatingSystemInput!): OperatingSystem!
 }

@@ -1,21 +1,21 @@
 type Phone {
-    id: ID!
-    name: String!
+  id: ID!
+  name: String!
 
-    operatingSystem: OperatingSystem!
-    manufacturer: Manufacturer!
+  operatingSystem: OperatingSystem!
+  manufacturer: Manufacturer!
 
-    createdAt: Time!
-    modifiedAt: Time!
+  createdAt: Time!
+  modifiedAt: Time!
 }
 
 input PhoneInput {
-    name: String!
+  name: String!
 
-    operatingSystemID: ID!
-    manufacturerID: ID!
+  operatingSystemID: ID!
+  manufacturerID: ID!
 }
 
 type PhoneMutation {
-    createPhone(input: PhoneInput!): Phone!
+  createPhone(input: PhoneInput!): Phone!
 }

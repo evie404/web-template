@@ -1,5 +1,5 @@
 interface Node {
-    id: ID!
+  id: ID!
 }
 
 # Maps a Time GraphQL scalar to a Go time.Time struct.
@@ -10,8 +10,8 @@ scalar Time
 scalar Cursor
 
 type PageInfo {
-    hasNextPage: Boolean!
-    hasPreviousPage: Boolean!
-    startCursor: Cursor
-    endCursor: Cursor
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: Cursor
+  endCursor: Cursor
 }
